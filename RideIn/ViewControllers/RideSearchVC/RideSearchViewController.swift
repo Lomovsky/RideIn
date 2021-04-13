@@ -7,14 +7,44 @@
 
 import UIKit
 
+enum Declensions {
+    case one
+    case two
+    case more
+}
 
+enum Operation {
+    case increase
+    case decrease
+}
+
+protocol RideSearchDelegate: class {
+    func changePassengersCount(with operation: Operation)
+    func getPassengersCount() -> String
+}
 
 final class RideSearchViewController: UIViewController {
-
-    weak var coordinator: MainFlowCoordinator?
-    var viewModel: RideSearchViewViewModelType = RideSearchViewViewModel()
-    let searchController = UISearchController(searchResultsController: nil)
     
+    let urlFactory = MainURLFactory()
+    let networkManager = MainNetworkManager()
+    
+    var fromTextFieldTapped = false
+    var toTextFieldTapped = false
+    var date = Date()
+    var passengersCount = 1
+    var passengerDeclension: Declensions {
+        get {
+            if passengersCount == 1 {
+                return .one
+            } else if passengersCount < 4, passengersCount != 1 {
+                return .two
+            } else {
+                return .more
+            }
+        }
+    }
+    
+    //MARK: UIElements -
     let fromTextField: UITextField = {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -25,6 +55,12 @@ final class RideSearchViewController: UIViewController {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
+    }()
+    
+    let tableViewSubview: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     let topLine: UIView = {
@@ -57,11 +93,9 @@ final class RideSearchViewController: UIViewController {
         return button
     }()
     
-    
-    
+    //MARK: viewDidLoad -
     override func viewDidLoad() {
         super.viewDidLoad()
-        RideSearchViewViewModel.rideSearchDelegate = self
         
         view.addSubview(fromTextField)
         view.addSubview(toTextField)
@@ -70,6 +104,8 @@ final class RideSearchViewController: UIViewController {
         view.addSubview(passengersButton)
         view.addSubview(bottomLine)
         view.addSubview(searchButton)
+        view.addSubview(tableViewSubview)
+        
         
         setupView()
         setupNavigationController()
@@ -80,9 +116,10 @@ final class RideSearchViewController: UIViewController {
         setupPassengerButton()
         setupBottomLine()
         setupSearchButton()
+        setupTableViewSubview()
     }
-
-
+    
+    //MARK: UIMethods -
     private func setupView() {
         view.backgroundColor = .white
     }
@@ -109,11 +146,13 @@ final class RideSearchViewController: UIViewController {
         fromTextField.textAlignment = .center
         fromTextField.addTarget(self, action: #selector(textFieldDidChange(_:)),
                                 for: .editingChanged)
+                fromTextField.addTarget(self, action: #selector(textFieldHasBeenActivated), for: .touchDown)
+        fromTextField.delegate = self
     }
     
     private func setupToTF() {
         NSLayoutConstraint.activate([
-            toTextField.topAnchor.constraint(equalTo: fromTextField.bottomAnchor, constant: 15),
+            toTextField.topAnchor.constraint(lessThanOrEqualTo: fromTextField.bottomAnchor, constant: 15),
             toTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             toTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             toTextField.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.07)
@@ -121,12 +160,14 @@ final class RideSearchViewController: UIViewController {
         toTextField.backgroundColor = .systemGray5
         toTextField.layer.cornerRadius = 15
         toTextField.attributedPlaceholder = NSAttributedString(string: "Направляетесь в",
-                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+                                                               attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
         toTextField.font = .boldSystemFont(ofSize: 16)
         toTextField.textColor = .black
         toTextField.textAlignment = .center
         toTextField.addTarget(self, action: #selector(textFieldDidChange(_:)),
                               for: .editingChanged)
+                toTextField.addTarget(self, action: #selector(textFieldHasBeenActivated), for: .touchDown)
+        toTextField.delegate = self
     }
     
     private func setupTopLine() {
@@ -154,7 +195,7 @@ final class RideSearchViewController: UIViewController {
             passengersButton.topAnchor.constraint(equalTo: topLine.bottomAnchor, constant: 20),
             passengersButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 15)
         ])
-        passengersButton.setTitle(RideSearchViewViewModel.getPassengers() + " пассажиров", for: .normal)
+        setCount()
         passengersButton.setTitleColor(.lightBlue, for: .normal)
         passengersButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         passengersButton.addTarget(self, action: #selector(setPassengersCount), for: .touchUpInside)
@@ -180,10 +221,21 @@ final class RideSearchViewController: UIViewController {
         searchButton.addTarget(self, action: #selector(search), for: .touchUpInside)
     }
     
+    private func setupTableViewSubview() {
+        NSLayoutConstraint.activate([
+            tableViewSubview.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableViewSubview.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableViewSubview.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        tableViewSubview.isHidden = true
+        tableViewSubview.backgroundColor = .white
+        tableViewSubview.alpha = 0.0
+    }
+    
     deinit {
         print("deallocating\(self)")
     }
-
+    
 }
 
 

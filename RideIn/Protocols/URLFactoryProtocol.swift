@@ -9,7 +9,7 @@ import Foundation
 
 protocol URLFactory {
     
-    mutating func setCoordinates(coordinates: String, place: PlaceType)
+    func setCoordinates(coordinates: String, place: PlaceType)
     func makeURL() -> URL?
     
 }

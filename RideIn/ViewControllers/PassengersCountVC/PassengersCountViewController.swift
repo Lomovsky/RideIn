@@ -8,16 +8,11 @@
 import UIKit
 
 final class PassengersCountViewController: UIViewController {
-
-    weak var coordinator: MainFlowCoordinator?
-    var viewModel: PassengersCountViewViewModelType = PassengersCountViewViewModel()
     
-//    let cancelButton: UIButton = {
-//        let button = UIButton()
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        return button
-//    }()
+    let rideSearchVC = RideSearchViewController()
+    weak var rideSearchDelegate: RideSearchDelegate?
     
+    //MARK: UIElements -
     let controllerTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -42,7 +37,7 @@ final class PassengersCountViewController: UIViewController {
         return label
     }()
     
-    
+    //MARK: viewDidLoad -
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(controllerTitle)
@@ -57,6 +52,7 @@ final class PassengersCountViewController: UIViewController {
         setupPlusButton()
     }
     
+    //MARK: UIMethods -
     private func setupView() {
         view.backgroundColor = .white
     }
@@ -124,22 +120,18 @@ final class PassengersCountViewController: UIViewController {
 
 extension PassengersCountViewController {
     
-    @objc final func cancel() {
-        coordinator?.dismissVC()
-    }
-    
     @objc final func addPassenger() {
-        viewModel.addPassenger()
+        rideSearchDelegate?.changePassengersCount(with: .increase)
         setCount()
     }
     
     @objc final func removePassenger() {
-        viewModel.removePassenger()
+        rideSearchDelegate?.changePassengersCount(with: .decrease)
         setCount()
     }
     
     func setCount() {
-        countLabel.text = viewModel.getPassengersCount()
+        countLabel.text = rideSearchDelegate?.getPassengersCount()
     }
   
 }

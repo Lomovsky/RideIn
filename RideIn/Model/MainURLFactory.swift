@@ -7,32 +7,33 @@
 
 import UIKit
 
+enum Query {
+    static let country = "uk-UA"
+    static let currency = "UAH"
+    static let apiKey = "GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
+    static var fromCoordinates = String()
+    static var toCoordinates = String()
+}
+
+enum PlaceType {
+    case from
+    case to
+}
+
 struct MainURLFactory: URLFactory {
-    
-    
-    private let _rideSearchVCViewModel: RideSearchViewViewModelType = RideSearchViewViewModel()
-    private let _county = "uk-UA"
-    private let _currency = "UAH"
-    private let _apiKey = "GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
-    private var _fromCoordinates = String()
-    private var _toCoordinates = String()
-    private var _baseLink = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
-    
-    mutating func setCoordinates(coordinates: String, place: PlaceType) {
         
+    func setCoordinates(coordinates: String, place: PlaceType) {
         switch place {
         case .from:
-            _fromCoordinates = coordinates
+            Query.fromCoordinates = coordinates
             
         case .to:
-            _toCoordinates = coordinates
+            Query.toCoordinates = coordinates
         }
     }
     
     func makeURL() -> URL? {
-
-        print("\(_fromCoordinates) IN FACTORY")
-        let baseLink = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=\(_fromCoordinates)&to_coordinate=\(_toCoordinates)&locale=\(_county)&currency=\(_currency)&key=\(_apiKey)"
+        let baseLink = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=\(Query.fromCoordinates)&to_coordinate=\(Query.toCoordinates)&locale=\(Query.country)&currency=\(Query.currency)&key=\(Query.apiKey)"
         guard let url = URL(string: baseLink) else { return nil }
         return url
         
