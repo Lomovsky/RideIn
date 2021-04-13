@@ -3,27 +3,63 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		89F6E2502EA5ABEAD79E7600 /* Pods_RideIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 676745E0D76715737F9F8FBC /* Pods_RideIn.framework */; };
 		C04C9E5326244120007C47DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E5226244120007C47DC /* AppDelegate.swift */; };
 		C04C9E5526244120007C47DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E5426244120007C47DC /* SceneDelegate.swift */; };
-		C04C9E5726244120007C47DC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E5626244120007C47DC /* ViewController.swift */; };
-		C04C9E5A26244120007C47DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C04C9E5826244120007C47DC /* Main.storyboard */; };
+		C04C9E5726244120007C47DC /* RideSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E5626244120007C47DC /* RideSearchViewController.swift */; };
 		C04C9E5C26244124007C47DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C04C9E5B26244124007C47DC /* Assets.xcassets */; };
 		C04C9E5F26244124007C47DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C04C9E5D26244124007C47DC /* LaunchScreen.storyboard */; };
+		C04C9E7826246334007C47DC /* Temporary .swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E7726246334007C47DC /* Temporary .swift */; };
+		C04C9E7C2624678C007C47DC /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C04C9E7B2624678C007C47DC /* Storyboard.storyboard */; };
+		C04C9E84262472D9007C47DC /* PassengersCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E83262472D9007C47DC /* PassengersCountViewController.swift */; };
+		C04C9E892624730A007C47DC /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E882624730A007C47DC /* CoordinatorProtocol.swift */; };
+		C04C9E8C2624731B007C47DC /* RouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E8B2624731B007C47DC /* RouterProtocol.swift */; };
+		C04C9E912624738E007C47DC /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E902624738E007C47DC /* Coordinator.swift */; };
+		C04C9E9526247535007C47DC /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E9426247535007C47DC /* Router.swift */; };
+		C04C9EAF2625755B007C47DC /* RideSearchVCViewViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EAE2625755B007C47DC /* RideSearchVCViewViewModelType.swift */; };
+		C04C9EB426257570007C47DC /* RideSearchViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EB326257570007C47DC /* RideSearchViewViewModel.swift */; };
+		C04C9EB826257589007C47DC /* PassengersCountViewViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EB726257589007C47DC /* PassengersCountViewViewModelType.swift */; };
+		C04C9EBB2625759C007C47DC /* PassengersCountViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EBA2625759C007C47DC /* PassengersCountViewViewModel.swift */; };
+		C04C9EBF26257A2D007C47DC /* RideSearchVCDelegateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EBE26257A2D007C47DC /* RideSearchVCDelegateProtocol.swift */; };
+		C04C9EC226257A4E007C47DC /* RideSearchVC+Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EC126257A4E007C47DC /* RideSearchVC+Extenstions.swift */; };
+		C04C9EC526257AAD007C47DC /* MainURLFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EC426257AAD007C47DC /* MainURLFactory.swift */; };
+		C04C9EC826257EDB007C47DC /* URLFactoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EC726257EDB007C47DC /* URLFactoryProtocol.swift */; };
+		C04C9ECE26258209007C47DC /* NetworkManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9ECD26258209007C47DC /* NetworkManagerProtocol.swift */; };
+		C04C9ED126258244007C47DC /* MainNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9ED026258244007C47DC /* MainNetworkManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0723177FAC2C4B7C9467C7A3 /* Pods-RideIn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RideIn.debug.xcconfig"; path = "Target Support Files/Pods-RideIn/Pods-RideIn.debug.xcconfig"; sourceTree = "<group>"; };
+		676745E0D76715737F9F8FBC /* Pods_RideIn.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RideIn.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C04C9E4F26244120007C47DC /* RideIn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RideIn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C04C9E5226244120007C47DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C04C9E5426244120007C47DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C04C9E5626244120007C47DC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		C04C9E5926244120007C47DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C04C9E5626244120007C47DC /* RideSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSearchViewController.swift; sourceTree = "<group>"; };
 		C04C9E5B26244124007C47DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C04C9E5E26244124007C47DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C04C9E6026244124007C47DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C04C9E7726246334007C47DC /* Temporary .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Temporary .swift"; sourceTree = "<group>"; };
+		C04C9E7B2624678C007C47DC /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		C04C9E83262472D9007C47DC /* PassengersCountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassengersCountViewController.swift; sourceTree = "<group>"; };
+		C04C9E882624730A007C47DC /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
+		C04C9E8B2624731B007C47DC /* RouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterProtocol.swift; sourceTree = "<group>"; };
+		C04C9E902624738E007C47DC /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		C04C9E9426247535007C47DC /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		C04C9EAE2625755B007C47DC /* RideSearchVCViewViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSearchVCViewViewModelType.swift; sourceTree = "<group>"; };
+		C04C9EB326257570007C47DC /* RideSearchViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSearchViewViewModel.swift; sourceTree = "<group>"; };
+		C04C9EB726257589007C47DC /* PassengersCountViewViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassengersCountViewViewModelType.swift; sourceTree = "<group>"; };
+		C04C9EBA2625759C007C47DC /* PassengersCountViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassengersCountViewViewModel.swift; sourceTree = "<group>"; };
+		C04C9EBE26257A2D007C47DC /* RideSearchVCDelegateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSearchVCDelegateProtocol.swift; sourceTree = "<group>"; };
+		C04C9EC126257A4E007C47DC /* RideSearchVC+Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RideSearchVC+Extenstions.swift"; sourceTree = "<group>"; };
+		C04C9EC426257AAD007C47DC /* MainURLFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainURLFactory.swift; sourceTree = "<group>"; };
+		C04C9EC726257EDB007C47DC /* URLFactoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLFactoryProtocol.swift; sourceTree = "<group>"; };
+		C04C9ECD26258209007C47DC /* NetworkManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerProtocol.swift; sourceTree = "<group>"; };
+		C04C9ED026258244007C47DC /* MainNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNetworkManager.swift; sourceTree = "<group>"; };
+		D8DF32279C50F6B9AA704C46 /* Pods-RideIn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RideIn.release.xcconfig"; path = "Target Support Files/Pods-RideIn/Pods-RideIn.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +67,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89F6E2502EA5ABEAD79E7600 /* Pods_RideIn.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3DF131928EEBF144CC24E64E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0723177FAC2C4B7C9467C7A3 /* Pods-RideIn.debug.xcconfig */,
+				D8DF32279C50F6B9AA704C46 /* Pods-RideIn.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		B1053067C9F229A0749ACB1A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				676745E0D76715737F9F8FBC /* Pods_RideIn.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C04C9E462624411F007C47DC = {
 			isa = PBXGroup;
 			children = (
 				C04C9E5126244120007C47DC /* RideIn */,
 				C04C9E5026244120007C47DC /* Products */,
+				3DF131928EEBF144CC24E64E /* Pods */,
+				B1053067C9F229A0749ACB1A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +112,119 @@
 		C04C9E5126244120007C47DC /* RideIn */ = {
 			isa = PBXGroup;
 			children = (
-				C04C9E5226244120007C47DC /* AppDelegate.swift */,
-				C04C9E5426244120007C47DC /* SceneDelegate.swift */,
-				C04C9E5626244120007C47DC /* ViewController.swift */,
-				C04C9E5826244120007C47DC /* Main.storyboard */,
 				C04C9E5B26244124007C47DC /* Assets.xcassets */,
 				C04C9E5D26244124007C47DC /* LaunchScreen.storyboard */,
 				C04C9E6026244124007C47DC /* Info.plist */,
+				C04C9E7B2624678C007C47DC /* Storyboard.storyboard */,
+				C04C9E69262441B4007C47DC /* ApplicationDelegates */,
+				C04C9E8F2624737B007C47DC /* Router */,
+				C04C9E8E26247374007C47DC /* Coordinators */,
+				C04C9E6A262441C4007C47DC /* ViewControllers */,
+				C04C9E87262472F9007C47DC /* Protocols */,
+				C04C9EAD26257535007C47DC /* ViewModelTypes */,
+				C04C9EAC26257532007C47DC /* ViewModels */,
+				C04C9E9B262477C0007C47DC /* Model */,
+				C04C9E86262472EE007C47DC /* Others */,
 			);
 			path = RideIn;
+			sourceTree = "<group>";
+		};
+		C04C9E69262441B4007C47DC /* ApplicationDelegates */ = {
+			isa = PBXGroup;
+			children = (
+				C04C9E5226244120007C47DC /* AppDelegate.swift */,
+				C04C9E5426244120007C47DC /* SceneDelegate.swift */,
+			);
+			path = ApplicationDelegates;
+			sourceTree = "<group>";
+		};
+		C04C9E6A262441C4007C47DC /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C04C9E6E26245F3F007C47DC /* RideSearchVC */,
+				C04C9E82262472A0007C47DC /* PassengersCountVC */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		C04C9E6E26245F3F007C47DC /* RideSearchVC */ = {
+			isa = PBXGroup;
+			children = (
+				C04C9E5626244120007C47DC /* RideSearchViewController.swift */,
+				C04C9EC126257A4E007C47DC /* RideSearchVC+Extenstions.swift */,
+			);
+			path = RideSearchVC;
+			sourceTree = "<group>";
+		};
+		C04C9E82262472A0007C47DC /* PassengersCountVC */ = {
+			isa = PBXGroup;
+			children = (
+				C04C9E83262472D9007C47DC /* PassengersCountViewController.swift */,
+			);
+			path = PassengersCountVC;
+			sourceTree = "<group>";
+		};
+		C04C9E86262472EE007C47DC /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				C04C9E7726246334007C47DC /* Temporary .swift */,
+			);
+			path = Others;
+			sourceTree = "<group>";
+		};
+		C04C9E87262472F9007C47DC /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				C04C9E882624730A007C47DC /* CoordinatorProtocol.swift */,
+				C04C9E8B2624731B007C47DC /* RouterProtocol.swift */,
+				C04C9EBE26257A2D007C47DC /* RideSearchVCDelegateProtocol.swift */,
+				C04C9EC726257EDB007C47DC /* URLFactoryProtocol.swift */,
+				C04C9ECD26258209007C47DC /* NetworkManagerProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		C04C9E8E26247374007C47DC /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				C04C9E902624738E007C47DC /* Coordinator.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		C04C9E8F2624737B007C47DC /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				C04C9E9426247535007C47DC /* Router.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		C04C9E9B262477C0007C47DC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C04C9EC426257AAD007C47DC /* MainURLFactory.swift */,
+				C04C9ED026258244007C47DC /* MainNetworkManager.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C04C9EAC26257532007C47DC /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				C04C9EB326257570007C47DC /* RideSearchViewViewModel.swift */,
+				C04C9EBA2625759C007C47DC /* PassengersCountViewViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		C04C9EAD26257535007C47DC /* ViewModelTypes */ = {
+			isa = PBXGroup;
+			children = (
+				C04C9EAE2625755B007C47DC /* RideSearchVCViewViewModelType.swift */,
+				C04C9EB726257589007C47DC /* PassengersCountViewViewModelType.swift */,
+			);
+			path = ViewModelTypes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +234,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C04C9E6326244124007C47DC /* Build configuration list for PBXNativeTarget "RideIn" */;
 			buildPhases = (
+				618562BEE00D649506C8B3A6 /* [CP] Check Pods Manifest.lock */,
 				C04C9E4B2624411F007C47DC /* Sources */,
 				C04C9E4C2624411F007C47DC /* Frameworks */,
 				C04C9E4D2624411F007C47DC /* Resources */,
+				E1322B137DE9F4DAFDBEB263 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -126,34 +288,84 @@
 			files = (
 				C04C9E5F26244124007C47DC /* LaunchScreen.storyboard in Resources */,
 				C04C9E5C26244124007C47DC /* Assets.xcassets in Resources */,
-				C04C9E5A26244120007C47DC /* Main.storyboard in Resources */,
+				C04C9E7C2624678C007C47DC /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		618562BEE00D649506C8B3A6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RideIn-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E1322B137DE9F4DAFDBEB263 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RideIn/Pods-RideIn-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RideIn/Pods-RideIn-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RideIn/Pods-RideIn-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C04C9E4B2624411F007C47DC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C04C9E5726244120007C47DC /* ViewController.swift in Sources */,
+				C04C9E912624738E007C47DC /* Coordinator.swift in Sources */,
+				C04C9EBB2625759C007C47DC /* PassengersCountViewViewModel.swift in Sources */,
+				C04C9ED126258244007C47DC /* MainNetworkManager.swift in Sources */,
+				C04C9EC226257A4E007C47DC /* RideSearchVC+Extenstions.swift in Sources */,
+				C04C9E84262472D9007C47DC /* PassengersCountViewController.swift in Sources */,
+				C04C9EC526257AAD007C47DC /* MainURLFactory.swift in Sources */,
+				C04C9E8C2624731B007C47DC /* RouterProtocol.swift in Sources */,
+				C04C9E5726244120007C47DC /* RideSearchViewController.swift in Sources */,
+				C04C9E9526247535007C47DC /* Router.swift in Sources */,
+				C04C9E892624730A007C47DC /* CoordinatorProtocol.swift in Sources */,
+				C04C9EC826257EDB007C47DC /* URLFactoryProtocol.swift in Sources */,
+				C04C9ECE26258209007C47DC /* NetworkManagerProtocol.swift in Sources */,
+				C04C9EBF26257A2D007C47DC /* RideSearchVCDelegateProtocol.swift in Sources */,
 				C04C9E5326244120007C47DC /* AppDelegate.swift in Sources */,
+				C04C9EB426257570007C47DC /* RideSearchViewViewModel.swift in Sources */,
+				C04C9E7826246334007C47DC /* Temporary .swift in Sources */,
 				C04C9E5526244120007C47DC /* SceneDelegate.swift in Sources */,
+				C04C9EB826257589007C47DC /* PassengersCountViewViewModelType.swift in Sources */,
+				C04C9EAF2625755B007C47DC /* RideSearchVCViewViewModelType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		C04C9E5826244120007C47DC /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C04C9E5926244120007C47DC /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		C04C9E5D26244124007C47DC /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -283,6 +495,7 @@
 		};
 		C04C9E6426244124007C47DC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0723177FAC2C4B7C9467C7A3 /* Pods-RideIn.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -296,12 +509,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = lomovskyInc.RideIn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		C04C9E6526244124007C47DC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D8DF32279C50F6B9AA704C46 /* Pods-RideIn.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -315,7 +529,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = lomovskyInc.RideIn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
