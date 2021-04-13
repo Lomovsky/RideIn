@@ -58,18 +58,32 @@ extension RideSearchViewController {
         case toTextField:
             tableViewSubview.topAnchor.constraint(equalTo: fromTextField.bottomAnchor).isActive = false
             tableViewSubview.topAnchor.constraint(equalTo: toTextField.bottomAnchor).isActive = true
-//            toTextField.topAnchor.constraint(equalTo: fromTextField.bottomAnchor, constant: 15).isActive = false
-//            toTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
             tableViewSubview.isHidden = false
+
+            UIView.animate(withDuration: 0.3) {
+//                self.toTextField.topAnchor.constraint(equalTo: self.fromTextField.bottomAnchor, constant: 15).isActive = false
+//                self.toTextField.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
+                self.navigationController?.setNavigationBarHidden(true, animated: true)
+                self.toTextField.frame = CGRect(x: self.toTextField.frame.origin.x,
+                                                y: self.toTextField.frame.origin.y -
+                                                    self.navigationController!.navigationBar.frame.height -
+                                                    (self.view.frame.height * 0.7),
+                                                width: self.toTextField.frame.width,
+                                                height: self.toTextField.frame.height)
+                self.tableViewSubview.frame = CGRect(x: self.tableViewSubview.frame.origin.x,
+                                                     y: self.tableViewSubview.frame.origin.y - self.navigationController!.navigationBar.frame.height,
+                                                     width: self.tableViewSubview.frame.width,
+                                                     height: self.tableViewSubview.frame.height)
+                self.tableViewSubview.alpha = 1.0
+            }
             fromTextField.isHidden = true
             dateButton.isHidden = true
             searchButton.isHidden = true
             bottomLine.isHidden = true
             topLine.isHidden = true
             passengersButton.isHidden = true
-            textFieldAnimator.animateControl(textField, navigationController ?? UINavigationController())
-            textFieldAnimator.animateSecondControl(textField, navigationController ?? UINavigationController())
-            viewAnimator.animateView(tableViewSubview, navigationController ?? UINavigationController())
+//            textFieldAnimator.animateSecondControl(textField, navigationController ?? UINavigationController())
+//            viewAnimator.animateView(tableViewSubview, navigationController ?? UINavigationController())
             
         default:
             break
@@ -94,7 +108,10 @@ extension RideSearchViewController {
             tableViewSubview.isHidden = true
 
         case toTextField:
-
+            toTextField.topAnchor.constraint(equalTo: fromTextField.bottomAnchor, constant: 15).isActive = true
+//            toTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = false
+            
+            toTextField.removeConstraint(toTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30))
             textFieldAnimator.undoSecondControlAnimation(textField, navigationController ?? UINavigationController())
             viewAnimator.undoViewAnimation(tableViewSubview,  navigationController ?? UINavigationController())
             toTextFieldTapped = false

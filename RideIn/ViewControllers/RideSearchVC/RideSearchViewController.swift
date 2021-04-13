@@ -152,7 +152,7 @@ final class RideSearchViewController: UIViewController {
     
     private func setupToTF() {
         NSLayoutConstraint.activate([
-            toTextField.topAnchor.constraint(lessThanOrEqualTo: fromTextField.bottomAnchor, constant: 15),
+            toTextField.topAnchor.constraint(equalTo: fromTextField.bottomAnchor, constant: 15),
             toTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             toTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             toTextField.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.07)
