@@ -28,6 +28,9 @@ final class RideSearchViewController: UIViewController {
     let urlFactory = MainURLFactory()
     let networkManager = MainNetworkManager()
     
+    var toTFTopConstraint = NSLayoutConstraint()
+    var tableViewSubviewTopConstraint = NSLayoutConstraint()
+    
     var fromTextFieldTapped = false
     var toTextFieldTapped = false
     var date = Date()
@@ -131,6 +134,7 @@ final class RideSearchViewController: UIViewController {
     }
     
     private func setupFromTF() {
+
         NSLayoutConstraint.activate([
             fromTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
             fromTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -146,13 +150,20 @@ final class RideSearchViewController: UIViewController {
         fromTextField.textAlignment = .center
         fromTextField.addTarget(self, action: #selector(textFieldDidChange(_:)),
                                 for: .editingChanged)
-                fromTextField.addTarget(self, action: #selector(textFieldHasBeenActivated), for: .touchDown)
+        fromTextField.addTarget(self, action: #selector(textFieldHasBeenActivated), for: .touchDown)
         fromTextField.delegate = self
     }
     
     private func setupToTF() {
+        toTFTopConstraint = NSLayoutConstraint(item: toTextField,
+                                               attribute: .top,
+                                               relatedBy: .equal,
+                                               toItem: view.safeAreaLayoutGuide,
+                                               attribute: .top,
+                                               multiplier: 1,
+                                               constant: 45 + (view.frame.height * 0.07))
         NSLayoutConstraint.activate([
-            toTextField.topAnchor.constraint(equalTo: fromTextField.bottomAnchor, constant: 15),
+            toTFTopConstraint,
             toTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             toTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             toTextField.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.07)
@@ -166,7 +177,7 @@ final class RideSearchViewController: UIViewController {
         toTextField.textAlignment = .center
         toTextField.addTarget(self, action: #selector(textFieldDidChange(_:)),
                               for: .editingChanged)
-                toTextField.addTarget(self, action: #selector(textFieldHasBeenActivated), for: .touchDown)
+        toTextField.addTarget(self, action: #selector(textFieldHasBeenActivated), for: .touchDown)
         toTextField.delegate = self
     }
     

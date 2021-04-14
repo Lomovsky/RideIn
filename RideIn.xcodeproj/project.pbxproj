@@ -21,8 +21,6 @@
 		C04C9EC826257EDB007C47DC /* URLFactoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EC726257EDB007C47DC /* URLFactoryProtocol.swift */; };
 		C04C9ECE26258209007C47DC /* NetworkManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9ECD26258209007C47DC /* NetworkManagerProtocol.swift */; };
 		C04C9ED126258244007C47DC /* MainNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9ED026258244007C47DC /* MainNetworkManager.swift */; };
-		C04C9F002625CAA8007C47DC /* AnimatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EFF2625CAA8007C47DC /* AnimatorProtocol.swift */; };
-		C04C9F032625CADC007C47DC /* Animators.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9F022625CADC007C47DC /* Animators.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,8 +41,6 @@
 		C04C9EC726257EDB007C47DC /* URLFactoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLFactoryProtocol.swift; sourceTree = "<group>"; };
 		C04C9ECD26258209007C47DC /* NetworkManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerProtocol.swift; sourceTree = "<group>"; };
 		C04C9ED026258244007C47DC /* MainNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNetworkManager.swift; sourceTree = "<group>"; };
-		C04C9EFF2625CAA8007C47DC /* AnimatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatorProtocol.swift; sourceTree = "<group>"; };
-		C04C9F022625CADC007C47DC /* Animators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animators.swift; sourceTree = "<group>"; };
 		D8DF32279C50F6B9AA704C46 /* Pods-RideIn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RideIn.release.xcconfig"; path = "Target Support Files/Pods-RideIn/Pods-RideIn.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -159,7 +155,6 @@
 			children = (
 				C04C9EC726257EDB007C47DC /* URLFactoryProtocol.swift */,
 				C04C9ECD26258209007C47DC /* NetworkManagerProtocol.swift */,
-				C04C9EFF2625CAA8007C47DC /* AnimatorProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -169,7 +164,6 @@
 			children = (
 				C04C9EC426257AAD007C47DC /* MainURLFactory.swift */,
 				C04C9ED026258244007C47DC /* MainNetworkManager.swift */,
-				C04C9F022625CADC007C47DC /* Animators.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -288,8 +282,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C04C9F032625CADC007C47DC /* Animators.swift in Sources */,
-				C04C9F002625CAA8007C47DC /* AnimatorProtocol.swift in Sources */,
 				C04C9ED126258244007C47DC /* MainNetworkManager.swift in Sources */,
 				C04C9EC226257A4E007C47DC /* RideSearchVC+Extensions.swift in Sources */,
 				C04C9E84262472D9007C47DC /* PassengersCountViewController.swift in Sources */,
