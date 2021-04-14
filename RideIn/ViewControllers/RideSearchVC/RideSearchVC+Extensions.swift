@@ -25,9 +25,10 @@ extension RideSearchViewController {
         }
     }
     
-    func showMap() {
+    func showMap(withPlaceType placeType: PlaceType) {
         let vc = MapViewController()
         vc.rideSearchDelegate = self
+        vc.placeType = placeType
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -38,7 +39,10 @@ extension RideSearchViewController {
     }
     
     @objc final func search() {
+        urlFactory.setCoordinates(coordinates: fromCoordinates, place: .from)
+        urlFactory.setCoordinates(coordinates: toCoordinates, place: .to)
         guard let url = urlFactory.makeURL() else { return }
+        print(url)
         networkManager.fetchRides(withURL: url)
     }
     
@@ -173,11 +177,11 @@ extension RideSearchViewController: UITextFieldDelegate {
         switch textField {
         case fromTextField:
             guard let text = fromTextField.text, text != "" else { return }
-            urlFactory.setCoordinates(coordinates: text, place: .from)
+//            urlFactory.setCoordinates(coordinates: text, place: .from)
             
         case toTextField:
             guard let text = toTextField.text, text != "" else { return }
-            urlFactory.setCoordinates(coordinates: text, place: .to)
+//            urlFactory.setCoordinates(coordinates: text, place: .to)
             
         default:
             break
@@ -252,8 +256,17 @@ extension RideSearchViewController: RideSearchDelegate {
         return "\(passengersCount)"
     }
     
-    func anotherVCHasBeenDismissed() {
-        navigationController?.setNavigationBarHidden(true, animated: false)
+    func setCoordinates(placemark: MKPlacemark, forPlace placeType: PlaceType) {
+        guard let longitude = placemark.location?.coordinate.longitude,
+              let latitude = placemark.location?.coordinate.latitude else { return }
+        
+        switch placeType {
+        case .from:
+            fromCoordinates = "\(longitude),\(latitude)"
+            
+        case .to:
+            toCoordinates = "\(longitude),\(latitude)"
+        }
     }
     
 }
@@ -286,12 +299,20 @@ extension RideSearchViewController: UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.row == 0 {
-            showMap()
+            switch chosenTF {
+            case fromTextField:
+                showMap(withPlaceType: .from)
+                
+            case toTextField:
+                showMap(withPlaceType: .to)
+
+            default:
+                break
+            }
         } else {
             print("TODO: PICK A PLACE")
         }
     }
-    
     
 }
 

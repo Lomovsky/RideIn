@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MapKit
 
 enum Declensions {
     case one
@@ -20,14 +21,17 @@ enum Operation {
 
 protocol RideSearchDelegate: class {
     func changePassengersCount(with operation: Operation)
-    func anotherVCHasBeenDismissed()
     func getPassengersCount() -> String
+    func setCoordinates(placemark: MKPlacemark, forPlace placeType: PlaceType)
 }
 
 final class RideSearchViewController: UIViewController {
     
     let urlFactory = MainURLFactory()
     let networkManager = MainNetworkManager()
+    
+    var fromCoordinates = String()
+    var toCoordinates = String()
     
     var toTFTopConstraint = NSLayoutConstraint()
     var tableViewSubviewTopConstraint = NSLayoutConstraint()
