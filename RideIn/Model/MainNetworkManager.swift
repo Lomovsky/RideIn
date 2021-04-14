@@ -36,4 +36,8 @@ final class MainNetworkManager: NetworkManager {
     }
     
     
+    deinit {
+        print("deallocating\(self)")
+    }
+    
 }

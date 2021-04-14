@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MapKit
 
 enum Declensions {
     case one
@@ -20,6 +21,7 @@ enum Operation {
 
 protocol RideSearchDelegate: class {
     func changePassengersCount(with operation: Operation)
+    func anotherVCHasBeenDismissed()
     func getPassengersCount() -> String
 }
 
@@ -27,9 +29,11 @@ final class RideSearchViewController: UIViewController {
     
     let urlFactory = MainURLFactory()
     let networkManager = MainNetworkManager()
+    let locationManager = CLLocationManager()
     
     var toTFTopConstraint = NSLayoutConstraint()
     var tableViewSubviewTopConstraint = NSLayoutConstraint()
+    var chosenTF = UITextField()
     
     var fromTextFieldTapped = false
     var toTextFieldTapped = false
@@ -66,6 +70,13 @@ final class RideSearchViewController: UIViewController {
         return view
     }()
     
+    let searchTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(RideSearchTableViewCell.self, forCellReuseIdentifier: RideSearchTableViewCell.reuseIdentifier)
+        return tableView
+    }()
+    
     let topLine: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -99,6 +110,13 @@ final class RideSearchViewController: UIViewController {
     //MARK: viewDidLoad -
     override func viewDidLoad() {
         super.viewDidLoad()
+        locationManager.delegate = self
+        searchTableView.dataSource = self
+        searchTableView.delegate = self
+        
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
         
         view.addSubview(fromTextField)
         view.addSubview(toTextField)
@@ -109,9 +127,8 @@ final class RideSearchViewController: UIViewController {
         view.addSubview(searchButton)
         view.addSubview(tableViewSubview)
         
-        
-        setupView()
         setupNavigationController()
+        setupView()
         setupFromTF()
         setupToTF()
         setupTopLine()
@@ -120,6 +137,7 @@ final class RideSearchViewController: UIViewController {
         setupBottomLine()
         setupSearchButton()
         setupTableViewSubview()
+        setupSearchTableView()
     }
     
     //MARK: UIMethods -
@@ -131,6 +149,7 @@ final class RideSearchViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.visibleViewController?.title = "Поиск машины"
         navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.darkGray]
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     private func setupFromTF() {
@@ -179,6 +198,7 @@ final class RideSearchViewController: UIViewController {
                               for: .editingChanged)
         toTextField.addTarget(self, action: #selector(textFieldHasBeenActivated), for: .touchDown)
         toTextField.delegate = self
+        toTextField.clearButtonMode = .always
     }
     
     private func setupTopLine() {
@@ -241,6 +261,17 @@ final class RideSearchViewController: UIViewController {
         tableViewSubview.isHidden = true
         tableViewSubview.backgroundColor = .white
         tableViewSubview.alpha = 0.0
+        tableViewSubview.addSubview(searchTableView)
+    }
+    
+    private func setupSearchTableView() {
+        NSLayoutConstraint.activate([
+            searchTableView.topAnchor.constraint(equalTo: tableViewSubview.topAnchor, constant: 10),
+            searchTableView.leadingAnchor.constraint(equalTo: tableViewSubview.leadingAnchor),
+            searchTableView.trailingAnchor.constraint(equalTo: tableViewSubview.trailingAnchor),
+            searchTableView.bottomAnchor.constraint(equalTo: tableViewSubview.bottomAnchor)
+        ])
+        searchTableView.separatorStyle = .none
     }
     
     deinit {

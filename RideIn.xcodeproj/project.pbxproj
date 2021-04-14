@@ -21,6 +21,8 @@
 		C04C9EC826257EDB007C47DC /* URLFactoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EC726257EDB007C47DC /* URLFactoryProtocol.swift */; };
 		C04C9ECE26258209007C47DC /* NetworkManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9ECD26258209007C47DC /* NetworkManagerProtocol.swift */; };
 		C04C9ED126258244007C47DC /* MainNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9ED026258244007C47DC /* MainNetworkManager.swift */; };
+		C04C9F102626E8D6007C47DC /* RideSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9F0F2626E8D6007C47DC /* RideSearchTableViewCell.swift */; };
+		C08291A42626EECA00C686F3 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08291A32626EECA00C686F3 /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +43,8 @@
 		C04C9EC726257EDB007C47DC /* URLFactoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLFactoryProtocol.swift; sourceTree = "<group>"; };
 		C04C9ECD26258209007C47DC /* NetworkManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerProtocol.swift; sourceTree = "<group>"; };
 		C04C9ED026258244007C47DC /* MainNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNetworkManager.swift; sourceTree = "<group>"; };
+		C04C9F0F2626E8D6007C47DC /* RideSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSearchTableViewCell.swift; sourceTree = "<group>"; };
+		C08291A32626EECA00C686F3 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		D8DF32279C50F6B9AA704C46 /* Pods-RideIn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RideIn.release.xcconfig"; path = "Target Support Files/Pods-RideIn/Pods-RideIn.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -121,6 +125,7 @@
 			children = (
 				C04C9E6E26245F3F007C47DC /* RideSearchVC */,
 				C04C9E82262472A0007C47DC /* PassengersCountVC */,
+				C08291A22626EE9900C686F3 /* MapVC */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -164,8 +169,17 @@
 			children = (
 				C04C9EC426257AAD007C47DC /* MainURLFactory.swift */,
 				C04C9ED026258244007C47DC /* MainNetworkManager.swift */,
+				C04C9F0F2626E8D6007C47DC /* RideSearchTableViewCell.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		C08291A22626EE9900C686F3 /* MapVC */ = {
+			isa = PBXGroup;
+			children = (
+				C08291A32626EECA00C686F3 /* MapViewController.swift */,
+			);
+			path = MapVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -285,9 +299,11 @@
 				C04C9ED126258244007C47DC /* MainNetworkManager.swift in Sources */,
 				C04C9EC226257A4E007C47DC /* RideSearchVC+Extensions.swift in Sources */,
 				C04C9E84262472D9007C47DC /* PassengersCountViewController.swift in Sources */,
+				C04C9F102626E8D6007C47DC /* RideSearchTableViewCell.swift in Sources */,
 				C04C9EC526257AAD007C47DC /* MainURLFactory.swift in Sources */,
 				C04C9E5726244120007C47DC /* RideSearchViewController.swift in Sources */,
 				C04C9EC826257EDB007C47DC /* URLFactoryProtocol.swift in Sources */,
+				C08291A42626EECA00C686F3 /* MapViewController.swift in Sources */,
 				C04C9ECE26258209007C47DC /* NetworkManagerProtocol.swift in Sources */,
 				C04C9E5326244120007C47DC /* AppDelegate.swift in Sources */,
 				C04C9E7826246334007C47DC /* Temporary .swift in Sources */,
