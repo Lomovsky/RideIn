@@ -258,27 +258,9 @@ extension RideSearchViewController: RideSearchDelegate {
     
 }
 
-//MARK:- CLLocationManagerDelegate
-extension RideSearchViewController: CLLocationManagerDelegate {
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-            locationManager.requestLocation()
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            print("location:: \(location)")
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("error is \(error)")
-    }
-}
 
-//MARK:- TableViewDataSource
+
+//MARK:- TableViewDataSource & Delegate
 extension RideSearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         5
@@ -301,6 +283,7 @@ extension RideSearchViewController: UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.row == 0 {
             showMap()
@@ -317,5 +300,6 @@ extension RideSearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return (view.frame.height * 0.07)
     }
+
 }
 

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import MapKit
 
 enum Declensions {
     case one
@@ -29,7 +28,6 @@ final class RideSearchViewController: UIViewController {
     
     let urlFactory = MainURLFactory()
     let networkManager = MainNetworkManager()
-    let locationManager = CLLocationManager()
     
     var toTFTopConstraint = NSLayoutConstraint()
     var tableViewSubviewTopConstraint = NSLayoutConstraint()
@@ -110,13 +108,8 @@ final class RideSearchViewController: UIViewController {
     //MARK: viewDidLoad -
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.delegate = self
         searchTableView.dataSource = self
         searchTableView.delegate = self
-        
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.requestLocation()
         
         view.addSubview(fromTextField)
         view.addSubview(toTextField)
@@ -272,6 +265,7 @@ final class RideSearchViewController: UIViewController {
             searchTableView.bottomAnchor.constraint(equalTo: tableViewSubview.bottomAnchor)
         ])
         searchTableView.separatorStyle = .none
+        
     }
     
     deinit {
