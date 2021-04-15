@@ -16,6 +16,7 @@ protocol RideSearchDelegate: class {
 }
 
 final class RideSearchViewController: UIViewController {
+    var trips = [Trip]()
     
     let urlFactory = MainURLFactory()
     let networkManager = MainNetworkManager()

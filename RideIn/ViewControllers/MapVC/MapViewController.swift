@@ -9,20 +9,16 @@ import UIKit
 import MapKit
 import DSCenterPinMapView
 
-protocol HandleMapSearch {
-    
-    func dropPinZoomIn(placemark: MKPlacemark)
-}
-
-
 final class MapViewController: UIViewController {
     
     let locationManager = CLLocationManager()
-    var timer: Timer?
     var matchingItems = [MKMapItem]()
-    var textFieldTapped = false
     var selectedPin: MKPlacemark? = nil
+    
     var placeType: PlaceType?
+    var timer: Timer?
+
+    var textFieldTapped = false
     weak var rideSearchDelegate: RideSearchDelegate?
     
     //MARK: UIElements-
@@ -88,7 +84,7 @@ final class MapViewController: UIViewController {
         view.addSubview(proceedButton)
         view.addSubview(placesTableView)
         
-        setupTapRecognizer()
+        setupLongTapRecognizer()
         
         setupView()
         setupNavigationView()

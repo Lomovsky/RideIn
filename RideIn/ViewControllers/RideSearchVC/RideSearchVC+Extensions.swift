@@ -22,7 +22,16 @@ extension RideSearchViewController {
         urlFactory.setCoordinates(coordinates: toCoordinates, place: .to)
         guard let url = urlFactory.makeURL() else { return }
         print(url)
-        networkManager.fetchRides(withURL: url)
+        networkManager.fetchRides(withURL: url) { [unowned self] (result) in
+            switch result {
+            case .failure(let error):
+                print(error)
+                
+            case .success(let trips):
+                self.trips = trips
+                print(self.trips.count)
+            }
+        }
     }
     
     @objc func dismissFromTextField() {
@@ -55,7 +64,210 @@ extension RideSearchViewController {
         }
     }
     
-    //MARK: Animation methods
+    func lookForPlaces(withWord word: String?) {
+        guard let text = word, text != "" else { return }
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = text
+        request.region = mapView.region
+        let search = MKLocalSearch(request: request)
+        
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { [unowned self] (_) in
+            search.start { response, _ in
+                guard let response = response else {
+                    return
+                }
+                self.matchingItems = response.mapItems
+                self.searchTableView.reloadData()
+            }
+        })
+    }
+    
+}
+
+
+//MARK: - TextField Delegate
+extension RideSearchViewController: UITextFieldDelegate {
+    
+    @objc final func textFieldDidChange(_ textField: UITextField) {
+        switch textField {
+        
+        case fromTextField:
+            lookForPlaces(withWord: fromTextField.text)
+            
+        case toTextField:
+            lookForPlaces(withWord: toTextField.text)
+            
+        default:
+            break
+        }
+    }
+    
+    @objc func textFieldHasBeenActivated(textField: UITextField) {
+        switch textField {
+        
+        case fromTextField:
+            chosenTF = fromTextField
+            if !fromTextFieldTapped {
+                fromTextFieldTapped = true
+                animate(textField: fromTextField)
+            }
+            placeType = .from
+            
+        case toTextField:
+            chosenTF = toTextField
+            if !toTextFieldTapped {
+                toTextFieldTapped = true
+                animate(textField: toTextField)
+            }
+            placeType = .to
+            
+        default:
+            break
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+}
+
+//MARK: - RideSearchDelegate
+extension RideSearchViewController: RideSearchDelegate {
+    
+    func changePassengersCount(with operation: Operation) {
+        switch operation {
+        case .increase:
+            if passengersCount < 10 {
+                passengersCount += 1
+                setCount()
+            }
+            
+        case .decrease:
+            if passengersCount > 1 {
+                passengersCount -= 1
+                setCount()
+            }
+        }
+    }
+    
+    func getPassengersCount() -> String {
+        return "\(passengersCount)"
+    }
+    
+    func setCoordinates(placemark: MKPlacemark, forPlace placeType: PlaceType) {
+        guard let longitude = placemark.location?.coordinate.longitude,
+              let latitude = placemark.location?.coordinate.latitude else { return }
+        
+        switch placeType {
+        case .from:
+            fromCoordinates = "\(latitude),\(longitude)"
+            
+        case .to:
+            toCoordinates = "\(latitude),\(longitude)"
+        }
+    }
+    
+    func continueAfterMapVC(from placeType: PlaceType, withPlaceName name: String) {
+        switch placeType {
+        
+        case .from:
+            fromTextField.text = name
+            dismissFromTextField()
+            
+        case .to:
+            toTextField.text = name
+            dismissToTextField()
+        }
+    }
+    
+}
+
+
+
+//MARK:- TableViewDataSource & Delegate
+extension RideSearchViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return matchingItems.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: RideSearchTableViewCell.reuseIdentifier, for: indexPath) as! RideSearchTableViewCell
+        
+        let place = matchingItems[indexPath.row].placemark
+        print(matchingItems.count)
+        
+        cell.textLabel?.font = .boldSystemFont(ofSize: 20)
+        cell.textLabel?.numberOfLines = 0
+        cell.textLabel?.textColor = .darkGray
+        
+        cell.textLabel?.text = place.name
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let placemark = matchingItems[indexPath.row].placemark
+        let latitude = placemark.coordinate.latitude
+        let longitude = placemark.coordinate.longitude
+        let coordinates = "\(latitude),\(longitude)"
+        
+        switch placeType {
+        case .from:
+            fromTextField.text = placemark.name
+            fromCoordinates = coordinates
+            dismissFromTextField()
+            
+        case .to:
+            toTextField.text = placemark.name
+            toCoordinates = coordinates
+            dismissToTextField()
+            
+        default:
+            break
+        }
+    }
+}
+
+extension RideSearchViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return view.frame.height * 0.07
+    }
+}
+
+
+
+//MARK:- CLLocationManagerDelegate
+extension RideSearchViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            locationManager.requestLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            let region = MKCoordinateRegion(center: location.coordinate, span: span)
+            mapView.setRegion(region, animated: false)
+            
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("error is \(error)")
+    }
+    
+}
+
+//MARK: Animations
+extension RideSearchViewController {
+    
     func setHidden(to state: Bool) {
         dateButton.isHidden = state
         searchButton.isHidden = state
@@ -193,196 +405,3 @@ extension RideSearchViewController {
 
 
 
-
-//MARK: - TextField Delegate
-
-extension RideSearchViewController: UITextFieldDelegate {
-    
-    @objc final func textFieldDidChange(_ textField: UITextField) {
-        switch textField {
-        case fromTextField:
-            guard let text = textField.text, text != "" else { return }
-            let request = MKLocalSearch.Request()
-            request.naturalLanguageQuery = text
-            request.region = mapView.region
-            let search = MKLocalSearch(request: request)
-            
-            timer?.invalidate()
-            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { [unowned self] (_) in
-                search.start { response, _ in
-                    guard let response = response else {
-                        return
-                    }
-                    self.matchingItems = response.mapItems
-                    self.searchTableView.reloadData()
-                }
-            })
-            
-        case toTextField:
-            guard let text = textField.text, text != "" else { return }
-            let request = MKLocalSearch.Request()
-            request.naturalLanguageQuery = text
-            request.region = mapView.region
-            let search = MKLocalSearch(request: request)
-            
-            timer?.invalidate()
-            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { [unowned self] (_) in
-                search.start { response, _ in
-                    guard let response = response else {
-                        return
-                    }
-                    self.matchingItems = response.mapItems
-                    self.searchTableView.reloadData()
-                }
-            })
-            
-        default:
-            break
-        }
-    }
-    
-    @objc func textFieldHasBeenActivated(textField: UITextField) {
-        
-        switch textField {
-        case fromTextField:
-            chosenTF = fromTextField
-            if !fromTextFieldTapped {
-                fromTextFieldTapped = true
-                animate(textField: fromTextField)
-            }
-            placeType = .from
-            
-        case toTextField:
-            chosenTF = toTextField
-            if !toTextFieldTapped {
-                toTextFieldTapped = true
-                animate(textField: toTextField)
-            }
-            placeType = .to
-            
-        default:
-            break
-        }
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-}
-
-//MARK: - RideSearchDelegate
-extension RideSearchViewController: RideSearchDelegate {
-    
-    func changePassengersCount(with operation: Operation) {
-        switch operation {
-        case .increase:
-            if passengersCount < 10 {
-                passengersCount += 1
-                setCount()
-            }
-            
-        case .decrease:
-            if passengersCount > 1 {
-                passengersCount -= 1
-                setCount()
-            }
-        }
-    }
-    
-    func getPassengersCount() -> String {
-        return "\(passengersCount)"
-    }
-    
-    func setCoordinates(placemark: MKPlacemark, forPlace placeType: PlaceType) {
-        guard let longitude = placemark.location?.coordinate.longitude,
-              let latitude = placemark.location?.coordinate.latitude else { return }
-        
-        switch placeType {
-        case .from:
-            fromCoordinates = "\(latitude),\(longitude)"
-            
-        case .to:
-            toCoordinates = "\(latitude),\(longitude)"
-        }
-    }
-    
-    func continueAfterMapVC(from placeType: PlaceType, withPlaceName name: String) {
-        switch placeType {
-        
-        case .from:
-            fromTextField.text = name
-            dismissFromTextField()
-            
-        case .to:
-            toTextField.text = name
-            dismissToTextField()
-        }
-            
-    }
-}
-
-
-
-//MARK:- TableViewDataSource & Delegate
-extension RideSearchViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return matchingItems.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: RideSearchTableViewCell.reuseIdentifier, for: indexPath) as! RideSearchTableViewCell
-        
-        let place = matchingItems[indexPath.row].placemark
-        print(matchingItems.count)
-        
-        cell.textLabel?.font = .boldSystemFont(ofSize: 20)
-        cell.textLabel?.numberOfLines = 0
-        cell.textLabel?.textColor = .darkGray
-        
-        cell.textLabel?.text = place.name
-        
-        return cell
-    }
-    
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-    }
-    
-}
-
-extension RideSearchViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return view.frame.height * 0.07
-    }
-}
-
-
-
-//MARK:- CLLocationManagerDelegate
-extension RideSearchViewController: CLLocationManagerDelegate {
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-            locationManager.requestLocation()
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-            let region = MKCoordinateRegion(center: location.coordinate, span: span)
-            mapView.setRegion(region, animated: false)
-            
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("error is \(error)")
-    }
-    
-}

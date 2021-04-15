@@ -8,5 +8,5 @@
 import Foundation
 
 protocol NetworkManager {
-    func fetchRides(withURL url: URL)
+    func fetchRides(withURL url: URL, completionHandler: @escaping (Result<[Trip], Error>) -> Void)
 }
