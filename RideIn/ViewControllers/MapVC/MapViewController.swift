@@ -25,13 +25,13 @@ final class MapViewController: UIViewController {
     weak var rideSearchDelegate: RideSearchDelegate?
     
     //MARK: UIElements-
-    let contentSubview: UIView = {
+    let navigationSubview: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let navigationSubview: UIView = {
+    let contentSubview: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view

@@ -11,26 +11,6 @@ import MapKit
 //MARK:- Helping methods
 extension RideSearchViewController {
     
-    func setCount() {
-        switch passengerDeclension {
-        case .one:
-            passengersButton.setTitle("\(passengersCount) пассажир", for: .normal)
-            
-        case .two:
-            passengersButton.setTitle("\(passengersCount) пассажира", for: .normal)
-            
-        default:
-            passengersButton.setTitle("\(passengersCount) пассажиров", for: .normal)
-        }
-    }
-    
-    func showMap(withPlaceType placeType: PlaceType) {
-        let vc = MapViewController()
-        vc.rideSearchDelegate = self
-        vc.placeType = placeType
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
     @objc final func setPassengersCount() {
         let vc = PassengersCountViewController()
         vc.rideSearchDelegate = self
@@ -45,6 +25,36 @@ extension RideSearchViewController {
         networkManager.fetchRides(withURL: url)
     }
     
+    @objc func dismissFromTextField() {
+        fromTextField.resignFirstResponder()
+        dismissAnimation(textField: fromTextField)
+    }
+    
+    @objc func dismissToTextField() {
+        toTextField.resignFirstResponder()
+        dismissAnimation(textField: toTextField)
+    }
+    
+    @objc final func showMap() {
+        let vc = MapViewController()
+        vc.rideSearchDelegate = self
+        vc.placeType = placeType
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func setCount() {
+        switch passengerDeclension {
+        case .one:
+            passengersButton.setTitle("\(passengersCount) пассажир", for: .normal)
+            
+        case .two:
+            passengersButton.setTitle("\(passengersCount) пассажира", for: .normal)
+            
+        default:
+            passengersButton.setTitle("\(passengersCount) пассажиров", for: .normal)
+        }
+    }
+    
     //MARK: Animation methods
     func setHidden(to state: Bool) {
         dateButton.isHidden = state
@@ -56,7 +66,7 @@ extension RideSearchViewController {
     }
     
     func animate(textField: UITextField) {
-    
+        
         switch textField {
         case fromTextField:
             view.setNeedsLayout()
@@ -67,14 +77,7 @@ extension RideSearchViewController {
                 self.tableViewSubviewTopConstraint = NSLayoutConstraint(item: self.tableViewSubview,
                                                                         attribute: .top,
                                                                         relatedBy: .equal,
-                                                                        toItem: self.fromTextField,
-                                                                        attribute: .bottom,
-                                                                        multiplier: 1,
-                                                                        constant: 0)
-                self.tableViewSubviewTopConstraint = NSLayoutConstraint(item: self.tableViewSubview,
-                                                                        attribute: .top,
-                                                                        relatedBy: .equal,
-                                                                        toItem: self.fromTextField,
+                                                                        toItem: self.fromContentSubview,
                                                                         attribute: .bottom,
                                                                         multiplier: 1,
                                                                         constant: 0)
@@ -84,16 +87,26 @@ extension RideSearchViewController {
                 self.view.layoutIfNeeded()
             }
             setHidden(to: true)
-            toTextField.isHidden = true
+            fromBackButton.isHidden = false
+            toContentSubview.isHidden = true
             
         case toTextField:
             tableViewSubview.topAnchor.constraint(equalTo: fromTextField.bottomAnchor).isActive = false
             tableViewSubview.topAnchor.constraint(equalTo: toTextField.bottomAnchor).isActive = true
             view.setNeedsLayout()
             UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut], animations: {
+                self.toContentSubviewTopConstraint.isActive = false
                 self.toTFTopConstraint.isActive = false
                 self.tableViewSubviewTopConstraint.isActive = false
+                
                 self.navigationController?.setNavigationBarHidden(true, animated: true)
+                self.toContentSubviewTopConstraint = NSLayoutConstraint(item: self.toContentSubview,
+                                                                        attribute: .top,
+                                                                        relatedBy: .equal,
+                                                                        toItem: self.view.safeAreaLayoutGuide,
+                                                                        attribute: .top,
+                                                                        multiplier: 1,
+                                                                        constant: 30)
                 self.toTFTopConstraint = NSLayoutConstraint(item: self.toTextField,
                                                             attribute: .top,
                                                             relatedBy: .equal,
@@ -104,17 +117,19 @@ extension RideSearchViewController {
                 self.tableViewSubviewTopConstraint = NSLayoutConstraint(item: self.tableViewSubview,
                                                                         attribute: .top,
                                                                         relatedBy: .equal,
-                                                                        toItem: self.toTextField,
+                                                                        toItem: self.toContentSubview,
                                                                         attribute: .bottom,
                                                                         multiplier: 1,
                                                                         constant: 0)
+                self.toContentSubviewTopConstraint.isActive = true
                 self.toTFTopConstraint.isActive = true
                 self.tableViewSubviewTopConstraint.isActive = true
                 self.tableViewSubview.alpha = 1.0
                 self.view.layoutIfNeeded()
             })
             setHidden(to: true)
-            fromTextField.isHidden = true
+            fromContentSubview.isHidden = true
+            toBackButton.isHidden = false
             print(toTextField.frame)
             
         default:
@@ -134,7 +149,8 @@ extension RideSearchViewController {
             }
             
             setHidden(to: false)
-            toTextField.isHidden = false
+            fromBackButton.isHidden = true
+            toContentSubview.isHidden = false
             print("\(fromTextField.frame) fromTF")
             
         case toTextField:
@@ -142,7 +158,15 @@ extension RideSearchViewController {
             view.setNeedsLayout()
             UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut], animations: {
                 self.navigationController?.setNavigationBarHidden(false, animated: true)
+                self.toContentSubviewTopConstraint.isActive = false
                 self.toTFTopConstraint.isActive = false
+                self.toContentSubviewTopConstraint = NSLayoutConstraint(item: self.toContentSubview,
+                                                                        attribute: .top,
+                                                                        relatedBy: .equal,
+                                                                        toItem: self.view.safeAreaLayoutGuide,
+                                                                        attribute: .top,
+                                                                        multiplier: 1,
+                                                                        constant: 45 + (self.view.frame.height * 0.07))
                 self.toTFTopConstraint = NSLayoutConstraint(item: self.toTextField,
                                                             attribute: .top,
                                                             relatedBy: .equal,
@@ -150,12 +174,14 @@ extension RideSearchViewController {
                                                             attribute: .top,
                                                             multiplier: 1,
                                                             constant: 45 + (self.view.frame.height * 0.07))
+                self.toContentSubviewTopConstraint.isActive = true
                 self.toTFTopConstraint.isActive = true
                 self.tableViewSubview.alpha = 0.0
                 self.view.layoutIfNeeded()
             })
             setHidden(to: false)
-            fromTextField.isHidden = false
+            fromContentSubview.isHidden = false
+            toBackButton.isHidden = true
             print(toTextField.frame)
             
             
@@ -224,6 +250,7 @@ extension RideSearchViewController: UITextFieldDelegate {
                 fromTextFieldTapped = true
                 animate(textField: fromTextField)
             }
+            placeType = .from
             
         case toTextField:
             chosenTF = toTextField
@@ -231,6 +258,7 @@ extension RideSearchViewController: UITextFieldDelegate {
                 toTextFieldTapped = true
                 animate(textField: toTextField)
             }
+            placeType = .to
             
         default:
             break
@@ -238,20 +266,8 @@ extension RideSearchViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        switch textField {
-        case fromTextField:
-            fromTextField.resignFirstResponder()
-            dismissAnimation(textField: textField)
-            return true
-            
-        case toTextField:
-            toTextField.resignFirstResponder()
-            dismissAnimation(textField: textField)
-            return true
-            
-        default:
-            return false
-        }
+        textField.resignFirstResponder()
+        return true
     }
     
 }
@@ -320,27 +336,14 @@ extension RideSearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if indexPath.row == 0 {
-            switch chosenTF {
-            case fromTextField:
-                showMap(withPlaceType: .from)
-                
-            case toTextField:
-                showMap(withPlaceType: .to)
-
-            default:
-                break
-            }
-        } else {
-            print("TODO: PICK A PLACE")
-        }
     }
+    
 }
 
 extension RideSearchViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return (view.frame.height * 0.07)
+        return view.frame.height * 0.07
     }
 }
 
