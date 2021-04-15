@@ -7,6 +7,7 @@
 
 import UIKit
 import MapKit
+import DSCenterPinMapView
 
 protocol HandleMapSearch {
     
@@ -86,6 +87,8 @@ final class MapViewController: UIViewController {
         view.addSubview(mapView)
         view.addSubview(proceedButton)
         view.addSubview(placesTableView)
+        
+        setupTapRecognizer()
         
         setupView()
         setupNavigationView()
@@ -198,6 +201,8 @@ final class MapViewController: UIViewController {
         proceedButton.imageView?.contentMode = .scaleAspectFit
         proceedButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.fill
         proceedButton.contentVerticalAlignment = UIControl.ContentVerticalAlignment.fill
+        proceedButton.isHidden = true
+        proceedButton.addTarget(self, action: #selector(sendCoordinates), for: .touchUpInside)
     }
     
     deinit {

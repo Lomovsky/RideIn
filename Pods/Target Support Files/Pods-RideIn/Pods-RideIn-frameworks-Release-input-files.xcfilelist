@@ -1,2 +1,3 @@
 ${PODS_ROOT}/Target Support Files/Pods-RideIn/Pods-RideIn-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
+${BUILT_PRODUCTS_DIR}/DSCenterPinMapView/DSCenterPinMapView.framework

@@ -13,22 +13,27 @@ import MapKit
 extension MapViewController: UITextFieldDelegate {
     
     @objc final func textFieldDidChange(_ textField: UITextField) {
-        guard let text = textField.text, text != "" else { return }
-        let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = text
-        request.region = mapView.region
-        let search = MKLocalSearch(request: request)
         
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { [unowned self] (_) in
-            search.start { response, _ in
-                guard let response = response else {
-                    return
+        if let text = textField.text, text != "" {
+            proceedButton.isHidden = false
+            let request = MKLocalSearch.Request()
+            request.naturalLanguageQuery = text
+            request.region = mapView.region
+            let search = MKLocalSearch(request: request)
+            
+            timer?.invalidate()
+            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { [unowned self] (_) in
+                search.start { response, _ in
+                    guard let response = response else {
+                        return
+                    }
+                    self.matchingItems = response.mapItems
+                    self.placesTableView.reloadData()
                 }
-                self.matchingItems = response.mapItems
-                self.placesTableView.reloadData()
-            }
-        })
+            })
+        } else {
+            proceedButton.isHidden = true
+        }
     }
     
     
@@ -61,20 +66,32 @@ extension MapViewController {
     }
     
     @objc final func sendCoordinates() {
-        guard let placemark = selectedPin else { return }
+        guard let placemark = selectedPin, let placeName = searchTF.text else { return }
         
         switch placeType {
         case .from:
-            rideSearchDelegate?.setCoordinates(placemark: placemark, forPlace: .from)
+            rideSearchDelegate?.setCoordinates(placemark: placemark, forPlace:.from)
+            rideSearchDelegate?.continueAfterMapVC(from: .from, withPlaceName: placeName)
             navigationController?.popToRootViewController(animated: true)
             
         case .to:
             rideSearchDelegate?.setCoordinates(placemark: placemark, forPlace: .to)
+            rideSearchDelegate?.continueAfterMapVC(from: .to, withPlaceName: placeName)
             navigationController?.popToRootViewController(animated: true)
             
             
         default:
             break
+        }
+    }
+    
+    
+    @objc func longTap(sender: UIGestureRecognizer){
+        print("long tap")
+        if sender.state == .began {
+            let locationInView = sender.location(in: mapView)
+            let locationOnMap = mapView.convert(locationInView, toCoordinateFrom: mapView)
+            addAnnotation(location: locationOnMap)
         }
     }
     
@@ -121,7 +138,53 @@ extension MapViewController {
         return addressLine
     }
     
+    func setupTapRecognizer() {
+        let longTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap))
+        mapView.addGestureRecognizer(longTapGesture)
+    }
+    
+    
+    func addAnnotation(location: CLLocationCoordinate2D) {
+        let annotations = self.mapView.annotations
+        let annotation = MKPointAnnotation()
+        let coordinates = CLLocation(latitude: location.latitude, longitude: location.longitude)
+        mapView.removeAnnotations(annotations)
+        annotation.coordinate = location
+        lookUpForLocation(by: coordinates) { [unowned self] (placemark) in
+            guard let placemark = placemark else { return }
+            annotation.title = placemark.name
+            self.searchTF.text = placemark.name
+            self.proceedButton.isHidden = false
+            self.selectedPin = MKPlacemark(placemark: placemark)
+            self.mapView.addAnnotation(annotation)
+        }
+    }
+    
+    func lookUpForLocation(by coordinates: CLLocation?, completionHandler: @escaping (CLPlacemark?) -> Void ) {
+        // Use the last reported location.
+        if let lastLocation = coordinates {
+            let geocoder = CLGeocoder()
+            
+            // Look up the location and pass it to the completion handler
+            geocoder.reverseGeocodeLocation(lastLocation, completionHandler: { (placemarks, error) in
+                if error == nil {
+                    let firstLocation = placemarks?[0]
+                    completionHandler(firstLocation)
+                }
+                else {
+                    print("An error occurred during geocoding.")
+                    completionHandler(nil)
+                }
+            })
+        }
+        else {
+            print("No location was available.")
+            completionHandler(nil)
+        }
+    }
 }
+
+
 
 
 //MARK:- CLLocationManagerDelegate
@@ -144,6 +207,36 @@ extension MapViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("error is \(error)")
+    }
+    
+}
+
+
+//MARK:- MKMapViewDelegate
+extension MapViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard annotation is MKPointAnnotation else { print("no mkpointannotaions"); return nil }
+        
+        let reuseId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        pinView?.image = UIImage(systemName: "mappin.circle.fill")
+        pinView?.pinTintColor = .lightBlue
+        
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.canShowCallout = true
+            pinView!.rightCalloutAccessoryView = UIButton(type: .infoDark)
+            pinView!.pinTintColor = UIColor.black
+        }
+        else {
+            pinView!.annotation = annotation
+        }
+        return pinView
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print("tapped on pin ")
     }
     
 }
@@ -174,6 +267,7 @@ extension MapViewController: UITableViewDataSource {
         dismissTableView()
         
     }
+    
     
 }
 

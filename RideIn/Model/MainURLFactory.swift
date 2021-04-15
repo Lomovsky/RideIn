@@ -22,6 +22,7 @@ struct MainURLFactory: URLFactory {
     
     func makeURL() -> URL? {
         let baseLink = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=\(Query.fromCoordinates)&to_coordinate=\(Query.toCoordinates)&locale=\(Query.country)&currency=\(Query.currency)&key=\(Query.apiKey)"
+
         guard let url = URL(string: baseLink) else { return nil }
         return url
         

@@ -301,11 +301,25 @@ extension RideSearchViewController: RideSearchDelegate {
         
         switch placeType {
         case .from:
-            fromCoordinates = "\(longitude),\(latitude)"
+            fromCoordinates = "\(latitude),\(longitude)"
             
         case .to:
-            toCoordinates = "\(longitude),\(latitude)"
+            toCoordinates = "\(latitude),\(longitude)"
         }
+    }
+    
+    func continueAfterMapVC(from placeType: PlaceType, withPlaceName name: String) {
+        switch placeType {
+        
+        case .from:
+            fromTextField.text = name
+            dismissFromTextField()
+            
+        case .to:
+            toTextField.text = name
+            dismissToTextField()
+        }
+            
     }
 }
 

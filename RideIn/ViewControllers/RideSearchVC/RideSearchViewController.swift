@@ -11,6 +11,7 @@ import MapKit
 protocol RideSearchDelegate: class {
     func changePassengersCount(with operation: Operation)
     func getPassengersCount() -> String
+    func continueAfterMapVC(from placeType: PlaceType, withPlaceName name: String)
     func setCoordinates(placemark: MKPlacemark, forPlace placeType: PlaceType)
 }
 
