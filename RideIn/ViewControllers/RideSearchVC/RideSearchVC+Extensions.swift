@@ -175,12 +175,40 @@ extension RideSearchViewController: UITextFieldDelegate {
     @objc final func textFieldDidChange(_ textField: UITextField) {
         switch textField {
         case fromTextField:
-            guard let text = fromTextField.text, text != "" else { return }
-//            urlFactory.setCoordinates(coordinates: text, place: .from)
+            guard let text = textField.text, text != "" else { return }
+            let request = MKLocalSearch.Request()
+            request.naturalLanguageQuery = text
+            request.region = mapView.region
+            let search = MKLocalSearch(request: request)
+            
+            timer?.invalidate()
+            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { [unowned self] (_) in
+                search.start { response, _ in
+                    guard let response = response else {
+                        return
+                    }
+                    self.matchingItems = response.mapItems
+                    self.searchTableView.reloadData()
+                }
+            })
             
         case toTextField:
-            guard let text = toTextField.text, text != "" else { return }
-//            urlFactory.setCoordinates(coordinates: text, place: .to)
+            guard let text = textField.text, text != "" else { return }
+            let request = MKLocalSearch.Request()
+            request.naturalLanguageQuery = text
+            request.region = mapView.region
+            let search = MKLocalSearch(request: request)
+            
+            timer?.invalidate()
+            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { [unowned self] (_) in
+                search.start { response, _ in
+                    guard let response = response else {
+                        return
+                    }
+                    self.matchingItems = response.mapItems
+                    self.searchTableView.reloadData()
+                }
+            })
             
         default:
             break
@@ -270,20 +298,21 @@ extension RideSearchViewController: RideSearchDelegate {
 //MARK:- TableViewDataSource & Delegate
 extension RideSearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        return matchingItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RideSearchTableViewCell.reuseIdentifier, for: indexPath) as! RideSearchTableViewCell
+        
+        let place = matchingItems[indexPath.row].placemark
+        print(matchingItems.count)
+        
         cell.textLabel?.font = .boldSystemFont(ofSize: 20)
         cell.textLabel?.numberOfLines = 0
         cell.textLabel?.textColor = .darkGray
         
-        if indexPath.row == 0 {
-            cell.textLabel?.text = "Выбрать место на карте"
-        } else {
-            cell.textLabel?.text = "Какое-то место"
-        }
+        cell.textLabel?.text = place.name
+        
         return cell
     }
     
@@ -315,3 +344,28 @@ extension RideSearchViewController: UITableViewDelegate {
     }
 }
 
+
+
+//MARK:- CLLocationManagerDelegate
+extension RideSearchViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            locationManager.requestLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            let region = MKCoordinateRegion(center: location.coordinate, span: span)
+            mapView.setRegion(region, animated: false)
+            
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("error is \(error)")
+    }
+    
+}

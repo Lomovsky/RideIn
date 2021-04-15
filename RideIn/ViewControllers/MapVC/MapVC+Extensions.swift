@@ -138,19 +138,13 @@ extension MapViewController: CLLocationManagerDelegate {
             let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
             let region = MKCoordinateRegion(center: location.coordinate, span: span)
             mapView.setRegion(region, animated: true)
+            
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("error is \(error)")
     }
-    
-    
-    
-}
-
-//MARK:- MKMapViewDelegate
-extension MapViewController: MKMapViewDelegate {
     
 }
 

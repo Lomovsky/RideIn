@@ -68,6 +68,8 @@ final class MapViewController: UIViewController {
         return button
     }()
     
+ 
+    
     //MARK: viewDidLoad -
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -167,7 +169,7 @@ final class MapViewController: UIViewController {
             mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         mapView.showsBuildings = true
-        
+        mapView.showsUserLocation = true
     }
     
     private func setupTableView() {

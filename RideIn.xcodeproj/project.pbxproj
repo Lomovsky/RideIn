@@ -173,10 +173,18 @@
 			children = (
 				C04C9EC426257AAD007C47DC /* MainURLFactory.swift */,
 				C04C9ED026258244007C47DC /* MainNetworkManager.swift */,
+				C06513032628126300CF322B /* Cells */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C06513032628126300CF322B /* Cells */ = {
+			isa = PBXGroup;
+			children = (
 				C04C9F0F2626E8D6007C47DC /* RideSearchTableViewCell.swift */,
 				C08291AE26271E2800C686F3 /* MapTableViewCell.swift */,
 			);
-			path = Model;
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		C08291A22626EE9900C686F3 /* MapVC */ = {

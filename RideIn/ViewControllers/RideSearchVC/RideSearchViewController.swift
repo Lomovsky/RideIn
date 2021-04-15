@@ -19,6 +19,12 @@ final class RideSearchViewController: UIViewController {
     let urlFactory = MainURLFactory()
     let networkManager = MainNetworkManager()
     
+    let locationManager = CLLocationManager()
+    var matchingItems = [MKMapItem]()
+    var region = MKCoordinateRegion()
+        
+    var timer: Timer?
+
     var fromCoordinates = String()
     var toCoordinates = String()
     
@@ -98,11 +104,22 @@ final class RideSearchViewController: UIViewController {
         return button
     }()
     
+    let mapView: MKMapView = {
+        let map = MKMapView()
+        map.translatesAutoresizingMaskIntoConstraints = false
+        return map
+    }()
+    
     //MARK: viewDidLoad -
     override func viewDidLoad() {
         super.viewDidLoad()
         searchTableView.dataSource = self
         searchTableView.delegate = self
+        locationManager.delegate = self
+
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
         
         view.addSubview(fromTextField)
         view.addSubview(toTextField)
