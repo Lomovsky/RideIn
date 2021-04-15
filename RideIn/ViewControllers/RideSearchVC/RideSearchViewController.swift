@@ -8,17 +8,6 @@
 import UIKit
 import MapKit
 
-enum Declensions {
-    case one
-    case two
-    case more
-}
-
-enum Operation {
-    case increase
-    case decrease
-}
-
 protocol RideSearchDelegate: class {
     func changePassengersCount(with operation: Operation)
     func getPassengersCount() -> String
@@ -35,11 +24,11 @@ final class RideSearchViewController: UIViewController {
     
     var toTFTopConstraint = NSLayoutConstraint()
     var tableViewSubviewTopConstraint = NSLayoutConstraint()
-    var chosenTF = UITextField()
     
+    var chosenTF = UITextField()
     var fromTextFieldTapped = false
     var toTextFieldTapped = false
-    var date = Date()
+    
     var passengersCount = 1
     var passengerDeclension: Declensions {
         get {

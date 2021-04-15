@@ -30,7 +30,7 @@ extension MapViewController: UITextFieldDelegate {
             }
         })
     }
-
+    
     
     @objc func textFieldHasBeenActivated(textField: UITextField) {
         animateTableView(toSelected: true)
@@ -71,7 +71,7 @@ extension MapViewController {
         case .to:
             rideSearchDelegate?.setCoordinates(placemark: placemark, forPlace: .to)
             navigationController?.popToRootViewController(animated: true)
-
+            
             
         default:
             break
@@ -145,7 +145,7 @@ extension MapViewController: CLLocationManagerDelegate {
         print("error is \(error)")
     }
     
-   
+    
     
 }
 
@@ -166,7 +166,7 @@ extension MapViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: MapTableViewCell.reuseIdentifier, for: indexPath) as! MapTableViewCell
         
         let place = matchingItems[indexPath.row].placemark
-    
+        
         cell.textLabel?.text = place.name
         cell.detailTextLabel?.isHidden = false
         cell.detailTextLabel?.text = parseAddress(selectedItem: place)
@@ -201,7 +201,7 @@ extension MapViewController: HandleMapSearch {
         annotation.coordinate = placemark.coordinate
         annotation.title = placemark.name
         if let city = placemark.locality,
-        let state = placemark.administrativeArea {
+           let state = placemark.administrativeArea {
             annotation.subtitle = "\(city) \(state)"
         }
         mapView.addAnnotation(annotation)

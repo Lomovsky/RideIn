@@ -13,8 +13,7 @@
 		C04C9E5726244120007C47DC /* RideSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E5626244120007C47DC /* RideSearchViewController.swift */; };
 		C04C9E5C26244124007C47DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C04C9E5B26244124007C47DC /* Assets.xcassets */; };
 		C04C9E5F26244124007C47DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C04C9E5D26244124007C47DC /* LaunchScreen.storyboard */; };
-		C04C9E7826246334007C47DC /* Temporary .swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E7726246334007C47DC /* Temporary .swift */; };
-		C04C9E7C2624678C007C47DC /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C04C9E7B2624678C007C47DC /* Storyboard.storyboard */; };
+		C04C9E7826246334007C47DC /* SustemExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E7726246334007C47DC /* SustemExtensions.swift */; };
 		C04C9E84262472D9007C47DC /* PassengersCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E83262472D9007C47DC /* PassengersCountViewController.swift */; };
 		C04C9EC226257A4E007C47DC /* RideSearchVC+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EC126257A4E007C47DC /* RideSearchVC+Extensions.swift */; };
 		C04C9EC526257AAD007C47DC /* MainURLFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EC426257AAD007C47DC /* MainURLFactory.swift */; };
@@ -22,6 +21,7 @@
 		C04C9ECE26258209007C47DC /* NetworkManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9ECD26258209007C47DC /* NetworkManagerProtocol.swift */; };
 		C04C9ED126258244007C47DC /* MainNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9ED026258244007C47DC /* MainNetworkManager.swift */; };
 		C04C9F102626E8D6007C47DC /* RideSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9F0F2626E8D6007C47DC /* RideSearchTableViewCell.swift */; };
+		C06512FD26280E5100CF322B /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06512FC26280E5100CF322B /* Enums.swift */; };
 		C08291A42626EECA00C686F3 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08291A32626EECA00C686F3 /* MapViewController.swift */; };
 		C08291AF26271E2800C686F3 /* MapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08291AE26271E2800C686F3 /* MapTableViewCell.swift */; };
 		C0AA7743262732C700EE3A42 /* MapVC+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AA7742262732C700EE3A42 /* MapVC+Extensions.swift */; };
@@ -37,8 +37,7 @@
 		C04C9E5B26244124007C47DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C04C9E5E26244124007C47DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C04C9E6026244124007C47DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C04C9E7726246334007C47DC /* Temporary .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Temporary .swift"; sourceTree = "<group>"; };
-		C04C9E7B2624678C007C47DC /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		C04C9E7726246334007C47DC /* SustemExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SustemExtensions.swift; sourceTree = "<group>"; };
 		C04C9E83262472D9007C47DC /* PassengersCountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassengersCountViewController.swift; sourceTree = "<group>"; };
 		C04C9EC126257A4E007C47DC /* RideSearchVC+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RideSearchVC+Extensions.swift"; sourceTree = "<group>"; };
 		C04C9EC426257AAD007C47DC /* MainURLFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainURLFactory.swift; sourceTree = "<group>"; };
@@ -46,6 +45,7 @@
 		C04C9ECD26258209007C47DC /* NetworkManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerProtocol.swift; sourceTree = "<group>"; };
 		C04C9ED026258244007C47DC /* MainNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNetworkManager.swift; sourceTree = "<group>"; };
 		C04C9F0F2626E8D6007C47DC /* RideSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSearchTableViewCell.swift; sourceTree = "<group>"; };
+		C06512FC26280E5100CF322B /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		C08291A32626EECA00C686F3 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		C08291AE26271E2800C686F3 /* MapTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTableViewCell.swift; sourceTree = "<group>"; };
 		C0AA7742262732C700EE3A42 /* MapVC+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapVC+Extensions.swift"; sourceTree = "<group>"; };
@@ -105,7 +105,6 @@
 				C04C9E5B26244124007C47DC /* Assets.xcassets */,
 				C04C9E5D26244124007C47DC /* LaunchScreen.storyboard */,
 				C04C9E6026244124007C47DC /* Info.plist */,
-				C04C9E7B2624678C007C47DC /* Storyboard.storyboard */,
 				C04C9E69262441B4007C47DC /* ApplicationDelegates */,
 				C04C9E6A262441C4007C47DC /* ViewControllers */,
 				C04C9E87262472F9007C47DC /* Protocols */,
@@ -154,7 +153,8 @@
 		C04C9E86262472EE007C47DC /* Others */ = {
 			isa = PBXGroup;
 			children = (
-				C04C9E7726246334007C47DC /* Temporary .swift */,
+				C06512FC26280E5100CF322B /* Enums.swift */,
+				C04C9E7726246334007C47DC /* SustemExtensions.swift */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -249,7 +249,6 @@
 			files = (
 				C04C9E5F26244124007C47DC /* LaunchScreen.storyboard in Resources */,
 				C04C9E5C26244124007C47DC /* Assets.xcassets in Resources */,
-				C04C9E7C2624678C007C47DC /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,12 +308,13 @@
 				C04C9EC526257AAD007C47DC /* MainURLFactory.swift in Sources */,
 				C04C9E5726244120007C47DC /* RideSearchViewController.swift in Sources */,
 				C04C9EC826257EDB007C47DC /* URLFactoryProtocol.swift in Sources */,
+				C06512FD26280E5100CF322B /* Enums.swift in Sources */,
 				C0AA7743262732C700EE3A42 /* MapVC+Extensions.swift in Sources */,
 				C08291A42626EECA00C686F3 /* MapViewController.swift in Sources */,
 				C04C9ECE26258209007C47DC /* NetworkManagerProtocol.swift in Sources */,
 				C08291AF26271E2800C686F3 /* MapTableViewCell.swift in Sources */,
 				C04C9E5326244120007C47DC /* AppDelegate.swift in Sources */,
-				C04C9E7826246334007C47DC /* Temporary .swift in Sources */,
+				C04C9E7826246334007C47DC /* SustemExtensions.swift in Sources */,
 				C04C9E5526244120007C47DC /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

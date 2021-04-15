@@ -21,7 +21,6 @@ extension RideSearchViewController {
             
         default:
             passengersButton.setTitle("\(passengersCount) пассажиров", for: .normal)
-            
         }
     }
     
@@ -210,14 +209,11 @@ extension RideSearchViewController: UITextFieldDelegate {
         }
     }
     
-    
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case fromTextField:
             fromTextField.resignFirstResponder()
             dismissAnimation(textField: textField)
-            
             return true
             
         case toTextField:
@@ -247,7 +243,6 @@ extension RideSearchViewController: RideSearchDelegate {
             if passengersCount > 1 {
                 passengersCount -= 1
                 setCount()
-                
             }
         }
     }
@@ -268,7 +263,6 @@ extension RideSearchViewController: RideSearchDelegate {
             toCoordinates = "\(longitude),\(latitude)"
         }
     }
-    
 }
 
 
@@ -290,7 +284,6 @@ extension RideSearchViewController: UITableViewDataSource {
         } else {
             cell.textLabel?.text = "Какое-то место"
         }
-        
         return cell
     }
     
@@ -313,7 +306,6 @@ extension RideSearchViewController: UITableViewDataSource {
             print("TODO: PICK A PLACE")
         }
     }
-    
 }
 
 extension RideSearchViewController: UITableViewDelegate {
@@ -321,6 +313,5 @@ extension RideSearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return (view.frame.height * 0.07)
     }
-
 }
 
