@@ -6,6 +6,5 @@ target 'RideIn' do
   use_frameworks!
 
   pod 'Alamofire'
-  pod 'DSCenterPinMapView'
 
 end

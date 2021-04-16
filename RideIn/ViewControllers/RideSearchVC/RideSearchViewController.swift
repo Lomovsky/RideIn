@@ -13,13 +13,14 @@ protocol RideSearchDelegate: class {
     func getPassengersCount() -> String
     func continueAfterMapVC(from placeType: PlaceType, withPlaceName name: String)
     func setCoordinates(placemark: MKPlacemark, forPlace placeType: PlaceType)
+    func setNavigationControllerHidden(to state: Bool, animated: Bool)
 }
 
 final class RideSearchViewController: UIViewController {
     var trips = [Trip]()
     
-    let urlFactory = MainURLFactory()
-    let networkManager = MainNetworkManager()
+    let urlFactory: URLFactory = MainURLFactory()
+    let networkManager: NetworkManager = MainNetworkManager()
     
     let locationManager = CLLocationManager()
     var matchingItems = [MKMapItem]()
@@ -156,6 +157,12 @@ final class RideSearchViewController: UIViewController {
         return button
     }()
     
+    let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
     let mapView: MKMapView = {
         let map = MKMapView()
         map.translatesAutoresizingMaskIntoConstraints = false
@@ -181,6 +188,7 @@ final class RideSearchViewController: UIViewController {
         view.addSubview(passengersButton)
         view.addSubview(bottomLine)
         view.addSubview(searchButton)
+        view.addSubview(activityIndicator)
         view.addSubview(tableViewSubview)
         
         setupNavigationController()
@@ -196,6 +204,7 @@ final class RideSearchViewController: UIViewController {
         setupPassengerButton()
         setupBottomLine()
         setupSearchButton()
+        setupActivityIndicator()
         setupTableViewSubview()
         setupMapSubview()
         setupMapImageView()
@@ -204,6 +213,12 @@ final class RideSearchViewController: UIViewController {
         setupSearchTableView()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        configureIndicatorAndButton(indicatorState: false)
+    }
+    
+    
     //MARK: UIMethods -
     private func setupView() {
         view.backgroundColor = .white
@@ -211,7 +226,7 @@ final class RideSearchViewController: UIViewController {
     
     private func setupNavigationController() {
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.visibleViewController?.title = "Поиск машины"
+        navigationController?.visibleViewController?.title = "Поиск поездки"
         navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.darkGray]
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
@@ -262,6 +277,7 @@ final class RideSearchViewController: UIViewController {
                                 for: .editingChanged)
         fromTextField.addTarget(self, action: #selector(textFieldHasBeenActivated), for: .touchDown)
         fromTextField.delegate = self
+        fromTextField.clearButtonMode = .always
     }
     
     private func setupToContentSubview() {
@@ -375,11 +391,24 @@ final class RideSearchViewController: UIViewController {
     private func setupSearchButton() {
         NSLayoutConstraint.activate([
             searchButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            searchButton.topAnchor.constraint(equalTo: bottomLine.bottomAnchor, constant: 20)
+            searchButton.topAnchor.constraint(equalTo: bottomLine.bottomAnchor, constant: 20),
+            searchButton.heightAnchor.constraint(equalTo: fromContentSubview.heightAnchor, multiplier: 0.9),
+            searchButton.widthAnchor.constraint(equalTo: fromContentSubview.widthAnchor, multiplier: 0.4)
         ])
-        searchButton.setTitle("SEARCH BETA", for: .normal)
-        searchButton.setTitleColor(.systemRed, for: .normal)
+        searchButton.setTitle("Искать", for: .normal)
+        searchButton.isHidden = true
+        searchButton.backgroundColor = .lightBlue
+        searchButton.layer.cornerRadius = 25
+        searchButton.titleLabel?.font = .boldSystemFont(ofSize: 20)
         searchButton.addTarget(self, action: #selector(search), for: .touchUpInside)
+    }
+    
+    private func setupActivityIndicator() {
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: searchButton.centerYAnchor)
+        ])
+        activityIndicator.isHidden = true
     }
     
     private func setupTableViewSubview() {

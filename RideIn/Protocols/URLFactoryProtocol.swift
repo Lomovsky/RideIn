@@ -10,6 +10,7 @@ import Foundation
 protocol URLFactory {
     
     func setCoordinates(coordinates: String, place: PlaceType)
+    func setSeats(seats: String)
     func makeURL() -> URL?
     
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 import MapKit
-import DSCenterPinMapView
+
 
 final class MapViewController: UIViewController {
     

@@ -1,20 +1,16 @@
 PODS:
   - Alamofire (5.4.1)
-  - DSCenterPinMapView (0.1.2)
 
 DEPENDENCIES:
   - Alamofire
-  - DSCenterPinMapView
 
 SPEC REPOS:
   trunk:
     - Alamofire
-    - DSCenterPinMapView
 
 SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
-  DSCenterPinMapView: 246fd3aeb44090ab4316cd0c58d52a584e1ea5ba
 
-PODFILE CHECKSUM: 94326ead2b904f42f29b5e8c32fc65d3265fea7c
+PODFILE CHECKSUM: 7bfffd8f676fbee0b1c0cc8a9a098d73385769d0
 
 COCOAPODS: 1.10.0

@@ -25,6 +25,7 @@ enum Query {
     static let country = "uk-UA"
     static let currency = "UAH"
     static let apiKey = "GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
+    static var seats = "1"
     static var fromCoordinates = String()
     static var toCoordinates = String()
 }

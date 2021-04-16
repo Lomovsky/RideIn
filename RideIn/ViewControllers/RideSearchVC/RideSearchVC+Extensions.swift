@@ -18,8 +18,10 @@ extension RideSearchViewController {
     }
     
     @objc final func search() {
+        configureIndicatorAndButton(indicatorState: true)
         urlFactory.setCoordinates(coordinates: fromCoordinates, place: .from)
         urlFactory.setCoordinates(coordinates: toCoordinates, place: .to)
+        urlFactory.setSeats(seats: "\(passengersCount)")
         guard let url = urlFactory.makeURL() else { return }
         print(url)
         networkManager.fetchRides(withURL: url) { [unowned self] (result) in
@@ -28,8 +30,7 @@ extension RideSearchViewController {
                 print(error)
                 
             case .success(let trips):
-                self.trips = trips
-                print(self.trips.count)
+                self.showTripsVC(trips: trips)
             }
         }
     }
@@ -51,6 +52,25 @@ extension RideSearchViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    func showTripsVC(trips: [Trip]) {
+        let vc = TripsViewController()
+        vc.trips = trips
+        vc.rideSearchDelegate = self
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func configureIndicatorAndButton(indicatorState: Bool) {
+        if indicatorState {
+            activityIndicator.startAnimating()
+            activityIndicator.isHidden = false
+            searchButton.isHidden = true
+        } else {
+            activityIndicator.stopAnimating()
+            activityIndicator.isHidden = true
+            searchButton.isHidden = false
+        }
+    }
+    
     func setCount() {
         switch passengerDeclension {
         case .one:
@@ -64,15 +84,25 @@ extension RideSearchViewController {
         }
     }
     
+    func checkTextFields() {
+        if !(fromTextField.text?.isEmpty ?? true), fromTextField.text != "",
+           !(toTextField.text?.isEmpty ?? true), toTextField.text != "" {
+            searchButton.isHidden = false
+        } else {
+            searchButton.isHidden = true
+        }
+    }
+    
     func lookForPlaces(withWord word: String?) {
         guard let text = word, text != "" else { return }
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = text
         request.region = mapView.region
+        
         let search = MKLocalSearch(request: request)
         
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { [unowned self] (_) in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [unowned self] (_) in
             search.start { response, _ in
                 guard let response = response else {
                     return
@@ -94,9 +124,11 @@ extension RideSearchViewController: UITextFieldDelegate {
         
         case fromTextField:
             lookForPlaces(withWord: fromTextField.text)
+            checkTextFields()
             
         case toTextField:
             lookForPlaces(withWord: toTextField.text)
+            checkTextFields()
             
         default:
             break
@@ -183,6 +215,10 @@ extension RideSearchViewController: RideSearchDelegate {
         }
     }
     
+    func setNavigationControllerHidden(to state: Bool, animated: Bool) {
+        navigationController?.setNavigationBarHidden(state, animated: animated)
+    }
+    
 }
 
 
@@ -264,6 +300,7 @@ extension RideSearchViewController: CLLocationManagerDelegate {
     }
     
 }
+
 
 //MARK: Animations
 extension RideSearchViewController {
