@@ -7,8 +7,9 @@
 
 import UIKit
 
-class TripsViewController: UIViewController {
 
+final class TripsViewController: UIViewController {
+    
     var trips = [Trip]()
     var fromPlaceName = "Херсон"
     var toPlaceName = "Николаев"
@@ -18,11 +19,11 @@ class TripsViewController: UIViewController {
     var cheapestTrip: Trip?
     var closestTrip: Trip?
     
-    lazy var views = [allTripsView, carTripsView, busTripsView]
+    var selectedPage: CGFloat = 0.0
     
     weak var rideSearchDelegate: RideSearchDelegate?
-
-
+    
+    
     //MARK: UIElements -
     let scrollView: UIScrollView = {
         let scroll = UIScrollView()
@@ -87,8 +88,34 @@ class TripsViewController: UIViewController {
                     forCellWithReuseIdentifier: TripCollectionViewCell.reuseIdentifier)
         return cv
     }()
-
-    lazy var allTipsCollectionView: UICollectionView = {
+    
+    let pagesSegmentedControl: UISegmentedControl = {
+        let control = UISegmentedControl()
+        control.translatesAutoresizingMaskIntoConstraints = false
+        return control
+    }()
+    
+    let segmentIndicator: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.lightBlue
+        return view
+    }()
+    
+    let pageScrollSubview: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let pageScrollView: UIScrollView = {
+        let scroll = UIScrollView()
+        scroll.translatesAutoresizingMaskIntoConstraints = false
+        return scroll
+    }()
+    
+    
+    let allTipsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
@@ -96,25 +123,6 @@ class TripsViewController: UIViewController {
         cv.register(TripCollectionViewCell.self, forCellWithReuseIdentifier: TripCollectionViewCell.reuseIdentifier)
         cv.backgroundColor = .white
         return cv
-    }()
-    
-    lazy var allTripsView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .blue
-        view.addSubview(allTipsCollectionView)
-//        allTipsCollectionView.setPosition(view: view)
-        allTipsCollectionView.frame = view.frame
-        allTipsCollectionView.dataSource = self
-        allTipsCollectionView.delegate = self
-        return view
-    }()
-    
-    let carTripsView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemRed
-        return view
     }()
     
     let carTipsCollectionView: UICollectionView = {
@@ -127,64 +135,36 @@ class TripsViewController: UIViewController {
         return cv
     }()
     
-    let busTripsView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-//        view.backgroundColor = .systemPink
-        return view
-    }()
     
-    let busTipsCollectionView: UICollectionView = {
+    let busTripsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .init(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(TripCollectionViewCell.self, forCellWithReuseIdentifier: TripCollectionViewCell.reuseIdentifier)
-//        cv.backgroundColor = .systemRed
         return cv
     }()
     
-    lazy var pageScrollSubview: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    lazy var pageScrollView: UIScrollView = {
-        let scroll = UIScrollView()
-        scroll.translatesAutoresizingMaskIntoConstraints = false
-        scroll.isPagingEnabled = true
-        scroll.contentSize = CGSize(width: pageScrollSubview.frame.width * CGFloat(views.count), height: pageScrollSubview.frame.height)
-        
-        for i in 0..<views.count {
-            scroll.addSubview(views[i])
-            views[i].frame = CGRect(x: view.frame.width * CGFloat(i), y: 0, width: view.frame.width, height: pageScrollSubview.frame.height)
-
-        }
-        
-        scroll.delegate = self
-        return scroll
-    }()
-    
-    
-
     
     //MARK: viewDidLoad -
     override func viewDidLoad() {
         super.viewDidLoad()
         recommendationsCollectionView.delegate = self
         recommendationsCollectionView.dataSource = self
+        allTipsCollectionView.dataSource = self
+        allTipsCollectionView.delegate = self
         carTipsCollectionView.dataSource = self
         carTipsCollectionView.delegate = self
-        busTipsCollectionView.delegate = self
-        busTipsCollectionView.dataSource = self
+        busTripsCollectionView.delegate = self
+        busTripsCollectionView.dataSource = self
         
         view.addSubview(navigationSubview)
         view.addSubview(contentSubview)
         view.addSubview(recommendationsCollectionView)
+        view.addSubview(pagesSegmentedControl)
         view.addSubview(pageScrollSubview)
         
-
+        
         setupView()
         setupNavigationController()
         setupNavigationSubview()
@@ -194,22 +174,24 @@ class TripsViewController: UIViewController {
         setupArrowImageView()
         setupToLabel()
         setupDetailsLabel()
-        setupRecomendationCollectionView()
+        setupRecommendationCollectionView()
+        setupPagesSegmentedControl()
         setupPageScrollSubview()
-
     }
     
-
     
     override func viewDidLayoutSubviews() {
         setupPageScroll()
+        setupAllTripsCollectionView()
+        setupCarTripsCollectionView()
+        setupBusTripsCollectionView()
     }
     
     //MARK: UIMethods -
     private func setupView() {
         view.backgroundColor = .white
     }
-
+    
     private func setupNavigationController() {
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
@@ -224,7 +206,7 @@ class TripsViewController: UIViewController {
         navigationSubview.backgroundColor = .white
     }
     
-
+    
     
     private func setupContentSubview() {
         NSLayoutConstraint.activate([
@@ -298,49 +280,48 @@ class TripsViewController: UIViewController {
         detailsLabel.textColor = .systemGray
     }
     
-//    private func setupScrollView() {
-//        scrollView.topAnchor.constraint(equalTo: navigationSubview.bottomAnchor).isActive = true
-//        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-//        scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-//        scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-//        scrollView.addSubview(contentView)
-//    }
-//
-//    private func setupContentView() {
-//        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-//        contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
-//        contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
-//        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-//        contentView.widthAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.widthAnchor).isActive = true
-//        let heightConstraint = contentView.heightAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.heightAnchor)
-//        heightConstraint.priority = UILayoutPriority(rawValue: 250)
-//        heightConstraint.isActive = true
-//        contentView.addSubview(recommendationsCollectionView)
-//        contentView.addSubview(pageScrollView)
-//    }
-    
-    private func setupRecomendationCollectionView() {
+    private func setupRecommendationCollectionView() {
         NSLayoutConstraint.activate([
             recommendationsCollectionView.topAnchor.constraint(equalTo: navigationSubview.bottomAnchor, constant: 10),
             recommendationsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             recommendationsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            recommendationsCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3)
+            recommendationsCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25)
         ])
         recommendationsCollectionView.backgroundColor = .systemGray5
         recommendationsCollectionView.contentInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
         recommendationsCollectionView.showsHorizontalScrollIndicator = false
     }
     
+    private func setupPagesSegmentedControl() {
+        NSLayoutConstraint.activate([
+            pagesSegmentedControl.topAnchor.constraint(equalTo: recommendationsCollectionView.bottomAnchor),
+            pagesSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pagesSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            pagesSegmentedControl.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.06)
+        ])
+        
+        pagesSegmentedControl.insertSegment(with: UIImage(systemName: "wallet.pass.fill"), at: 0, animated: false)
+        pagesSegmentedControl.insertSegment(with: UIImage(systemName: "car.fill"), at: 1, animated: false)
+        pagesSegmentedControl.insertSegment(with: UIImage(systemName: "bus.fill"), at: 2, animated: false)
+        
+        pagesSegmentedControl.selectedSegmentIndex = 0
+        
+        pagesSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 20), NSAttributedString.Key.foregroundColor: UIColor.darkGray], for: .normal)
+        
+        pagesSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font :  UIFont.boldSystemFont(ofSize: 20), NSAttributedString.Key.foregroundColor: UIColor.lightBlue], for: .selected)
+        
+    }
+    
     private func setupPageScrollSubview() {
         NSLayoutConstraint.activate([
-            pageScrollSubview.topAnchor.constraint(equalTo: recommendationsCollectionView.bottomAnchor),
+            pageScrollSubview.topAnchor.constraint(equalTo: pagesSegmentedControl.bottomAnchor),
             pageScrollSubview.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             pageScrollSubview.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             pageScrollSubview.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         pageScrollSubview.backgroundColor = .white
         pageScrollSubview.addSubview(pageScrollView)
-
+        
     }
     
     private func setupPageScroll() {
@@ -350,10 +331,37 @@ class TripsViewController: UIViewController {
             pageScrollView.leadingAnchor.constraint(equalTo: pageScrollSubview.safeAreaLayoutGuide.leadingAnchor),
             pageScrollView.trailingAnchor.constraint(equalTo: pageScrollSubview.safeAreaLayoutGuide.trailingAnchor)
         ])
-
+        pageScrollView.isPagingEnabled = true
+        pageScrollView.contentSize = CGSize(width: pageScrollSubview.frame.width * CGFloat(3), height: pageScrollSubview.frame.height)
+        pageScrollView.addSubview(allTipsCollectionView)
+        pageScrollView.addSubview(carTipsCollectionView)
+        pageScrollView.addSubview(busTripsCollectionView)
+        pageScrollView.delegate = self
     }
-
+    
+    
+    private func setupAllTripsCollectionView() {
+        allTipsCollectionView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: pageScrollView.frame.height)
+        allTipsCollectionView.backgroundColor = .white
+        allTipsCollectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
+    }
+    
+    
+    private func setupCarTripsCollectionView() {
+        carTipsCollectionView.frame = CGRect(x: view.frame.width, y: 0, width: view.frame.width, height: pageScrollView.frame.height)
+        carTipsCollectionView.backgroundColor = .white
+        carTipsCollectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
+    }
+    
+    private func setupBusTripsCollectionView() {
+        busTripsCollectionView.frame = CGRect(x: view.frame.width * 2, y: 0, width: view.frame.width, height: pageScrollView.frame.height)
+        busTripsCollectionView.backgroundColor = .white
+        busTripsCollectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
+    }
+    
 }
+
+
 
 
 //MARK:- HelpingMethods
@@ -365,7 +373,7 @@ extension TripsViewController {
     }
     
     func lookForCheapestTrip() {
-    
+        
     }
     
     func lookForClosestTrip() {
@@ -381,7 +389,7 @@ extension TripsViewController: UICollectionViewDataSource {
         case recommendationsCollectionView: return 2
         case allTipsCollectionView: return 5
         case carTipsCollectionView: return 3
-        case busTipsCollectionView: return 4
+        case busTripsCollectionView: return 4
         default: return 0
         }
     }
@@ -389,13 +397,48 @@ extension TripsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TripCollectionViewCell.reuseIdentifier,
                                                       for: indexPath) as! TripCollectionViewCell
-        cell.layer.shadowColor = UIColor.black.cgColor
-        cell.layer.shadowRadius = 4
-        cell.layer.shadowOpacity = 0.1
-        cell.layer.shadowOffset = CGSize.init(width: 2.5, height: 2.5)
-        cell.layer.masksToBounds = false
-        cell.layer.shadowPath = UIBezierPath(rect: cell.bounds).cgPath
-        cell.backgroundColor = .clear
+        
+        switch collectionView {
+        case recommendationsCollectionView:
+            cell.layer.shadowColor = UIColor.black.cgColor
+            cell.layer.shadowRadius = 4
+            cell.layer.shadowOpacity = 0.1
+            cell.layer.shadowOffset = CGSize.init(width: 2.5, height: 2.5)
+            cell.layer.masksToBounds = false
+            cell.layer.shadowPath = UIBezierPath(rect: cell.bounds).cgPath
+            cell.backgroundColor = .clear
+            
+        case allTipsCollectionView:
+            cell.layer.shadowColor = UIColor.black.cgColor
+            cell.layer.shadowRadius = 5
+            cell.layer.shadowOpacity = 0.4
+            cell.layer.shadowOffset = CGSize.init(width: 2.5, height: 2.5)
+            cell.layer.masksToBounds = false
+            cell.layer.shadowPath = UIBezierPath(rect: cell.bounds).cgPath
+            cell.backgroundColor = .clear
+            
+        case carTipsCollectionView:
+            cell.layer.shadowColor = UIColor.black.cgColor
+            cell.layer.shadowRadius = 5
+            cell.layer.shadowOpacity = 0.4
+            cell.layer.shadowOffset = CGSize.init(width: 2.5, height: 2.5)
+            cell.layer.masksToBounds = false
+            cell.layer.shadowPath = UIBezierPath(rect: cell.bounds).cgPath
+            cell.backgroundColor = .clear
+            
+        case busTripsCollectionView:
+            cell.layer.shadowColor = UIColor.black.cgColor
+            cell.layer.shadowRadius = 5
+            cell.layer.shadowOpacity = 0.4
+            cell.layer.shadowOffset = CGSize.init(width: 2.5, height: 2.5)
+            cell.layer.masksToBounds = false
+            cell.layer.shadowPath = UIBezierPath(rect: cell.bounds).cgPath
+            cell.backgroundColor = .clear
+            
+        default:
+            break
+            
+        }
         return cell
     }
     
@@ -414,12 +457,12 @@ extension TripsViewController: UICollectionViewDelegateFlowLayout {
         
         switch collectionView {
         case recommendationsCollectionView: return CGSize(width: width, height: height)
-
+            
         case allTipsCollectionView: return CGSize(width: pageViewWidth, height: pageViewHeight)
             
         case carTipsCollectionView: return CGSize(width: pageViewWidth, height: pageViewHeight)
             
-        case busTipsCollectionView: return CGSize(width: pageViewWidth, height: pageViewHeight)
+        case busTripsCollectionView: return CGSize(width: pageViewWidth, height: pageViewHeight)
             
         default: return CGSize()
         }
@@ -430,20 +473,33 @@ extension TripsViewController: UICollectionViewDelegateFlowLayout {
 extension TripsViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageIndex = round(scrollView.contentOffset.x / view.frame.width)
-        
-        switch pageIndex {
-        case 0.0:
-            allTipsCollectionView.reloadData()
+        switch scrollView {
+        case pageScrollView:
+            let pageIndex = round(scrollView.contentOffset.x / view.frame.width)
             
-        case 1.0:
-            carTipsCollectionView.reloadData()
-            print(carTipsCollectionView.numberOfItems(inSection: 0))
-            
-        case 2.0:
-            busTipsCollectionView.reloadData()
+            switch pageIndex {
+            case 0.0:
+                allTipsCollectionView.reloadData()
+                selectedPage = pageIndex
+                pagesSegmentedControl.selectedSegmentIndex = Int(pageIndex)
+                
+            case 1.0:
+                carTipsCollectionView.reloadData()
+                print(carTipsCollectionView.numberOfItems(inSection: 0))
+                selectedPage = pageIndex
+                pagesSegmentedControl.selectedSegmentIndex = Int(pageIndex)
+                
+            case 2.0:
+                busTripsCollectionView.reloadData()
+                selectedPage = pageIndex
+                pagesSegmentedControl.selectedSegmentIndex = Int(pageIndex)
+                
+            default: break
+            }
             
         default: break
         }
     }
 }
+
+
