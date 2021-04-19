@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RecommendedCollectionViewCell: UICollectionViewCell {
+class TripCollectionViewCell: UICollectionViewCell {
     
     class var reuseIdentifier: String {
         return "recommendationsCollectionViewCell"

@@ -12,3 +12,24 @@ extension UIColor {
     static let lightBlue = UIColor(red: 0.01, green: 0.66, blue: 0.95, alpha: 1.00)
 }
 
+extension UICollectionView {
+    
+    func setPosition(view: UIView) {
+        NSLayoutConstraint.activate([
+            topAnchor.constraint(equalTo: view.topAnchor),
+            leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    func equalFrame(view: UIView) {
+        NSLayoutConstraint.activate([
+            widthAnchor.constraint(equalTo: view.widthAnchor),
+            heightAnchor.constraint(equalTo: view.heightAnchor)
+
+        ])
+    }
+}
+
+
