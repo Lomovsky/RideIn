@@ -19,7 +19,7 @@ final class TripsViewController: UIViewController {
     
     var departurePlaceName = String()
     var arrivingPlaceName = String()
-    var numberOfPassengers = String()
+    var numberOfPassengers = Int()
     var date = "Сегодня"
         
     weak var rideSearchDelegate: RideSearchDelegate?
@@ -85,7 +85,7 @@ final class TripsViewController: UIViewController {
         let cv = UICollectionView(frame:.init(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(TripCollectionViewCell.self,
-                    forCellWithReuseIdentifier: TripCollectionViewCell.reuseIdentifier)
+                    forCellWithReuseIdentifier: TripCollectionViewCell.recommendationsReuseIdentifier)
         return cv
     }()
     
@@ -120,7 +120,7 @@ final class TripsViewController: UIViewController {
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.register(TripCollectionViewCell.self, forCellWithReuseIdentifier: TripCollectionViewCell.reuseIdentifier)
+        cv.register(TripCollectionViewCell.self, forCellWithReuseIdentifier: TripCollectionViewCell.allTripsReuseIdentifier)
         cv.backgroundColor = .white
         return cv
     }()
@@ -130,7 +130,7 @@ final class TripsViewController: UIViewController {
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .init(x: 0, y: 178, width: 0, height: 0), collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.register(TripCollectionViewCell.self, forCellWithReuseIdentifier: TripCollectionViewCell.reuseIdentifier)
+        cv.register(TripCollectionViewCell.self, forCellWithReuseIdentifier: TripCollectionViewCell.cheapToTopReuseIdentifier)
         cv.backgroundColor = .green
         return cv
     }()
@@ -141,7 +141,7 @@ final class TripsViewController: UIViewController {
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .init(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.register(TripCollectionViewCell.self, forCellWithReuseIdentifier: TripCollectionViewCell.reuseIdentifier)
+        cv.register(TripCollectionViewCell.self, forCellWithReuseIdentifier: TripCollectionViewCell.cheapToBottomReuseIdentifier)
         return cv
     }()
     
@@ -274,7 +274,7 @@ final class TripsViewController: UIViewController {
             detailsLabel.topAnchor.constraint(equalTo: fromLabel.bottomAnchor, constant: 10),
             detailsLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor)
         ])
-        detailsLabel.text = "\(date.capitalized), \(numberOfPassengers)"
+        detailsLabel.text = "\(date.capitalized), \(numberOfPassengers) человек"
         detailsLabel.font = .boldSystemFont(ofSize: 10)
         detailsLabel.textColor = .systemGray
     }

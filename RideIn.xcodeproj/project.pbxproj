@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		89F6E2502EA5ABEAD79E7600 /* Pods_RideIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 676745E0D76715737F9F8FBC /* Pods_RideIn.framework */; };
-		C007F3FB262987E40015D2E2 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C007F3FA262987E40015D2E2 /* Storyboard.storyboard */; };
 		C00F85CC262EF76900A29641 /* TripsVC+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00F85CB262EF76900A29641 /* TripsVC+Extensions.swift */; };
 		C00F85D0262EF91E00A29641 /* DateTimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00F85CF262EF91E00A29641 /* DateTimeManager.swift */; };
 		C00F85E0262FFFE800A29641 /* SelectedTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00F85DF262FFFE800A29641 /* SelectedTripViewController.swift */; };
@@ -36,7 +35,6 @@
 /* Begin PBXFileReference section */
 		0723177FAC2C4B7C9467C7A3 /* Pods-RideIn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RideIn.debug.xcconfig"; path = "Target Support Files/Pods-RideIn/Pods-RideIn.debug.xcconfig"; sourceTree = "<group>"; };
 		676745E0D76715737F9F8FBC /* Pods_RideIn.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RideIn.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C007F3FA262987E40015D2E2 /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		C00F85CB262EF76900A29641 /* TripsVC+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TripsVC+Extensions.swift"; sourceTree = "<group>"; };
 		C00F85CF262EF91E00A29641 /* DateTimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeManager.swift; sourceTree = "<group>"; };
 		C00F85DF262FFFE800A29641 /* SelectedTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTripViewController.swift; sourceTree = "<group>"; };
@@ -129,7 +127,6 @@
 				C04C9E87262472F9007C47DC /* Protocols */,
 				C04C9E9B262477C0007C47DC /* Model */,
 				C04C9E86262472EE007C47DC /* Others */,
-				C007F3FA262987E40015D2E2 /* Storyboard.storyboard */,
 			);
 			path = RideIn;
 			sourceTree = "<group>";
@@ -314,7 +311,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C04C9E5C26244124007C47DC /* Assets.xcassets in Resources */,
-				C007F3FB262987E40015D2E2 /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

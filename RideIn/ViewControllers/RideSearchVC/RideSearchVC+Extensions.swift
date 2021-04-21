@@ -160,7 +160,7 @@ extension RideSearchViewController {
         vc.closestTrip = closestTrip
         vc.departurePlaceName = fromTextField.text ?? ""
         vc.arrivingPlaceName = toTextField.text ?? ""
-        vc.numberOfPassengers = "\(passengersCount) человек"
+        vc.numberOfPassengers = passengersCount
         vc.rideSearchDelegate = self
         
         navigationController?.pushViewController(vc, animated: true)

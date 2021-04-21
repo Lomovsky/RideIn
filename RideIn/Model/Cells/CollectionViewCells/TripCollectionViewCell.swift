@@ -9,8 +9,20 @@ import UIKit
 
 class TripCollectionViewCell: UICollectionViewCell {
     
-    class var reuseIdentifier: String {
+    class var recommendationsReuseIdentifier: String {
         return "recommendationsCollectionViewCell"
+    }
+    
+    class var allTripsReuseIdentifier: String {
+        return "allTripsCell"
+    }
+    
+    class var cheapToTopReuseIdentifier: String {
+        return "cheapToTopCell"
+    }
+    
+    class var cheapToBottomReuseIdentifier: String {
+        return "cheapToBottomCell"
     }
     
     private let backgroundSubview: UIView = {
