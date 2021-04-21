@@ -87,8 +87,8 @@ extension MapViewController {
     
     
     @objc final func longTap(sender: UIGestureRecognizer){
-        print("long tap")
         if sender.state == .began {
+            mapView.removeAnnotations(mapView.annotations)
             let locationInView = sender.location(in: mapView)
             let locationOnMap = mapView.convert(locationInView, toCoordinateFrom: mapView)
             addAnnotation(location: locationOnMap)
@@ -109,7 +109,6 @@ extension MapViewController {
                 self.placesTableView.alpha = 0.0
             }
             placesTableView.isHidden = true
-            
         }
     }
     
@@ -142,7 +141,8 @@ extension MapViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let place = matchingItems[indexPath.row].placemark
-        dropPinZoomIn(placemark: place)
+        mapView.removeAnnotations(mapView.annotations)
+        dropPinZoomIn(placemark: place, zoom: true)
         dismissTableView()
         
     }

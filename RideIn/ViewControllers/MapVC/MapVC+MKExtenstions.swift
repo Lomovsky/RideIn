@@ -1,5 +1,5 @@
 //
-//  MapVC+MKExtenstions.swift
+//  MapVC+MKExtensions.swift
 //  RideIn
 //
 //  Created by Алекс Ломовской on 15.04.2021.
@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 
 protocol HandleMapSearch {
-    func dropPinZoomIn(placemark: MKPlacemark)
+    func dropPinZoomIn(placemark: MKPlacemark, zoom: Bool)
 }
 
 
@@ -90,12 +90,14 @@ extension MapViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-            let region = MKCoordinateRegion(center: location.coordinate, span: span)
-            mapView.setRegion(region, animated: true)
-            
+        if !ignoreLocation {
+            if let location = locations.first {
+                let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+                let region = MKCoordinateRegion(center: location.coordinate, span: span)
+                mapView.setRegion(region, animated: true)
+            }
         }
+   
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -132,16 +134,46 @@ extension MapViewController: MKMapViewDelegate {
         print("tapped on pin ")
     }
     
+    func showRouteOnMap(pickUpPlacemark: MKPlacemark, destinationPlacemark: MKPlacemark) {
+        
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: pickUpPlacemark)
+        request.destination = MKMapItem(placemark: destinationPlacemark)
+        request.requestsAlternateRoutes = true
+        request.transportType = .automobile
+        
+        let directions = MKDirections(request: request)
+        
+        directions.calculate { [unowned self] response, error in
+            guard let unwrappedResponse = response else { print("error rotes"); return }
+            
+            //for getting just one route
+            if let route = unwrappedResponse.routes.first {
+                //show on map
+                self.mapView.addOverlay(route.polyline)
+
+                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets.init(top: 80.0, left: 20.0, bottom: 100.0, right: 20.0), animated: true)
+            }
+            
+        }
+    }
+    
+    
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = .red
+        renderer.lineWidth = 5
+        return renderer
+    }
+    
 }
 
 //MARK:- HandleMapSearch
 extension MapViewController: HandleMapSearch {
     
-    func dropPinZoomIn(placemark: MKPlacemark) {
-        // cache the pin
+    func dropPinZoomIn(placemark: MKPlacemark, zoom: Bool) {
         selectedPin = placemark
-        // clear existing pins
-        mapView.removeAnnotations(mapView.annotations)
         let annotation = MKPointAnnotation()
         annotation.coordinate = placemark.coordinate
         annotation.title = placemark.name
@@ -150,9 +182,11 @@ extension MapViewController: HandleMapSearch {
             annotation.subtitle = "\(city) \(state)"
         }
         mapView.addAnnotation(annotation)
-        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-        let region = MKCoordinateRegion(center: placemark.coordinate, span: span)
-        mapView.setRegion(region, animated: true)
+        if zoom {
+            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            let region = MKCoordinateRegion(center: placemark.coordinate, span: span)
+            mapView.setRegion(region, animated: true)
+        }
     }
 }
 

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MapKit
 
 final class SelectedTripViewController: UIViewController {
     
@@ -292,17 +293,17 @@ final class SelectedTripViewController: UIViewController {
     
     private func setupDepartureMapButton() {
         NSLayoutConstraint.activate([
-            departurePlaceMapButton.trailingAnchor.constraint(equalTo: topSubview.trailingAnchor, constant: -10),
             departurePlaceMapButton.topAnchor.constraint(equalTo: departureTimeLabel.centerYAnchor),
-            departurePlaceMapButton.heightAnchor.constraint(equalTo: departureTimeLabel.heightAnchor)
+            departurePlaceMapButton.trailingAnchor.constraint(equalTo: topSubview.trailingAnchor, constant: -10),
+            departurePlaceMapButton.heightAnchor.constraint(equalTo: departureTimeLabel.heightAnchor),
+            departurePlaceMapButton.widthAnchor.constraint(equalTo: departurePlaceMapButton.heightAnchor)
         ])
-        departurePlaceMapButton.setImage(UIImage(systemName: "chevron"), for: .normal)
+        departurePlaceMapButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
         departurePlaceMapButton.tintColor = .systemGray
-        departurePlaceMapButton.isHidden = true
         departurePlaceMapButton.imageView?.contentMode = .scaleAspectFit
         departurePlaceMapButton.contentVerticalAlignment = .fill
         departurePlaceMapButton.contentHorizontalAlignment = .fill
-        departurePlaceMapButton.backgroundColor = .red
+        departurePlaceMapButton.addTarget(self, action: #selector(showMap(sender:)), for: .touchUpInside)
     }
     
     private func setupLine() {
@@ -354,14 +355,16 @@ final class SelectedTripViewController: UIViewController {
         NSLayoutConstraint.activate([
             arrivingPlaceMapButton.trailingAnchor.constraint(equalTo: topSubview.trailingAnchor, constant: -10),
             arrivingPlaceMapButton.bottomAnchor.constraint(equalTo: arrivingTimeLabel.centerYAnchor),
-            arrivingPlaceMapButton.heightAnchor.constraint(equalTo: arrivingTimeLabel.heightAnchor)
+            arrivingPlaceMapButton.heightAnchor.constraint(equalTo: arrivingTimeLabel.heightAnchor),
+            arrivingPlaceMapButton.widthAnchor.constraint(equalTo: arrivingPlaceMapButton.heightAnchor)
+
         ])
-        arrivingPlaceMapButton.setImage(UIImage(systemName: "chevron"), for: .normal)
+        arrivingPlaceMapButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
         arrivingPlaceMapButton.tintColor = .systemGray
-        arrivingPlaceMapButton.isHidden = true
         arrivingPlaceMapButton.imageView?.contentMode = .scaleAspectFit
         arrivingPlaceMapButton.contentVerticalAlignment = .fill
         arrivingPlaceMapButton.contentHorizontalAlignment = .fill
+        arrivingPlaceMapButton.addTarget(self, action: #selector(showMap(sender:)), for: .touchUpInside)
     }
     
     private func setupPriceView() {
@@ -404,5 +407,50 @@ final class SelectedTripViewController: UIViewController {
 extension SelectedTripViewController {
     @objc final func goBack() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc final func showMap(sender: UIButton) {
+        let vc = MapViewController()
+
+        switch sender {
+        case departurePlaceMapButton:
+            guard let depLatitude = selectedTrip?.waypoints.first?.place.latitude,
+                  let depLongitude = selectedTrip?.waypoints.first?.place.longitude,
+                  let arriveLatitude = selectedTrip?.waypoints.last?.place.latitude,
+                  let arriveLongitude = selectedTrip?.waypoints.last?.place.longitude
+            else { return }
+            
+            let depCoordinates = CLLocationCoordinate2D(latitude: depLatitude, longitude: depLongitude)
+            let depPlacemark = MKPlacemark(coordinate: depCoordinates)
+            let arriveCoordinates = CLLocationCoordinate2D(latitude: arriveLatitude, longitude: arriveLongitude)
+            let arrivePlacemark = MKPlacemark(coordinate: arriveCoordinates)
+            
+            vc.ignoreLocation = true
+            vc.showRouteOnMap(pickUpPlacemark: depPlacemark, destinationPlacemark: arrivePlacemark)
+            vc.dropPinZoomIn(placemark: arrivePlacemark, zoom: false)
+            vc.dropPinZoomIn(placemark: depPlacemark, zoom: true)
+            navigationController?.pushViewController(vc, animated: true)
+            
+        case arrivingPlaceMapButton:
+            guard let arriveLatitude = selectedTrip?.waypoints.last?.place.latitude,
+                  let arriveLongitude = selectedTrip?.waypoints.last?.place.longitude,
+                  let depLatitude = selectedTrip?.waypoints.first?.place.latitude,
+                  let depLongitude = selectedTrip?.waypoints.first?.place.longitude
+            else { return }
+            
+            let arriveCoordinates = CLLocationCoordinate2D(latitude: arriveLatitude, longitude: arriveLongitude)
+            let arrivePlacemark = MKPlacemark(coordinate: arriveCoordinates)
+            let depCoordinates = CLLocationCoordinate2D(latitude: depLatitude, longitude: depLongitude)
+            let depPlacemark = MKPlacemark(coordinate: depCoordinates)
+            
+            vc.ignoreLocation = true
+            vc.showRouteOnMap(pickUpPlacemark: depPlacemark, destinationPlacemark: arrivePlacemark)
+            vc.dropPinZoomIn(placemark: depPlacemark, zoom: false)
+            vc.dropPinZoomIn(placemark: arrivePlacemark, zoom: true)
+            navigationController?.pushViewController(vc, animated: true)
+            
+        default: break
+        }
+        
     }
 }

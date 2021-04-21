@@ -14,10 +14,11 @@ final class MapViewController: UIViewController {
     let locationManager = CLLocationManager()
     var matchingItems = [MKMapItem]()
     var selectedPin: MKPlacemark? = nil
+    var ignoreLocation = false
     
     var placeType: PlaceType?
     var timer: Timer?
-
+    
     var textFieldTapped = false
     weak var rideSearchDelegate: RideSearchDelegate?
     
@@ -71,6 +72,7 @@ final class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
+        mapView.delegate = self
         placesTableView.dataSource = self
         placesTableView.delegate = self
         

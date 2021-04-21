@@ -187,7 +187,8 @@ class TripCollectionViewCell: UICollectionViewCell {
     private func setupDepatureTimeLabel() {
         NSLayoutConstraint.activate([
             departureTimeLabel.topAnchor.constraint(equalTo: filterTypeSubview.bottomAnchor, constant: 20),
-            departureTimeLabel.leadingAnchor.constraint(equalTo: backgroundSubview.leadingAnchor, constant: 20)
+            departureTimeLabel.leadingAnchor.constraint(equalTo: backgroundSubview.leadingAnchor, constant: 20),
+            departureTimeLabel.widthAnchor.constraint(equalTo: backgroundSubview.widthAnchor, multiplier: 0.2)
         ])
         departureTimeLabel.text = "22:30"
         departureTimeLabel.textColor = .darkGray
