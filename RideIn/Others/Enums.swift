@@ -43,3 +43,14 @@ enum DateFormat {
     case hhmmss
 }
 
+//For animations lol
+enum AnimationState {
+    case animated
+    case dismissed
+}
+
+enum AnimatingViews {
+    case toContentSubview
+    case toTextField
+    case tableViewSubview
+}

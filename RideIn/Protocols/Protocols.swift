@@ -34,3 +34,9 @@ protocol NetworkManager {
 protocol DateTimeReturnable {
     func getDateTime(format: DateFormat, from trip: Trip?, for placeType: PlaceType) -> String
 }
+
+//MARK:- Constrainable
+protocol Constraintable {
+    func makeConstraint(forAnimationState state: AnimationState, animatingView: AnimatingViews, tableSubviewTopAnchor toView: UIView) -> NSLayoutConstraint
+}
+

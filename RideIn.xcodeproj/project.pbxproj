@@ -19,7 +19,7 @@
 		C04C9E7826246334007C47DC /* SustemExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E7726246334007C47DC /* SustemExtensions.swift */; };
 		C04C9E84262472D9007C47DC /* PassengersCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E83262472D9007C47DC /* PassengersCountViewController.swift */; };
 		C04C9EC226257A4E007C47DC /* RideSearchVC+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EC126257A4E007C47DC /* RideSearchVC+Extensions.swift */; };
-		C04C9EC526257AAD007C47DC /* MainURLFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EC426257AAD007C47DC /* MainURLFactory.swift */; };
+		C04C9EC526257AAD007C47DC /* Factories.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EC426257AAD007C47DC /* Factories.swift */; };
 		C04C9EC826257EDB007C47DC /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EC726257EDB007C47DC /* Protocols.swift */; };
 		C04C9ED126258244007C47DC /* MainNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9ED026258244007C47DC /* MainNetworkManager.swift */; };
 		C04C9F102626E8D6007C47DC /* RideSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9F0F2626E8D6007C47DC /* RideSearchTableViewCell.swift */; };
@@ -49,7 +49,7 @@
 		C04C9E7726246334007C47DC /* SustemExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SustemExtensions.swift; sourceTree = "<group>"; };
 		C04C9E83262472D9007C47DC /* PassengersCountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassengersCountViewController.swift; sourceTree = "<group>"; };
 		C04C9EC126257A4E007C47DC /* RideSearchVC+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RideSearchVC+Extensions.swift"; sourceTree = "<group>"; };
-		C04C9EC426257AAD007C47DC /* MainURLFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainURLFactory.swift; sourceTree = "<group>"; };
+		C04C9EC426257AAD007C47DC /* Factories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factories.swift; sourceTree = "<group>"; };
 		C04C9EC726257EDB007C47DC /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		C04C9ED026258244007C47DC /* MainNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNetworkManager.swift; sourceTree = "<group>"; };
 		C04C9F0F2626E8D6007C47DC /* RideSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSearchTableViewCell.swift; sourceTree = "<group>"; };
@@ -193,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				C00F85CF262EF91E00A29641 /* DateTimeManager.swift */,
+				C04C9EC426257AAD007C47DC /* Factories.swift */,
 				C0BEDBF426286779009B3062 /* Networking */,
 				C06513032628126300CF322B /* Cells */,
 			);
@@ -221,7 +222,6 @@
 		C0BEDBF426286779009B3062 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				C04C9EC426257AAD007C47DC /* MainURLFactory.swift */,
 				C04C9ED026258244007C47DC /* MainNetworkManager.swift */,
 				C0BEDBF52628678B009B3062 /* DataModel.swift */,
 			);
@@ -373,7 +373,7 @@
 				C04C9E84262472D9007C47DC /* PassengersCountViewController.swift in Sources */,
 				C00F85D0262EF91E00A29641 /* DateTimeManager.swift in Sources */,
 				C04C9F102626E8D6007C47DC /* RideSearchTableViewCell.swift in Sources */,
-				C04C9EC526257AAD007C47DC /* MainURLFactory.swift in Sources */,
+				C04C9EC526257AAD007C47DC /* Factories.swift in Sources */,
 				C04C9E5726244120007C47DC /* RideSearchViewController.swift in Sources */,
 				C04C9EC826257EDB007C47DC /* Protocols.swift in Sources */,
 				C06512FD26280E5100CF322B /* Enums.swift in Sources */,

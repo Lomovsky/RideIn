@@ -26,7 +26,7 @@ extension RideSearchViewController {
         guard let url = urlFactory.makeURL() else { return }
         
         networkManager.fetchRides(withURL: url) { [unowned self] (result) in
-        
+            
             switch result {
             case .failure(let error): assertionFailure("\(error)")
                 
@@ -348,10 +348,10 @@ extension RideSearchViewController: CLLocationManagerDelegate {
 }
 
 
-//MARK: Animations
+//MARK:- Animations
 extension RideSearchViewController {
     
-    func setHidden(to state: Bool) {
+    func setUIElementsHidden(to state: Bool) {
         dateView.isHidden = state
         bottomLine.isHidden = state
         topLine.isHidden = state
@@ -360,70 +360,50 @@ extension RideSearchViewController {
     }
     
     func animate(textField: UITextField) {
+        let constraintFactory: Constraintable = ConstraintFactory(view: view, toContentSubview: toContentSubview, toTextField: toTextField,
+                                                                  tableViewSubview: tableViewSubview)
         
         switch textField {
+        
         case fromTextField:
             view.setNeedsLayout()
+            tableViewSubviewTopConstraint.isActive = false
+            
+            tableViewSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .tableViewSubview, tableSubviewTopAnchor: fromContentSubview)
+            
+            tableViewSubviewTopConstraint.isActive = true
+            
             UIView.animate(withDuration: 0.3) {
                 self.navigationController?.setNavigationBarHidden(true, animated: true)
-                self.tableViewSubviewTopConstraint.isActive = false
-                self.tableViewSubviewTopConstraint.isActive = false
-                self.tableViewSubviewTopConstraint = NSLayoutConstraint(item: self.tableViewSubview, attribute: .top,
-                                                                        relatedBy: .equal,
-                                                                        toItem: self.fromContentSubview,
-                                                                        attribute: .bottom,
-                                                                        multiplier: 1,
-                                                                        constant: 0)
-                self.tableViewSubviewTopConstraint.isActive = true
-                self.tableViewSubviewTopConstraint.isActive = true
                 self.tableViewSubview.alpha = 1.0
                 self.view.layoutIfNeeded()
             }
-            setHidden(to: true)
+            setUIElementsHidden(to: true)
             fromBackButton.isHidden = false
             toContentSubview.isHidden = true
             
         case toTextField:
-            tableViewSubview.topAnchor.constraint(equalTo: fromTextField.bottomAnchor).isActive = false
-            tableViewSubview.topAnchor.constraint(equalTo: toTextField.bottomAnchor).isActive = true
             view.setNeedsLayout()
+            toContentSubviewTopConstraint.isActive = false
+            tableViewSubviewTopConstraint.isActive = false
+            toTFTopConstraint.isActive = false
+            
+            toContentSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .toContentSubview, tableSubviewTopAnchor: toContentSubview)
+            tableViewSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .tableViewSubview, tableSubviewTopAnchor: fromContentSubview)
+            toTFTopConstraint = constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .toTextField, tableSubviewTopAnchor: fromContentSubview)
+            
+            toContentSubviewTopConstraint.isActive = true
+            tableViewSubviewTopConstraint.isActive = true
+            toTFTopConstraint.isActive = true
+            
             UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut], animations: {
-                self.toContentSubviewTopConstraint.isActive = false
-                self.toTFTopConstraint.isActive = false
-                self.tableViewSubviewTopConstraint.isActive = false
-                
                 self.navigationController?.setNavigationBarHidden(true, animated: true)
-                self.toContentSubviewTopConstraint = NSLayoutConstraint(item: self.toContentSubview,
-                                                                        attribute: .top,
-                                                                        relatedBy: .equal,
-                                                                        toItem: self.view.safeAreaLayoutGuide,
-                                                                        attribute: .top,
-                                                                        multiplier: 1,
-                                                                        constant: 30)
-                self.toTFTopConstraint = NSLayoutConstraint(item: self.toTextField,
-                                                            attribute: .top,
-                                                            relatedBy: .equal,
-                                                            toItem: self.view.safeAreaLayoutGuide,
-                                                            attribute: .top,
-                                                            multiplier: 1,
-                                                            constant: 30)
-                self.tableViewSubviewTopConstraint = NSLayoutConstraint(item: self.tableViewSubview,
-                                                                        attribute: .top,
-                                                                        relatedBy: .equal,
-                                                                        toItem: self.toContentSubview,
-                                                                        attribute: .bottom,
-                                                                        multiplier: 1,
-                                                                        constant: 0)
-                self.toContentSubviewTopConstraint.isActive = true
-                self.toTFTopConstraint.isActive = true
-                self.tableViewSubviewTopConstraint.isActive = true
                 self.tableViewSubview.alpha = 1.0
                 self.view.layoutIfNeeded()
             })
-            setHidden(to: true)
+            setUIElementsHidden(to: true)
             fromContentSubview.isHidden = true
             toBackButton.isHidden = false
-            print(toTextField.frame)
             
         default:
             break
@@ -431,6 +411,8 @@ extension RideSearchViewController {
     }
     
     func dismissAnimation(textField: UITextField) {
+        let constraintFactory: Constraintable = ConstraintFactory(view: view, toContentSubview: toContentSubview, toTextField: toTextField,
+                                                                  tableViewSubview: tableViewSubview)
         
         switch textField {
         case fromTextField:
@@ -440,39 +422,28 @@ extension RideSearchViewController {
                 self.tableViewSubview.alpha = 0.0
                 self.view.layoutIfNeeded()
             }
-            
-            setHidden(to: false)
+            setUIElementsHidden(to: false)
             fromBackButton.isHidden = true
             toContentSubview.isHidden = false
-            print("\(fromTextField.frame) fromTF")
             
         case toTextField:
             toTextFieldTapped = false
             view.setNeedsLayout()
+            toContentSubviewTopConstraint.isActive = false
+            toTFTopConstraint.isActive = false
+            
+            toContentSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .toContentSubview, tableSubviewTopAnchor: toContentSubview)
+            toTFTopConstraint = constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .toTextField, tableSubviewTopAnchor: toContentSubview)
+            
+            toContentSubviewTopConstraint.isActive = true
+            toTFTopConstraint.isActive = true
+            
             UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut], animations: {
                 self.navigationController?.setNavigationBarHidden(false, animated: true)
-                self.toContentSubviewTopConstraint.isActive = false
-                self.toTFTopConstraint.isActive = false
-                self.toContentSubviewTopConstraint = NSLayoutConstraint(item: self.toContentSubview,
-                                                                        attribute: .top,
-                                                                        relatedBy: .equal,
-                                                                        toItem: self.view.safeAreaLayoutGuide,
-                                                                        attribute: .top,
-                                                                        multiplier: 1,
-                                                                        constant: 45 + (self.view.frame.height * 0.07))
-                self.toTFTopConstraint = NSLayoutConstraint(item: self.toTextField,
-                                                            attribute: .top,
-                                                            relatedBy: .equal,
-                                                            toItem: self.view.safeAreaLayoutGuide,
-                                                            attribute: .top,
-                                                            multiplier: 1,
-                                                            constant: 45 + (self.view.frame.height * 0.07))
-                self.toContentSubviewTopConstraint.isActive = true
-                self.toTFTopConstraint.isActive = true
                 self.tableViewSubview.alpha = 0.0
                 self.view.layoutIfNeeded()
             })
-            setHidden(to: false)
+            setUIElementsHidden(to: false)
             fromContentSubview.isHidden = false
             toBackButton.isHidden = true
             print(toTextField.frame)
@@ -483,6 +454,8 @@ extension RideSearchViewController {
         }
     }
 }
+
+
 
 
 

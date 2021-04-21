@@ -48,6 +48,7 @@ final class RideSearchViewController: UIViewController {
         }
     }
     
+    
     //MARK: UIElements -
     let fromContentSubview: UIView = {
         let view = UIView()
@@ -286,13 +287,10 @@ final class RideSearchViewController: UIViewController {
     }
     
     private func setupToContentSubview() {
-        toContentSubviewTopConstraint = NSLayoutConstraint(item: toContentSubview,
-                                               attribute: .top,
-                                               relatedBy: .equal,
-                                               toItem: view.safeAreaLayoutGuide,
-                                               attribute: .top,
-                                               multiplier: 1,
-                                               constant: 45 + (view.frame.height * 0.07))
+        toContentSubviewTopConstraint = NSLayoutConstraint(item: toContentSubview, attribute: .top,
+                                                           relatedBy: .equal, toItem: view.safeAreaLayoutGuide,
+                                                           attribute: .top, multiplier: 1,
+                                                           constant: 45 + (view.frame.height * 0.07))
         
         NSLayoutConstraint.activate([
             toContentSubviewTopConstraint,
