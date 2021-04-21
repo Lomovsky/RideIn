@@ -37,7 +37,7 @@ extension MapViewController: UITextFieldDelegate {
     }
     
     
-    @objc func textFieldHasBeenActivated(textField: UITextField) {
+    @objc final func textFieldHasBeenActivated(textField: UITextField) {
         animateTableView(toSelected: true)
         backButton.removeTarget(self, action: #selector(goBack), for: .touchUpInside)
         backButton.addTarget(self, action: #selector(dismissTableView), for: .touchUpInside)
@@ -86,7 +86,7 @@ extension MapViewController {
     }
     
     
-    @objc func longTap(sender: UIGestureRecognizer){
+    @objc final func longTap(sender: UIGestureRecognizer){
         print("long tap")
         if sender.state == .began {
             let locationInView = sender.location(in: mapView)

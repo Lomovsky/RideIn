@@ -9,18 +9,18 @@
 /* Begin PBXBuildFile section */
 		89F6E2502EA5ABEAD79E7600 /* Pods_RideIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 676745E0D76715737F9F8FBC /* Pods_RideIn.framework */; };
 		C007F3FB262987E40015D2E2 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C007F3FA262987E40015D2E2 /* Storyboard.storyboard */; };
-		C007F3FF2629BBFC0015D2E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C007F3FE2629BBFC0015D2E2 /* ViewController.swift */; };
+		C00F85CC262EF76900A29641 /* TripsVC+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00F85CB262EF76900A29641 /* TripsVC+Extensions.swift */; };
+		C00F85D0262EF91E00A29641 /* DateTimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00F85CF262EF91E00A29641 /* DateTimeManager.swift */; };
+		C00F85E0262FFFE800A29641 /* SelectedTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00F85DF262FFFE800A29641 /* SelectedTripViewController.swift */; };
 		C04C9E5326244120007C47DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E5226244120007C47DC /* AppDelegate.swift */; };
 		C04C9E5526244120007C47DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E5426244120007C47DC /* SceneDelegate.swift */; };
 		C04C9E5726244120007C47DC /* RideSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E5626244120007C47DC /* RideSearchViewController.swift */; };
 		C04C9E5C26244124007C47DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C04C9E5B26244124007C47DC /* Assets.xcassets */; };
-		C04C9E5F26244124007C47DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C04C9E5D26244124007C47DC /* LaunchScreen.storyboard */; };
 		C04C9E7826246334007C47DC /* SustemExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E7726246334007C47DC /* SustemExtensions.swift */; };
 		C04C9E84262472D9007C47DC /* PassengersCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E83262472D9007C47DC /* PassengersCountViewController.swift */; };
 		C04C9EC226257A4E007C47DC /* RideSearchVC+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EC126257A4E007C47DC /* RideSearchVC+Extensions.swift */; };
 		C04C9EC526257AAD007C47DC /* MainURLFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EC426257AAD007C47DC /* MainURLFactory.swift */; };
-		C04C9EC826257EDB007C47DC /* URLFactoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EC726257EDB007C47DC /* URLFactoryProtocol.swift */; };
-		C04C9ECE26258209007C47DC /* NetworkManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9ECD26258209007C47DC /* NetworkManagerProtocol.swift */; };
+		C04C9EC826257EDB007C47DC /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EC726257EDB007C47DC /* Protocols.swift */; };
 		C04C9ED126258244007C47DC /* MainNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9ED026258244007C47DC /* MainNetworkManager.swift */; };
 		C04C9F102626E8D6007C47DC /* RideSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9F0F2626E8D6007C47DC /* RideSearchTableViewCell.swift */; };
 		C06512FD26280E5100CF322B /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06512FC26280E5100CF322B /* Enums.swift */; };
@@ -37,20 +37,20 @@
 		0723177FAC2C4B7C9467C7A3 /* Pods-RideIn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RideIn.debug.xcconfig"; path = "Target Support Files/Pods-RideIn/Pods-RideIn.debug.xcconfig"; sourceTree = "<group>"; };
 		676745E0D76715737F9F8FBC /* Pods_RideIn.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RideIn.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C007F3FA262987E40015D2E2 /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
-		C007F3FE2629BBFC0015D2E2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C00F85CB262EF76900A29641 /* TripsVC+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TripsVC+Extensions.swift"; sourceTree = "<group>"; };
+		C00F85CF262EF91E00A29641 /* DateTimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeManager.swift; sourceTree = "<group>"; };
+		C00F85DF262FFFE800A29641 /* SelectedTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTripViewController.swift; sourceTree = "<group>"; };
 		C04C9E4F26244120007C47DC /* RideIn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RideIn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C04C9E5226244120007C47DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C04C9E5426244120007C47DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C04C9E5626244120007C47DC /* RideSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSearchViewController.swift; sourceTree = "<group>"; };
 		C04C9E5B26244124007C47DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		C04C9E5E26244124007C47DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C04C9E6026244124007C47DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C04C9E7726246334007C47DC /* SustemExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SustemExtensions.swift; sourceTree = "<group>"; };
 		C04C9E83262472D9007C47DC /* PassengersCountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassengersCountViewController.swift; sourceTree = "<group>"; };
 		C04C9EC126257A4E007C47DC /* RideSearchVC+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RideSearchVC+Extensions.swift"; sourceTree = "<group>"; };
 		C04C9EC426257AAD007C47DC /* MainURLFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainURLFactory.swift; sourceTree = "<group>"; };
-		C04C9EC726257EDB007C47DC /* URLFactoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLFactoryProtocol.swift; sourceTree = "<group>"; };
-		C04C9ECD26258209007C47DC /* NetworkManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerProtocol.swift; sourceTree = "<group>"; };
+		C04C9EC726257EDB007C47DC /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		C04C9ED026258244007C47DC /* MainNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNetworkManager.swift; sourceTree = "<group>"; };
 		C04C9F0F2626E8D6007C47DC /* RideSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSearchTableViewCell.swift; sourceTree = "<group>"; };
 		C06512FC26280E5100CF322B /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
@@ -93,6 +93,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C00F85DE262FFFC200A29641 /* SelectedTripVC */ = {
+			isa = PBXGroup;
+			children = (
+				C00F85DF262FFFE800A29641 /* SelectedTripViewController.swift */,
+			);
+			path = SelectedTripVC;
+			sourceTree = "<group>";
+		};
 		C04C9E462624411F007C47DC = {
 			isa = PBXGroup;
 			children = (
@@ -115,7 +123,6 @@
 			isa = PBXGroup;
 			children = (
 				C04C9E5B26244124007C47DC /* Assets.xcassets */,
-				C04C9E5D26244124007C47DC /* LaunchScreen.storyboard */,
 				C04C9E6026244124007C47DC /* Info.plist */,
 				C04C9E69262441B4007C47DC /* ApplicationDelegates */,
 				C04C9E6A262441C4007C47DC /* ViewControllers */,
@@ -143,7 +150,7 @@
 				C04C9E82262472A0007C47DC /* PassengersCountVC */,
 				C08291A22626EE9900C686F3 /* MapVC */,
 				C0BEDBF926286F8E009B3062 /* TripsVC */,
-				C007F3FE2629BBFC0015D2E2 /* ViewController.swift */,
+				C00F85DE262FFFC200A29641 /* SelectedTripVC */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -177,8 +184,7 @@
 		C04C9E87262472F9007C47DC /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				C04C9EC726257EDB007C47DC /* URLFactoryProtocol.swift */,
-				C04C9ECD26258209007C47DC /* NetworkManagerProtocol.swift */,
+				C04C9EC726257EDB007C47DC /* Protocols.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -186,6 +192,7 @@
 		C04C9E9B262477C0007C47DC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C00F85CF262EF91E00A29641 /* DateTimeManager.swift */,
 				C0BEDBF426286779009B3062 /* Networking */,
 				C06513032628126300CF322B /* Cells */,
 			);
@@ -225,6 +232,7 @@
 			isa = PBXGroup;
 			children = (
 				C0BEDBFA26286FB5009B3062 /* TripsViewController.swift */,
+				C00F85CB262EF76900A29641 /* TripsVC+Extensions.swift */,
 			);
 			path = TripsVC;
 			sourceTree = "<group>";
@@ -305,7 +313,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C04C9E5F26244124007C47DC /* LaunchScreen.storyboard in Resources */,
 				C04C9E5C26244124007C47DC /* Assets.xcassets in Resources */,
 				C007F3FB262987E40015D2E2 /* Storyboard.storyboard in Resources */,
 			);
@@ -364,15 +371,16 @@
 				C04C9EC226257A4E007C47DC /* RideSearchVC+Extensions.swift in Sources */,
 				C0BEDBFB26286FB5009B3062 /* TripsViewController.swift in Sources */,
 				C04C9E84262472D9007C47DC /* PassengersCountViewController.swift in Sources */,
+				C00F85D0262EF91E00A29641 /* DateTimeManager.swift in Sources */,
 				C04C9F102626E8D6007C47DC /* RideSearchTableViewCell.swift in Sources */,
 				C04C9EC526257AAD007C47DC /* MainURLFactory.swift in Sources */,
 				C04C9E5726244120007C47DC /* RideSearchViewController.swift in Sources */,
-				C04C9EC826257EDB007C47DC /* URLFactoryProtocol.swift in Sources */,
+				C04C9EC826257EDB007C47DC /* Protocols.swift in Sources */,
 				C06512FD26280E5100CF322B /* Enums.swift in Sources */,
+				C00F85E0262FFFE800A29641 /* SelectedTripViewController.swift in Sources */,
+				C00F85CC262EF76900A29641 /* TripsVC+Extensions.swift in Sources */,
 				C0AA7743262732C700EE3A42 /* MapVC+Extensions.swift in Sources */,
-				C007F3FF2629BBFC0015D2E2 /* ViewController.swift in Sources */,
 				C08291A42626EECA00C686F3 /* MapViewController.swift in Sources */,
-				C04C9ECE26258209007C47DC /* NetworkManagerProtocol.swift in Sources */,
 				C0CFDC30262872BC00C90E6A /* MapVC+MKExtenstions.swift in Sources */,
 				C0CFDC362629678500C90E6A /* TripCollectionViewCell.swift in Sources */,
 				C08291AF26271E2800C686F3 /* MapTableViewCell.swift in Sources */,
@@ -384,17 +392,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		C04C9E5D26244124007C47DC /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C04C9E5E26244124007C47DC /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		C04C9E6126244124007C47DC /* Debug */ = {

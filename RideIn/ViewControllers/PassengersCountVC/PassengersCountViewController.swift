@@ -13,25 +13,25 @@ final class PassengersCountViewController: UIViewController {
     weak var rideSearchDelegate: RideSearchDelegate?
     
     //MARK: UIElements -
-    let controllerTitle: UILabel = {
+    private let controllerTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let minusButton: UIButton = {
+    private let minusButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    let plusButton: UIButton = {
+    private let plusButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    let countLabel: UILabel = {
+    private let countLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

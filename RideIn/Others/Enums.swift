@@ -28,6 +28,7 @@ enum Query {
     static var seats = "1"
     static var fromCoordinates = String()
     static var toCoordinates = String()
+    static var date: String?
 }
 
 //To operate with different types of requests
@@ -35,3 +36,10 @@ enum PlaceType {
     case from
     case to
 }
+
+//To get date or time from Trip
+enum DateFormat {
+    case dddmmyy
+    case hhmmss
+}
+

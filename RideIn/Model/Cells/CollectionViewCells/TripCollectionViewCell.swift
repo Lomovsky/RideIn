@@ -104,11 +104,11 @@ class TripCollectionViewCell: UICollectionViewCell {
         setupDepatureTimeLabel()
         setupTopCircle()
         setupDeparturePlace()
-        setupPiceLabel()
         setupLine()
         setupArrivingTimeLabel()
         setupBottomCircle()
         setupArrivingPlace()
+        setupPriceLabel()
         
     }
     
@@ -134,6 +134,7 @@ class TripCollectionViewCell: UICollectionViewCell {
         backgroundSubview.addSubview(lineView)
         backgroundSubview.addSubview(departurePlaceLabel)
         backgroundSubview.addSubview(arrivingPlaceLabel)
+        backgroundSubview.addSubview(priceLabel)
     }
     
     private func setupFilterTypeSubview() {
@@ -144,7 +145,7 @@ class TripCollectionViewCell: UICollectionViewCell {
             filterTypeSubview.widthAnchor.constraint(equalTo: backgroundSubview.widthAnchor, multiplier: 0.4)
         ])
         filterTypeSubview.backgroundColor = .lightBlue
-        filterTypeSubview.layer.cornerRadius = 15
+        filterTypeSubview.layer.cornerRadius = 10
         filterTypeSubview.addSubview(filterTypeTopSubview)
         filterTypeSubview.addSubview(filterTypeLabel)
     }
@@ -153,7 +154,8 @@ class TripCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             filterTypeTopSubview.topAnchor.constraint(equalTo: filterTypeSubview.topAnchor),
             filterTypeTopSubview.bottomAnchor.constraint(equalTo: filterTypeSubview.centerYAnchor),
-            filterTypeTopSubview.widthAnchor.constraint(equalTo: filterTypeSubview.widthAnchor)
+            filterTypeTopSubview.widthAnchor.constraint(equalTo: filterTypeSubview.widthAnchor),
+            filterTypeTopSubview.centerXAnchor.constraint(equalTo: filterTypeSubview.centerXAnchor)
         ])
         filterTypeTopSubview.backgroundColor = .lightBlue
     }
@@ -192,15 +194,14 @@ class TripCollectionViewCell: UICollectionViewCell {
     private func setupDeparturePlace() {
         NSLayoutConstraint.activate([
             departurePlaceLabel.centerYAnchor.constraint(equalTo: departureTimeLabel.centerYAnchor),
-            departurePlaceLabel.leadingAnchor.constraint(equalTo: topCircle.trailingAnchor, constant: 10)
+            departurePlaceLabel.leadingAnchor.constraint(equalTo: topCircle.trailingAnchor, constant: 10),
+            departurePlaceLabel.trailingAnchor.constraint(equalTo: priceLabel.leadingAnchor, constant: -5)
         ])
         departurePlaceLabel.text = "Херсон"
         departurePlaceLabel.textColor = .darkGray
-        departurePlaceLabel.font = .boldSystemFont(ofSize: 20)
-    }
-    
-    private func setupPiceLabel() {
-        
+        departurePlaceLabel.font = .boldSystemFont(ofSize: 15)
+        departurePlaceLabel.numberOfLines = 1
+        departurePlaceLabel.clipsToBounds = true
     }
     
     private func setupLine() {
@@ -236,12 +237,39 @@ class TripCollectionViewCell: UICollectionViewCell {
     private func setupArrivingPlace() {
         NSLayoutConstraint.activate([
             arrivingPlaceLabel.centerYAnchor.constraint(equalTo: arrivingTimeLabel.centerYAnchor),
-            arrivingPlaceLabel.leadingAnchor.constraint(equalTo: bottomCircle.trailingAnchor, constant: 10)
+            arrivingPlaceLabel.leadingAnchor.constraint(equalTo: bottomCircle.trailingAnchor, constant: 10),
+            arrivingPlaceLabel.trailingAnchor.constraint(equalTo: priceLabel.leadingAnchor, constant:  -5)
         ])
         arrivingPlaceLabel.text = "Николаев"
         arrivingPlaceLabel.textColor = .darkGray
-        arrivingPlaceLabel.font = .boldSystemFont(ofSize: 20)
+        arrivingPlaceLabel.font = .boldSystemFont(ofSize: 15)
+        arrivingPlaceLabel.numberOfLines = 1
     }
     
+    private func setupPriceLabel() {
+        NSLayoutConstraint.activate([
+            priceLabel.centerYAnchor.constraint(equalTo: departurePlaceLabel.centerYAnchor),
+            priceLabel.trailingAnchor.constraint(equalTo: backgroundSubview.trailingAnchor, constant: -25),
+        ])
+        priceLabel.text = "150"
+        priceLabel.textColor = .darkGray
+        priceLabel.font = .boldSystemFont(ofSize: 15)
+    }
     
+    func configureTheCell(departurePlace: String, arrivingPlace: String, departureTime: String, arrivingTime: String, filterType: String?, price: String) {
+        
+        priceLabel.text = price
+        departurePlaceLabel.text = departurePlace
+        arrivingPlaceLabel.text = arrivingPlace
+        departureTimeLabel.text = departureTime
+        arrivingTimeLabel.text = arrivingTime
+        
+        if filterType != nil {
+            filterTypeLabel.text = filterType
+        } else {
+            filterTypeLabel.isHidden = true
+            filterTypeSubview.isHidden = true
+            filterTypeTopSubview.isHidden = true
+        }
+    }
 }

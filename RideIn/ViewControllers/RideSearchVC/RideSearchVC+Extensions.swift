@@ -22,26 +22,28 @@ extension RideSearchViewController {
         urlFactory.setCoordinates(coordinates: fromCoordinates, place: .from)
         urlFactory.setCoordinates(coordinates: toCoordinates, place: .to)
         urlFactory.setSeats(seats: "\(passengersCount)")
+        if date != nil { urlFactory.setDate(date: date!) }
         guard let url = urlFactory.makeURL() else { return }
-        print(url)
+        
         networkManager.fetchRides(withURL: url) { [unowned self] (result) in
+        
             switch result {
-            case .failure(let error):
-                print(error)
+            case .failure(let error): assertionFailure("\(error)")
                 
-            case .success(let trips):
-                self.showTripsVC(trips: trips)
+            case .success(let trips): self.prepareDataForTripsVC(trips: trips)
             }
         }
     }
     
-    @objc func dismissFromTextField() {
+    @objc final func dismissFromTextField() {
         fromTextField.resignFirstResponder()
+        checkTextFields()
         dismissAnimation(textField: fromTextField)
     }
     
-    @objc func dismissToTextField() {
+    @objc final func dismissToTextField() {
         toTextField.resignFirstResponder()
+        checkTextFields()
         dismissAnimation(textField: toTextField)
     }
     
@@ -52,12 +54,23 @@ extension RideSearchViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func showTripsVC(trips: [Trip]) {
-        let vc = TripsViewController()
-        vc.trips = trips
-        vc.rideSearchDelegate = self
-        navigationController?.pushViewController(vc, animated: true)
+    @objc final func changeDate(sender: UIDatePicker) {
+        guard let day = Calendar.current.dateComponents([.day], from: datePicker.date).day,
+              let month = Calendar.current.dateComponents([.month], from: datePicker.date).month,
+              let year = Calendar.current.dateComponents([.year], from: datePicker.date).year
+        else { return }
+        
+        let yearString = "\(String(describing: year))"
+        var dayString = "\(String(describing: day))"
+        var monthString = "\(String(describing: month))"
+        
+        if day < 10 { dayString = "0\(String(describing: day))" }
+        if month < 10 { monthString = "0\(String(describing: month))" }
+        
+        date = yearString + "-" + monthString + "-" + dayString + "T00:00:00"
     }
+    
+    
     
     func configureIndicatorAndButton(indicatorState: Bool) {
         if indicatorState {
@@ -84,33 +97,73 @@ extension RideSearchViewController {
         }
     }
     
-    func checkTextFields() {
-        if !(fromTextField.text?.isEmpty ?? true), fromTextField.text != "",
-           !(toTextField.text?.isEmpty ?? true), toTextField.text != "" {
-            searchButton.isHidden = false
-        } else {
+    private func checkTextFields() {
+        guard !(fromTextField.text?.isEmpty ?? true), fromTextField.text != "",
+              !(toTextField.text?.isEmpty ?? true), fromTextField.text != "" else {
             searchButton.isHidden = true
-        }
+            return }
+        searchButton.isHidden = false
     }
     
-    func lookForPlaces(withWord word: String?) {
+    private func lookForPlaces(withWord word: String?) {
         guard let text = word, text != "" else { return }
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = text
         request.region = mapView.region
-        
         let search = MKLocalSearch(request: request)
         
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [unowned self] (_) in
             search.start { response, _ in
-                guard let response = response else {
-                    return
-                }
+                guard let response = response else { return }
                 self.matchingItems = response.mapItems
                 self.searchTableView.reloadData()
             }
         })
+    }
+    
+    private func getDistance(userLocation: CLLocation, departurePoint: CLLocation) -> CLLocationDistance {
+        return userLocation.distance(from: departurePoint)
+    }
+    
+    private func compareDistances(first: CLLocationDistance, second: CLLocationDistance) -> Bool {
+        return second.isLess(than: first)
+    }
+    
+    private func prepareDataForTripsVC(trips: [Trip]) {
+        
+        let cheapToBottom = trips.sorted(by: { Float($0.price.amount) ?? 0 < Float($1.price.amount) ?? 0  })
+        let cheapToTop = trips.sorted(by: { Float($0.price.amount) ?? 0 > Float($1.price.amount) ?? 0  })
+        let cheapestTrip = cheapToTop.last
+        let closestTrip = trips.sorted(by: { (trip1, trip2) -> Bool in
+            
+            let trip1Coordinates = CLLocation(latitude: trip1.waypoints.first!.place.latitude, longitude: trip1.waypoints.first!.place.longitude)
+            let trip2Coordinates = CLLocation(latitude: trip2.waypoints.first!.place.latitude, longitude: trip2.waypoints.first!.place.longitude)
+            
+            let distance1 = getDistance(userLocation: fromCLLocation, departurePoint: trip1Coordinates)
+            let distance2 = getDistance(userLocation: fromCLLocation, departurePoint: trip2Coordinates)
+            
+            return compareDistances(first: distance1, second: distance2)
+        }).first
+        
+        showTripsVC(trips: trips, cheapToTop: cheapToTop, expensiveToTop: cheapToBottom,
+                    cheapestTrip: cheapestTrip!, closestTrip: closestTrip!)
+    }
+    
+    private func showTripsVC(trips: [Trip], cheapToTop: [Trip], expensiveToTop: [Trip], cheapestTrip: Trip, closestTrip: Trip) {
+        let vc = TripsViewController()
+        if date != nil { vc.date = date!.components(separatedBy: "T").first ?? "" }
+        vc.trips = trips
+        vc.cheapTripsToBottom = cheapToTop
+        vc.cheapTripsToTop = expensiveToTop
+        vc.cheapestTrip = cheapestTrip
+        vc.closestTrip = closestTrip
+        vc.departurePlaceName = fromTextField.text ?? ""
+        vc.arrivingPlaceName = toTextField.text ?? ""
+        vc.numberOfPassengers = "\(passengersCount) человек"
+        vc.rideSearchDelegate = self
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }
@@ -120,15 +173,12 @@ extension RideSearchViewController {
 extension RideSearchViewController: UITextFieldDelegate {
     
     @objc final func textFieldDidChange(_ textField: UITextField) {
-        switch textField {
+        checkTextFields()
         
-        case fromTextField:
-            lookForPlaces(withWord: fromTextField.text)
-            checkTextFields()
+        switch textField {
+        case fromTextField: lookForPlaces(withWord: fromTextField.text)
             
-        case toTextField:
-            lookForPlaces(withWord: toTextField.text)
-            checkTextFields()
+        case toTextField: lookForPlaces(withWord: toTextField.text)
             
         default:
             break
@@ -136,8 +186,8 @@ extension RideSearchViewController: UITextFieldDelegate {
     }
     
     @objc func textFieldHasBeenActivated(textField: UITextField) {
-        switch textField {
         
+        switch textField {
         case fromTextField:
             chosenTF = fromTextField
             if !fromTextFieldTapped {
@@ -163,7 +213,6 @@ extension RideSearchViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-    
 }
 
 //MARK: - RideSearchDelegate
@@ -196,6 +245,7 @@ extension RideSearchViewController: RideSearchDelegate {
         switch placeType {
         case .from:
             fromCoordinates = "\(latitude),\(longitude)"
+            fromCLLocation = CLLocation(latitude: latitude, longitude: longitude)
             
         case .to:
             toCoordinates = "\(latitude),\(longitude)"
@@ -231,16 +281,13 @@ extension RideSearchViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RideSearchTableViewCell.reuseIdentifier, for: indexPath) as! RideSearchTableViewCell
-        
         let place = matchingItems[indexPath.row].placemark
-        print(matchingItems.count)
         
+        print(matchingItems.count)
         cell.textLabel?.font = .boldSystemFont(ofSize: 20)
         cell.textLabel?.numberOfLines = 0
         cell.textLabel?.textColor = .darkGray
-        
         cell.textLabel?.text = place.name
-        
         return cell
     }
     
@@ -291,7 +338,6 @@ extension RideSearchViewController: CLLocationManagerDelegate {
             let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
             let region = MKCoordinateRegion(center: location.coordinate, span: span)
             mapView.setRegion(region, animated: false)
-            
         }
     }
     
@@ -306,8 +352,7 @@ extension RideSearchViewController: CLLocationManagerDelegate {
 extension RideSearchViewController {
     
     func setHidden(to state: Bool) {
-        dateButton.isHidden = state
-        searchButton.isHidden = state
+        dateView.isHidden = state
         bottomLine.isHidden = state
         topLine.isHidden = state
         passengersButton.isHidden = state
@@ -323,8 +368,7 @@ extension RideSearchViewController {
                 self.navigationController?.setNavigationBarHidden(true, animated: true)
                 self.tableViewSubviewTopConstraint.isActive = false
                 self.tableViewSubviewTopConstraint.isActive = false
-                self.tableViewSubviewTopConstraint = NSLayoutConstraint(item: self.tableViewSubview,
-                                                                        attribute: .top,
+                self.tableViewSubviewTopConstraint = NSLayoutConstraint(item: self.tableViewSubview, attribute: .top,
                                                                         relatedBy: .equal,
                                                                         toItem: self.fromContentSubview,
                                                                         attribute: .bottom,

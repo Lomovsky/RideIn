@@ -8,15 +8,8 @@
 import UIKit
 import MapKit
 
-protocol RideSearchDelegate: class {
-    func changePassengersCount(with operation: Operation)
-    func getPassengersCount() -> String
-    func continueAfterMapVC(from placeType: PlaceType, withPlaceName name: String)
-    func setCoordinates(placemark: MKPlacemark, forPlace placeType: PlaceType)
-    func setNavigationControllerHidden(to state: Bool, animated: Bool)
-}
-
 final class RideSearchViewController: UIViewController {
+    
     var trips = [Trip]()
     
     let urlFactory: URLFactory = MainURLFactory()
@@ -28,6 +21,7 @@ final class RideSearchViewController: UIViewController {
         
     var timer: Timer?
 
+    var fromCLLocation = CLLocation()
     var fromCoordinates = String()
     var toCoordinates = String()
     
@@ -40,6 +34,7 @@ final class RideSearchViewController: UIViewController {
     var fromTextFieldTapped = false
     var toTextFieldTapped = false
     
+    var date: String? = nil
     var passengersCount = 1
     var passengerDeclension: Declensions {
         get {
@@ -123,7 +118,8 @@ final class RideSearchViewController: UIViewController {
     let searchTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(RideSearchTableViewCell.self, forCellReuseIdentifier: RideSearchTableViewCell.reuseIdentifier)
+        tableView.register(RideSearchTableViewCell.self,
+                           forCellReuseIdentifier: RideSearchTableViewCell.reuseIdentifier)
         return tableView
     }()
     
@@ -133,10 +129,16 @@ final class RideSearchViewController: UIViewController {
         return view
     }()
     
-    let dateButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+    let dateView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let datePicker: UIDatePicker = {
+        let picker = UIDatePicker()
+        picker.translatesAutoresizingMaskIntoConstraints = false
+        return picker
     }()
     
     let passengersButton: UIButton = {
@@ -169,6 +171,8 @@ final class RideSearchViewController: UIViewController {
         return map
     }()
     
+   
+    
     //MARK: viewDidLoad -
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -184,7 +188,7 @@ final class RideSearchViewController: UIViewController {
         view.addSubview(toContentSubview)
         view.addSubview(toTextField)
         view.addSubview(topLine)
-        view.addSubview(dateButton)
+        view.addSubview(dateView)
         view.addSubview(passengersButton)
         view.addSubview(bottomLine)
         view.addSubview(searchButton)
@@ -200,7 +204,8 @@ final class RideSearchViewController: UIViewController {
         setupToBackButton()
         setupToTF()
         setupTopLine()
-        setupDateButton()
+        setupDateView()
+        setupDatePicker()
         setupPassengerButton()
         setupBottomLine()
         setupSearchButton()
@@ -319,12 +324,9 @@ final class RideSearchViewController: UIViewController {
     }
     
     private func setupToTF() {
-        toTFTopConstraint = NSLayoutConstraint(item: toTextField,
-                                               attribute: .top,
-                                               relatedBy: .equal,
-                                               toItem: view.safeAreaLayoutGuide,
-                                               attribute: .top,
-                                               multiplier: 1,
+        toTFTopConstraint = NSLayoutConstraint(item: toTextField, attribute: .top,
+                                               relatedBy: .equal, toItem: view.safeAreaLayoutGuide,
+                                               attribute: .top, multiplier: 1,
                                                constant: 45 + (view.frame.height * 0.07))
         NSLayoutConstraint.activate([
             toTFTopConstraint,
@@ -357,14 +359,22 @@ final class RideSearchViewController: UIViewController {
         topLine.backgroundColor = .systemGray5
     }
     
-    private func setupDateButton() {
+    private func setupDateView() {
         NSLayoutConstraint.activate([
-            dateButton.topAnchor.constraint(equalTo: topLine.bottomAnchor, constant: 20),
-            dateButton.leadingAnchor.constraint(equalTo: topLine.leadingAnchor),
+            dateView.topAnchor.constraint(equalTo: topLine.bottomAnchor, constant: 20),
+            dateView.leadingAnchor.constraint(equalTo: topLine.leadingAnchor),
+            dateView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+            dateView.heightAnchor.constraint(equalTo: passengersButton.heightAnchor)
         ])
-        dateButton.setTitle("Сегодня", for: .normal)
-        dateButton.setTitleColor(.lightBlue, for: .normal)
-        dateButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        dateView.backgroundColor = .clear
+        dateView.addSubview(datePicker)
+    }
+    
+    private func setupDatePicker() {
+        datePicker.frame = dateView.frame
+        datePicker.calendar = .autoupdatingCurrent
+        datePicker.datePickerMode = .date
+        datePicker.addTarget(self, action: #selector(changeDate(sender:)), for: .valueChanged)
     }
     
     private func setupPassengerButton() {
