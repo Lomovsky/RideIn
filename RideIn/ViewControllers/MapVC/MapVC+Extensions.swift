@@ -127,8 +127,11 @@ extension MapViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MapTableViewCell.reuseIdentifier, for: indexPath) as! MapTableViewCell
         let place = matchingItems[indexPath.row].placemark
+        guard let contry = place.country,
+              let administrativeArea = place.administrativeArea,
+              let name = place.name else { return UITableViewCell()}
         
-        cell.textLabel?.text = place.name
+        cell.textLabel?.text = ("\(contry), \(administrativeArea), \(name)")
         cell.detailTextLabel?.isHidden = false
         cell.detailTextLabel?.text = parseAddress(selectedItem: place)
         return cell

@@ -17,10 +17,13 @@ final class MapViewController: UIViewController {
     
     var placeType: PlaceType?
     var timer: Timer?
+    var distance = Int()
     
     var ignoreLocation = false
     var gestureRecognizerEnabled = true
     var textFieldActivated = false
+    var distanceSubviewIsHidden = true
+    var textFieldActivationObserverEnabled = true
     
     weak var rideSearchDelegate: RideSearchDelegate?
     
@@ -68,7 +71,18 @@ final class MapViewController: UIViewController {
         return button
     }()
     
- 
+    let distanceSubview: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let distanceLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     
     //MARK: viewDidLoad -
     override func viewDidLoad() {
@@ -89,7 +103,7 @@ final class MapViewController: UIViewController {
         view.addSubview(placesTableView)
         
         setupLongTapRecognizer()
-        
+    
         setupView()
         setupNavigationView()
         setupContentSubview()
@@ -98,6 +112,8 @@ final class MapViewController: UIViewController {
         setupSearchTF()
         setupTableView()
         setupProceedButton()
+        setupDistanceSubView()
+        setupDistanceLabel()
     }
     
     
@@ -158,9 +174,14 @@ final class MapViewController: UIViewController {
         searchTF.font = .boldSystemFont(ofSize: 16)
         searchTF.textColor = .black
         searchTF.textAlignment = .left
-        searchTF.addTarget(self, action: #selector(textFieldDidChange(_:)),
-                           for: .editingChanged)
-        searchTF.addTarget(self, action: #selector(textFieldHasBeenActivated), for: .touchDown)
+        if textFieldActivationObserverEnabled {
+            searchTF.addTarget(self, action: #selector(textFieldDidChange(_:)),
+                               for: .editingChanged)
+            searchTF.addTarget(self, action: #selector(textFieldHasBeenActivated), for: .touchDown)
+            searchTF.isEnabled = true
+        } else {
+            searchTF.isEnabled = false
+        }
         searchTF.delegate = self
     }
     
@@ -173,6 +194,8 @@ final class MapViewController: UIViewController {
         ])
         mapView.showsBuildings = true
         mapView.showsUserLocation = true
+        mapView.addSubview(distanceSubview)
+        
     }
     
     private func setupTableView() {
@@ -205,10 +228,32 @@ final class MapViewController: UIViewController {
         proceedButton.addTarget(self, action: #selector(sendCoordinatesToRideSearchVC), for: .touchUpInside)
     }
     
+    private func setupDistanceSubView() {
+        NSLayoutConstraint.activate([
+            distanceSubview.topAnchor.constraint(equalTo: mapView.topAnchor),
+            distanceSubview.leadingAnchor.constraint(equalTo: mapView.leadingAnchor),
+            distanceSubview.trailingAnchor.constraint(equalTo: mapView.trailingAnchor),
+            distanceSubview.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.04)
+        ])
+        distanceSubview.setBlurBackground()
+        distanceSubview.addSubview(distanceLabel)
+        distanceSubview.isHidden = distanceSubviewIsHidden
+    }
+    
+    private func setupDistanceLabel() {
+        NSLayoutConstraint.activate([
+            distanceLabel.centerXAnchor.constraint(equalTo: distanceSubview.centerXAnchor),
+            distanceLabel.centerYAnchor.constraint(equalTo: distanceSubview.centerYAnchor)
+        ])
+        distanceLabel.textAlignment = .center
+        distanceLabel.textColor = .systemGray
+        distanceLabel.font = .boldSystemFont(ofSize: 20)
+        distanceLabel.text = "Расстояние: \(distance) км"
+    }
+    
     deinit {
         print("deallocating\(self)")
     }
     
 }
-
 

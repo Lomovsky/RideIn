@@ -8,6 +8,16 @@
 import UIKit
 import MapKit
 
+//MARK:- UIGestureRecognizerDelegate
+extension RideSearchViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+
+}
+
 //MARK:- Helping methods
 extension RideSearchViewController {
     
@@ -18,7 +28,7 @@ extension RideSearchViewController {
     }
     
     @objc final func searchButtonTapped() {
-        configureIndicatorAndButton(indicatorState: true)
+        configureIndicatorAndButton(indicatorEnabled: true)
         urlFactory.setCoordinates(coordinates: departureCoordinates, place: .department)
         urlFactory.setCoordinates(coordinates: destinationCoordinates, place: .destination)
         urlFactory.setSeats(seats: "\(passengersCount)")
@@ -70,8 +80,8 @@ extension RideSearchViewController {
         date = yearString + "-" + monthString + "-" + dayString + "T00:00:00"
     }
     
-    func configureIndicatorAndButton(indicatorState: Bool) {
-        if indicatorState {
+    func configureIndicatorAndButton(indicatorEnabled enabled: Bool) {
+        if enabled {
             activityIndicator.startAnimating()
             activityIndicator.isHidden = false
             searchButton.isHidden = true
@@ -116,6 +126,7 @@ extension RideSearchViewController {
             search.start { response, _ in
                 guard let response = response else { return }
                 self.matchingItems = response.mapItems
+                print(response.mapItems.count)
                 self.searchTableView.reloadData()
             }
         })
@@ -130,23 +141,28 @@ extension RideSearchViewController {
     }
     
     private func prepareDataForTripsVCWith(trips: [Trip]) {
+        if !(trips.isEmpty) {
+            let cheapToBottom = trips.sorted(by: { Float($0.price.amount) ?? 0 < Float($1.price.amount) ?? 0  })
+            let cheapToTop = trips.sorted(by: { Float($0.price.amount) ?? 0 > Float($1.price.amount) ?? 0  })
+            let cheapestTrip = cheapToTop.last
+            let closestTrip = trips.sorted(by: { (trip1, trip2) -> Bool in
+                
+                let trip1Coordinates = CLLocation(latitude: trip1.waypoints.first!.place.latitude, longitude: trip1.waypoints.first!.place.longitude)
+                let trip2Coordinates = CLLocation(latitude: trip2.waypoints.first!.place.latitude, longitude: trip2.waypoints.first!.place.longitude)
+                
+                let distance1 = getDistanceBetween(userLocation: departureCLLocation, departurePoint: trip1Coordinates)
+                let distance2 = getDistanceBetween(userLocation: departureCLLocation, departurePoint: trip2Coordinates)
+                
+                return compareDistances(first: distance1, second: distance2)
+            }).first
+            
+            showTripsVCWith(trips: trips, cheapToTop: cheapToTop, expensiveToTop: cheapToBottom,
+                            cheapestTrip: cheapestTrip!, closestTrip: closestTrip!)
+        } else {
+            present(alertController, animated: true)
+            configureIndicatorAndButton(indicatorEnabled: false)
+        }
         
-        let cheapToBottom = trips.sorted(by: { Float($0.price.amount) ?? 0 < Float($1.price.amount) ?? 0  })
-        let cheapToTop = trips.sorted(by: { Float($0.price.amount) ?? 0 > Float($1.price.amount) ?? 0  })
-        let cheapestTrip = cheapToTop.last
-        let closestTrip = trips.sorted(by: { (trip1, trip2) -> Bool in
-            
-            let trip1Coordinates = CLLocation(latitude: trip1.waypoints.first!.place.latitude, longitude: trip1.waypoints.first!.place.longitude)
-            let trip2Coordinates = CLLocation(latitude: trip2.waypoints.first!.place.latitude, longitude: trip2.waypoints.first!.place.longitude)
-            
-            let distance1 = getDistanceBetween(userLocation: departureCLLocation, departurePoint: trip1Coordinates)
-            let distance2 = getDistanceBetween(userLocation: departureCLLocation, departurePoint: trip2Coordinates)
-            
-            return compareDistances(first: distance1, second: distance2)
-        }).first
-        
-        showTripsVCWith(trips: trips, cheapToTop: cheapToTop, expensiveToTop: cheapToBottom,
-                        cheapestTrip: cheapestTrip!, closestTrip: closestTrip!)
     }
     
     private func showTripsVCWith(trips: [Trip], cheapToTop: [Trip], expensiveToTop: [Trip], cheapestTrip: Trip, closestTrip: Trip) {
@@ -161,6 +177,7 @@ extension RideSearchViewController {
         vc.destinationPlaceName = destinationTextField.text ?? ""
         vc.numberOfPassengers = passengersCount
         vc.rideSearchDelegate = self
+        configureIndicatorAndButton(indicatorEnabled: false)
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -274,18 +291,22 @@ extension RideSearchViewController: RideSearchDelegate {
 //MARK:- TableViewDataSource & Delegate
 extension RideSearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(matchingItems.count)
         return matchingItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RideSearchTableViewCell.reuseIdentifier, for: indexPath) as! RideSearchTableViewCell
         let place = matchingItems[indexPath.row].placemark
-        
         print(matchingItems.count)
         cell.textLabel?.font = .boldSystemFont(ofSize: 20)
         cell.textLabel?.numberOfLines = 0
         cell.textLabel?.textColor = .darkGray
-        cell.textLabel?.text = place.name
+        if let country = place.country, let administrativeArea = place.administrativeArea, let name = place.name {
+            cell.textLabel?.text = "\(country), \(administrativeArea), \(name)"
+        } else {
+            cell.textLabel?.text = place.name
+        }
         return cell
     }
     
@@ -295,7 +316,7 @@ extension RideSearchViewController: UITableViewDataSource {
         let latitude = placemark.coordinate.latitude
         let longitude = placemark.coordinate.longitude
         let coordinates = "\(latitude),\(longitude)"
-        
+
         switch placeType {
         case .department:
             departureTextField.text = placemark.name

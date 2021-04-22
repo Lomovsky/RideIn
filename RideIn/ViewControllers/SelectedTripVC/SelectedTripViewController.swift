@@ -167,7 +167,7 @@ final class SelectedTripViewController: UIViewController {
     
     //MARK: UIMethods -
     private func setupView() {
-        view.backgroundColor = .systemGray4
+        view.backgroundColor = .systemGray5
     }
     
     private func setupNavigationController() {
@@ -282,7 +282,8 @@ final class SelectedTripViewController: UIViewController {
     private func setupDeparturePlace() {
         NSLayoutConstraint.activate([
             departurePlaceLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 20),
-            departurePlaceLabel.leadingAnchor.constraint(equalTo: topCircle.trailingAnchor, constant: 10)
+            departurePlaceLabel.leadingAnchor.constraint(equalTo: topCircle.trailingAnchor, constant: 10),
+            departurePlaceLabel.trailingAnchor.constraint(equalTo: departurePlaceMapButton.leadingAnchor, constant: -5)
         ])
         departurePlaceLabel.text = departurePlace
         departurePlaceLabel.textColor = .darkGray
@@ -342,7 +343,8 @@ final class SelectedTripViewController: UIViewController {
     private func setupArrivingPlace() {
         NSLayoutConstraint.activate([
             destinationPlaceLabel.centerYAnchor.constraint(equalTo: bottomCircle.centerYAnchor),
-            destinationPlaceLabel.leadingAnchor.constraint(equalTo: bottomCircle.trailingAnchor, constant: 10)
+            destinationPlaceLabel.leadingAnchor.constraint(equalTo: bottomCircle.trailingAnchor, constant: 10),
+            destinationPlaceLabel.trailingAnchor.constraint(equalTo: destinationPlaceMapButton.leadingAnchor, constant: -5)
 
         ])
         destinationPlaceLabel.text = arrivingPlace
@@ -411,51 +413,47 @@ extension SelectedTripViewController {
     
     @objc final func showMap(sender: UIButton) {
         let vc = MapViewController()
-
+        guard let depLatitude = selectedTrip?.waypoints.first?.place.latitude,
+              let depLongitude = selectedTrip?.waypoints.first?.place.longitude,
+              let arriveLatitude = selectedTrip?.waypoints.last?.place.latitude,
+              let arriveLongitude = selectedTrip?.waypoints.last?.place.longitude
+        else { return }
+        let depCoordinates = CLLocationCoordinate2D(latitude: depLatitude, longitude: depLongitude)
+        let depPlacemark = MKPlacemark(coordinate: depCoordinates)
+        let destCoordinates = CLLocationCoordinate2D(latitude: arriveLatitude, longitude: arriveLongitude)
+        let destPlacemark = MKPlacemark(coordinate: destCoordinates)
+        let distance = getDistanceBetween(departureLocation: depCoordinates, destinationLocation: destCoordinates)
+        let distanceString = String(NSString(format: "%.2f", distance))
+        if let distanceDouble = Double(distanceString) { vc.distance = Int((distanceDouble / 1000).rounded()) }
+        vc.gestureRecognizerEnabled = false
+        vc.mapView.showsTraffic = true
+        vc.ignoreLocation = true
+        vc.distanceSubviewIsHidden = false
+        vc.textFieldActivationObserverEnabled = false
+        
         switch sender {
         case departurePlaceMapButton:
-            guard let depLatitude = selectedTrip?.waypoints.first?.place.latitude,
-                  let depLongitude = selectedTrip?.waypoints.first?.place.longitude,
-                  let arriveLatitude = selectedTrip?.waypoints.last?.place.latitude,
-                  let arriveLongitude = selectedTrip?.waypoints.last?.place.longitude
-            else { return }
-            
-            let depCoordinates = CLLocationCoordinate2D(latitude: depLatitude, longitude: depLongitude)
-            let depPlacemark = MKPlacemark(coordinate: depCoordinates)
-            let arriveCoordinates = CLLocationCoordinate2D(latitude: arriveLatitude, longitude: arriveLongitude)
-            let arrivePlacemark = MKPlacemark(coordinate: arriveCoordinates)
-            
             vc.searchTF.text = selectedTrip?.waypoints.first?.place.address
-            vc.gestureRecognizerEnabled = false
-            
-            vc.ignoreLocation = true
-            vc.showRouteOnMap(pickUpPlacemark: depPlacemark, destinationPlacemark: arrivePlacemark)
-            vc.dropPinZoomIn(placemark: arrivePlacemark, zoom: false)
+            vc.showRouteOnMap(pickUpPlacemark: depPlacemark, destinationPlacemark: destPlacemark)
+            vc.dropPinZoomIn(placemark: destPlacemark, zoom: false)
             vc.dropPinZoomIn(placemark: depPlacemark, zoom: true)
             navigationController?.pushViewController(vc, animated: true)
             
         case destinationPlaceMapButton:
-            guard let arriveLatitude = selectedTrip?.waypoints.last?.place.latitude,
-                  let arriveLongitude = selectedTrip?.waypoints.last?.place.longitude,
-                  let depLatitude = selectedTrip?.waypoints.first?.place.latitude,
-                  let depLongitude = selectedTrip?.waypoints.first?.place.longitude
-            else { return }
-            
-            let arriveCoordinates = CLLocationCoordinate2D(latitude: arriveLatitude, longitude: arriveLongitude)
-            let arrivePlacemark = MKPlacemark(coordinate: arriveCoordinates)
-            let depCoordinates = CLLocationCoordinate2D(latitude: depLatitude, longitude: depLongitude)
-            let depPlacemark = MKPlacemark(coordinate: depCoordinates)
-            
             vc.searchTF.text = selectedTrip?.waypoints.last?.place.address
-            
-            vc.ignoreLocation = true
-            vc.showRouteOnMap(pickUpPlacemark: depPlacemark, destinationPlacemark: arrivePlacemark)
+            vc.showRouteOnMap(pickUpPlacemark: depPlacemark, destinationPlacemark: destPlacemark)
             vc.dropPinZoomIn(placemark: depPlacemark, zoom: false)
-            vc.dropPinZoomIn(placemark: arrivePlacemark, zoom: true)
+            vc.dropPinZoomIn(placemark: destPlacemark, zoom: true)
             navigationController?.pushViewController(vc, animated: true)
             
         default: break
         }
-        
     }
+    
+    private func getDistanceBetween(departureLocation: CLLocationCoordinate2D, destinationLocation: CLLocationCoordinate2D) -> CLLocationDistance {
+        let departureLocationCoordinates = CLLocation(latitude: departureLocation.latitude, longitude: departureLocation.longitude)
+        let destinationLocationCoordinates = CLLocation(latitude: destinationLocation.latitude, longitude: destinationLocation.longitude)
+        return destinationLocationCoordinates.distance(from: departureLocationCoordinates)
+    }
+    
 }

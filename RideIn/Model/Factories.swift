@@ -48,8 +48,8 @@ struct MainURLFactory: URLFactory {
 //MARK:- ConstraintFactory
 struct MainConstraintFactory: ConstraintFactory {
     let view: UIView
-    let toContentSubview: UIView
-    let toTextField: UITextField
+    let destinationContentSubview: UIView
+    let destinationTextField: UITextField
     let tableViewSubview: UIView
     
     
@@ -69,7 +69,7 @@ struct MainConstraintFactory: ConstraintFactory {
         case.toContentSubview:
             switch state {
             case .animated:
-                return NSLayoutConstraint(item: toContentSubview,
+                return NSLayoutConstraint(item: destinationContentSubview,
                                           attribute: .top,
                                           relatedBy: .equal,
                                           toItem: view.safeAreaLayoutGuide,
@@ -78,7 +78,7 @@ struct MainConstraintFactory: ConstraintFactory {
                                           constant: 30)
                 
             case .dismissed:
-                return NSLayoutConstraint(item: toContentSubview,
+                return NSLayoutConstraint(item: destinationContentSubview,
                                           attribute: .top,
                                           relatedBy: .equal,
                                           toItem: view.safeAreaLayoutGuide,
@@ -90,7 +90,7 @@ struct MainConstraintFactory: ConstraintFactory {
         case.toTextField:
             switch state {
             case .animated:
-                return NSLayoutConstraint(item: toTextField,
+                return NSLayoutConstraint(item: destinationTextField,
                                           attribute: .top,
                                           relatedBy: .equal,
                                           toItem: view.safeAreaLayoutGuide,
@@ -98,7 +98,7 @@ struct MainConstraintFactory: ConstraintFactory {
                                           multiplier: 1,
                                           constant: 30)
             case.dismissed:
-                return NSLayoutConstraint(item: toTextField,
+                return NSLayoutConstraint(item: destinationTextField,
                                           attribute: .top,
                                           relatedBy: .equal,
                                           toItem: view.safeAreaLayoutGuide,
@@ -111,8 +111,8 @@ struct MainConstraintFactory: ConstraintFactory {
     
     init(view: UIView, destinationContentSubview: UIView, destinationTextField: UITextField, tableViewSubview: UIView) {
         self.view = view
-        self.toContentSubview = destinationContentSubview
-        self.toTextField = destinationTextField
+        self.destinationContentSubview = destinationContentSubview
+        self.destinationTextField = destinationTextField
         self.tableViewSubview = tableViewSubview
     }
     

@@ -11,6 +11,7 @@ import MapKit
 final class RideSearchViewController: UIViewController {
     
     //MARK: Declarations -
+    lazy var alertController = makeAlert()
     lazy var urlFactory = makeURLFactory()
     lazy var networkManager = makeNetworkManager()
     lazy var locationManager = makeLocationManager()
@@ -180,8 +181,6 @@ final class RideSearchViewController: UIViewController {
         searchTableView.dataSource = self
         searchTableView.delegate = self
         
-
-        
         view.addSubview(departureContentSubview)
         view.addSubview(destinationContentSubview)
         view.addSubview(destinationTextField)
@@ -216,12 +215,6 @@ final class RideSearchViewController: UIViewController {
         setupSearchTableView()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        configureIndicatorAndButton(indicatorState: false)
-    }
-    
-    
     //MARK: UIMethods -
     private func setupView() {
         view.backgroundColor = .white
@@ -232,6 +225,8 @@ final class RideSearchViewController: UIViewController {
         navigationController?.visibleViewController?.title = "Поиск поездки"
         navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.darkGray]
         navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        
     }
     
     private func setupFromContentSubview() {
@@ -488,6 +483,10 @@ final class RideSearchViewController: UIViewController {
         
     }
     
+    private func setupAlertController() {
+        
+    }
+    
     deinit {
         print("deallocating\(self)")
     }
@@ -518,5 +517,14 @@ private extension RideSearchViewController {
         let factory = MainConstraintFactory(view: view, destinationContentSubview: destinationContentSubview,
                                         destinationTextField: destinationTextField, tableViewSubview: tableViewSubview)
         return factory
+    }
+    
+    func makeAlert() -> UIAlertController {
+        let alert = UIAlertController(title: "Ошибка", message: "Нет поездок", preferredStyle: .alert)
+        let dismissButton = UIAlertAction(title: "Отмена", style: .cancel) { (_) in
+            self.dismiss(animated: true)
+        }
+        alert.addAction(dismissButton)
+        return alert
     }
 }

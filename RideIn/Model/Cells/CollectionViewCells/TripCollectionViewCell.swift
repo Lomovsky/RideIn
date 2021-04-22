@@ -103,17 +103,37 @@ class TripCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private let placeholderSubview: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private let placeholderLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let placeholderImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "person.2.square.stack.fill")
+        return imageView
+    }()
+    
     
     //MARK: Initializer-
     override init(frame: CGRect) {
         super.init(frame: .zero)
         contentView.addSubview(backgroundSubview)
+        contentView.addSubview(placeholderSubview)
         
         setupBackgroundSubview()
         setupFilterTypeSubview()
         setupFilterTypeTopSubview()
         setupFilterTypeLabel()
-        setupDepatureTimeLabel()
+        setupDepartureTimeLabel()
         setupTopCircle()
         setupDeparturePlace()
         setupLine()
@@ -121,6 +141,9 @@ class TripCollectionViewCell: UICollectionViewCell {
         setupBottomCircle()
         setupArrivingPlace()
         setupPriceLabel()
+        setupPlaceholder()
+        setupPlaceholderImage()
+        setupPlaceholderLabel()
         
     }
     
@@ -183,8 +206,8 @@ class TripCollectionViewCell: UICollectionViewCell {
         filterTypeLabel.text = "Быстрее всего"
         filterTypeLabel.textAlignment = .center
     }
-    
-    private func setupDepatureTimeLabel() {
+
+    private func setupDepartureTimeLabel() {
         NSLayoutConstraint.activate([
             departureTimeLabel.topAnchor.constraint(equalTo: filterTypeSubview.bottomAnchor, constant: 20),
             departureTimeLabel.leadingAnchor.constraint(equalTo: backgroundSubview.leadingAnchor, constant: 20),
@@ -198,7 +221,8 @@ class TripCollectionViewCell: UICollectionViewCell {
     private func setupTopCircle() {
         NSLayoutConstraint.activate([
             topCircle.centerYAnchor.constraint(equalTo: departureTimeLabel.centerYAnchor),
-            topCircle.leadingAnchor.constraint(equalTo: departureTimeLabel.trailingAnchor, constant: 20)
+            topCircle.leadingAnchor.constraint(equalTo: departureTimeLabel.trailingAnchor, constant: 20),
+            topCircle.widthAnchor.constraint(equalTo: departureTimeLabel.widthAnchor, multiplier: 0.25)
         ])
         topCircle.tintColor = .darkGray
         topCircle.contentMode = .scaleToFill
@@ -229,7 +253,7 @@ class TripCollectionViewCell: UICollectionViewCell {
     
     private func setupArrivingTimeLabel() {
         NSLayoutConstraint.activate([
-            arrivingTimeLabel.topAnchor.constraint(equalTo: backgroundSubview.centerYAnchor),
+            arrivingTimeLabel.topAnchor.constraint(equalTo: backgroundSubview.centerYAnchor, constant: 10),
             arrivingTimeLabel.leadingAnchor.constraint(equalTo: backgroundSubview.leadingAnchor, constant: 20)
         ])
         arrivingTimeLabel.text = "23:40"
@@ -240,7 +264,8 @@ class TripCollectionViewCell: UICollectionViewCell {
     private func setupBottomCircle() {
         NSLayoutConstraint.activate([
             bottomCircle.centerYAnchor.constraint(equalTo: arrivingTimeLabel.centerYAnchor),
-            bottomCircle.centerXAnchor.constraint(equalTo: topCircle.centerXAnchor)
+            bottomCircle.centerXAnchor.constraint(equalTo: topCircle.centerXAnchor),
+            bottomCircle.widthAnchor.constraint(equalTo: topCircle.widthAnchor)
         ])
         bottomCircle.tintColor = .darkGray
         bottomCircle.contentMode = .scaleToFill
@@ -269,6 +294,44 @@ class TripCollectionViewCell: UICollectionViewCell {
         priceLabel.font = .boldSystemFont(ofSize: 15)
     }
     
+    private func setupPlaceholder() {
+        NSLayoutConstraint.activate([
+            placeholderSubview.topAnchor.constraint(equalTo: contentView.topAnchor),
+            placeholderSubview.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            placeholderSubview.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            placeholderSubview.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+        placeholderSubview.layer.cornerRadius = 15
+        placeholderSubview.backgroundColor = .lightBlue
+        placeholderSubview.isHidden = true
+        placeholderSubview.addSubview(placeholderImageView)
+        placeholderSubview.addSubview(placeholderLabel)
+        
+    }
+    
+    private func setupPlaceholderImage() {
+        NSLayoutConstraint.activate([
+            placeholderImageView.centerYAnchor.constraint(equalTo: placeholderSubview.centerYAnchor),
+            placeholderImageView.leadingAnchor.constraint(equalTo: placeholderSubview.leadingAnchor, constant: 20),
+            placeholderImageView.heightAnchor.constraint(equalTo: placeholderSubview.heightAnchor, multiplier: 0.4),
+            placeholderImageView.widthAnchor.constraint(equalTo: placeholderImageView.heightAnchor)
+        ])
+        placeholderImageView.tintColor = .white
+    }
+    
+    private func setupPlaceholderLabel() {
+        NSLayoutConstraint.activate([
+            placeholderLabel.leadingAnchor.constraint(equalTo: placeholderImageView.trailingAnchor, constant: 10),
+            placeholderLabel.centerYAnchor.constraint(equalTo: placeholderSubview.centerYAnchor),
+            placeholderLabel.heightAnchor.constraint(equalTo: placeholderImageView.heightAnchor),
+            placeholderLabel.trailingAnchor.constraint(equalTo: placeholderSubview.trailingAnchor, constant: -10)
+        ])
+        placeholderLabel.numberOfLines = 0
+        placeholderLabel.font = .boldSystemFont(ofSize: 15)
+        placeholderLabel.text = "Здесь будут отображаться самые дешевые и быстрые поездки"
+        placeholderLabel.textColor = .white
+    }
+    
     func configureTheCell(departurePlace: String, arrivingPlace: String, departureTime: String, arrivingTime: String, filterType: String?, price: String) {
         
         priceLabel.text = price
@@ -285,4 +348,9 @@ class TripCollectionViewCell: UICollectionViewCell {
             filterTypeTopSubview.isHidden = true
         }
     }
+    
+    func setPlaceholder() {
+        placeholderSubview.isHidden = false
+    }
+    
 }

@@ -51,7 +51,7 @@ extension TripsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
-        case recommendationsCollectionView: return 2
+        case recommendationsCollectionView: return trips.count == 1 ? 1 :  2
         case allTipsCollectionView: return trips.count
         case cheapTripsToTopCollectionView: return cheapTripsToTop.count
         case cheapTripsToBottomCollectionView: return cheapTripsToBottom.count
@@ -66,28 +66,32 @@ extension TripsViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TripCollectionViewCell.recommendationsReuseIdentifier,
                                                           for: indexPath) as! TripCollectionViewCell
             setCellShadow(for: cell, color: .black, radius: 4, opacity: 0.1)
-            
-            let cheapestTripDepartureTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: cheapestTrip, for: .department)
-            let cheapestTripArrivingTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: cheapestTrip, for: .destination)
-            
-            let closestTripDepartureTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: closestTrip, for: .department)
-            let closestTripArrivingTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: closestTrip, for: .destination)
-            
-            if indexPath.row == 0 {
-                cell.configureTheCell(departurePlace: departurePlaceName,
-                                      arrivingPlace: destinationPlaceName,
-                                      departureTime: cheapestTripDepartureTimeString,
-                                      arrivingTime: cheapestTripArrivingTimeString,
-                                      filterType: "Дешевле всего",
-                                      price: cheapestTrip?.price.amount ?? "")
-                
+
+            if trips.count == 1 {
+                cell.setPlaceholder()
             } else {
-                cell.configureTheCell(departurePlace: departurePlaceName,
-                                      arrivingPlace: destinationPlaceName,
-                                      departureTime: closestTripDepartureTimeString,
-                                      arrivingTime: closestTripArrivingTimeString,
-                                      filterType: "Быстрее всего",
-                                      price: closestTrip?.price.amount ?? "")
+                let cheapestTripDepartureTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: cheapestTrip, for: .department)
+                let cheapestTripArrivingTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: cheapestTrip, for: .destination)
+
+                let closestTripDepartureTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: closestTrip, for: .department)
+                let closestTripArrivingTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: closestTrip, for: .destination)
+
+                if indexPath.row == 0 {
+                    cell.configureTheCell(departurePlace: departurePlaceName,
+                                          arrivingPlace: destinationPlaceName,
+                                          departureTime: cheapestTripDepartureTimeString,
+                                          arrivingTime: cheapestTripArrivingTimeString,
+                                          filterType: "Дешевле всего",
+                                          price: cheapestTrip?.price.amount ?? "")
+
+                } else {
+                    cell.configureTheCell(departurePlace: departurePlaceName,
+                                          arrivingPlace: destinationPlaceName,
+                                          departureTime: closestTripDepartureTimeString,
+                                          arrivingTime: closestTripArrivingTimeString,
+                                          filterType: "Быстрее всего",
+                                          price: closestTrip?.price.amount ?? "")
+                }
             }
             return cell
             
@@ -149,6 +153,7 @@ extension TripsViewController: UICollectionViewDataSource {
         
         switch collectionView {
         case recommendationsCollectionView:
+            guard trips.count != 1 else { return }
             if indexPath.row == 0 {
                 guard let trip = cheapestTrip else { return }
                 let departmentTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .department)
@@ -205,18 +210,19 @@ extension TripsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let height = collectionView.frame.size.height * 0.9
         let width = collectionView.frame.size.width * 0.8
+        let oneCardWidth = collectionView.frame.size.width * 0.9
         
-        let pageViewHeight = pageScrollSubview.frame.size.height * 0.4
-        let pageViewWidth = pageScrollView.frame.size.width * 0.9
+        let pageScrollViewCellSize = CGSize(width: pageScrollView.frame.size.width * 0.9,
+                              height: pageScrollSubview.frame.size.height * 0.4)
         
         switch collectionView {
-        case recommendationsCollectionView: return CGSize(width: width, height: height)
+        case recommendationsCollectionView: return trips.count == 1 ? CGSize(width: oneCardWidth, height: height) : CGSize(width: width, height: height)
             
-        case allTipsCollectionView: return CGSize(width: pageViewWidth, height: pageViewHeight)
+        case allTipsCollectionView: return pageScrollViewCellSize
             
-        case cheapTripsToTopCollectionView: return CGSize(width: pageViewWidth, height: pageViewHeight)
+        case cheapTripsToTopCollectionView: return pageScrollViewCellSize
             
-        case cheapTripsToBottomCollectionView: return CGSize(width: pageViewWidth, height: pageViewHeight)
+        case cheapTripsToBottomCollectionView: return pageScrollViewCellSize
             
         default: return CGSize()
         }

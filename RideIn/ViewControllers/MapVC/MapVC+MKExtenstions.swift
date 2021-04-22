@@ -149,11 +149,8 @@ extension MapViewController: MKMapViewDelegate {
                 self.mapView.setVisibleMapRect(route.polyline.boundingMapRect,
                                                edgePadding: UIEdgeInsets.init(top: 80.0, left: 20.0, bottom: 100.0, right: 20.0), animated: true)
             }
-            
         }
     }
-    
-    
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
@@ -173,8 +170,8 @@ extension MapViewController: HandleMapSearch {
         annotation.coordinate = placemark.coordinate
         annotation.title = placemark.name
         if let city = placemark.locality,
-           let state = placemark.administrativeArea {
-            annotation.subtitle = "\(city) \(state)"
+           let administrativeArea = placemark.administrativeArea {
+            annotation.subtitle = "\(city) \(administrativeArea)"
         }
         mapView.addAnnotation(annotation)
         if zoom {
