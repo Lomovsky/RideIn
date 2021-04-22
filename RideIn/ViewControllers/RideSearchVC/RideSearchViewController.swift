@@ -10,34 +10,35 @@ import MapKit
 
 final class RideSearchViewController: UIViewController {
     
+    //MARK: Declarations -
+    lazy var urlFactory = makeURLFactory()
+    lazy var networkManager = makeNetworkManager()
+    lazy var locationManager = makeLocationManager()
+    lazy var constraintFactory = makeConstrainFactory()
+    
     var trips = [Trip]()
-    
-    let urlFactory: URLFactory = MainURLFactory()
-    let networkManager: NetworkManager = MainNetworkManager()
-    
-    let locationManager = CLLocationManager()
+
     var matchingItems = [MKMapItem]()
     var region = MKCoordinateRegion()
         
     var timer: Timer?
 
-    var fromCLLocation = CLLocation()
-    var fromCoordinates = String()
-    var toCoordinates = String()
+    var departureCLLocation = CLLocation()
+    var departureCoordinates = String()
+    var destinationCoordinates = String()
     
-    var toContentSubviewTopConstraint = NSLayoutConstraint()
-    var toTFTopConstraint = NSLayoutConstraint()
+    var destinationContentSubviewTopConstraint = NSLayoutConstraint()
+    var destinationTFTopConstraint = NSLayoutConstraint()
     var tableViewSubviewTopConstraint = NSLayoutConstraint()
     
     var placeType: PlaceType?
     var chosenTF = UITextField()
-    var fromTextFieldTapped = false
-    var toTextFieldTapped = false
+    var departureTextFieldTapped = false
+    var destinationTextFieldTapped = false
     
     var date: String? = nil
     var passengersCount = 1
     var passengerDeclension: Declensions {
-        get {
             if passengersCount == 1 {
                 return .one
             } else if passengersCount < 4, passengersCount != 1 {
@@ -45,42 +46,41 @@ final class RideSearchViewController: UIViewController {
             } else {
                 return .more
             }
-        }
     }
     
     
     //MARK: UIElements -
-    let fromContentSubview: UIView = {
+    let departureContentSubview: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let fromBackButton: UIButton = {
+    let departureBackButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    let fromTextField: UITextField = {
+    let departureTextField: UITextField = {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
     }()
     
-    let toContentSubview: UIView = {
+    let destinationContentSubview: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let toBackButton: UIButton = {
+    let destinationBackButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    let toTextField: UITextField = {
+    let destinationTextField: UITextField = {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
@@ -179,15 +179,12 @@ final class RideSearchViewController: UIViewController {
         super.viewDidLoad()
         searchTableView.dataSource = self
         searchTableView.delegate = self
-        locationManager.delegate = self
-
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.requestLocation()
         
-        view.addSubview(fromContentSubview)
-        view.addSubview(toContentSubview)
-        view.addSubview(toTextField)
+
+        
+        view.addSubview(departureContentSubview)
+        view.addSubview(destinationContentSubview)
+        view.addSubview(destinationTextField)
         view.addSubview(topLine)
         view.addSubview(dateView)
         view.addSubview(passengersButton)
@@ -239,120 +236,120 @@ final class RideSearchViewController: UIViewController {
     
     private func setupFromContentSubview() {
         NSLayoutConstraint.activate([
-            fromContentSubview.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
-            fromContentSubview.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9),
-            fromContentSubview.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.07),
-            fromContentSubview.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            departureContentSubview.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            departureContentSubview.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9),
+            departureContentSubview.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.07),
+            departureContentSubview.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
-        fromContentSubview.backgroundColor = .systemGray5
-        fromContentSubview.layer.cornerRadius = 15
-        fromContentSubview.addSubview(fromBackButton)
-        fromContentSubview.addSubview(fromTextField)
+        departureContentSubview.backgroundColor = .systemGray5
+        departureContentSubview.layer.cornerRadius = 15
+        departureContentSubview.addSubview(departureBackButton)
+        departureContentSubview.addSubview(departureTextField)
     }
     
     private func setupFromBackButton() {
         NSLayoutConstraint.activate([
-            fromBackButton.centerYAnchor.constraint(equalTo: fromContentSubview.centerYAnchor),
-            fromBackButton.leadingAnchor.constraint(equalTo: fromContentSubview.leadingAnchor),
-            fromBackButton.heightAnchor.constraint(equalTo: fromContentSubview.heightAnchor),
-            fromBackButton.widthAnchor.constraint(equalTo: fromContentSubview.heightAnchor)
+            departureBackButton.centerYAnchor.constraint(equalTo: departureContentSubview.centerYAnchor),
+            departureBackButton.leadingAnchor.constraint(equalTo: departureContentSubview.leadingAnchor),
+            departureBackButton.heightAnchor.constraint(equalTo: departureContentSubview.heightAnchor),
+            departureBackButton.widthAnchor.constraint(equalTo: departureContentSubview.heightAnchor)
         ])
-        fromBackButton.backgroundColor = .systemGray5
-        fromBackButton.layer.cornerRadius = 15
-        fromBackButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
-        fromBackButton.tintColor = .systemGray
-        fromBackButton.isHidden = true
-        fromBackButton.addTarget(self, action: #selector(dismissFromTextField), for: .touchUpInside)
+        departureBackButton.backgroundColor = .systemGray5
+        departureBackButton.layer.cornerRadius = 15
+        departureBackButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+        departureBackButton.tintColor = .systemGray
+        departureBackButton.isHidden = true
+        departureBackButton.addTarget(self, action: #selector(dismissDepartureTextField), for: .touchUpInside)
     }
     
     private func setupFromTF() {
         NSLayoutConstraint.activate([
-            fromTextField.centerYAnchor.constraint(equalTo: fromContentSubview.centerYAnchor),
-            fromTextField.trailingAnchor.constraint(equalTo: fromContentSubview.trailingAnchor),
-            fromTextField.leadingAnchor.constraint(equalTo: fromBackButton.trailingAnchor),
-            fromTextField.heightAnchor.constraint(equalTo: fromContentSubview.heightAnchor),
+            departureTextField.centerYAnchor.constraint(equalTo: departureContentSubview.centerYAnchor),
+            departureTextField.trailingAnchor.constraint(equalTo: departureContentSubview.trailingAnchor),
+            departureTextField.leadingAnchor.constraint(equalTo: departureBackButton.trailingAnchor),
+            departureTextField.heightAnchor.constraint(equalTo: departureContentSubview.heightAnchor),
         ])
-        fromTextField.backgroundColor = .systemGray5
-        fromTextField.layer.cornerRadius = 15
-        fromTextField.attributedPlaceholder = NSAttributedString(string: "Выезжаете из",
+        departureTextField.backgroundColor = .systemGray5
+        departureTextField.layer.cornerRadius = 15
+        departureTextField.attributedPlaceholder = NSAttributedString(string: "Выезжаете из",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
-        fromTextField.font = .boldSystemFont(ofSize: 16)
-        fromTextField.textColor = .black
-        fromTextField.textAlignment = .left
-        fromTextField.addTarget(self, action: #selector(textFieldDidChange(_:)),
+        departureTextField.font = .boldSystemFont(ofSize: 16)
+        departureTextField.textColor = .black
+        departureTextField.textAlignment = .left
+        departureTextField.addTarget(self, action: #selector(textFieldDidChange(_:)),
                                 for: .editingChanged)
-        fromTextField.addTarget(self, action: #selector(textFieldHasBeenActivated), for: .touchDown)
-        fromTextField.delegate = self
-        fromTextField.clearButtonMode = .always
+        departureTextField.addTarget(self, action: #selector(textFieldHasBeenActivated), for: .touchDown)
+        departureTextField.delegate = self
+        departureTextField.clearButtonMode = .always
     }
     
     private func setupToContentSubview() {
-        toContentSubviewTopConstraint = NSLayoutConstraint(item: toContentSubview, attribute: .top,
+        destinationContentSubviewTopConstraint = NSLayoutConstraint(item: destinationContentSubview, attribute: .top,
                                                            relatedBy: .equal, toItem: view.safeAreaLayoutGuide,
                                                            attribute: .top, multiplier: 1,
                                                            constant: 45 + (view.frame.height * 0.07))
         
         NSLayoutConstraint.activate([
-            toContentSubviewTopConstraint,
-            toContentSubview.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9),
-            toContentSubview.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.07),
-            toContentSubview.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            destinationContentSubviewTopConstraint,
+            destinationContentSubview.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9),
+            destinationContentSubview.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.07),
+            destinationContentSubview.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
         
-        toContentSubview.backgroundColor = .systemGray5
-        toContentSubview.layer.cornerRadius = 15
-        toContentSubview.addSubview(toBackButton)
-        toContentSubview.addSubview(toTextField)
+        destinationContentSubview.backgroundColor = .systemGray5
+        destinationContentSubview.layer.cornerRadius = 15
+        destinationContentSubview.addSubview(destinationBackButton)
+        destinationContentSubview.addSubview(destinationTextField)
     }
     
     private func setupToBackButton() {
         NSLayoutConstraint.activate([
-            toBackButton.centerYAnchor.constraint(equalTo: toContentSubview.centerYAnchor),
-            toBackButton.leadingAnchor.constraint(equalTo: toContentSubview.leadingAnchor),
-            toBackButton.heightAnchor.constraint(equalTo: toContentSubview.heightAnchor),
-            toBackButton.widthAnchor.constraint(equalTo: toContentSubview.heightAnchor)
+            destinationBackButton.centerYAnchor.constraint(equalTo: destinationContentSubview.centerYAnchor),
+            destinationBackButton.leadingAnchor.constraint(equalTo: destinationContentSubview.leadingAnchor),
+            destinationBackButton.heightAnchor.constraint(equalTo: destinationContentSubview.heightAnchor),
+            destinationBackButton.widthAnchor.constraint(equalTo: destinationContentSubview.heightAnchor)
         ])
-        toBackButton.backgroundColor = .systemGray5
-        toBackButton.layer.cornerRadius = 15
-        toBackButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
-        toBackButton.tintColor = .systemGray
-        toBackButton.isHidden = true
-        toBackButton.addTarget(self, action: #selector(dismissToTextField), for: .touchUpInside)
+        destinationBackButton.backgroundColor = .systemGray5
+        destinationBackButton.layer.cornerRadius = 15
+        destinationBackButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+        destinationBackButton.tintColor = .systemGray
+        destinationBackButton.isHidden = true
+        destinationBackButton.addTarget(self, action: #selector(dismissDestinationTextField), for: .touchUpInside)
 
     }
     
     private func setupToTF() {
-        toTFTopConstraint = NSLayoutConstraint(item: toTextField, attribute: .top,
+        destinationTFTopConstraint = NSLayoutConstraint(item: destinationTextField, attribute: .top,
                                                relatedBy: .equal, toItem: view.safeAreaLayoutGuide,
                                                attribute: .top, multiplier: 1,
                                                constant: 45 + (view.frame.height * 0.07))
         NSLayoutConstraint.activate([
-            toTFTopConstraint,
-            toTextField.trailingAnchor.constraint(equalTo: toContentSubview.trailingAnchor),
-            toTextField.leadingAnchor.constraint(equalTo: toBackButton.trailingAnchor),
-            toTextField.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.07),
+            destinationTFTopConstraint,
+            destinationTextField.trailingAnchor.constraint(equalTo: destinationContentSubview.trailingAnchor),
+            destinationTextField.leadingAnchor.constraint(equalTo: destinationBackButton.trailingAnchor),
+            destinationTextField.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.07),
         ])
         
-        toTextField.backgroundColor = .systemGray5
-        toTextField.layer.cornerRadius = 15
-        toTextField.attributedPlaceholder = NSAttributedString(string: "Направляетесь в",
+        destinationTextField.backgroundColor = .systemGray5
+        destinationTextField.layer.cornerRadius = 15
+        destinationTextField.attributedPlaceholder = NSAttributedString(string: "Направляетесь в",
                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
-        toTextField.font = .boldSystemFont(ofSize: 16)
-        toTextField.textColor = .black
-        toTextField.textAlignment = .left
-        toTextField.addTarget(self, action: #selector(textFieldDidChange(_:)),
+        destinationTextField.font = .boldSystemFont(ofSize: 16)
+        destinationTextField.textColor = .black
+        destinationTextField.textAlignment = .left
+        destinationTextField.addTarget(self, action: #selector(textFieldDidChange(_:)),
                               for: .editingChanged)
-        toTextField.addTarget(self, action: #selector(textFieldHasBeenActivated), for: .touchDown)
-        toTextField.delegate = self
-        toTextField.clearButtonMode = .always
+        destinationTextField.addTarget(self, action: #selector(textFieldHasBeenActivated), for: .touchDown)
+        destinationTextField.delegate = self
+        destinationTextField.clearButtonMode = .always
     }
     
     private func setupTopLine() {
         NSLayoutConstraint.activate([
-            topLine.topAnchor.constraint(equalTo: toContentSubview.bottomAnchor, constant: 20),
-            topLine.leadingAnchor.constraint(equalTo: toContentSubview.leadingAnchor),
-            topLine.trailingAnchor.constraint(equalTo: toContentSubview.trailingAnchor),
-            topLine.heightAnchor.constraint(equalTo: toContentSubview.heightAnchor, multiplier: 0.02)
+            topLine.topAnchor.constraint(equalTo: destinationContentSubview.bottomAnchor, constant: 20),
+            topLine.leadingAnchor.constraint(equalTo: destinationContentSubview.leadingAnchor),
+            topLine.trailingAnchor.constraint(equalTo: destinationContentSubview.trailingAnchor),
+            topLine.heightAnchor.constraint(equalTo: destinationContentSubview.heightAnchor, multiplier: 0.02)
         ])
         topLine.backgroundColor = .systemGray5
     }
@@ -372,7 +369,7 @@ final class RideSearchViewController: UIViewController {
         datePicker.frame = dateView.frame
         datePicker.calendar = .autoupdatingCurrent
         datePicker.datePickerMode = .date
-        datePicker.addTarget(self, action: #selector(changeDate(sender:)), for: .valueChanged)
+        datePicker.addTarget(self, action: #selector(changeDateWith(sender:)), for: .valueChanged)
     }
     
     private func setupPassengerButton() {
@@ -380,7 +377,7 @@ final class RideSearchViewController: UIViewController {
             passengersButton.topAnchor.constraint(equalTo: topLine.bottomAnchor, constant: 20),
             passengersButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 15)
         ])
-        setCount()
+        setPassengersCountWithDeclension()
         passengersButton.setTitleColor(.lightBlue, for: .normal)
         passengersButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         passengersButton.addTarget(self, action: #selector(setPassengersCount), for: .touchUpInside)
@@ -389,9 +386,9 @@ final class RideSearchViewController: UIViewController {
     private func setupBottomLine() {
         NSLayoutConstraint.activate([
             bottomLine.topAnchor.constraint(equalTo: passengersButton.bottomAnchor, constant: 20),
-            bottomLine.leadingAnchor.constraint(equalTo: toContentSubview.leadingAnchor),
-            bottomLine.trailingAnchor.constraint(equalTo: toContentSubview.trailingAnchor),
-            bottomLine.heightAnchor.constraint(equalTo: toContentSubview.heightAnchor, multiplier: 0.02)
+            bottomLine.leadingAnchor.constraint(equalTo: destinationContentSubview.leadingAnchor),
+            bottomLine.trailingAnchor.constraint(equalTo: destinationContentSubview.trailingAnchor),
+            bottomLine.heightAnchor.constraint(equalTo: destinationContentSubview.heightAnchor, multiplier: 0.02)
         ])
         bottomLine.backgroundColor = .systemGray5
     }
@@ -400,15 +397,15 @@ final class RideSearchViewController: UIViewController {
         NSLayoutConstraint.activate([
             searchButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             searchButton.topAnchor.constraint(equalTo: bottomLine.bottomAnchor, constant: 20),
-            searchButton.heightAnchor.constraint(equalTo: fromContentSubview.heightAnchor, multiplier: 0.9),
-            searchButton.widthAnchor.constraint(equalTo: fromContentSubview.widthAnchor, multiplier: 0.4)
+            searchButton.heightAnchor.constraint(equalTo: departureContentSubview.heightAnchor, multiplier: 0.9),
+            searchButton.widthAnchor.constraint(equalTo: departureContentSubview.widthAnchor, multiplier: 0.4)
         ])
         searchButton.setTitle("Искать", for: .normal)
         searchButton.isHidden = true
         searchButton.backgroundColor = .lightBlue
         searchButton.layer.cornerRadius = 25
         searchButton.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        searchButton.addTarget(self, action: #selector(search), for: .touchUpInside)
+        searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
     }
     
     private func setupActivityIndicator() {
@@ -467,7 +464,7 @@ final class RideSearchViewController: UIViewController {
         showMapButton.setTitleColor(.darkGray, for: .normal)
         showMapButton.titleLabel?.font = .boldSystemFont(ofSize: 20)
         showMapButton.titleLabel?.numberOfLines = 0
-        showMapButton.addTarget(self, action: #selector(showMap), for: .touchUpInside)
+        showMapButton.addTarget(self, action: #selector(showMapButtonTapped), for: .touchUpInside)
     }
     
     private func setupArrowImageView() {
@@ -497,4 +494,29 @@ final class RideSearchViewController: UIViewController {
     
 }
 
-
+//MARK:- Factory methods
+private extension RideSearchViewController {
+    
+    func makeNetworkManager() -> NetworkManager {
+        return MainNetworkManager()
+    }
+    
+    func makeURLFactory() -> URLFactory {
+        return MainURLFactory()
+    }
+    
+    func makeLocationManager() -> CLLocationManager {
+        let manager = CLLocationManager()
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+        manager.requestWhenInUseAuthorization()
+        manager.requestLocation()
+        return manager
+    }
+    
+    func makeConstrainFactory() -> MainConstraintFactory {
+        let factory = MainConstraintFactory(view: view, destinationContentSubview: destinationContentSubview,
+                                        destinationTextField: destinationTextField, tableViewSubview: tableViewSubview)
+        return factory
+    }
+}

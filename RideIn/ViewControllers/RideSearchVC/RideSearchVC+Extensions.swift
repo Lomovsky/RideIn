@@ -17,10 +17,10 @@ extension RideSearchViewController {
         navigationController?.present(vc, animated: true, completion: nil)
     }
     
-    @objc final func search() {
+    @objc final func searchButtonTapped() {
         configureIndicatorAndButton(indicatorState: true)
-        urlFactory.setCoordinates(coordinates: fromCoordinates, place: .from)
-        urlFactory.setCoordinates(coordinates: toCoordinates, place: .to)
+        urlFactory.setCoordinates(coordinates: departureCoordinates, place: .department)
+        urlFactory.setCoordinates(coordinates: destinationCoordinates, place: .destination)
         urlFactory.setSeats(seats: "\(passengersCount)")
         if date != nil { urlFactory.setDate(date: date!) }
         guard let url = urlFactory.makeURL() else { return }
@@ -30,31 +30,31 @@ extension RideSearchViewController {
             switch result {
             case .failure(let error): assertionFailure("\(error)")
                 
-            case .success(let trips): self.prepareDataForTripsVC(trips: trips)
+            case .success(let trips): self.prepareDataForTripsVCWith(trips: trips)
             }
         }
     }
     
-    @objc final func dismissFromTextField() {
-        fromTextField.resignFirstResponder()
-        checkTextFields()
-        dismissAnimation(textField: fromTextField)
+    @objc final func dismissDepartureTextField() {
+        departureTextField.resignFirstResponder()
+        checkTextFieldsForEmptiness()
+        dismissAnimation(textField: departureTextField)
     }
     
-    @objc final func dismissToTextField() {
-        toTextField.resignFirstResponder()
-        checkTextFields()
-        dismissAnimation(textField: toTextField)
+    @objc final func dismissDestinationTextField() {
+        destinationTextField.resignFirstResponder()
+        checkTextFieldsForEmptiness()
+        dismissAnimation(textField: destinationTextField)
     }
     
-    @objc final func showMap() {
+    @objc final func showMapButtonTapped() {
         let vc = MapViewController()
         vc.rideSearchDelegate = self
         vc.placeType = placeType
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc final func changeDate(sender: UIDatePicker) {
+    @objc final func changeDateWith(sender: UIDatePicker) {
         guard let day = Calendar.current.dateComponents([.day], from: datePicker.date).day,
               let month = Calendar.current.dateComponents([.month], from: datePicker.date).month,
               let year = Calendar.current.dateComponents([.year], from: datePicker.date).year
@@ -70,8 +70,6 @@ extension RideSearchViewController {
         date = yearString + "-" + monthString + "-" + dayString + "T00:00:00"
     }
     
-    
-    
     func configureIndicatorAndButton(indicatorState: Bool) {
         if indicatorState {
             activityIndicator.startAnimating()
@@ -84,7 +82,7 @@ extension RideSearchViewController {
         }
     }
     
-    func setCount() {
+    func setPassengersCountWithDeclension() {
         switch passengerDeclension {
         case .one:
             passengersButton.setTitle("\(passengersCount) пассажир", for: .normal)
@@ -97,19 +95,20 @@ extension RideSearchViewController {
         }
     }
     
-    private func checkTextFields() {
-        guard !(fromTextField.text?.isEmpty ?? true), fromTextField.text != "",
-              !(toTextField.text?.isEmpty ?? true), fromTextField.text != "" else {
+    private func checkTextFieldsForEmptiness() {
+        guard !(departureTextField.text?.isEmpty ?? true), departureTextField.text != "",
+              !(destinationTextField.text?.isEmpty ?? true), departureTextField.text != "" else {
             searchButton.isHidden = true
             return }
         searchButton.isHidden = false
     }
     
-    private func lookForPlaces(withWord word: String?) {
+    private func searchPlaces(withWord word: String?) {
         guard let text = word, text != "" else { return }
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = text
         request.region = mapView.region
+        request.resultTypes = .address
         let search = MKLocalSearch(request: request)
         
         timer?.invalidate()
@@ -122,7 +121,7 @@ extension RideSearchViewController {
         })
     }
     
-    private func getDistance(userLocation: CLLocation, departurePoint: CLLocation) -> CLLocationDistance {
+    private func getDistanceBetween(userLocation: CLLocation, departurePoint: CLLocation) -> CLLocationDistance {
         return userLocation.distance(from: departurePoint)
     }
     
@@ -130,7 +129,7 @@ extension RideSearchViewController {
         return second.isLess(than: first)
     }
     
-    private func prepareDataForTripsVC(trips: [Trip]) {
+    private func prepareDataForTripsVCWith(trips: [Trip]) {
         
         let cheapToBottom = trips.sorted(by: { Float($0.price.amount) ?? 0 < Float($1.price.amount) ?? 0  })
         let cheapToTop = trips.sorted(by: { Float($0.price.amount) ?? 0 > Float($1.price.amount) ?? 0  })
@@ -140,17 +139,17 @@ extension RideSearchViewController {
             let trip1Coordinates = CLLocation(latitude: trip1.waypoints.first!.place.latitude, longitude: trip1.waypoints.first!.place.longitude)
             let trip2Coordinates = CLLocation(latitude: trip2.waypoints.first!.place.latitude, longitude: trip2.waypoints.first!.place.longitude)
             
-            let distance1 = getDistance(userLocation: fromCLLocation, departurePoint: trip1Coordinates)
-            let distance2 = getDistance(userLocation: fromCLLocation, departurePoint: trip2Coordinates)
+            let distance1 = getDistanceBetween(userLocation: departureCLLocation, departurePoint: trip1Coordinates)
+            let distance2 = getDistanceBetween(userLocation: departureCLLocation, departurePoint: trip2Coordinates)
             
             return compareDistances(first: distance1, second: distance2)
         }).first
         
-        showTripsVC(trips: trips, cheapToTop: cheapToTop, expensiveToTop: cheapToBottom,
-                    cheapestTrip: cheapestTrip!, closestTrip: closestTrip!)
+        showTripsVCWith(trips: trips, cheapToTop: cheapToTop, expensiveToTop: cheapToBottom,
+                        cheapestTrip: cheapestTrip!, closestTrip: closestTrip!)
     }
     
-    private func showTripsVC(trips: [Trip], cheapToTop: [Trip], expensiveToTop: [Trip], cheapestTrip: Trip, closestTrip: Trip) {
+    private func showTripsVCWith(trips: [Trip], cheapToTop: [Trip], expensiveToTop: [Trip], cheapestTrip: Trip, closestTrip: Trip) {
         let vc = TripsViewController()
         if date != nil { vc.date = date!.components(separatedBy: "T").first ?? "" }
         vc.trips = trips
@@ -158,11 +157,10 @@ extension RideSearchViewController {
         vc.cheapTripsToTop = expensiveToTop
         vc.cheapestTrip = cheapestTrip
         vc.closestTrip = closestTrip
-        vc.departurePlaceName = fromTextField.text ?? ""
-        vc.arrivingPlaceName = toTextField.text ?? ""
+        vc.departurePlaceName = departureTextField.text ?? ""
+        vc.destinationPlaceName = destinationTextField.text ?? ""
         vc.numberOfPassengers = passengersCount
         vc.rideSearchDelegate = self
-        
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -173,12 +171,12 @@ extension RideSearchViewController {
 extension RideSearchViewController: UITextFieldDelegate {
     
     @objc final func textFieldDidChange(_ textField: UITextField) {
-        checkTextFields()
+        checkTextFieldsForEmptiness()
         
         switch textField {
-        case fromTextField: lookForPlaces(withWord: fromTextField.text)
+        case departureTextField: searchPlaces(withWord: departureTextField.text)
             
-        case toTextField: lookForPlaces(withWord: toTextField.text)
+        case destinationTextField: searchPlaces(withWord: destinationTextField.text)
             
         default:
             break
@@ -188,21 +186,21 @@ extension RideSearchViewController: UITextFieldDelegate {
     @objc func textFieldHasBeenActivated(textField: UITextField) {
         
         switch textField {
-        case fromTextField:
-            chosenTF = fromTextField
-            if !fromTextFieldTapped {
-                fromTextFieldTapped = true
-                animate(textField: fromTextField)
+        case departureTextField:
+            chosenTF = departureTextField
+            if !departureTextFieldTapped {
+                departureTextFieldTapped = true
+                animate(textField: departureTextField)
             }
-            placeType = .from
+            placeType = .department
             
-        case toTextField:
-            chosenTF = toTextField
-            if !toTextFieldTapped {
-                toTextFieldTapped = true
-                animate(textField: toTextField)
+        case destinationTextField:
+            chosenTF = destinationTextField
+            if !destinationTextFieldTapped {
+                destinationTextFieldTapped = true
+                animate(textField: destinationTextField)
             }
-            placeType = .to
+            placeType = .destination
             
         default:
             break
@@ -223,13 +221,13 @@ extension RideSearchViewController: RideSearchDelegate {
         case .increase:
             if passengersCount < 10 {
                 passengersCount += 1
-                setCount()
+                setPassengersCountWithDeclension()
             }
             
         case .decrease:
             if passengersCount > 1 {
                 passengersCount -= 1
-                setCount()
+                setPassengersCountWithDeclension()
             }
         }
     }
@@ -238,30 +236,30 @@ extension RideSearchViewController: RideSearchDelegate {
         return "\(passengersCount)"
     }
     
-    func setCoordinates(placemark: MKPlacemark, forPlace placeType: PlaceType) {
+    func setCoordinates(with placemark: MKPlacemark, forPlace placeType: PlaceType) {
         guard let longitude = placemark.location?.coordinate.longitude,
               let latitude = placemark.location?.coordinate.latitude else { return }
         
         switch placeType {
-        case .from:
-            fromCoordinates = "\(latitude),\(longitude)"
-            fromCLLocation = CLLocation(latitude: latitude, longitude: longitude)
+        case .department:
+            departureCoordinates = "\(latitude),\(longitude)"
+            departureCLLocation = CLLocation(latitude: latitude, longitude: longitude)
             
-        case .to:
-            toCoordinates = "\(latitude),\(longitude)"
+        case .destination:
+            destinationCoordinates = "\(latitude),\(longitude)"
         }
     }
     
     func continueAfterMapVC(from placeType: PlaceType, withPlaceName name: String) {
         switch placeType {
         
-        case .from:
-            fromTextField.text = name
-            dismissFromTextField()
+        case .department:
+            departureTextField.text = name
+            dismissDepartureTextField()
             
-        case .to:
-            toTextField.text = name
-            dismissToTextField()
+        case .destination:
+            destinationTextField.text = name
+            dismissDestinationTextField()
         }
     }
     
@@ -299,15 +297,15 @@ extension RideSearchViewController: UITableViewDataSource {
         let coordinates = "\(latitude),\(longitude)"
         
         switch placeType {
-        case .from:
-            fromTextField.text = placemark.name
-            fromCoordinates = coordinates
-            dismissFromTextField()
+        case .department:
+            departureTextField.text = placemark.name
+            departureCoordinates = coordinates
+            dismissDepartureTextField()
             
-        case .to:
-            toTextField.text = placemark.name
-            toCoordinates = coordinates
-            dismissToTextField()
+        case .destination:
+            destinationTextField.text = placemark.name
+            destinationCoordinates = coordinates
+            dismissDestinationTextField()
             
         default:
             break
@@ -342,7 +340,7 @@ extension RideSearchViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("error is \(error)")
+        print("LocationManager error is \(error)")
     }
     
 }
@@ -360,17 +358,12 @@ extension RideSearchViewController {
     }
     
     func animate(textField: UITextField) {
-        let constraintFactory: Constraintable = ConstraintFactory(view: view, toContentSubview: toContentSubview, toTextField: toTextField,
-                                                                  tableViewSubview: tableViewSubview)
         
         switch textField {
-        
-        case fromTextField:
+        case departureTextField:
             view.setNeedsLayout()
             tableViewSubviewTopConstraint.isActive = false
-            
-            tableViewSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .tableViewSubview, tableSubviewTopAnchor: fromContentSubview)
-            
+            tableViewSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .tableViewSubview, tableSubviewTopAnchor: departureContentSubview)
             tableViewSubviewTopConstraint.isActive = true
             
             UIView.animate(withDuration: 0.3) {
@@ -379,22 +372,22 @@ extension RideSearchViewController {
                 self.view.layoutIfNeeded()
             }
             setUIElementsHidden(to: true)
-            fromBackButton.isHidden = false
-            toContentSubview.isHidden = true
+            departureBackButton.isHidden = false
+            destinationContentSubview.isHidden = true
             
-        case toTextField:
+        case destinationTextField:
             view.setNeedsLayout()
-            toContentSubviewTopConstraint.isActive = false
+            destinationContentSubviewTopConstraint.isActive = false
             tableViewSubviewTopConstraint.isActive = false
-            toTFTopConstraint.isActive = false
+            destinationTFTopConstraint.isActive = false
             
-            toContentSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .toContentSubview, tableSubviewTopAnchor: toContentSubview)
-            tableViewSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .tableViewSubview, tableSubviewTopAnchor: fromContentSubview)
-            toTFTopConstraint = constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .toTextField, tableSubviewTopAnchor: fromContentSubview)
+            destinationContentSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .toContentSubview, tableSubviewTopAnchor: destinationContentSubview)
+            tableViewSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .tableViewSubview, tableSubviewTopAnchor: departureContentSubview)
+            destinationTFTopConstraint = constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .toTextField, tableSubviewTopAnchor: departureContentSubview)
             
-            toContentSubviewTopConstraint.isActive = true
+            destinationContentSubviewTopConstraint.isActive = true
             tableViewSubviewTopConstraint.isActive = true
-            toTFTopConstraint.isActive = true
+            destinationTFTopConstraint.isActive = true
             
             UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut], animations: {
                 self.navigationController?.setNavigationBarHidden(true, animated: true)
@@ -402,8 +395,8 @@ extension RideSearchViewController {
                 self.view.layoutIfNeeded()
             })
             setUIElementsHidden(to: true)
-            fromContentSubview.isHidden = true
-            toBackButton.isHidden = false
+            departureContentSubview.isHidden = true
+            destinationBackButton.isHidden = false
             
         default:
             break
@@ -411,32 +404,29 @@ extension RideSearchViewController {
     }
     
     func dismissAnimation(textField: UITextField) {
-        let constraintFactory: Constraintable = ConstraintFactory(view: view, toContentSubview: toContentSubview, toTextField: toTextField,
-                                                                  tableViewSubview: tableViewSubview)
-        
         switch textField {
-        case fromTextField:
-            fromTextFieldTapped = false
+        case departureTextField:
+            departureTextFieldTapped = false
             UIView.animate(withDuration: 0.3) {
                 self.navigationController?.setNavigationBarHidden(false, animated: true)
                 self.tableViewSubview.alpha = 0.0
                 self.view.layoutIfNeeded()
             }
             setUIElementsHidden(to: false)
-            fromBackButton.isHidden = true
-            toContentSubview.isHidden = false
+            departureBackButton.isHidden = true
+            destinationContentSubview.isHidden = false
             
-        case toTextField:
-            toTextFieldTapped = false
+        case destinationTextField:
+            destinationTextFieldTapped = false
             view.setNeedsLayout()
-            toContentSubviewTopConstraint.isActive = false
-            toTFTopConstraint.isActive = false
+            destinationContentSubviewTopConstraint.isActive = false
+            destinationTFTopConstraint.isActive = false
             
-            toContentSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .toContentSubview, tableSubviewTopAnchor: toContentSubview)
-            toTFTopConstraint = constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .toTextField, tableSubviewTopAnchor: toContentSubview)
+            destinationContentSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .toContentSubview, tableSubviewTopAnchor: destinationContentSubview)
+            destinationTFTopConstraint = constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .toTextField, tableSubviewTopAnchor: destinationContentSubview)
             
-            toContentSubviewTopConstraint.isActive = true
-            toTFTopConstraint.isActive = true
+            destinationContentSubviewTopConstraint.isActive = true
+            destinationTFTopConstraint.isActive = true
             
             UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut], animations: {
                 self.navigationController?.setNavigationBarHidden(false, animated: true)
@@ -444,9 +434,9 @@ extension RideSearchViewController {
                 self.view.layoutIfNeeded()
             })
             setUIElementsHidden(to: false)
-            fromContentSubview.isHidden = false
-            toBackButton.isHidden = true
-            print(toTextField.frame)
+            departureContentSubview.isHidden = false
+            destinationBackButton.isHidden = true
+            print(destinationTextField.frame)
             
             
         default:

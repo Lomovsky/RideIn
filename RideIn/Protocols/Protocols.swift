@@ -13,7 +13,7 @@ protocol RideSearchDelegate: class {
     func changePassengersCount(with operation: Operation)
     func getPassengersCount() -> String
     func continueAfterMapVC(from placeType: PlaceType, withPlaceName name: String)
-    func setCoordinates(placemark: MKPlacemark, forPlace placeType: PlaceType)
+    func setCoordinates(with placemark: MKPlacemark, forPlace placeType: PlaceType)
     func setNavigationControllerHidden(to state: Bool, animated: Bool)
 }
 
@@ -36,7 +36,7 @@ protocol DateTimeReturnable {
 }
 
 //MARK:- Constrainable
-protocol Constraintable {
+protocol ConstraintFactory {
     func makeConstraint(forAnimationState state: AnimationState, animatingView: AnimatingViews, tableSubviewTopAnchor toView: UIView) -> NSLayoutConstraint
 }
 

@@ -13,7 +13,7 @@ struct DateTimeManager: DateTimeReturnable {
     func getDateTime(format: DateFormat, from trip: Trip?, for placeType: PlaceType) -> String {
 
         switch placeType {
-        case .from:
+        case .department:
             switch format {
             case .dddmmyy:
                 guard let trip = trip else { return "" }
@@ -29,7 +29,7 @@ struct DateTimeManager: DateTimeReturnable {
                 return time
             }
             
-        case .to:
+        case .destination:
             switch format {
             case .dddmmyy:
                 guard let trip = trip else { return "" }

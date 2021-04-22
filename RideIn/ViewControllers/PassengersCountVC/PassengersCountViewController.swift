@@ -9,7 +9,6 @@ import UIKit
 
 final class PassengersCountViewController: UIViewController {
     
-    let rideSearchVC = RideSearchViewController()
     weak var rideSearchDelegate: RideSearchDelegate?
     
     //MARK: UIElements -

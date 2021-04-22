@@ -33,8 +33,8 @@ enum Query {
 
 //To operate with different types of requests
 enum PlaceType {
-    case from
-    case to
+    case department
+    case destination
 }
 
 //To get date or time from Trip

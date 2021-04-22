@@ -56,24 +56,21 @@ extension MapViewController {
         }
     }
     
-    func lookUpForLocation(by coordinates: CLLocation?, completionHandler: @escaping (CLPlacemark?) -> Void ) {
+    private func lookUpForLocation(by coordinates: CLLocation?, completionHandler: @escaping (CLPlacemark?) -> Void ) {
         // Use the last reported location.
         if let lastLocation = coordinates {
             let geocoder = CLGeocoder()
-            
             // Look up the location and pass it to the completion handler
             geocoder.reverseGeocodeLocation(lastLocation, completionHandler: { (placemarks, error) in
                 if error == nil {
                     let firstLocation = placemarks?[0]
                     completionHandler(firstLocation)
-                }
-                else {
+                } else {
                     print("An error occurred during geocoding.")
                     completionHandler(nil)
                 }
             })
-        }
-        else {
+        } else {
             print("No location was available.")
             completionHandler(nil)
         }
@@ -97,7 +94,7 @@ extension MapViewController: CLLocationManagerDelegate {
                 mapView.setRegion(region, animated: true)
             }
         }
-   
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -115,16 +112,13 @@ extension MapViewController: MKMapViewDelegate {
         
         let reuseId = "pin"
         var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
-        pinView?.image = UIImage(systemName: "mappin.circle.fill")
-        pinView?.pinTintColor = .lightBlue
         
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.canShowCallout = true
             pinView!.rightCalloutAccessoryView = UIButton(type: .infoDark)
-            pinView!.pinTintColor = UIColor.black
-        }
-        else {
+            pinView!.pinTintColor = .systemRed
+        } else {
             pinView!.annotation = annotation
         }
         return pinView
@@ -151,8 +145,9 @@ extension MapViewController: MKMapViewDelegate {
             if let route = unwrappedResponse.routes.first {
                 //show on map
                 self.mapView.addOverlay(route.polyline)
-
-                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets.init(top: 80.0, left: 20.0, bottom: 100.0, right: 20.0), animated: true)
+                
+                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect,
+                                               edgePadding: UIEdgeInsets.init(top: 80.0, left: 20.0, bottom: 100.0, right: 20.0), animated: true)
             }
             
         }
@@ -162,7 +157,7 @@ extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = .red
+        renderer.strokeColor = .lightBlue
         renderer.lineWidth = 5
         return renderer
     }

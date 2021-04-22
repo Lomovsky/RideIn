@@ -15,7 +15,7 @@ extension UIColor {
 
 
 //MARK:- UIScrollView
-//Scrolls pagged scrollView
+//Scrolls paged scrollView
 extension UIScrollView {
     func scrollTo(horizontalPage: Int? = 0, verticalPage: Int? = 0, numberOfPages: Int? = 0, animated: Bool? = true) {
         let contentWidth = contentSize.width

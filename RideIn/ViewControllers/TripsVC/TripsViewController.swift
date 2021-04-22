@@ -18,7 +18,7 @@ final class TripsViewController: UIViewController {
     var closestTrip: Trip?
     
     var departurePlaceName = String()
-    var arrivingPlaceName = String()
+    var destinationPlaceName = String()
     var numberOfPassengers = Int()
     var date = "Сегодня"
         
@@ -232,7 +232,7 @@ final class TripsViewController: UIViewController {
         backButton.layer.cornerRadius = 15
         backButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         backButton.tintColor = .systemGray
-        backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
     }
     
     private func setupFromLabel() {
@@ -262,7 +262,7 @@ final class TripsViewController: UIViewController {
             toLabel.trailingAnchor.constraint(equalTo: contentSubview.trailingAnchor),
             toLabel.leadingAnchor.constraint(equalTo: arrowImageView.trailingAnchor, constant: 5)
         ])
-        toLabel.text = arrivingPlaceName
+        toLabel.text = destinationPlaceName
         toLabel.textColor = .darkGray
         toLabel.font = .boldSystemFont(ofSize: 15)
         toLabel.textAlignment = .center

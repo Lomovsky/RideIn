@@ -10,7 +10,7 @@ import UIKit
 //MARK:- HelpingMethods
 extension TripsViewController {
     
-    @objc final func goBack() {
+    @objc final func backButtonPressed() {
         rideSearchDelegate?.setNavigationControllerHidden(to: false, animated: false)
         navigationController?.popViewController(animated: true)
     }
@@ -67,15 +67,15 @@ extension TripsViewController: UICollectionViewDataSource {
                                                           for: indexPath) as! TripCollectionViewCell
             setCellShadow(for: cell, color: .black, radius: 4, opacity: 0.1)
             
-            let cheapestTripDepartureTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: cheapestTrip, for: .from)
-            let cheapestTripArrivingTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: cheapestTrip, for: .to)
+            let cheapestTripDepartureTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: cheapestTrip, for: .department)
+            let cheapestTripArrivingTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: cheapestTrip, for: .destination)
             
-            let closestTripDepartureTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: closestTrip, for: .from)
-            let closestTripArrivingTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: closestTrip, for: .to)
+            let closestTripDepartureTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: closestTrip, for: .department)
+            let closestTripArrivingTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: closestTrip, for: .destination)
             
             if indexPath.row == 0 {
                 cell.configureTheCell(departurePlace: departurePlaceName,
-                                      arrivingPlace: arrivingPlaceName,
+                                      arrivingPlace: destinationPlaceName,
                                       departureTime: cheapestTripDepartureTimeString,
                                       arrivingTime: cheapestTripArrivingTimeString,
                                       filterType: "Дешевле всего",
@@ -83,7 +83,7 @@ extension TripsViewController: UICollectionViewDataSource {
                 
             } else {
                 cell.configureTheCell(departurePlace: departurePlaceName,
-                                      arrivingPlace: arrivingPlaceName,
+                                      arrivingPlace: destinationPlaceName,
                                       departureTime: closestTripDepartureTimeString,
                                       arrivingTime: closestTripArrivingTimeString,
                                       filterType: "Быстрее всего",
@@ -96,11 +96,11 @@ extension TripsViewController: UICollectionViewDataSource {
                                                           for: indexPath) as! TripCollectionViewCell
             setCellShadow(for: cell, color: .black, radius: 5, opacity: 0.4)
             let trip = trips[indexPath.row]
-            let tripDepartureTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .from)
-            let tripArrivingTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .to)
+            let tripDepartureTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .department)
+            let tripArrivingTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .destination)
             
             cell.configureTheCell(departurePlace: departurePlaceName,
-                                  arrivingPlace: arrivingPlaceName,
+                                  arrivingPlace: destinationPlaceName,
                                   departureTime: tripDepartureTime,
                                   arrivingTime: tripArrivingTime,
                                   filterType: nil,
@@ -112,11 +112,11 @@ extension TripsViewController: UICollectionViewDataSource {
                                                           for: indexPath) as! TripCollectionViewCell
             setCellShadow(for: cell, color: .black, radius: 5, opacity: 0.4)
             let trip = cheapTripsToTop[indexPath.row]
-            let tripDepartureTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .from)
-            let tripArrivingTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .to)
+            let tripDepartureTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .department)
+            let tripArrivingTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .destination)
             
             cell.configureTheCell(departurePlace: departurePlaceName,
-                                  arrivingPlace: arrivingPlaceName,
+                                  arrivingPlace: destinationPlaceName,
                                   departureTime: tripDepartureTime,
                                   arrivingTime: tripArrivingTime,
                                   filterType: nil,
@@ -128,11 +128,11 @@ extension TripsViewController: UICollectionViewDataSource {
                                                           for: indexPath) as! TripCollectionViewCell
             setCellShadow(for: cell, color: .black, radius: 5, opacity: 0.4)
             let trip = cheapTripsToBottom[indexPath.row]
-            let tripDepartureTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .from)
-            let tripArrivingTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .to)
+            let tripDepartureTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .department)
+            let tripArrivingTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .destination)
             
             cell.configureTheCell(departurePlace: departurePlaceName,
-                                  arrivingPlace: arrivingPlaceName,
+                                  arrivingPlace: destinationPlaceName,
                                   departureTime: tripDepartureTime,
                                   arrivingTime: tripArrivingTime,
                                   filterType: nil,
@@ -151,47 +151,47 @@ extension TripsViewController: UICollectionViewDataSource {
         case recommendationsCollectionView:
             if indexPath.row == 0 {
                 guard let trip = cheapestTrip else { return }
-                let departmentTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .from)
-                let arrivingTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .to)
+                let departmentTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .department)
+                let arrivingTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .destination)
                 let price = Float(trip.price.amount)
                 showTripVC(trip: trip, date: date, passengersCount: numberOfPassengers, departmentPlace: departurePlaceName,
-                           departmentTime: departmentTime, arrivingPlace: arrivingPlaceName,
+                           departmentTime: departmentTime, arrivingPlace: destinationPlaceName,
                            arrivingTime: arrivingTime, price: price ?? 0)
             } else {
                 guard let trip = closestTrip else { return }
-                let departmentTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .from)
-                let arrivingTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .to)
+                let departmentTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .department)
+                let arrivingTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .destination)
                 let price = Float(trip.price.amount)
                 showTripVC(trip: trip, date: date, passengersCount: numberOfPassengers, departmentPlace: departurePlaceName,
-                           departmentTime: departmentTime, arrivingPlace: arrivingPlaceName,
+                           departmentTime: departmentTime, arrivingPlace: destinationPlaceName,
                            arrivingTime: arrivingTime, price: price ?? 0)
             }
             
         case allTipsCollectionView:
             let trip = trips[indexPath.row]
-            let departmentTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .from)
-            let arrivingTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .to)
+            let departmentTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .department)
+            let arrivingTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .destination)
             let price = Float(trip.price.amount)
             showTripVC(trip: trip, date: date, passengersCount: numberOfPassengers, departmentPlace: departurePlaceName,
-                       departmentTime: departmentTime, arrivingPlace: arrivingPlaceName,
+                       departmentTime: departmentTime, arrivingPlace: destinationPlaceName,
                        arrivingTime: arrivingTime, price: price ?? 0)
             
         case cheapTripsToTopCollectionView:
             let trip = cheapTripsToTop[indexPath.row]
-            let departmentTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .from)
-            let arrivingTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .to)
+            let departmentTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .department)
+            let arrivingTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .destination)
             let price = Float(trip.price.amount)
             showTripVC(trip: trip, date: date, passengersCount: numberOfPassengers, departmentPlace: departurePlaceName,
-                       departmentTime: departmentTime, arrivingPlace: arrivingPlaceName,
+                       departmentTime: departmentTime, arrivingPlace: destinationPlaceName,
                        arrivingTime: arrivingTime, price: price ?? 0)
             
         case cheapTripsToBottomCollectionView:
             let trip = cheapTripsToBottom[indexPath.row]
-            let departmentTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .from)
-            let arrivingTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .to)
+            let departmentTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .department)
+            let arrivingTime = dateTimeManager.getDateTime(format: .hhmmss, from: trip, for: .destination)
             let price = Float(trip.price.amount)
             showTripVC(trip: trip, date: date, passengersCount: numberOfPassengers, departmentPlace: departurePlaceName,
-                       departmentTime: departmentTime, arrivingPlace: arrivingPlaceName,
+                       departmentTime: departmentTime, arrivingPlace: destinationPlaceName,
                        arrivingTime: arrivingTime, price: price ?? 0)
             
         default: break
@@ -228,8 +228,7 @@ extension TripsViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         switch scrollView {
-        case pageScrollView:
-            pagesSegmentedControl.selectedSegmentIndex = Int(round(scrollView.contentOffset.x / view.frame.width))
+        case pageScrollView: pagesSegmentedControl.selectedSegmentIndex = Int(round(scrollView.contentOffset.x / view.frame.width))
             
         default: break
         }

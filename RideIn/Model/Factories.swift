@@ -14,9 +14,9 @@ struct MainURLFactory: URLFactory {
     func setCoordinates(coordinates: String, place: PlaceType) {
         
         switch place {
-        case .from: Query.fromCoordinates = coordinates
+        case .department: Query.fromCoordinates = coordinates
             
-        case .to: Query.toCoordinates = coordinates
+        case .destination: Query.toCoordinates = coordinates
         }
     }
     
@@ -46,11 +46,12 @@ struct MainURLFactory: URLFactory {
 }
 
 //MARK:- ConstraintFactory
-struct ConstraintFactory: Constraintable {
+struct MainConstraintFactory: ConstraintFactory {
     let view: UIView
     let toContentSubview: UIView
     let toTextField: UITextField
     let tableViewSubview: UIView
+    
     
     func makeConstraint(forAnimationState state: AnimationState, animatingView: AnimatingViews, tableSubviewTopAnchor toView: UIView) -> NSLayoutConstraint {
         switch animatingView {
@@ -108,10 +109,10 @@ struct ConstraintFactory: Constraintable {
         }
     }
     
-    init(view: UIView, toContentSubview: UIView, toTextField: UITextField, tableViewSubview: UIView) {
+    init(view: UIView, destinationContentSubview: UIView, destinationTextField: UITextField, tableViewSubview: UIView) {
         self.view = view
-        self.toContentSubview = toContentSubview
-        self.toTextField = toTextField
+        self.toContentSubview = destinationContentSubview
+        self.toTextField = destinationTextField
         self.tableViewSubview = tableViewSubview
     }
     

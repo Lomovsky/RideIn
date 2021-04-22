@@ -10,16 +10,18 @@ import MapKit
 
 
 final class MapViewController: UIViewController {
-    
+
     let locationManager = CLLocationManager()
     var matchingItems = [MKMapItem]()
     var selectedPin: MKPlacemark? = nil
-    var ignoreLocation = false
     
     var placeType: PlaceType?
     var timer: Timer?
     
-    var textFieldTapped = false
+    var ignoreLocation = false
+    var gestureRecognizerEnabled = true
+    var textFieldActivated = false
+    
     weak var rideSearchDelegate: RideSearchDelegate?
     
     //MARK: UIElements-
@@ -200,7 +202,7 @@ final class MapViewController: UIViewController {
         proceedButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.fill
         proceedButton.contentVerticalAlignment = UIControl.ContentVerticalAlignment.fill
         proceedButton.isHidden = true
-        proceedButton.addTarget(self, action: #selector(sendCoordinates), for: .touchUpInside)
+        proceedButton.addTarget(self, action: #selector(sendCoordinatesToRideSearchVC), for: .touchUpInside)
     }
     
     deinit {
@@ -208,3 +210,5 @@ final class MapViewController: UIViewController {
     }
     
 }
+
+

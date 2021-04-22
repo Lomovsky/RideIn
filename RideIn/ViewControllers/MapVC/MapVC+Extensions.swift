@@ -13,27 +13,21 @@ import MapKit
 extension MapViewController: UITextFieldDelegate {
     
     @objc final func textFieldDidChange(_ textField: UITextField) {
+        guard let text = textField.text, text != "" else { proceedButton.isHidden = true; return }
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = text
+        request.region = mapView.region
+        let search = MKLocalSearch(request: request)
         
-        if let text = textField.text, text != "" {
-            proceedButton.isHidden = false
-            let request = MKLocalSearch.Request()
-            request.naturalLanguageQuery = text
-            request.region = mapView.region
-            let search = MKLocalSearch(request: request)
-            
-            timer?.invalidate()
-            timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [unowned self] (_) in
-                search.start { response, _ in
-                    guard let response = response else {
-                        return
-                    }
-                    self.matchingItems = response.mapItems
-                    self.placesTableView.reloadData()
-                }
-            })
-        } else {
-            proceedButton.isHidden = true
-        }
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
+            search.start { [unowned self] response, _ in
+                guard let response = response else { proceedButton.isHidden = true; return }
+                self.matchingItems = response.mapItems
+                self.placesTableView.reloadData()
+            }
+        })
+        proceedButton.isHidden = false
     }
     
     
@@ -54,29 +48,30 @@ extension MapViewController: UITextFieldDelegate {
 //MARK: - HelpingMethods
 extension MapViewController {
     
+    func setupLongTapRecognizer() {
+        if gestureRecognizerEnabled {
+            let longTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap))
+            mapView.addGestureRecognizer(longTapGesture)
+        }
+    }
+    
     @objc final func goBack() {
         navigationController?.popViewController(animated: true)
     }
     
-    @objc final func dismissTableView() {
-        animateTableView(toSelected: false)
-        searchTF.resignFirstResponder()
-        backButton.removeTarget(self, action: #selector(dismissTableView), for: .touchUpInside)
-        backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
-    }
-    
-    @objc final func sendCoordinates() {
+
+    @objc final func sendCoordinatesToRideSearchVC() {
         guard let placemark = selectedPin, let placeName = searchTF.text else { return }
         
         switch placeType {
-        case .from:
-            rideSearchDelegate?.setCoordinates(placemark: placemark, forPlace:.from)
-            rideSearchDelegate?.continueAfterMapVC(from: .from, withPlaceName: placeName)
+        case .department:
+            rideSearchDelegate?.setCoordinates(with: placemark, forPlace:.department)
+            rideSearchDelegate?.continueAfterMapVC(from: .department, withPlaceName: placeName)
             navigationController?.popToRootViewController(animated: true)
             
-        case .to:
-            rideSearchDelegate?.setCoordinates(placemark: placemark, forPlace: .to)
-            rideSearchDelegate?.continueAfterMapVC(from: .to, withPlaceName: placeName)
+        case .destination:
+            rideSearchDelegate?.setCoordinates(with: placemark, forPlace: .destination)
+            rideSearchDelegate?.continueAfterMapVC(from: .destination, withPlaceName: placeName)
             navigationController?.popToRootViewController(animated: true)
             
             
@@ -85,8 +80,16 @@ extension MapViewController {
         }
     }
     
+    @objc private func dismissTableView() {
+        animateTableView(toSelected: false)
+        searchTF.resignFirstResponder()
+        backButton.removeTarget(self, action: #selector(dismissTableView), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+    }
     
-    @objc final func longTap(sender: UIGestureRecognizer){
+    
+    @objc private func longTap(sender: UIGestureRecognizer){
+        print("long tap")
         if sender.state == .began {
             mapView.removeAnnotations(mapView.annotations)
             let locationInView = sender.location(in: mapView)
@@ -94,17 +97,17 @@ extension MapViewController {
             addAnnotation(location: locationOnMap)
         }
     }
-    
-    func animateTableView(toSelected state: Bool) {
+
+    private func animateTableView(toSelected state: Bool) {
         if state {
-            textFieldTapped = true
+            textFieldActivated = true
             placesTableView.isHidden = false
             
             UIView.animate(withDuration: 0.3) {
                 self.placesTableView.alpha = 1.0
             }
         } else {
-            textFieldTapped = false
+            textFieldActivated = false
             UIView.animate(withDuration: 0.3) {
                 self.placesTableView.alpha = 0.0
             }
@@ -112,12 +115,6 @@ extension MapViewController {
         }
     }
     
-    func setupLongTapRecognizer() {
-        let longTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap))
-        mapView.addGestureRecognizer(longTapGesture)
-    }
-    
-  
 }
 
 //MARK:- TableViewDataSource & Delegate
@@ -129,13 +126,11 @@ extension MapViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MapTableViewCell.reuseIdentifier, for: indexPath) as! MapTableViewCell
-        
         let place = matchingItems[indexPath.row].placemark
         
         cell.textLabel?.text = place.name
         cell.detailTextLabel?.isHidden = false
         cell.detailTextLabel?.text = parseAddress(selectedItem: place)
-        
         return cell
     }
     
@@ -144,11 +139,9 @@ extension MapViewController: UITableViewDataSource {
         mapView.removeAnnotations(mapView.annotations)
         dropPinZoomIn(placemark: place, zoom: true)
         dismissTableView()
-        
     }
-    
-    
 }
+
 
 extension MapViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
