@@ -10,16 +10,32 @@ import UIKit
 
 final class TripsViewController: UIViewController {
     
+    /// The base unsorted array of available trips
     var trips = [Trip]()
+    
+    /// The sorted array of available trips with increasing price
     var cheapTripsToTop = [Trip]()
+    
+    /// The sorted array of available trips with decreasing price
     var cheapTripsToBottom = [Trip]()
     
+    /// The cheapest trip
     var cheapestTrip: Trip?
+    
+    /// The closest to user departure  point trip
     var closestTrip: Trip?
     
+    
+    /// The name of the departure place
     var departurePlaceName = String()
+    
+    /// The name of destination place
     var destinationPlaceName = String()
+    
+    /// Number of passengers
     var numberOfPassengers = Int()
+    
+    /// The selected trip departure date
     var date = "Сегодня"
         
     weak var rideSearchDelegate: RideSearchDelegate?

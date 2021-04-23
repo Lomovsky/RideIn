@@ -12,6 +12,9 @@ import MapKit
 //MARK:- UITextFieldDelegate
 extension MapViewController: UITextFieldDelegate {
     
+    /// This method is called each time the user types a character into textField
+    /// Creates search request and starts is every time interval
+    /// - Parameter textField: the text field from which calls this method (AKA sender)
     @objc final func textFieldDidChange(_ textField: UITextField) {
         guard let text = textField.text, text != "" else { proceedButton.isHidden = true; return }
         let request = MKLocalSearch.Request()
@@ -30,7 +33,9 @@ extension MapViewController: UITextFieldDelegate {
         proceedButton.isHidden = false
     }
     
-    
+    /// This method is called each time user tap on a textField
+    /// Sets chosenTF & placeType properties respectively to chosen textField
+    /// - Parameter textField: the text field from which calls this method (AKA sender)
     @objc final func textFieldHasBeenActivated(textField: UITextField) {
         animateTableView(toSelected: true)
         backButton.removeTarget(self, action: #selector(goBack), for: .touchUpInside)
@@ -48,6 +53,7 @@ extension MapViewController: UITextFieldDelegate {
 //MARK: - HelpingMethods
 extension MapViewController {
     
+    /// This method configures longTapGestureRecognizer and adds is to mapView
     func setupLongTapRecognizer() {
         if gestureRecognizerEnabled {
             let longTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap))
@@ -55,31 +61,41 @@ extension MapViewController {
         }
     }
     
+    /// This method is called when the user press backButton
     @objc final func goBack() {
         navigationController?.popViewController(animated: true)
     }
     
-
+    /// This method is called when the user press "proceedButton"
+    /// Use rideSearchDelegate method to set coordinates to RideSearchViewController
+    /// Dismiss MapVC
     @objc final func sendCoordinatesToRideSearchVC() {
-        guard let placemark = selectedPin, let placeName = searchTF.text else { return }
+        guard let placemark = selectedPin else { return }
         
         switch placeType {
         case .department:
             rideSearchDelegate?.setCoordinates(with: placemark, forPlace:.department)
-            rideSearchDelegate?.continueAfterMapVC(from: .department, withPlaceName: placeName)
             navigationController?.popToRootViewController(animated: true)
             
         case .destination:
             rideSearchDelegate?.setCoordinates(with: placemark, forPlace: .destination)
-            rideSearchDelegate?.continueAfterMapVC(from: .destination, withPlaceName: placeName)
             navigationController?.popToRootViewController(animated: true)
-            
             
         default:
             break
         }
     }
     
+    /// This method is called when user press "focusOnUserLocationButton"
+    /// and what a surprise, this method focus mapView on user location
+    @objc final func userLocationButtonTapped() {
+        let location = mapView.userLocation
+        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        let region = MKCoordinateRegion(center: location.coordinate, span: span)
+        mapView.setRegion(region, animated: true)
+    }
+    
+    /// This method is called when tableView is not hidden and user press back button
     @objc private func dismissTableView() {
         animateTableView(toSelected: false)
         searchTF.resignFirstResponder()
@@ -88,6 +104,9 @@ extension MapViewController {
     }
     
     
+    /// The method is called when UIGestureRecognizes longTap
+    /// calls "addAnnotation" method to add a placemark
+    /// - Parameter sender: the gesture recognizer
     @objc private func longTap(sender: UIGestureRecognizer){
         print("long tap")
         if sender.state == .began {
@@ -98,6 +117,9 @@ extension MapViewController {
         }
     }
 
+    
+    /// This method animates tableView to either hidden or not
+    /// - Parameter state: should it be shown or not
     private func animateTableView(toSelected state: Bool) {
         if state {
             textFieldActivated = true
@@ -127,11 +149,11 @@ extension MapViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MapTableViewCell.reuseIdentifier, for: indexPath) as! MapTableViewCell
         let place = matchingItems[indexPath.row].placemark
-        guard let contry = place.country,
+        guard let country = place.country,
               let administrativeArea = place.administrativeArea,
               let name = place.name else { return UITableViewCell()}
         
-        cell.textLabel?.text = ("\(contry), \(administrativeArea), \(name)")
+        cell.textLabel?.text = ("\(country), \(administrativeArea), \(name)")
         cell.detailTextLabel?.isHidden = false
         cell.detailTextLabel?.text = parseAddress(selectedItem: place)
         return cell

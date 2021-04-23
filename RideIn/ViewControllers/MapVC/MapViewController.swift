@@ -10,19 +10,42 @@ import MapKit
 
 
 final class MapViewController: UIViewController {
-
+    //MARK:- Declarations
+    
+    ///Location manager to request user location and proceed place search requests
     let locationManager = CLLocationManager()
+    
+    ///The array of items that match to users search
     var matchingItems = [MKMapItem]()
+    
+    ///The users pin used for sending location to RideSearchVC
     var selectedPin: MKPlacemark? = nil
     
+    
+    ///The type we work with (departure or destination) to configure methods and data transferring between ViewControllers
     var placeType: PlaceType?
+    
+    ///Timer for limiting search requests
     var timer: Timer?
+    
+    ///Distance between department and destination points to display on top of MapView
     var distance = Int()
     
+    
+    //The properties user for reusing MapVC for different needs (in this case to use on both RideSearchVC and TripVC)
+    /// Ignores user location to prevent focusing on it
     var ignoreLocation = false
+    
+    /// The state of longTapGestureRecognizer to configure the accessibility for user  to make a placemark
     var gestureRecognizerEnabled = true
+    
+    ///This property says has user tapped on textField or not to prevent multiple animations
     var textFieldActivated = false
+    
+    ///The property that configures distance subView displaying
     var distanceSubviewIsHidden = true
+    
+    ///The state of textField represents the accessibility for user to write in textField or activate it by a tap
     var textFieldActivationObserverEnabled = true
     
     weak var rideSearchDelegate: RideSearchDelegate?
@@ -83,6 +106,21 @@ final class MapViewController: UIViewController {
         return label
     }()
     
+    let focusOnUserLocationImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "circle.fill")
+        imageView.tintColor = .white
+        return imageView
+    }()
+    
+    let focusOnUserLocationButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    
     
     //MARK: viewDidLoad -
     override func viewDidLoad() {
@@ -100,6 +138,8 @@ final class MapViewController: UIViewController {
         view.addSubview(contentSubview)
         view.addSubview(mapView)
         view.addSubview(proceedButton)
+        view.addSubview(focusOnUserLocationImageView)
+        view.addSubview(focusOnUserLocationButton)
         view.addSubview(placesTableView)
         
         setupLongTapRecognizer()
@@ -112,6 +152,8 @@ final class MapViewController: UIViewController {
         setupSearchTF()
         setupTableView()
         setupProceedButton()
+        setupFocusOnUserLocationImageView()
+        setupFocusOnUserLocationButton()
         setupDistanceSubView()
         setupDistanceLabel()
     }
@@ -249,6 +291,31 @@ final class MapViewController: UIViewController {
         distanceLabel.textColor = .systemGray
         distanceLabel.font = .boldSystemFont(ofSize: 20)
         distanceLabel.text = "Расстояние: \(distance) км"
+    }
+    
+    private func setupFocusOnUserLocationImageView() {
+        NSLayoutConstraint.activate([
+            focusOnUserLocationImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            focusOnUserLocationImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            focusOnUserLocationImageView.heightAnchor.constraint(equalTo: proceedButton.heightAnchor, multiplier: 0.7),
+            focusOnUserLocationImageView.widthAnchor.constraint(equalTo: focusOnUserLocationImageView.heightAnchor)
+        ])
+    }
+    
+    private func setupFocusOnUserLocationButton() {
+        NSLayoutConstraint.activate([
+            focusOnUserLocationButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            focusOnUserLocationButton.centerXAnchor.constraint(equalTo: focusOnUserLocationImageView.centerXAnchor),
+            focusOnUserLocationButton.heightAnchor.constraint(equalTo: proceedButton.heightAnchor, multiplier: 0.5),
+            focusOnUserLocationButton.widthAnchor.constraint(equalTo: focusOnUserLocationButton.heightAnchor)
+        ])
+        focusOnUserLocationButton.setImage(UIImage(systemName: "location.circle.fill"), for: .normal)
+        focusOnUserLocationButton.backgroundColor = .clear
+        focusOnUserLocationButton.tintColor = .lightBlue
+        focusOnUserLocationButton.imageView?.contentMode = .scaleAspectFit
+        focusOnUserLocationButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.fill
+        focusOnUserLocationButton.contentVerticalAlignment = UIControl.ContentVerticalAlignment.fill
+        focusOnUserLocationButton.addTarget(self, action: #selector(userLocationButtonTapped), for: .touchUpInside)
     }
     
     deinit {

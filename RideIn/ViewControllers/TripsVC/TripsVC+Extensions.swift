@@ -10,15 +10,27 @@ import UIKit
 //MARK:- HelpingMethods
 extension TripsViewController {
     
+    /// This method is called then user press back button
     @objc final func backButtonPressed() {
         rideSearchDelegate?.setNavigationControllerHidden(to: false, animated: false)
         navigationController?.popViewController(animated: true)
     }
     
+    
+    /// This method is responsible for scrolling to selected page
+    /// - Parameter sender: UISegmentedControl that called this method
     @objc final func segmentedControlHandler(sender: UISegmentedControl) {
         pageScrollView.scrollTo(horizontalPage: sender.selectedSegmentIndex, numberOfPages: 3, animated: true)
     }
     
+    
+    /// This method was written to reduce the code
+    /// Create a shadow layer to a given UICollectionViewCell
+    /// - Parameters:
+    ///   - cell: the cell on which the shadow layer should be applied onto
+    ///   - color: the shadow color
+    ///   - radius: she shadow radius
+    ///   - opacity: the shadow opacity
     private func setCellShadow(for cell: UICollectionViewCell, color: UIColor, radius: CGFloat, opacity: Float) {
         cell.layer.shadowColor = color.cgColor
         cell.layer.shadowRadius = radius
@@ -29,6 +41,17 @@ extension TripsViewController {
         cell.backgroundColor = .clear
     }
     
+    
+    /// This method is responsible for pushing SelectedTripVC with given data
+    /// - Parameters:
+    ///   - trip: the trip object to pass to SelectedTripVC
+    ///   - date: current date
+    ///   - passengersCount: number of passengers
+    ///   - departmentPlace: departure place
+    ///   - departmentTime: departure time
+    ///   - arrivingPlace: destination place
+    ///   - arrivingTime: destination time
+    ///   - price: price of the trip
     private func showTripVC(trip: Trip, date: String, passengersCount: Int, departmentPlace: String,
                             departmentTime: String, arrivingPlace: String,
                             arrivingTime: String, price: Float) {
@@ -36,7 +59,7 @@ extension TripsViewController {
         vc.date = date
         vc.departurePlace = departmentPlace
         vc.departureTime = departmentTime
-        vc.arrivingPlace = arrivingPlace
+        vc.destinationPlace = arrivingPlace
         vc.arrivingTime = arrivingTime
         vc.passengersCount = passengersCount
         vc.priceForOne = price

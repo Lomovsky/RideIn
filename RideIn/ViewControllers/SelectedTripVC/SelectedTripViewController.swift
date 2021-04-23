@@ -10,19 +10,43 @@ import MapKit
 
 final class SelectedTripViewController: UIViewController {
     
+    /// The trip which data should be presented
     var selectedTrip: Trip?
     
+    /// The date of the trip
     var date = String()
     
+    /// The departure time of the trip
     var departureTime = String()
-    var departurePlace = String()
-    var arrivingTime = String()
-    var arrivingPlace = String()
     
+    /// The departure place name of the trip
+    var departurePlace = String()
+    
+    /// The arriving time of the trip
+    var arrivingTime = String()
+    
+    /// The destination place
+    var destinationPlace = String()
+    
+    /// Number of passengers requested for a trip
     var passengersCount = Int()
+    
+    ///Price for one passanger
     var priceForOne = Float()
     
     //MARK: UIElements -
+    let departurePlaceMapButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let destinationPlaceMapButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     private let navigationSubview: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -101,22 +125,10 @@ final class SelectedTripViewController: UIViewController {
         return label
     }()
     
-    private let departurePlaceMapButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
     private let destinationPlaceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
-    }()
-    
-    private let destinationPlaceMapButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
     }()
     
     private let priceSubview: UIView = {
@@ -347,7 +359,7 @@ final class SelectedTripViewController: UIViewController {
             destinationPlaceLabel.trailingAnchor.constraint(equalTo: destinationPlaceMapButton.leadingAnchor, constant: -5)
 
         ])
-        destinationPlaceLabel.text = arrivingPlace
+        destinationPlaceLabel.text = destinationPlace
         destinationPlaceLabel.textColor = .darkGray
         destinationPlaceLabel.font = .boldSystemFont(ofSize: 20)
         destinationPlaceLabel.numberOfLines = 1
@@ -402,58 +414,8 @@ final class SelectedTripViewController: UIViewController {
         priceLabel.textColor = .darkGray
         priceLabel.font = . boldSystemFont(ofSize: 20)
     }
-}
-
-
-//MARK:- Helping methods
-extension SelectedTripViewController {
-    @objc final func backButtonPressed() {
-        navigationController?.popViewController(animated: true)
-    }
     
-    @objc final func showMap(sender: UIButton) {
-        let vc = MapViewController()
-        guard let depLatitude = selectedTrip?.waypoints.first?.place.latitude,
-              let depLongitude = selectedTrip?.waypoints.first?.place.longitude,
-              let arriveLatitude = selectedTrip?.waypoints.last?.place.latitude,
-              let arriveLongitude = selectedTrip?.waypoints.last?.place.longitude
-        else { return }
-        let depCoordinates = CLLocationCoordinate2D(latitude: depLatitude, longitude: depLongitude)
-        let depPlacemark = MKPlacemark(coordinate: depCoordinates)
-        let destCoordinates = CLLocationCoordinate2D(latitude: arriveLatitude, longitude: arriveLongitude)
-        let destPlacemark = MKPlacemark(coordinate: destCoordinates)
-        let distance = getDistanceBetween(departureLocation: depCoordinates, destinationLocation: destCoordinates)
-        let distanceString = String(NSString(format: "%.2f", distance))
-        if let distanceDouble = Double(distanceString) { vc.distance = Int((distanceDouble / 1000).rounded()) }
-        vc.gestureRecognizerEnabled = false
-        vc.mapView.showsTraffic = true
-        vc.ignoreLocation = true
-        vc.distanceSubviewIsHidden = false
-        vc.textFieldActivationObserverEnabled = false
-        
-        switch sender {
-        case departurePlaceMapButton:
-            vc.searchTF.text = selectedTrip?.waypoints.first?.place.address
-            vc.showRouteOnMap(pickUpPlacemark: depPlacemark, destinationPlacemark: destPlacemark)
-            vc.dropPinZoomIn(placemark: destPlacemark, zoom: false)
-            vc.dropPinZoomIn(placemark: depPlacemark, zoom: true)
-            navigationController?.pushViewController(vc, animated: true)
-            
-        case destinationPlaceMapButton:
-            vc.searchTF.text = selectedTrip?.waypoints.last?.place.address
-            vc.showRouteOnMap(pickUpPlacemark: depPlacemark, destinationPlacemark: destPlacemark)
-            vc.dropPinZoomIn(placemark: depPlacemark, zoom: false)
-            vc.dropPinZoomIn(placemark: destPlacemark, zoom: true)
-            navigationController?.pushViewController(vc, animated: true)
-            
-        default: break
-        }
+    deinit {
+        print("deallocating \(self)")
     }
-    
-    private func getDistanceBetween(departureLocation: CLLocationCoordinate2D, destinationLocation: CLLocationCoordinate2D) -> CLLocationDistance {
-        let departureLocationCoordinates = CLLocation(latitude: departureLocation.latitude, longitude: departureLocation.longitude)
-        let destinationLocationCoordinates = CLLocation(latitude: destinationLocation.latitude, longitude: destinationLocation.longitude)
-        return destinationLocationCoordinates.distance(from: departureLocationCoordinates)
-    }
-    
 }
