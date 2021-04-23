@@ -30,7 +30,7 @@ protocol NetworkManager {
 }
 
 //MARK:- DateTimeReturnable
-protocol DateTimeReturnable {
+protocol DateTimeFormatter {
     func getDateTime(format: DateFormat, from trip: Trip?, for placeType: PlaceType) -> String
 }
 

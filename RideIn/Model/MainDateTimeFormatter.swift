@@ -8,7 +8,7 @@
 import UIKit
 
 
-struct DateTimeManager: DateTimeReturnable {
+struct MainDateTimeFormatter: DateTimeFormatter {
 
     func getDateTime(format: DateFormat, from trip: Trip?, for placeType: PlaceType) -> String {
 

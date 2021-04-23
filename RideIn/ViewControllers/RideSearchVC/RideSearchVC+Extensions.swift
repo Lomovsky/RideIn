@@ -19,18 +19,14 @@ extension RideSearchViewController: UIGestureRecognizerDelegate {
 //MARK:- Helping methods
 extension RideSearchViewController {
     
-    /// Sets the passengers count property
-    @objc final func setPassengersCount() {
+    /// Presents PassengersCountVC
+    @objc final func passengersCountButtonTapped() {
         let vc = PassengersCountViewController()
         vc.rideSearchDelegate = self
         navigationController?.present(vc, animated: true, completion: nil)
     }
     
-    
-    /**
-     Is triggered then search button is tapped. This method sets coordinates with URLFactory
-    and asks networkManager to download data.
-     */
+     ///This method sets coordinates with URLFactory and asks networkManager to download data.
     @objc final func searchButtonTapped() {
         configureIndicatorAndButton(indicatorEnabled: true)
         urlFactory.setCoordinates(coordinates: departureCoordinates, place: .department)
@@ -40,7 +36,6 @@ extension RideSearchViewController {
         guard let url = urlFactory.makeURL() else { return }
         
         networkManager.fetchRides(withURL: url) { [unowned self] (result) in
-            
             switch result {
             case .failure(let error): assertionFailure("\(error)")
                 
@@ -48,11 +43,9 @@ extension RideSearchViewController {
                 navigationController?.interactivePopGestureRecognizer?.addTarget(self, action: #selector(navigationGestureRecognizerTriggered))
                 shouldNavigationControllerBeHiddenAnimated.hidden = false
                 shouldNavigationControllerBeHiddenAnimated.animated = true
-               
             }
         }
     }
-    
     
     /// Is triggered when the user press back button on departureTF
     @objc final func dismissDepartureTextField() {
@@ -69,9 +62,9 @@ extension RideSearchViewController {
     }
     
     /**
-     Is triggered when user tap "showBapButton"
-     This method adds an interactivePopGestureRecognizer target to configure
-     navigationController isHidden property if user will swipe back
+     This method:
+      - Adds an interactivePopGestureRecognizer target to configure navigationController isHidden property if user will swipe back
+      - Pushes MapViewController
      */
     @objc final func showMapButtonTapped() {
         let vc = MapViewController()

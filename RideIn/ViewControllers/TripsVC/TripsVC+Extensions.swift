@@ -93,11 +93,11 @@ extension TripsViewController: UICollectionViewDataSource {
             if trips.count == 1 {
                 cell.setPlaceholder()
             } else {
-                let cheapestTripDepartureTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: cheapestTrip, for: .department)
-                let cheapestTripArrivingTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: cheapestTrip, for: .destination)
+                let cheapestTripDepartureTimeString = MainDateTimeFormatter().getDateTime(format: .hhmmss, from: cheapestTrip, for: .department)
+                let cheapestTripArrivingTimeString = MainDateTimeFormatter().getDateTime(format: .hhmmss, from: cheapestTrip, for: .destination)
 
-                let closestTripDepartureTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: closestTrip, for: .department)
-                let closestTripArrivingTimeString = DateTimeManager().getDateTime(format: .hhmmss, from: closestTrip, for: .destination)
+                let closestTripDepartureTimeString = MainDateTimeFormatter().getDateTime(format: .hhmmss, from: closestTrip, for: .department)
+                let closestTripArrivingTimeString = MainDateTimeFormatter().getDateTime(format: .hhmmss, from: closestTrip, for: .destination)
 
                 if indexPath.row == 0 {
                     cell.configureTheCell(departurePlace: departurePlaceName,
@@ -123,8 +123,8 @@ extension TripsViewController: UICollectionViewDataSource {
                                                           for: indexPath) as! TripCollectionViewCell
             setCellShadow(for: cell, color: .black, radius: 5, opacity: 0.4)
             let trip = trips[indexPath.row]
-            let tripDepartureTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .department)
-            let tripArrivingTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .destination)
+            let tripDepartureTime = MainDateTimeFormatter().getDateTime(format: .hhmmss, from: trip, for: .department)
+            let tripArrivingTime = MainDateTimeFormatter().getDateTime(format: .hhmmss, from: trip, for: .destination)
             
             cell.configureTheCell(departurePlace: departurePlaceName,
                                   arrivingPlace: destinationPlaceName,
@@ -139,8 +139,8 @@ extension TripsViewController: UICollectionViewDataSource {
                                                           for: indexPath) as! TripCollectionViewCell
             setCellShadow(for: cell, color: .black, radius: 5, opacity: 0.4)
             let trip = cheapTripsToTop[indexPath.row]
-            let tripDepartureTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .department)
-            let tripArrivingTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .destination)
+            let tripDepartureTime = MainDateTimeFormatter().getDateTime(format: .hhmmss, from: trip, for: .department)
+            let tripArrivingTime = MainDateTimeFormatter().getDateTime(format: .hhmmss, from: trip, for: .destination)
             
             cell.configureTheCell(departurePlace: departurePlaceName,
                                   arrivingPlace: destinationPlaceName,
@@ -155,8 +155,8 @@ extension TripsViewController: UICollectionViewDataSource {
                                                           for: indexPath) as! TripCollectionViewCell
             setCellShadow(for: cell, color: .black, radius: 5, opacity: 0.4)
             let trip = cheapTripsToBottom[indexPath.row]
-            let tripDepartureTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .department)
-            let tripArrivingTime = DateTimeManager().getDateTime(format: .hhmmss, from: trip, for: .destination)
+            let tripDepartureTime = MainDateTimeFormatter().getDateTime(format: .hhmmss, from: trip, for: .department)
+            let tripArrivingTime = MainDateTimeFormatter().getDateTime(format: .hhmmss, from: trip, for: .destination)
             
             cell.configureTheCell(departurePlace: departurePlaceName,
                                   arrivingPlace: destinationPlaceName,
@@ -171,7 +171,7 @@ extension TripsViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let dateTimeManager = DateTimeManager()
+        let dateTimeManager = MainDateTimeFormatter()
         print(numberOfPassengers)
         
         switch collectionView {

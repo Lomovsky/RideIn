@@ -67,8 +67,8 @@ extension MapViewController {
     }
     
     /// This method is called when the user press "proceedButton"
-    /// Use rideSearchDelegate method to set coordinates to RideSearchViewController
-    /// Dismiss MapVC
+    /// - Uses rideSearchDelegate method to set coordinates to RideSearchViewController
+    /// - Dismisses MapVC
     @objc final func sendCoordinatesToRideSearchVC() {
         guard let placemark = selectedPin else { return }
         

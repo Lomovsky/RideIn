@@ -43,7 +43,6 @@ extension MapViewController {
         return addressLine
     }
     
-    
     /// This method creates and  adds an annotation to mapView with given coordinates
     /// - Parameter location: location of type CLLocationCoordinate2D
     func addAnnotation(location: CLLocationCoordinate2D) {

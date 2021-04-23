@@ -69,7 +69,7 @@ final class RideSearchViewController: UIViewController {
     var shouldNavigationControllerBeHiddenAnimated = (hidden: false, animated: false)
     
     
-    ///Current date or the date user chose
+    ///Current date or the date user chose to send as request parameter
     var date: String? = nil
     
     ///Number of passengers to send as request parameter
@@ -79,13 +79,12 @@ final class RideSearchViewController: UIViewController {
     var passengerDeclension: Declensions {
             if passengersCount == 1 {
                 return .one
-            } else if passengersCount < 4, passengersCount != 1 {
+            } else if passengersCount < 4, passengersCount > 1 {
                 return .two
             } else {
                 return .more
             }
     }
-    
     
     //MARK: UIElements -
     let departureContentSubview: UIView = {
@@ -417,7 +416,7 @@ final class RideSearchViewController: UIViewController {
         setPassengersCountWithDeclension()
         passengersButton.setTitleColor(.lightBlue, for: .normal)
         passengersButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        passengersButton.addTarget(self, action: #selector(setPassengersCount), for: .touchUpInside)
+        passengersButton.addTarget(self, action: #selector(passengersCountButtonTapped), for: .touchUpInside)
     }
     
     private func setupBottomLine() {
