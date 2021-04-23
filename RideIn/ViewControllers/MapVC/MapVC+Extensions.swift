@@ -154,7 +154,6 @@ extension MapViewController: UITableViewDataSource {
               let name = place.name else { return UITableViewCell()}
         
         cell.textLabel?.text = ("\(country), \(administrativeArea), \(name)")
-        cell.detailTextLabel?.isHidden = false
         cell.detailTextLabel?.text = parseAddress(selectedItem: place)
         return cell
     }
