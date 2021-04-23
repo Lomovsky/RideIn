@@ -41,8 +41,7 @@ extension RideSearchViewController {
                 
             case .success(let trips): self.prepareDataForTripsVCWith(trips: trips)
                 navigationController?.interactivePopGestureRecognizer?.addTarget(self, action: #selector(navigationGestureRecognizerTriggered))
-                shouldNavigationControllerBeHiddenAnimated.hidden = false
-                shouldNavigationControllerBeHiddenAnimated.animated = true
+                shouldNavigationControllerBeHiddenAnimated = (false, true)
             }
         }
     }
@@ -71,8 +70,7 @@ extension RideSearchViewController {
         vc.rideSearchDelegate = self
         vc.placeType = placeType
         navigationController?.interactivePopGestureRecognizer?.addTarget(self, action: #selector(navigationGestureRecognizerTriggered))
-        shouldNavigationControllerBeHiddenAnimated.hidden = true
-        shouldNavigationControllerBeHiddenAnimated.animated = false
+        shouldNavigationControllerBeHiddenAnimated = (true, false)
         navigationController?.pushViewController(vc, animated: true)
     }
     

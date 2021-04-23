@@ -66,7 +66,7 @@ final class RideSearchViewController: UIViewController {
     
     
     ///Property for configuring navigationController isHidden state due to gestureRecognizer
-    var shouldNavigationControllerBeHiddenAnimated = (hidden: false, animated: false)
+    var shouldNavigationControllerBeHiddenAnimated = (hidden: Bool(), animated: Bool())
     
     
     ///Current date or the date user chose to send as request parameter
@@ -251,8 +251,8 @@ final class RideSearchViewController: UIViewController {
         setupSearchTableView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
         navigationController?.interactivePopGestureRecognizer?.removeTarget(self, action: #selector(navigationGestureRecognizerTriggered))
     }
     
