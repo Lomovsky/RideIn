@@ -29,6 +29,7 @@ extension RideSearchViewController {
      ///This method sets coordinates with URLFactory and asks networkManager to download data.
     @objc final func searchButtonTapped() {
         configureIndicatorAndButton(indicatorEnabled: true)
+        guard ConnectionManager.isConnectedToNetwork() else { presentAlertController(title: "Ошибка", message: "Нет моединения"); return }
         urlFactory.setCoordinates(coordinates: departureCoordinates, place: .department)
         urlFactory.setCoordinates(coordinates: destinationCoordinates, place: .destination)
         urlFactory.setSeats(seats: "\(passengersCount)")
@@ -76,7 +77,6 @@ extension RideSearchViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    
     /// This method changes date property with the new date from UIDatePicker
     /// - Parameter sender: The sender of type UIDatePicker from which we get new date
     @objc final func changeDateWith(sender: UIDatePicker) {
@@ -87,13 +87,10 @@ extension RideSearchViewController {
         let yearString = "\(String(describing: year))"
         var dayString = "\(String(describing: day))"
         var monthString = "\(String(describing: month))"
-
         if day < 10 { dayString = "0\(String(describing: day))" }
         if month < 10 { monthString = "0\(String(describing: month))" }
-        
         date = yearString + "-" + monthString + "-" + dayString + "T00:00:00"
     }
-    
     
     /**
      Is called when user swipes back with navigation controller.
@@ -104,7 +101,6 @@ extension RideSearchViewController {
         setNavigationControllerHidden(to: shouldNavigationControllerBeHiddenAnimated.hidden,
                                       animated: shouldNavigationControllerBeHiddenAnimated.animated)
     }
-    
     
     /// This method is used for configuring "searchButton" and activity indicator state.
     /// Triggered then user press "searchButton" to start activity indicator and hide button to
@@ -145,7 +141,6 @@ extension RideSearchViewController {
         searchButton.isHidden = false
     }
     
-    
     /// This method is responsible for searching for places in users region
     /// - Parameter word: the keyword of the search (e.g. city name)
     private func searchPlaces(withWord word: String?) {
@@ -167,7 +162,6 @@ extension RideSearchViewController {
         })
     }
     
-    
     /// This method calculates distance between two points (in this case between user location and departure point)
     /// - Parameters:
     ///   - userLocation: user location point
@@ -176,7 +170,6 @@ extension RideSearchViewController {
     private func getDistanceBetween(userLocation: CLLocation, departurePoint: CLLocation) -> CLLocationDistance {
         return userLocation.distance(from: departurePoint)
     }
-    
     
     /// This method compares two distances of type CLLocationDistance
     /// - Parameters:
@@ -187,7 +180,6 @@ extension RideSearchViewController {
         return second.isLess(than: first)
     }
     
-    
     /// This method prepares data to be given to TripsVC when it is presented
     /// Method sorts given array of type [Trip] on several ways
     /// Then calls "showTripsVCWith" method with prepared data
@@ -195,15 +187,14 @@ extension RideSearchViewController {
     /// and calls "configureIndicatorAndButton" function
     /// - Parameter trips: the base trips array that contains unsorted trips for user request
     private func prepareDataForTripsVCWith(trips: [Trip]) {
-        if !(trips.isEmpty) {
+        guard !(trips.isEmpty) else { presentAlertController(title: "Ошибка", message: "Нет поездок по вашему запросу"); return }
             let cheapToBottom = trips.sorted(by: { Float($0.price.amount) ?? 0 < Float($1.price.amount) ?? 0  })
             let cheapToTop = trips.sorted(by: { Float($0.price.amount) ?? 0 > Float($1.price.amount) ?? 0  })
             let cheapestTrip = cheapToTop.last
             let closestTrip = trips.sorted(by: { (trip1, trip2) -> Bool in
-                
+
                 let trip1Coordinates = CLLocation(latitude: trip1.waypoints.first!.place.latitude, longitude: trip1.waypoints.first!.place.longitude)
                 let trip2Coordinates = CLLocation(latitude: trip2.waypoints.first!.place.latitude, longitude: trip2.waypoints.first!.place.longitude)
-                
                 let distance1 = getDistanceBetween(userLocation: departureCLLocation, departurePoint: trip1Coordinates)
                 let distance2 = getDistanceBetween(userLocation: departureCLLocation, departurePoint: trip2Coordinates)
                 
@@ -212,9 +203,6 @@ extension RideSearchViewController {
             
             showTripsVCWith(trips: trips, cheapToTop: cheapToTop, expensiveToTop: cheapToBottom,
                             cheapestTrip: cheapestTrip!, closestTrip: closestTrip!)
-        } else {
-            presentAlertController(title: "Ошибка", message: "Нет поездок по вашему запросу")
-        }
     }
     
     /// Method is responsible for presenting TripsVC with given data
@@ -240,7 +228,6 @@ extension RideSearchViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    
     /// Method is responsible for presenting alertController
     /// - Parameters:
     ///   - title: title of the alert
@@ -251,13 +238,11 @@ extension RideSearchViewController {
         configureIndicatorAndButton(indicatorEnabled: false)
         present(alertController, animated: true)
     }
-    
 }
 
 
 //MARK: - TextField Delegate
 extension RideSearchViewController: UITextFieldDelegate {
-    
     
     /// This method is called each time the user types a character into textField
     /// Calls "checkTextFieldsForEmptiness" function to configure "searchButton" displaying
@@ -271,8 +256,7 @@ extension RideSearchViewController: UITextFieldDelegate {
             
         case destinationTextField: searchPlaces(withWord: destinationTextField.text)
             
-        default:
-            break
+        default: break
         }
     }
     
@@ -299,8 +283,7 @@ extension RideSearchViewController: UITextFieldDelegate {
             }
             placeType = .destination
             
-        default:
-            break
+        default: break
         }
     }
     
@@ -313,7 +296,6 @@ extension RideSearchViewController: UITextFieldDelegate {
 //MARK: - RideSearchDelegate
 extension RideSearchViewController: RideSearchDelegate {
     
-    
     /// This method of RideSearchDelegate is responsible for changing passengersCount property respectively to given operation type
     /// - Parameter operation: the operation type of type Operation
     func changePassengersCount(with operation: Operation) {
@@ -321,15 +303,14 @@ extension RideSearchViewController: RideSearchDelegate {
         case .increase:
             if passengersCount < 10 {
                 passengersCount += 1
-                setPassengersCountWithDeclension()
             }
             
         case .decrease:
             if passengersCount > 1 {
                 passengersCount -= 1
-                setPassengersCountWithDeclension()
             }
         }
+        setPassengersCountWithDeclension()
     }
     
     /// This method is used for getting passengers count from passengersCount property
@@ -414,8 +395,7 @@ extension RideSearchViewController: UITableViewDataSource {
             destinationCoordinates = coordinates
             dismissDestinationTextField()
             
-        default:
-            break
+        default: break
         }
     }
 }
@@ -433,17 +413,15 @@ extension RideSearchViewController: UITableViewDelegate {
 extension RideSearchViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-            locationManager.requestLocation()
-        }
+        guard status == .authorizedWhenInUse else { return }
+        locationManager.requestLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-            let region = MKCoordinateRegion(center: location.coordinate, span: span)
-            mapView.setRegion(region, animated: false)
-        }
+        guard let location = locations.first else { return }
+        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        let region = MKCoordinateRegion(center: location.coordinate, span: span)
+        mapView.setRegion(region, animated: false)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

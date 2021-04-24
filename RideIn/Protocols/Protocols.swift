@@ -39,3 +39,7 @@ protocol ConstraintFactory {
     func makeConstraint(forAnimationState state: AnimationState, animatingView: AnimatingViews, tableSubviewTopAnchor toView: UIView) -> NSLayoutConstraint
 }
 
+//MARK:- ReachabilityCheckable
+protocol ReachabilityCheckable {
+    static func isConnectedToNetwork() -> Bool
+}

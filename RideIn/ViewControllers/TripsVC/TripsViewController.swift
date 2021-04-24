@@ -10,6 +10,10 @@ import UIKit
 
 final class TripsViewController: UIViewController {
     
+    //MARK: Declarations -
+    /// The manager to convent date and time from Trip object to more user-friendly style
+    lazy var dateTimeFormatter: DateTimeFormatter = makeDateFormatter()
+    
     /// The base unsorted array of available trips
     var trips = [Trip]()
     
@@ -379,4 +383,12 @@ final class TripsViewController: UIViewController {
         print("deallocating \(self)")
     }
     
+}
+
+
+private extension TripsViewController {
+    func makeDateFormatter() -> DateTimeFormatter {
+        let dateTimeManager = MainDateTimeFormatter()
+        return dateTimeManager
+    }
 }

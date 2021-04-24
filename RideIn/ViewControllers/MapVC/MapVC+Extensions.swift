@@ -74,7 +74,7 @@ extension MapViewController {
         
         switch placeType {
         case .department:
-            rideSearchDelegate?.setCoordinates(with: placemark, forPlace:.department)
+            rideSearchDelegate?.setCoordinates(with: placemark, forPlace: .department)
             navigationController?.popToRootViewController(animated: true)
             
         case .destination:
@@ -121,19 +121,10 @@ extension MapViewController {
     /// This method animates tableView to either hidden or not
     /// - Parameter state: should it be shown or not
     private func animateTableView(toSelected state: Bool) {
-        if state {
-            textFieldActivated = true
-            placesTableView.isHidden = false
-            
-            UIView.animate(withDuration: 0.3) {
-                self.placesTableView.alpha = 1.0
-            }
-        } else {
-            textFieldActivated = false
-            UIView.animate(withDuration: 0.3) {
-                self.placesTableView.alpha = 0.0
-            }
-            placesTableView.isHidden = true
+        textFieldActivated = state
+        placesTableView.isHidden = !state
+        UIView.animate(withDuration: 0.3) {
+                self.placesTableView.alpha = state ? 1.0 : 0.0
         }
     }
     

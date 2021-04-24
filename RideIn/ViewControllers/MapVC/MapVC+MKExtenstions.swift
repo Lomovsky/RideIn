@@ -96,14 +96,11 @@ extension MapViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if !ignoreLocation {
-            if let location = locations.first {
-                let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-                let region = MKCoordinateRegion(center: location.coordinate, span: span)
-                mapView.setRegion(region, animated: true)
-            }
-        }
-        
+        guard !ignoreLocation else { return }
+        guard let location = locations.first else { return }
+        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        let region = MKCoordinateRegion(center: location.coordinate, span: span)
+        mapView.setRegion(region, animated: true)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -118,18 +115,14 @@ extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard annotation is MKPointAnnotation else { print("no mkpointannotaions"); return nil }
-        
         let reuseId = "pin"
         var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
         
-        if pinView == nil {
-            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-            pinView!.canShowCallout = true
-            pinView!.rightCalloutAccessoryView = UIButton(type: .infoDark)
-            pinView!.pinTintColor = .systemRed
-        } else {
-            pinView!.annotation = annotation
-        }
+        guard pinView == nil else { pinView!.annotation = annotation; return pinView }
+        pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+        pinView!.canShowCallout = true
+        pinView!.rightCalloutAccessoryView = UIButton(type: .infoDark)
+        pinView!.pinTintColor = .systemRed
         return pinView
     }
     
@@ -148,17 +141,12 @@ extension MapViewController: MKMapViewDelegate {
         request.destination = MKMapItem(placemark: destinationPlacemark)
         request.requestsAlternateRoutes = true
         request.transportType = .automobile
-        
         let directions = MKDirections(request: request)
         
         directions.calculate { [unowned self] response, error in
             guard let unwrappedResponse = response else { print("error rotes"); return }
-            
-            //for getting just one route
             if let route = unwrappedResponse.routes.first {
-                //show on map
                 self.mapView.addOverlay(route.polyline)
-                
                 self.mapView.setVisibleMapRect(route.polyline.boundingMapRect,
                                                edgePadding: UIEdgeInsets.init(top: 80.0, left: 20.0, bottom: 100.0, right: 20.0), animated: true)
             }

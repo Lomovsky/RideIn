@@ -13,6 +13,7 @@
 		C00F85E0262FFFE800A29641 /* SelectedTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00F85DF262FFFE800A29641 /* SelectedTripViewController.swift */; };
 		C04BC36B2632CE7000941B0C /* SelectedTripVC+Extenstions .swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC36A2632CE7000941B0C /* SelectedTripVC+Extenstions .swift */; };
 		C04BC3BE2632F8E100941B0C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C04BC3BD2632F8E100941B0C /* .gitignore */; };
+		C04BC3DF2634A05300941B0C /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC3DE2634A05300941B0C /* ConnectionManager.swift */; };
 		C04C9E5326244120007C47DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E5226244120007C47DC /* AppDelegate.swift */; };
 		C04C9E5526244120007C47DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E5426244120007C47DC /* SceneDelegate.swift */; };
 		C04C9E5726244120007C47DC /* RideSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E5626244120007C47DC /* RideSearchViewController.swift */; };
@@ -42,6 +43,7 @@
 		C00F85DF262FFFE800A29641 /* SelectedTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTripViewController.swift; sourceTree = "<group>"; };
 		C04BC36A2632CE7000941B0C /* SelectedTripVC+Extenstions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectedTripVC+Extenstions .swift"; sourceTree = "<group>"; };
 		C04BC3BD2632F8E100941B0C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		C04BC3DE2634A05300941B0C /* ConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
 		C04C9E4F26244120007C47DC /* RideIn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RideIn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C04C9E5226244120007C47DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C04C9E5426244120007C47DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 			children = (
 				C04C9ED026258244007C47DC /* MainNetworkManager.swift */,
 				C0BEDBF52628678B009B3062 /* DataModel.swift */,
+				C04BC3DE2634A05300941B0C /* ConnectionManager.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -388,6 +391,7 @@
 				C0CFDC362629678500C90E6A /* TripCollectionViewCell.swift in Sources */,
 				C08291AF26271E2800C686F3 /* MapTableViewCell.swift in Sources */,
 				C04C9E5326244120007C47DC /* AppDelegate.swift in Sources */,
+				C04BC3DF2634A05300941B0C /* ConnectionManager.swift in Sources */,
 				C04BC36B2632CE7000941B0C /* SelectedTripVC+Extenstions .swift in Sources */,
 				C0BEDBF62628678B009B3062 /* DataModel.swift in Sources */,
 				C04C9E7826246334007C47DC /* SustemExtensions.swift in Sources */,

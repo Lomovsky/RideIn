@@ -11,7 +11,6 @@ import Alamofire
 final class MainNetworkManager: NetworkManager {
     
     func fetchRides(withURL url: URL, completionHandler: @escaping (Result<[Trip], Error>) -> Void) {
-        
         let downloadQueue = DispatchQueue(label: "networkManagerQueue", qos: .utility)
         
         downloadQueue.async {
@@ -22,7 +21,7 @@ final class MainNetworkManager: NetworkManager {
                 } else {
                     guard let JSONData = response.data, let JSONResponse = response.response else { return }
                     print(JSONResponse)
-                    guard JSONResponse.statusCode != 400 else { let error = RequestErrors.badRequest; completionHandler(.failure(error)); return}
+                    guard JSONResponse.statusCode != 400 else { let error = RequestErrors.badRequest; completionHandler(.failure(error)); return }
                     
                     do {
                         let decodedData = try JSONDecoder().decode(Trips.self, from: JSONData)

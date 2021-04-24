@@ -1,0 +1,6 @@
+module Pods_RideInTests {
+  umbrella header "Pods-RideInTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
