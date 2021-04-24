@@ -7,20 +7,20 @@
 
 import Foundation
 
-//Для правильного написания количества пассажиров
+// Для правильного написания количества пассажиров
 enum Declensions {
     case one
     case two
     case more
 }
 
-//To increase or decrease passengers count
+// To increase or decrease passengers count
 enum Operation {
     case increase
     case decrease
 }
 
-//For rides requests
+// For rides requests
 enum Query {
     static let country = "uk-UA"
     static let currency = "UAH"
@@ -31,26 +31,33 @@ enum Query {
     static var date: String?
 }
 
-//To operate with different types of requests
+// To operate with different types of requests
 enum PlaceType {
     case department
     case destination
 }
 
-//To get date or time from Trip
+// To get date or time from Trip
 enum DateFormat {
     case dddmmyy
     case hhmmss
 }
 
-//For animations lol
+// For animations lol
 enum AnimationState {
     case animated
     case dismissed
 }
 
+// Views to be animated
 enum AnimatingViews {
     case toContentSubview
     case toTextField
     case tableViewSubview
+}
+
+
+// Request errors
+enum RequestErrors: Error {
+    case badRequest
 }

@@ -73,7 +73,3 @@ struct Place: Codable {
     }
 }
 
-//MARK:- Request errors
-enum RequestErrors: Error {
-    case badRequest
-}
