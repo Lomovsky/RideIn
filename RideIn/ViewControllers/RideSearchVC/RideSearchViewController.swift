@@ -561,7 +561,7 @@ private extension RideSearchViewController {
     }
     
     func makeAlert() -> UIAlertController {
-        let alert = UIAlertController(title: "Ошибка", message: "Нет поездок", preferredStyle: .alert)
+        let alert = UIAlertController(title: "", message: "", preferredStyle: .alert)
         let dismissButton = UIAlertAction(title: "Отмена", style: .cancel) { (_) in
             self.dismiss(animated: true)
         }

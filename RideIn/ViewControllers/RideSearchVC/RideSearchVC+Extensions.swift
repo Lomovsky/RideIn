@@ -37,7 +37,9 @@ extension RideSearchViewController {
         
         networkManager.fetchRides(withURL: url) { [unowned self] (result) in
             switch result {
-            case .failure(let error): assertionFailure("\(error)")
+            case .failure(let error):
+                guard error is RequestErrors else { return }
+                presentAlertController(title: "Ошибка", message: "Некорректные данные")
                 
             case .success(let trips): self.prepareDataForTripsVCWith(trips: trips)
                 navigationController?.interactivePopGestureRecognizer?.addTarget(self, action: #selector(navigationGestureRecognizerTriggered))
@@ -211,10 +213,8 @@ extension RideSearchViewController {
             showTripsVCWith(trips: trips, cheapToTop: cheapToTop, expensiveToTop: cheapToBottom,
                             cheapestTrip: cheapestTrip!, closestTrip: closestTrip!)
         } else {
-            present(alertController, animated: true)
-            configureIndicatorAndButton(indicatorEnabled: false)
+            presentAlertController(title: "Ошибка", message: "Нет поездок по вашему запросу")
         }
-        
     }
     
     /// Method is responsible for presenting TripsVC with given data
@@ -238,6 +238,18 @@ extension RideSearchViewController {
         vc.rideSearchDelegate = self
         configureIndicatorAndButton(indicatorEnabled: false)
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
+    /// Method is responsible for presenting alertController
+    /// - Parameters:
+    ///   - title: title of the alert
+    ///   - message: alert message
+    private func presentAlertController(title: String, message: String) {
+        alertController.title = title
+        alertController.message = message
+        configureIndicatorAndButton(indicatorEnabled: false)
+        present(alertController, animated: true)
     }
     
 }

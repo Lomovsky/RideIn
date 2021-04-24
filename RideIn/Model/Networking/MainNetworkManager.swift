@@ -22,6 +22,11 @@ final class MainNetworkManager: NetworkManager {
                 } else {
                     guard let JSONData = response.data, let JSONResponse = response.response else { return }
                     print(JSONResponse)
+                    if JSONResponse.statusCode == 400 {
+                        let error = RequestErrors.badRequest
+                        completionHandler(.failure(error))
+                    }
+                    guard JSONResponse.statusCode != 400 else {print("bad request"); return }
                     
                     do {
                         let decodedData = try JSONDecoder().decode(Trips.self, from: JSONData)
@@ -41,4 +46,8 @@ final class MainNetworkManager: NetworkManager {
         print("deallocating\(self)")
     }
     
+}
+
+enum RequestErrors: Error {
+    case badRequest
 }
