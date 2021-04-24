@@ -72,3 +72,8 @@ struct Place: Codable {
         case countryCode = "country_code"
     }
 }
+
+//MARK:- Request errors
+enum RequestErrors: Error {
+    case badRequest
+}
