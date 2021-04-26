@@ -26,7 +26,7 @@ protocol URLFactory {
 
 //MARK:- NetworkManager
 protocol NetworkManager {
-    func fetchRides(withURL url: URL, completionHandler: @escaping (Result<[Trip], Error>) -> Void)
+    func downloadData<DataModel: Codable>(withURL url: URL, decodeBy dataModel: DataModel.Type, completionHandler: @escaping (Result<DataModel, Error>) -> Void)
 }
 
 //MARK:- DateTimeReturnable

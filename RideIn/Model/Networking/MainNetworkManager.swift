@@ -10,7 +10,8 @@ import Alamofire
 
 final class MainNetworkManager: NetworkManager {
     
-    func fetchRides(withURL url: URL, completionHandler: @escaping (Result<[Trip], Error>) -> Void) {
+    func downloadData<DataModel>(withURL url: URL, decodeBy dataModel: DataModel.Type, completionHandler: @escaping (Result<DataModel, Error>) -> Void)
+    where DataModel: Decodable, DataModel: Encodable {
         let downloadQueue = DispatchQueue(label: "networkManagerQueue", qos: .utility)
         
         downloadQueue.async {
@@ -24,9 +25,8 @@ final class MainNetworkManager: NetworkManager {
                     guard JSONResponse.statusCode != 400 else { let error = RequestErrors.badRequest; completionHandler(.failure(error)); return }
                     
                     do {
-                        let decodedData = try JSONDecoder().decode(Trips.self, from: JSONData)
-                        let trips = decodedData.trips
-                        completionHandler(.success(trips))
+                        let decodedData = try JSONDecoder().decode(dataModel.self, from: JSONData)
+                        completionHandler(.success(decodedData))
                         
                     } catch let error as NSError {
                         assertionFailure("NETWORK MANAGER FAILURE \(error), \(#line)")

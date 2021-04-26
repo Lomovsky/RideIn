@@ -35,14 +35,16 @@ extension RideSearchViewController {
         urlFactory.setSeats(seats: "\(passengersCount)")
         if date != nil { urlFactory.setDate(date: date!) }
         guard let url = urlFactory.makeURL() else { return }
-        
-        networkManager.fetchRides(withURL: url) { [unowned self] (result) in
+                
+        networkManager.downloadData(withURL: url, decodeBy: Trips.self) { [unowned self] (result) in
             switch result {
             case .failure(let error):
                 guard error is RequestErrors else { return }
                 presentAlertController(title: "Ошибка", message: "Некорректные данные")
                 
-            case .success(let trips): self.prepareDataForTripsVCWith(trips: trips)
+            case .success(let decodedData):
+                let trips = decodedData.trips
+                self.prepareDataForTripsVCWith(trips: trips)
                 navigationController?.interactivePopGestureRecognizer?.addTarget(self, action: #selector(navigationGestureRecognizerTriggered))
                 shouldNavigationControllerBeHiddenAnimated = (false, true)
             }

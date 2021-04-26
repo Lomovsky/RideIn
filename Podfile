@@ -8,3 +8,9 @@ target 'RideIn' do
   pod 'Alamofire'
 
 end
+
+target 'RideInTests' do
+        inherit! :search_paths
+  pod 'Alamofire'
+
+end 
