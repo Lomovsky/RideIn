@@ -39,8 +39,8 @@ extension RideSearchViewController {
             switch result {
             case .failure(let error):
                 switch error {
-                case RequestErrors.noConnection: presentAlertController(title: "Ошибка", message: "Нет cоединения")
-                case RequestErrors.badRequest: presentAlertController(title: "Ошибка", message: "Некорректные данные")
+                case NetworkManagerErrors.noConnection: presentAlertController(title: "Ошибка", message: "Нет cоединения")
+                case NetworkManagerErrors.badRequest: presentAlertController(title: "Ошибка", message: "Некорректные данные")
                 default: return
                 }
                 

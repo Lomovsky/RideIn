@@ -14,7 +14,7 @@ struct MainNetworkManager: NetworkManager {
     where DataModel: Decodable, DataModel: Encodable {
         let downloadQueue = DispatchQueue(label: "networkManagerQueue", qos: .utility)
         
-        guard ConnectionManager.isConnectedToNetwork() else { let error = RequestErrors.noConnection; completionHandler(.failure(error)); return }
+        guard ConnectionManager.isConnectedToNetwork() else { let error = NetworkManagerErrors.noConnection; completionHandler(.failure(error)); return }
         downloadQueue.async {
             let request = AF.request(url)
             request.responseJSON { (response) in
@@ -23,14 +23,16 @@ struct MainNetworkManager: NetworkManager {
                 } else {
                     guard let JSONData = response.data, let JSONResponse = response.response else { return }
                     print(JSONResponse)
-                    guard JSONResponse.statusCode == 200 else { let error = RequestErrors.badRequest; completionHandler(.failure(error)); return }
+                    guard JSONResponse.statusCode == 200 else { let error = NetworkManagerErrors.badRequest; completionHandler(.failure(error)); return }
                     
                     do {
                         let decodedData = try JSONDecoder().decode(dataModel.self, from: JSONData)
                         completionHandler(.success(decodedData))
                         
                     } catch let error as NSError {
-                        assertionFailure("NETWORK MANAGER FAILURE \(error), \(#line)")
+                        let decodingError = NetworkManagerErrors.decodingError
+                        completionHandler(.failure(decodingError))
+                        print("NETWORK MANAGER FAILURE \(error), \(#line)")
                     }
                 }
             }

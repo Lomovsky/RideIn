@@ -17,6 +17,7 @@
 		C04BC3DF2634A05300941B0C /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC3DE2634A05300941B0C /* ConnectionManager.swift */; };
 		C04BC3E92636966A00941B0C /* RideInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC3E82636966A00941B0C /* RideInTests.swift */; };
 		C04BC4022636B51E00941B0C /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC4012636B51E00941B0C /* NetworkManagerTests.swift */; };
+		C04BC40C2637099F00941B0C /* DateTimeFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC40B2637099F00941B0C /* DateTimeFormatterTests.swift */; };
 		C04C9E5326244120007C47DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E5226244120007C47DC /* AppDelegate.swift */; };
 		C04C9E5526244120007C47DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E5426244120007C47DC /* SceneDelegate.swift */; };
 		C04C9E5726244120007C47DC /* RideSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E5626244120007C47DC /* RideSearchViewController.swift */; };
@@ -64,6 +65,7 @@
 		C04BC3E82636966A00941B0C /* RideInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideInTests.swift; sourceTree = "<group>"; };
 		C04BC3EA2636966A00941B0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C04BC4012636B51E00941B0C /* NetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
+		C04BC40B2637099F00941B0C /* DateTimeFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeFormatterTests.swift; sourceTree = "<group>"; };
 		C04C9E4F26244120007C47DC /* RideIn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RideIn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C04C9E5226244120007C47DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C04C9E5426244120007C47DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 			children = (
 				C04BC3E82636966A00941B0C /* RideInTests.swift */,
 				C04BC4012636B51E00941B0C /* NetworkManagerTests.swift */,
+				C04BC40B2637099F00941B0C /* DateTimeFormatterTests.swift */,
 				C04BC3EA2636966A00941B0C /* Info.plist */,
 			);
 			path = RideInTests;
@@ -471,6 +474,7 @@
 			files = (
 				C04BC4022636B51E00941B0C /* NetworkManagerTests.swift in Sources */,
 				C04BC3E92636966A00941B0C /* RideInTests.swift in Sources */,
+				C04BC40C2637099F00941B0C /* DateTimeFormatterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
