@@ -187,22 +187,27 @@ extension RideSearchViewController {
     /// and calls "configureIndicatorAndButton" function
     /// - Parameter trips: the base trips array that contains unsorted trips for user request
     private func prepareDataForTripsVCWith(trips: [Trip]) {
-        guard !(trips.isEmpty) else { presentAlertController(title: "Ошибка", message: "Нет поездок по вашему запросу"); return }
-            let cheapToBottom = trips.sorted(by: { Float($0.price.amount) ?? 0 < Float($1.price.amount) ?? 0  })
-            let cheapToTop = trips.sorted(by: { Float($0.price.amount) ?? 0 > Float($1.price.amount) ?? 0  })
-            let cheapestTrip = cheapToTop.last
-            let closestTrip = trips.sorted(by: { (trip1, trip2) -> Bool in
+        let sortingQueue = DispatchQueue(label: "sort_queue", qos: .userInitiated)
+        sortingQueue.async {
+            guard !(trips.isEmpty) else { self.presentAlertController(title: "Ошибка", message: "Нет поездок по вашему запросу"); return }
+                let cheapToBottom = trips.sorted(by: { Float($0.price.amount) ?? 0 < Float($1.price.amount) ?? 0  })
+                let cheapToTop = trips.sorted(by: { Float($0.price.amount) ?? 0 > Float($1.price.amount) ?? 0  })
+                let cheapestTrip = cheapToTop.last
+                let closestTrip = trips.sorted(by: { (trip1, trip2) -> Bool in
 
-                let trip1Coordinates = CLLocation(latitude: trip1.waypoints.first!.place.latitude, longitude: trip1.waypoints.first!.place.longitude)
-                let trip2Coordinates = CLLocation(latitude: trip2.waypoints.first!.place.latitude, longitude: trip2.waypoints.first!.place.longitude)
-                let distance1 = getDistanceBetween(userLocation: departureCLLocation, departurePoint: trip1Coordinates)
-                let distance2 = getDistanceBetween(userLocation: departureCLLocation, departurePoint: trip2Coordinates)
-                
-                return compareDistances(first: distance1, second: distance2)
-            }).first
-            
-            showTripsVCWith(trips: trips, cheapToTop: cheapToTop, expensiveToTop: cheapToBottom,
-                            cheapestTrip: cheapestTrip!, closestTrip: closestTrip!)
+                    let trip1Coordinates = CLLocation(latitude: trip1.waypoints.first!.place.latitude, longitude: trip1.waypoints.first!.place.longitude)
+                    let trip2Coordinates = CLLocation(latitude: trip2.waypoints.first!.place.latitude, longitude: trip2.waypoints.first!.place.longitude)
+                    let distance1 = self.getDistanceBetween(userLocation: self.departureCLLocation, departurePoint: trip1Coordinates)
+                    let distance2 = self.getDistanceBetween(userLocation: self.departureCLLocation, departurePoint: trip2Coordinates)
+                    
+                    return self.compareDistances(first: distance1, second: distance2)
+                }).first
+            DispatchQueue.main.async {
+                self.showTripsVCWith(trips: trips, cheapToTop: cheapToTop, expensiveToTop: cheapToBottom,
+                                cheapestTrip: cheapestTrip!, closestTrip: closestTrip!)
+            }
+        }
+           
     }
     
     /// Method is responsible for presenting TripsVC with given data

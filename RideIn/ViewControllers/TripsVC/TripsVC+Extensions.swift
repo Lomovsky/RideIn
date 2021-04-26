@@ -233,13 +233,9 @@ extension TripsViewController: UICollectionViewDelegateFlowLayout {
         
         switch collectionView {
         case recommendationsCollectionView: return trips.count == 1 ? CGSize(width: oneCardWidth, height: height) : CGSize(width: width, height: height)
-            
         case allTipsCollectionView: return pageScrollViewCellSize
-            
         case cheapTripsToTopCollectionView: return pageScrollViewCellSize
-            
         case cheapTripsToBottomCollectionView: return pageScrollViewCellSize
-            
         default: return CGSize()
         }
     }

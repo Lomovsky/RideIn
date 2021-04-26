@@ -14,6 +14,7 @@
 		C04BC36B2632CE7000941B0C /* SelectedTripVC+Extenstions .swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC36A2632CE7000941B0C /* SelectedTripVC+Extenstions .swift */; };
 		C04BC3BE2632F8E100941B0C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C04BC3BD2632F8E100941B0C /* .gitignore */; };
 		C04BC3DF2634A05300941B0C /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC3DE2634A05300941B0C /* ConnectionManager.swift */; };
+		C04BC3E92636966A00941B0C /* RideInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC3E82636966A00941B0C /* RideInTests.swift */; };
 		C04C9E5326244120007C47DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E5226244120007C47DC /* AppDelegate.swift */; };
 		C04C9E5526244120007C47DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E5426244120007C47DC /* SceneDelegate.swift */; };
 		C04C9E5726244120007C47DC /* RideSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9E5626244120007C47DC /* RideSearchViewController.swift */; };
@@ -35,6 +36,16 @@
 		C0CFDC362629678500C90E6A /* TripCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFDC352629678500C90E6A /* TripCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		C04BC3EB2636966A00941B0C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C04C9E472624411F007C47DC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C04C9E4E2624411F007C47DC;
+			remoteInfo = RideIn;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		0723177FAC2C4B7C9467C7A3 /* Pods-RideIn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RideIn.debug.xcconfig"; path = "Target Support Files/Pods-RideIn/Pods-RideIn.debug.xcconfig"; sourceTree = "<group>"; };
 		676745E0D76715737F9F8FBC /* Pods_RideIn.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RideIn.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +55,9 @@
 		C04BC36A2632CE7000941B0C /* SelectedTripVC+Extenstions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectedTripVC+Extenstions .swift"; sourceTree = "<group>"; };
 		C04BC3BD2632F8E100941B0C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		C04BC3DE2634A05300941B0C /* ConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
+		C04BC3E62636966A00941B0C /* RideInTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RideInTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C04BC3E82636966A00941B0C /* RideInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideInTests.swift; sourceTree = "<group>"; };
+		C04BC3EA2636966A00941B0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C04C9E4F26244120007C47DC /* RideIn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RideIn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C04C9E5226244120007C47DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C04C9E5426244120007C47DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +83,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C04BC3E32636966A00941B0C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C04C9E4C2624411F007C47DC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -106,10 +127,20 @@
 			path = SelectedTripVC;
 			sourceTree = "<group>";
 		};
+		C04BC3E72636966A00941B0C /* RideInTests */ = {
+			isa = PBXGroup;
+			children = (
+				C04BC3E82636966A00941B0C /* RideInTests.swift */,
+				C04BC3EA2636966A00941B0C /* Info.plist */,
+			);
+			path = RideInTests;
+			sourceTree = "<group>";
+		};
 		C04C9E462624411F007C47DC = {
 			isa = PBXGroup;
 			children = (
 				C04C9E5126244120007C47DC /* RideIn */,
+				C04BC3E72636966A00941B0C /* RideInTests */,
 				C04C9E5026244120007C47DC /* Products */,
 				3DF131928EEBF144CC24E64E /* Pods */,
 				B1053067C9F229A0749ACB1A /* Frameworks */,
@@ -120,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				C04C9E4F26244120007C47DC /* RideIn.app */,
+				C04BC3E62636966A00941B0C /* RideInTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -263,6 +295,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		C04BC3E52636966A00941B0C /* RideInTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C04BC3ED2636966A00941B0C /* Build configuration list for PBXNativeTarget "RideInTests" */;
+			buildPhases = (
+				C04BC3E22636966A00941B0C /* Sources */,
+				C04BC3E32636966A00941B0C /* Frameworks */,
+				C04BC3E42636966A00941B0C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C04BC3EC2636966A00941B0C /* PBXTargetDependency */,
+			);
+			name = RideInTests;
+			productName = RideInTests;
+			productReference = C04BC3E62636966A00941B0C /* RideInTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		C04C9E4E2624411F007C47DC /* RideIn */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C04C9E6326244124007C47DC /* Build configuration list for PBXNativeTarget "RideIn" */;
@@ -291,6 +341,10 @@
 				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
+					C04BC3E52636966A00941B0C = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = C04C9E4E2624411F007C47DC;
+					};
 					C04C9E4E2624411F007C47DC = {
 						CreatedOnToolsVersion = 12.4;
 					};
@@ -310,11 +364,19 @@
 			projectRoot = "";
 			targets = (
 				C04C9E4E2624411F007C47DC /* RideIn */,
+				C04BC3E52636966A00941B0C /* RideInTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C04BC3E42636966A00941B0C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C04C9E4D2624411F007C47DC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -369,6 +431,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C04BC3E22636966A00941B0C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C04BC3E92636966A00941B0C /* RideInTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C04C9E4B2624411F007C47DC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -401,7 +471,55 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		C04BC3EC2636966A00941B0C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C04C9E4E2624411F007C47DC /* RideIn */;
+			targetProxy = C04BC3EB2636966A00941B0C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		C04BC3EE2636966A00941B0C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 63NJXM9Q62;
+				INFOPLIST_FILE = RideInTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = lomovskyInc.RideInTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RideIn.app/RideIn";
+			};
+			name = Debug;
+		};
+		C04BC3EF2636966A00941B0C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 63NJXM9Q62;
+				INFOPLIST_FILE = RideInTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = lomovskyInc.RideInTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RideIn.app/RideIn";
+			};
+			name = Release;
+		};
 		C04C9E6126244124007C47DC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -561,6 +679,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C04BC3ED2636966A00941B0C /* Build configuration list for PBXNativeTarget "RideInTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C04BC3EE2636966A00941B0C /* Debug */,
+				C04BC3EF2636966A00941B0C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C04C9E4A2624411F007C47DC /* Build configuration list for PBXProject "RideIn" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
