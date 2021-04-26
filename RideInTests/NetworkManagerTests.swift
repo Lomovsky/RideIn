@@ -24,14 +24,14 @@ class unit_NetworkManagerTests: XCTestCase {
             ConnectionManager.isConnectedToNetwork(),
           "Network connectivity needed for this test.")
         
-        //given
+        // given
         let urlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
         let url = URL(string: urlString)!
         let promise = expectation(description: "Completion handler invoked")
         var statusCode: Int?
         var responseError: Error?
         
-        //when
+        // when
         let request = AF.request(url)
         request.responseJSON { (response) in
             if let error = response.error {
@@ -45,7 +45,7 @@ class unit_NetworkManagerTests: XCTestCase {
         }
         wait(for: [promise], timeout: 5)
         
-        //then
+        // then
         XCTAssertNil(responseError)
         XCTAssertEqual(statusCode, 200)
     }

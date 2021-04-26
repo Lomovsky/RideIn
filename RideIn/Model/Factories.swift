@@ -12,7 +12,6 @@ import UIKit
 struct MainURLFactory: URLFactory {
     
     func setCoordinates(coordinates: String, place: PlaceType) {
-        
         switch place {
         case .department: Query.fromCoordinates = coordinates
             
@@ -38,7 +37,7 @@ struct MainURLFactory: URLFactory {
         } else {
             let baseLink = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=\(Query.fromCoordinates)&to_coordinate=\(Query.toCoordinates)&locale=\(Query.country)&currency=\(Query.currency)&seats=\(Query.seats)&count=50&key=\(Query.apiKey)"
             
-            guard let url = URL(string: baseLink) else { return nil }
+            let url = URL(string: baseLink)
             return url
         }
     }

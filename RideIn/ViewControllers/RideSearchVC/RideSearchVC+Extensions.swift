@@ -29,18 +29,20 @@ extension RideSearchViewController {
      ///This method sets coordinates with URLFactory and asks networkManager to download data.
     @objc final func searchButtonTapped() {
         configureIndicatorAndButton(indicatorEnabled: true)
-        guard ConnectionManager.isConnectedToNetwork() else { presentAlertController(title: "Ошибка", message: "Нет моединения"); return }
         urlFactory.setCoordinates(coordinates: departureCoordinates, place: .department)
         urlFactory.setCoordinates(coordinates: destinationCoordinates, place: .destination)
         urlFactory.setSeats(seats: "\(passengersCount)")
         if date != nil { urlFactory.setDate(date: date!) }
-        guard let url = urlFactory.makeURL() else { return }
+        guard let url = urlFactory.makeURL() else { print("unable to make url \(#line)"); return }
                 
         networkManager.downloadData(withURL: url, decodeBy: Trips.self) { [unowned self] (result) in
             switch result {
             case .failure(let error):
-                guard error is RequestErrors else { return }
-                presentAlertController(title: "Ошибка", message: "Некорректные данные")
+                switch error {
+                case RequestErrors.noConnection: presentAlertController(title: "Ошибка", message: "Нет cоединения")
+                case RequestErrors.badRequest: presentAlertController(title: "Ошибка", message: "Некорректные данные")
+                default: return
+                }
                 
             case .success(let decodedData):
                 let trips = decodedData.trips

@@ -60,4 +60,5 @@ enum AnimatingViews {
 // Request errors
 enum RequestErrors: Error {
     case badRequest
+    case noConnection
 }
