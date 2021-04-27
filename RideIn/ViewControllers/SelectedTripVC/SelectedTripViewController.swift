@@ -35,119 +35,43 @@ final class SelectedTripViewController: UIViewController {
     var priceForOne = Float()
     
     //MARK: UIElements -
-    let departurePlaceMapButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    let departurePlaceMapButton = UIButton.createDefaultButton()
     
-    let destinationPlaceMapButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    let destinationPlaceMapButton = UIButton.createDefaultButton()
     
-    private let navigationSubview: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private let navigationSubview = UIView.createDefaultView()
     
-    private let backButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private let backButton = UIButton.createDefaultButton()
     
-    private let scrollView: UIScrollView = {
-        let scroll = UIScrollView()
-        scroll.translatesAutoresizingMaskIntoConstraints = false
-        return scroll
-    }()
+    private let scrollView = UIScrollView.createDefaultScrollView()
     
-    private let contentView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private let contentView = UIView.createDefaultView()
     
-    private let topSubview: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private let topSubview = UIView.createDefaultView()
     
-    private let dateLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let dateLabel = UILabel.createDefaultLabel()
     
-    private let departureTimeLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let departureTimeLabel = UILabel.createDefaultLabel()
     
-    private let destinationTimeLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let destinationTimeLabel = UILabel.createDefaultLabel()
     
-    private let topCircle: UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        let circleImage = UIImage(systemName: "circlebadge",
-                                  withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
-        image.image = circleImage
-        return image
-    }()
+    private let topCircle = UIImageView.createDefaultIV(withImage: UIImage(systemName: "circlebadge",
+                                                                           withConfiguration: UIImage.SymbolConfiguration(weight: .bold)))
     
-    private let lineView: UIView = {
-        let line = UIView()
-        line.translatesAutoresizingMaskIntoConstraints = false
-        return line
-    }()
+    private let lineView = UIView.createDefaultView()
     
-    private let bottomCircle: UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        let circleImage = UIImage(systemName: "circlebadge",
-                                  withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
-        image.image = circleImage
-        return image
-    }()
+    private let bottomCircle = UIImageView.createDefaultIV(withImage: UIImage(systemName: "circlebadge",
+                                                                              withConfiguration: UIImage.SymbolConfiguration(weight: .bold)))
     
-    private let departurePlaceLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let departurePlaceLabel = UILabel.createDefaultLabel()
     
-    private let destinationPlaceLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let destinationPlaceLabel = UILabel.createDefaultLabel()
     
-    private let priceSubview: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private let priceSubview = UIView.createDefaultView()
     
-    private let passengersCountLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let passengersCountLabel = UILabel.createDefaultLabel()
     
-    private let priceLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let priceLabel = UILabel.createDefaultLabel()
 
     //MARK: viewDidLoad-
     override func viewDidLoad() {

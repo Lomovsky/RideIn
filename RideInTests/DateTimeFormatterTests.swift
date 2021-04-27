@@ -7,7 +7,7 @@
 
 import XCTest
 @testable import RideIn
-
+//MARK:- DateTimeFormatter tests
 class DateTimeFormatterTests: XCTestCase {
 
     var dateTimeFormatter: DateTimeFormatter!
@@ -37,6 +37,7 @@ class DateTimeFormatterTests: XCTestCase {
         try super.tearDownWithError()
     }
 
+    //MARK:- Get department time test
     func testGetTime() throws {
         // given
         let time = dateTimeFormatter.getDateTime(format: .hhmmss, from: tripMOC, for: .department)
@@ -47,9 +48,10 @@ class DateTimeFormatterTests: XCTestCase {
         let timeCheck = regex.firstMatch(in: time, options: [], range: range)
         
         //then
-        XCTAssertTrue(timeCheck != nil)
+        XCTAssertNotNil(timeCheck)
     }
-
+    
+    //MARK:- Get department date test
     func testGetDate() throws {
         //given
         let date = dateTimeFormatter.getDateTime(format: .dddmmyy, from: tripMOC, for: .department)
@@ -60,9 +62,10 @@ class DateTimeFormatterTests: XCTestCase {
         let dateCheck = regex.firstMatch(in: date, options: [], range: range)
         
         //then
-        XCTAssertTrue(dateCheck != nil)
+        XCTAssertNotNil(dateCheck)
     }
    
+    //MARK:- Get destination time test
     func testGetTimeDestination() throws {
         // given
         let time = dateTimeFormatter.getDateTime(format: .hhmmss, from: tripMOC, for: .destination)
@@ -73,9 +76,10 @@ class DateTimeFormatterTests: XCTestCase {
         let timeCheck = regex.firstMatch(in: time, options: [], range: range)
         
         //then
-        XCTAssertTrue(timeCheck != nil)
+        XCTAssertNotNil(timeCheck)
     }
     
+    //MARK:- Get destination date test
     func testGetDateDestination() throws {
         //given
         let date = dateTimeFormatter.getDateTime(format: .dddmmyy, from: tripMOC, for: .destination)
@@ -86,7 +90,7 @@ class DateTimeFormatterTests: XCTestCase {
         let dateCheck = regex.firstMatch(in: date, options: [], range: range)
         
         //then
-        XCTAssertTrue(dateCheck != nil)
+        XCTAssertNotNil(dateCheck)
     }
 
 }

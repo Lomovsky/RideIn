@@ -45,59 +45,27 @@ final class TripsViewController: UIViewController {
     weak var rideSearchDelegate: RideSearchDelegate?
     
     //MARK: UIElements -
-    let scrollView: UIScrollView = {
-        let scroll = UIScrollView()
-        scroll.translatesAutoresizingMaskIntoConstraints = false
-        return scroll
-    }()
+    let scrollView = UIScrollView.createDefaultScrollView()
     
-    let contentView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    let contentView = UIView.createDefaultView()
     
-    let navigationSubview: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    let navigationSubview = UIView.createDefaultView()
     
-    let contentSubview: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    let contentSubview = UIView.createDefaultView()
     
-    let backButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    let backButton = UIButton.createDefaultButton()
     
-    let fromLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    let fromLabel = UILabel.createDefaultLabel()
     
-    let arrowImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    let arrowImageView = UIImageView.createDefaultIV(withImage: nil)
     
-    let toLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    let toLabel = UILabel.createDefaultLabel()
     
-    let detailsLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    let detailsLabel = UILabel.createDefaultLabel()
+    
+    let pageScrollSubview = UIView.createDefaultView()
+    
+    let pageScrollView = UIScrollView.createDefaultScrollView()
     
     let recommendationsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -115,33 +83,12 @@ final class TripsViewController: UIViewController {
         return control
     }()
     
-    let segmentIndicator: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.lightBlue
-        return view
-    }()
-    
-    let pageScrollSubview: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let pageScrollView: UIScrollView = {
-        let scroll = UIScrollView()
-        scroll.translatesAutoresizingMaskIntoConstraints = false
-        return scroll
-    }()
-    
-    
     let allTipsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(TripCollectionViewCell.self, forCellWithReuseIdentifier: TripCollectionViewCell.allTripsReuseIdentifier)
-        cv.backgroundColor = .white
         return cv
     }()
     
@@ -151,7 +98,6 @@ final class TripsViewController: UIViewController {
         let cv = UICollectionView(frame: .init(x: 0, y: 178, width: 0, height: 0), collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(TripCollectionViewCell.self, forCellWithReuseIdentifier: TripCollectionViewCell.cheapToTopReuseIdentifier)
-        cv.backgroundColor = .green
         return cv
     }()
     
@@ -248,7 +194,7 @@ final class TripsViewController: UIViewController {
             backButton.heightAnchor.constraint(equalTo: contentSubview.heightAnchor),
             backButton.widthAnchor.constraint(equalTo: backButton.heightAnchor)
         ])
-        backButton.backgroundColor = .systemGray5
+        backButton.backgroundColor = .clear
         backButton.layer.cornerRadius = 15
         backButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         backButton.tintColor = .systemGray

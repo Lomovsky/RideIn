@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MapKit
 
 //MARK:- UIColor
 extension UIColor {
@@ -13,10 +14,14 @@ extension UIColor {
     static let lightBlue = UIColor(red: 0.01, green: 0.66, blue: 0.95, alpha: 1.00)
 }
 
-
 //MARK:- UIScrollView
-
 extension UIScrollView {
+    static func createDefaultScrollView() -> UIScrollView {
+        let scroll = UIScrollView()
+        scroll.translatesAutoresizingMaskIntoConstraints = false
+        return scroll
+    }
+    
     /// This method id responsible for scrolling any paged scrollView to a specific page
     /// - Parameters:
     ///   - horizontalPage: the horizontal page to scroll to
@@ -58,5 +63,61 @@ extension UIView {
         } else {
             self.backgroundColor = .black
         }
+    }
+}
+
+extension UIView {
+    static func createDefaultView() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isOpaque = false
+        return view
+    }
+}
+
+//MARK:- UIButton
+extension UIButton {
+    static func createDefaultButton() -> UIButton {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }
+}
+
+//MARK:- UITextField
+extension UITextField {
+    static func createDefaultTF() -> UITextField {
+        let tf = UITextField()
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        return tf
+    }
+}
+
+//MARK:- UIImageView
+extension UIImageView {
+    static func createDefaultIV(withImage image: UIImage?) -> UIImageView {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = image
+        return imageView
+    }
+}
+
+//MARK:- UILabel
+extension UILabel {
+    static func createDefaultLabel() -> UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isOpaque = false
+        return label
+    }
+}
+
+//MARK:- MKMapView
+extension MKMapView {
+    static func createDefaultMapView() -> MKMapView {
+        let mapView = MKMapView()
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        return mapView
     }
 }

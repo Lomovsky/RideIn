@@ -9,6 +9,7 @@ import XCTest
 import Alamofire
 @testable import RideIn
 
+//MARK:- NetworkManager tests
 class unit_NetworkManagerTests: XCTestCase {
     
     var networkManager: NetworkManager!
@@ -23,6 +24,7 @@ class unit_NetworkManagerTests: XCTestCase {
         try super.tearDownWithError()
     }
     
+    //MARK:- API test
     func testAPI() throws {
         try XCTSkipUnless(ConnectionManager.isConnectedToNetwork())
         
@@ -30,35 +32,46 @@ class unit_NetworkManagerTests: XCTestCase {
         let urlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
         let url = URL(string: urlString)!
         let promise = expectation(description: "StatusCode 200")
+        var statusCode: Int?
+        var responseError: Error?
         
         // when
         let request = AF.request(url)
         request.response { (response) in
             if response.error == nil {
                 let JSONResponse = response.response
-                if JSONResponse?.statusCode == 200 {
-                    promise.fulfill()
-                }
+                statusCode = JSONResponse?.statusCode
             } else {
-                XCTFail("Request error")
+                responseError = response.error
             }
+            promise.fulfill()
         }
-        // then
         wait(for: [promise], timeout: 5)
+        
+        // when
+        XCTAssertNil(responseError)
+        XCTAssertEqual(statusCode, 200)
     }
     
-    
-    func testNetworkManager() throws {
+    //MARK:- BadRequest test
+    func testNetworkManagerBadRequest() throws {
+        try XCTSkipUnless(ConnectionManager.isConnectedToNetwork())
+
         // given
-        let urlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
+        let urlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668____396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
         let url = URL(string: urlString)!
-        let promise = expectation(description: "Data recieved")
+        let promise = expectation(description: "Bad request error handled")
         
         // when
         networkManager.downloadData(withURL: url, decodeBy: Trips.self) { (result) in
             switch result {
-            case .failure(_): XCTFail("An error occured")
-            case .success(_): promise.fulfill()
+            case .failure(let error):
+                switch error {
+                case NetworkManagerErrors.badRequest: promise.fulfill()
+                default: XCTFail()
+                }
+                
+            case .success(_): XCTFail()
             }
         }
         
@@ -66,5 +79,53 @@ class unit_NetworkManagerTests: XCTestCase {
         wait(for: [promise], timeout: 5)
     }
     
+    //MARK:- ConnectionError test
+    func testNetworkManagerConnectionError() throws {
+        try XCTSkipIf(ConnectionManager.isConnectedToNetwork())
+        
+        // given
+        let urlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
+        let url = URL(string: urlString)!
+        let promise = expectation(description: "No connection error handled")
+        
+        // when
+        networkManager.downloadData(withURL: url, decodeBy: Trips.self) { (result) in
+            switch result {
+            case .failure(let error):
+                switch error {
+                case NetworkManagerErrors.noConnection: promise.fulfill()
+                default: XCTFail()
+                }
+            default: XCTFail()
+            }
+        }
+        
+        // then
+        wait(for: [promise], timeout: 5)
+    }
     
+    //MARK:- DecodingError test
+    func testNetworkManagerDecodingError() throws {
+        try XCTSkipUnless(ConnectionManager.isConnectedToNetwork())
+
+        // given
+        let urlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
+        let url = URL(string: urlString)!
+        let promise = expectation(description: "Decoding error handled")
+        
+        // when
+        networkManager.downloadData(withURL: url, decodeBy: Trip.self) { (result) in
+            switch result {
+            case .failure(let error):
+                switch error {
+                case NetworkManagerErrors.decodingError: promise.fulfill()
+                default: XCTFail()
+                }
+            case .success(_): XCTFail()
+            }
+        }
+        
+        // then
+        wait(for: [promise], timeout: 5)
+    }
 }

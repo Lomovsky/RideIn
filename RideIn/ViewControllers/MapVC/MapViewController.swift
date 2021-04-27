@@ -51,61 +51,24 @@ final class MapViewController: UIViewController {
     weak var rideSearchDelegate: RideSearchDelegate?
     
     //MARK: UIElements-
-    let navigationSubview: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    let navigationSubview = UIView.createDefaultView()
     
-    let contentSubview: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    let contentSubview = UIView.createDefaultView()
     
-    let backButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    let backButton = UIButton.createDefaultButton()
     
-    let searchTF: UITextField = {
-        let tf = UITextField()
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
-    }()
+    let searchTF = UITextField.createDefaultTF()
     
-    let mapView: MKMapView = {
-        let map = MKMapView()
-        map.translatesAutoresizingMaskIntoConstraints = false
-        return map
-    }()
+    let mapView = MKMapView.createDefaultMapView()
     
-    let placesTableView: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(MapTableViewCell.self, forCellReuseIdentifier: MapTableViewCell.reuseIdentifier)
-        return tableView
-    }()
+    let proceedButton = UIButton.createDefaultButton()
     
-    let proceedButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    let distanceSubview = UIView.createDefaultView()
     
-    let distanceSubview: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    let distanceLabel = UILabel.createDefaultLabel()
     
-    let distanceLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
+    let focusOnUserLocationButton = UIButton.createDefaultButton()
+
     let focusOnUserLocationImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -114,12 +77,12 @@ final class MapViewController: UIViewController {
         return imageView
     }()
     
-    let focusOnUserLocationButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+    let placesTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(MapTableViewCell.self, forCellReuseIdentifier: MapTableViewCell.reuseIdentifier)
+        return tableView
     }()
-    
     
     
     //MARK: viewDidLoad -
@@ -194,7 +157,7 @@ final class MapViewController: UIViewController {
             backButton.heightAnchor.constraint(equalTo: contentSubview.heightAnchor),
             backButton.widthAnchor.constraint(equalTo: backButton.heightAnchor)
         ])
-        backButton.backgroundColor = .systemGray5
+        backButton.backgroundColor = .clear
         backButton.layer.cornerRadius = 15
         backButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         backButton.tintColor = .systemGray
@@ -209,7 +172,7 @@ final class MapViewController: UIViewController {
             searchTF.leadingAnchor.constraint(equalTo: backButton.trailingAnchor),
             searchTF.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.07),
         ])
-        searchTF.backgroundColor = .systemGray5
+        searchTF.backgroundColor = .clear
         searchTF.layer.cornerRadius = 15
         searchTF.attributedPlaceholder = NSAttributedString(string: "Выберете место",
                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])

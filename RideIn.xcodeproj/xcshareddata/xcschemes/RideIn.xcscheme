@@ -45,6 +45,11 @@
                BlueprintName = "RideInTests"
                ReferencedContainer = "container:RideIn.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "unit_NetworkManagerTests/testNetworkManagerConnectionError()">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

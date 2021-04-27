@@ -87,90 +87,44 @@ final class RideSearchViewController: UIViewController {
     }
     
     //MARK: UIElements -
-    let departureContentSubview: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    let departureContentSubview = UIView.createDefaultView()
     
-    let departureBackButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    let departureBackButton = UIButton.createDefaultButton()
     
-    let departureTextField: UITextField = {
-        let tf = UITextField()
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
-    }()
+    let departureTextField = UITextField.createDefaultTF()
     
-    let destinationContentSubview: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    let destinationContentSubview = UIView.createDefaultView()
     
-    let destinationBackButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    let destinationBackButton = UIButton.createDefaultButton()
     
-    let destinationTextField: UITextField = {
-        let tf = UITextField()
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
-    }()
+    let destinationTextField = UITextField.createDefaultTF()
     
-    let tableViewSubview: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    let tableViewSubview = UIView.createDefaultView()
     
-    let showMapSubview: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    let showMapSubview = UIView.createDefaultView()
     
-    let mapImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    let mapImageView = UIImageView.createDefaultIV(withImage: nil)
     
-    let showMapButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    let showMapButton = UIButton.createDefaultButton()
     
-    let arrowImageview: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    let arrowImageview = UIImageView.createDefaultIV(withImage: nil)
     
-    let searchTableView: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(RideSearchTableViewCell.self,
-                           forCellReuseIdentifier: RideSearchTableViewCell.reuseIdentifier)
-        return tableView
-    }()
+    let topLine = UIView.createDefaultView()
     
-    let topLine: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    let dateView = UIView.createDefaultView()
     
-    let dateView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    let passengersButton = UIButton.createDefaultButton()
+    
+    let bottomLine = UIView.createDefaultView()
+    
+    let searchButton = UIButton.createDefaultButton()
+    
+    let mapView = MKMapView.createDefaultMapView()
+
+    let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
     }()
     
     let datePicker: UIDatePicker = {
@@ -179,34 +133,11 @@ final class RideSearchViewController: UIViewController {
         return picker
     }()
     
-    let passengersButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    let bottomLine: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let searchButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    let activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView()
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        return indicator
-    }()
-    
-    let mapView: MKMapView = {
-        let map = MKMapView()
-        map.translatesAutoresizingMaskIntoConstraints = false
-        return map
+    let searchTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(RideSearchTableViewCell.self, forCellReuseIdentifier: RideSearchTableViewCell.reuseIdentifier)
+        return tableView
     }()
     
    
@@ -290,7 +221,7 @@ final class RideSearchViewController: UIViewController {
             departureBackButton.heightAnchor.constraint(equalTo: departureContentSubview.heightAnchor),
             departureBackButton.widthAnchor.constraint(equalTo: departureContentSubview.heightAnchor)
         ])
-        departureBackButton.backgroundColor = .systemGray5
+        departureBackButton.backgroundColor = .clear
         departureBackButton.layer.cornerRadius = 15
         departureBackButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         departureBackButton.tintColor = .systemGray
@@ -305,7 +236,7 @@ final class RideSearchViewController: UIViewController {
             departureTextField.leadingAnchor.constraint(equalTo: departureBackButton.trailingAnchor),
             departureTextField.heightAnchor.constraint(equalTo: departureContentSubview.heightAnchor),
         ])
-        departureTextField.backgroundColor = .systemGray5
+        departureTextField.backgroundColor = .clear
         departureTextField.layer.cornerRadius = 15
         departureTextField.attributedPlaceholder = NSAttributedString(string: "Выезжаете из",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
@@ -345,13 +276,12 @@ final class RideSearchViewController: UIViewController {
             destinationBackButton.heightAnchor.constraint(equalTo: destinationContentSubview.heightAnchor),
             destinationBackButton.widthAnchor.constraint(equalTo: destinationContentSubview.heightAnchor)
         ])
-        destinationBackButton.backgroundColor = .systemGray5
+        destinationBackButton.backgroundColor = .clear
         destinationBackButton.layer.cornerRadius = 15
         destinationBackButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         destinationBackButton.tintColor = .systemGray
         destinationBackButton.isHidden = true
         destinationBackButton.addTarget(self, action: #selector(dismissDestinationTextField), for: .touchUpInside)
-
     }
     
     private func setupToTF() {
@@ -366,7 +296,7 @@ final class RideSearchViewController: UIViewController {
             destinationTextField.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.07),
         ])
         
-        destinationTextField.backgroundColor = .systemGray5
+        destinationTextField.backgroundColor = .clear
         destinationTextField.layer.cornerRadius = 15
         destinationTextField.attributedPlaceholder = NSAttributedString(string: "Направляетесь в",
                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
@@ -414,6 +344,7 @@ final class RideSearchViewController: UIViewController {
             passengersButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 15)
         ])
         setPassengersCountWithDeclension()
+        passengersButton.backgroundColor = .clear
         passengersButton.setTitleColor(.lightBlue, for: .normal)
         passengersButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         passengersButton.addTarget(self, action: #selector(passengersCountButtonTapped), for: .touchUpInside)
