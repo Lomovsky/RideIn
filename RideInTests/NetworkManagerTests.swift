@@ -53,6 +53,32 @@ class unit_NetworkManagerTests: XCTestCase {
         XCTAssertEqual(statusCode, 200)
     }
     
+    //MARK:- NetworkManager base request
+    func testNetworkManagerBaseRequest() throws {
+        try XCTSkipUnless(ConnectionManager.isConnectedToNetwork())
+
+        // given
+        let urlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
+        let url = URL(string: urlString)!
+        let promise = expectation(description: "Request succeed")
+        var responseError: Error?
+        var decodedData: Trips?
+        
+        // when
+        networkManager.downloadData(withURL: url, decodeBy: Trips.self) { (result) in
+            switch result {
+            case .failure(let error): responseError = error
+            case .success(let data): decodedData = data
+            }
+            promise.fulfill()
+        }
+        wait(for: [promise], timeout: 5)
+        
+        // then
+        XCTAssertNil(responseError)
+        XCTAssertNotNil(decodedData)
+    }
+    
     //MARK:- BadRequest test
     func testNetworkManagerBadRequest() throws {
         try XCTSkipUnless(ConnectionManager.isConnectedToNetwork())
