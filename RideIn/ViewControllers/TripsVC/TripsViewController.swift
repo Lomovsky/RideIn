@@ -40,7 +40,7 @@ final class TripsViewController: UIViewController {
     var numberOfPassengers = Int()
     
     /// The selected trip departure date
-    var date = "Сегодня"
+    var date = NSLocalizedString("Date", comment: "")
         
     weak var rideSearchDelegate: RideSearchDelegate?
     
@@ -240,7 +240,7 @@ final class TripsViewController: UIViewController {
             detailsLabel.topAnchor.constraint(equalTo: fromLabel.bottomAnchor, constant: 10),
             detailsLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor)
         ])
-        detailsLabel.text = "\(date.capitalized), \(numberOfPassengers) человек"
+        detailsLabel.text = "\(date.capitalized), \(numberOfPassengers)" + " " + NSLocalizedString("Search.lessThanFourPassengers", comment: "")
         detailsLabel.font = .boldSystemFont(ofSize: 10)
         detailsLabel.textColor = .systemGray
     }

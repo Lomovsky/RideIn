@@ -30,9 +30,7 @@ struct MainNetworkManager: NetworkManager {
                         completionHandler(.success(decodedData))
                         
                     } catch let error as NSError {
-                        let decodingError = NetworkManagerErrors.decodingError
-                        completionHandler(.failure(decodingError))
-                        print("NETWORK MANAGER FAILURE \(error), \(#line)")
+                        assertionFailure("NETWORK MANAGER FAILURE \(error), \(#line)")
                     }
                 }
             }

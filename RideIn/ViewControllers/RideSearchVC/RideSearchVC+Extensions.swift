@@ -33,14 +33,14 @@ extension RideSearchViewController {
         urlFactory.setCoordinates(coordinates: destinationCoordinates, place: .destination)
         urlFactory.setSeats(seats: "\(passengersCount)")
         if date != nil { urlFactory.setDate(date: date!) }
-        guard let url = urlFactory.makeURL() else { print("unable to make url \(#line)"); return }
+        guard let url = urlFactory.makeURL() else { Log.e("Unable to make url"); return }
                 
         networkManager.downloadData(withURL: url, decodeBy: Trips.self) { [unowned self] (result) in
             switch result {
             case .failure(let error):
                 switch error {
-                case NetworkManagerErrors.noConnection: presentAlertController(title: "Ошибка", message: "Нет cоединения")
-                case NetworkManagerErrors.badRequest: presentAlertController(title: "Ошибка", message: "Некорректные данные")
+                case NetworkManagerErrors.noConnection: presentAlertController(title: NSLocalizedString("Alert.error", comment: ""), message: NSLocalizedString("Alert.noConnection", comment: ""))
+                case NetworkManagerErrors.badRequest: presentAlertController(title: NSLocalizedString("Alert.error", comment: ""), message: NSLocalizedString("Alert.wrongDataFormat", comment: ""))
                 default: return
                 }
                 
@@ -101,7 +101,7 @@ extension RideSearchViewController {
      Calls setNavigationControllerHidden method to configure navigationController isHidden property
      */
      @objc final func navigationGestureRecognizerTriggered() {
-        print("gesture recognizer triggered")
+        Log.i("Gesture recognizer triggered")
         setNavigationControllerHidden(to: shouldNavigationControllerBeHiddenAnimated.hidden,
                                       animated: shouldNavigationControllerBeHiddenAnimated.animated)
     }
@@ -126,13 +126,13 @@ extension RideSearchViewController {
     func setPassengersCountWithDeclension() {
         switch passengerDeclension {
         case .one:
-            passengersButton.setTitle("\(passengersCount) пассажир", for: .normal)
+            passengersButton.setTitle("\(passengersCount)" + " " + NSLocalizedString("Search.onePassenger", comment: ""), for: .normal)
             
         case .two:
-            passengersButton.setTitle("\(passengersCount) пассажира", for: .normal)
+            passengersButton.setTitle("\(passengersCount)" + " " + NSLocalizedString("Search.lessThanFourPassengers", comment: ""), for: .normal)
             
         default:
-            passengersButton.setTitle("\(passengersCount) пассажиров", for: .normal)
+            passengersButton.setTitle("\(passengersCount)" + " " + NSLocalizedString("Search.morePassengers", comment: ""), for: .normal)
         }
     }
     
@@ -193,25 +193,27 @@ extension RideSearchViewController {
     private func prepareDataForTripsVCWith(trips: [Trip]) {
         let sortingQueue = DispatchQueue(label: "sort_queue", qos: .userInitiated)
         sortingQueue.async {
-            guard !(trips.isEmpty) else { self.presentAlertController(title: "Ошибка", message: "Нет поездок по вашему запросу"); return }
-                let cheapToBottom = trips.sorted(by: { Float($0.price.amount) ?? 0 < Float($1.price.amount) ?? 0  })
-                let cheapToTop = trips.sorted(by: { Float($0.price.amount) ?? 0 > Float($1.price.amount) ?? 0  })
-                let cheapestTrip = cheapToTop.last
-                let closestTrip = trips.sorted(by: { (trip1, trip2) -> Bool in
-
-                    let trip1Coordinates = CLLocation(latitude: trip1.waypoints.first!.place.latitude, longitude: trip1.waypoints.first!.place.longitude)
-                    let trip2Coordinates = CLLocation(latitude: trip2.waypoints.first!.place.latitude, longitude: trip2.waypoints.first!.place.longitude)
-                    let distance1 = self.getDistanceBetween(userLocation: self.departureCLLocation, departurePoint: trip1Coordinates)
-                    let distance2 = self.getDistanceBetween(userLocation: self.departureCLLocation, departurePoint: trip2Coordinates)
-                    
-                    return self.compareDistances(first: distance1, second: distance2)
-                }).first
+            guard !(trips.isEmpty) else { self.presentAlertController(title: "Alert.error",
+                                                                      message: NSLocalizedString("Alert.noTrips",
+                                                                                                 comment: "")); return }
+            let cheapToBottom = trips.sorted(by: { Float($0.price.amount) ?? 0 < Float($1.price.amount) ?? 0  })
+            let cheapToTop = trips.sorted(by: { Float($0.price.amount) ?? 0 > Float($1.price.amount) ?? 0  })
+            let cheapestTrip = cheapToTop.last
+            let closestTrip = trips.sorted(by: { (trip1, trip2) -> Bool in
+                
+                let trip1Coordinates = CLLocation(latitude: trip1.waypoints.first!.place.latitude, longitude: trip1.waypoints.first!.place.longitude)
+                let trip2Coordinates = CLLocation(latitude: trip2.waypoints.first!.place.latitude, longitude: trip2.waypoints.first!.place.longitude)
+                let distance1 = self.getDistanceBetween(userLocation: self.departureCLLocation, departurePoint: trip1Coordinates)
+                let distance2 = self.getDistanceBetween(userLocation: self.departureCLLocation, departurePoint: trip2Coordinates)
+                
+                return self.compareDistances(first: distance1, second: distance2)
+            }).first
             DispatchQueue.main.async {
                 self.showTripsVCWith(trips: trips, cheapToTop: cheapToTop, expensiveToTop: cheapToBottom,
-                                cheapestTrip: cheapestTrip!, closestTrip: closestTrip!)
+                                     cheapestTrip: cheapestTrip!, closestTrip: closestTrip!)
             }
         }
-           
+        
     }
     
     /// Method is responsible for presenting TripsVC with given data
@@ -242,10 +244,12 @@ extension RideSearchViewController {
     ///   - title: title of the alert
     ///   - message: alert message
     private func presentAlertController(title: String, message: String) {
-        alertController.title = title
-        alertController.message = message
-        configureIndicatorAndButton(indicatorEnabled: false)
-        present(alertController, animated: true)
+        DispatchQueue.main.async {
+            self.alertController.title = title
+            self.alertController.message = message
+            self.configureIndicatorAndButton(indicatorEnabled: false)
+            self.present(self.alertController, animated: true)
+        }
     }
 }
 
@@ -434,7 +438,7 @@ extension RideSearchViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("LocationManager error is \(error)")
+        Log.e("LocationManager error is \(error)")
     }
     
 }

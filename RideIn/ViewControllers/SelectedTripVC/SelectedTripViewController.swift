@@ -323,7 +323,7 @@ final class SelectedTripViewController: UIViewController {
             passengersCountLabel.leadingAnchor.constraint(equalTo: priceSubview.leadingAnchor, constant: 10),
             passengersCountLabel.heightAnchor.constraint(equalTo: priceSubview.heightAnchor, multiplier: 0.4)
         ])
-        passengersCountLabel.text = "Всего за \(passengersCount) пассажира"
+        passengersCountLabel.text = NSLocalizedString("TotalPrice", comment: "") + " " + "\(passengersCount)" + " " + NSLocalizedString("Search.morePassengers", comment: "")
         passengersCountLabel.textColor = .systemGray3
         passengersCountLabel.font = .boldSystemFont(ofSize: 15)
     }

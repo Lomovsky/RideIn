@@ -1,0 +1,39 @@
+/* 
+  Localizable.strings
+  RideIn
+
+  Created by Алекс Ломовской on 27.04.2021.
+  
+*/
+// RideSearchViewController
+"Search.title" = "Поиск поездки";
+"Search.departure" = "Выезжаете из";
+"Search.destination" = "Направляетесь в";
+"Search.searchButton" = "Найти";
+"Search.onePassenger" = "пассажир";
+"Search.lessThanFourPassengers" = "пассажира";
+"Search.morePassengers" = "пассажиров";
+"Search.showMap" = "Выбрать на карте";
+
+// AlertController
+"Alert.dismiss" = "Отмена";
+"Alert.error" = "Ошибка";
+"Alert.noConnection" = "Нет соединения";
+"Alert.wrongDataFormat" = "Некорректные данные";
+"Alert.noTrips" = "Нет поездок по вашему запросу";
+
+// PassengersCountViewController
+"PassengersCountVC.title" = "Подтвердите количество мест для бронирования";
+
+// MapViewController
+"MapVC.searchPlaceholder" = "Выберете место";
+"MapVC.distance" = "Расстояние";
+"MapVC.km" = "км";
+
+// TripsViewController
+"Date" = "Сегодня";
+"TheCheapestTrip" = "Дешевле всего";
+"TheClosestTrip" = "Быстрее всего";
+
+// SelectedTripViewController
+"TotalPrice" = "Всего за";

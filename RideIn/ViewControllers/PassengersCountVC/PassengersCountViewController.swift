@@ -49,7 +49,7 @@ final class PassengersCountViewController: UIViewController {
         ])
         controllerTitle.textAlignment = .center
         controllerTitle.textColor = .darkGray
-        controllerTitle.text = "Подтвердите количество мест для бронирования"
+        controllerTitle.text = NSLocalizedString("PassengersCountVC.title", comment: "")
         controllerTitle.font = .boldSystemFont(ofSize: 30)
         controllerTitle.numberOfLines = 0
     }

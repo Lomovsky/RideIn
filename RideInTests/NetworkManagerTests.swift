@@ -130,28 +130,4 @@ class unit_NetworkManagerTests: XCTestCase {
         wait(for: [promise], timeout: 5)
     }
     
-    //MARK:- DecodingError test
-    func testNetworkManagerDecodingError() throws {
-        try XCTSkipUnless(ConnectionManager.isConnectedToNetwork())
-
-        // given
-        let urlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
-        let url = URL(string: urlString)!
-        let promise = expectation(description: "Decoding error handled")
-        
-        // when
-        networkManager.downloadData(withURL: url, decodeBy: Trip.self) { (result) in
-            switch result {
-            case .failure(let error):
-                switch error {
-                case NetworkManagerErrors.decodingError: promise.fulfill()
-                default: XCTFail()
-                }
-            case .success(_): XCTFail()
-            }
-        }
-        
-        // then
-        wait(for: [promise], timeout: 5)
-    }
 }

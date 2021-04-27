@@ -101,7 +101,7 @@ extension TripsViewController: UICollectionViewDataSource {
                                           arrivingPlace: destinationPlaceName,
                                           departureTime: cheapestTripDepartureTimeString,
                                           arrivingTime: cheapestTripArrivingTimeString,
-                                          filterType: "Дешевле всего",
+                                          filterType: NSLocalizedString("TheCheapestTrip", comment: ""),
                                           price: cheapestTrip?.price.amount ?? "")
 
                 } else {
@@ -109,7 +109,7 @@ extension TripsViewController: UICollectionViewDataSource {
                                           arrivingPlace: destinationPlaceName,
                                           departureTime: closestTripDepartureTimeString,
                                           arrivingTime: closestTripArrivingTimeString,
-                                          filterType: "Быстрее всего",
+                                          filterType: NSLocalizedString("TheClosestTrip", comment: ""),
                                           price: closestTrip?.price.amount ?? "")
                 }
             return cell

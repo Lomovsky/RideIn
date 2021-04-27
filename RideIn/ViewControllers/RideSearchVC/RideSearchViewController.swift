@@ -79,7 +79,7 @@ final class RideSearchViewController: UIViewController {
     var passengerDeclension: Declensions {
             if passengersCount == 1 {
                 return .one
-            } else if passengersCount < 4, passengersCount > 1 {
+            } else if passengersCount <= 4, passengersCount > 1 {
                 return .two
             } else {
                 return .more
@@ -159,6 +159,7 @@ final class RideSearchViewController: UIViewController {
         view.addSubview(activityIndicator)
         view.addSubview(tableViewSubview)
         
+        
         setupNavigationController()
         setupView()
         setupFromContentSubview()
@@ -195,7 +196,7 @@ final class RideSearchViewController: UIViewController {
     
     private func setupNavigationController() {
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.visibleViewController?.title = "Поиск поездки"
+        navigationController?.visibleViewController?.title = NSLocalizedString("Search.title", comment: "")
         navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.darkGray]
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.interactivePopGestureRecognizer?.delegate = self
@@ -238,7 +239,7 @@ final class RideSearchViewController: UIViewController {
         ])
         departureTextField.backgroundColor = .clear
         departureTextField.layer.cornerRadius = 15
-        departureTextField.attributedPlaceholder = NSAttributedString(string: "Выезжаете из",
+        departureTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Search.departure", comment: ""),
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
         departureTextField.font = .boldSystemFont(ofSize: 16)
         departureTextField.textColor = .black
@@ -298,7 +299,7 @@ final class RideSearchViewController: UIViewController {
         
         destinationTextField.backgroundColor = .clear
         destinationTextField.layer.cornerRadius = 15
-        destinationTextField.attributedPlaceholder = NSAttributedString(string: "Направляетесь в",
+        destinationTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Search.destination", comment: ""),
                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
         destinationTextField.font = .boldSystemFont(ofSize: 16)
         destinationTextField.textColor = .black
@@ -367,7 +368,7 @@ final class RideSearchViewController: UIViewController {
             searchButton.heightAnchor.constraint(equalTo: departureContentSubview.heightAnchor, multiplier: 0.9),
             searchButton.widthAnchor.constraint(equalTo: departureContentSubview.widthAnchor, multiplier: 0.4)
         ])
-        searchButton.setTitle("Искать", for: .normal)
+        searchButton.setTitle(NSLocalizedString("Search.searchButton", comment: ""), for: .normal)
         searchButton.isHidden = true
         searchButton.backgroundColor = .lightBlue
         searchButton.layer.cornerRadius = 25
@@ -427,7 +428,7 @@ final class RideSearchViewController: UIViewController {
             showMapButton.leadingAnchor.constraint(equalTo: mapImageView.trailingAnchor, constant: 10),
             showMapButton.heightAnchor.constraint(equalTo: showMapSubview.heightAnchor, multiplier: 0.5)
         ])
-        showMapButton.setTitle("Выбрать на карте", for: .normal)
+        showMapButton.setTitle(NSLocalizedString("Search.showMap", comment: ""), for: .normal)
         showMapButton.setTitleColor(.darkGray, for: .normal)
         showMapButton.titleLabel?.font = .boldSystemFont(ofSize: 20)
         showMapButton.titleLabel?.numberOfLines = 0
@@ -457,10 +458,6 @@ final class RideSearchViewController: UIViewController {
     
     private func setupAlertController() {
         
-    }
-    
-    deinit {
-        print("deallocating\(self)")
     }
     
 }
@@ -493,7 +490,7 @@ private extension RideSearchViewController {
     
     func makeAlert() -> UIAlertController {
         let alert = UIAlertController(title: "", message: "", preferredStyle: .alert)
-        let dismissButton = UIAlertAction(title: "Отмена", style: .cancel) { (_) in
+        let dismissButton = UIAlertAction(title: NSLocalizedString("Alert.dismiss", comment: ""), style: .cancel) { (_) in
             self.dismiss(animated: true)
         }
         alert.addAction(dismissButton)

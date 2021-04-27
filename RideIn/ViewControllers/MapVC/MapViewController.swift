@@ -174,7 +174,7 @@ final class MapViewController: UIViewController {
         ])
         searchTF.backgroundColor = .clear
         searchTF.layer.cornerRadius = 15
-        searchTF.attributedPlaceholder = NSAttributedString(string: "Выберете место",
+        searchTF.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("MapVC.searchPlaceholder", comment: ""),
                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
         searchTF.font = .boldSystemFont(ofSize: 16)
         searchTF.textColor = .black
@@ -253,7 +253,8 @@ final class MapViewController: UIViewController {
         distanceLabel.textAlignment = .center
         distanceLabel.textColor = .systemGray
         distanceLabel.font = .boldSystemFont(ofSize: 20)
-        distanceLabel.text = "Расстояние: \(distance) км"
+        distanceLabel.text = NSLocalizedString("MapVC.distance", comment: "") + ": " + "\(distance)" + " " + NSLocalizedString("MapVC.km", comment: "")
+        
     }
     
     private func setupFocusOnUserLocationImageView() {

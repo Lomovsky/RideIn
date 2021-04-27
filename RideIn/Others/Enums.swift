@@ -61,5 +61,4 @@ enum AnimatingViews {
 enum NetworkManagerErrors: Error {
     case badRequest
     case noConnection
-    case decodingError
 }
