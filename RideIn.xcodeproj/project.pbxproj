@@ -13,6 +13,7 @@
 		C00F85E0262FFFE800A29641 /* SelectedTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00F85DF262FFFE800A29641 /* SelectedTripViewController.swift */; };
 		C0327F4B263974E30079B324 /* DataProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F4A263974E30079B324 /* DataProviders.swift */; };
 		C0327F4D26398C150079B324 /* Heplers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F4C26398C150079B324 /* Heplers.swift */; };
+		C0327F4F263998410079B324 /* MainTripDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F4E263998410079B324 /* MainTripDataProviderTests.swift */; };
 		C04BC36B2632CE7000941B0C /* SelectedTripVC+Extenstions .swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC36A2632CE7000941B0C /* SelectedTripVC+Extenstions .swift */; };
 		C04BC3BE2632F8E100941B0C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C04BC3BD2632F8E100941B0C /* .gitignore */; };
 		C04BC3DF2634A05300941B0C /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC3DE2634A05300941B0C /* ConnectionManager.swift */; };
@@ -61,6 +62,7 @@
 		C00F85DF262FFFE800A29641 /* SelectedTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTripViewController.swift; sourceTree = "<group>"; };
 		C0327F4A263974E30079B324 /* DataProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviders.swift; sourceTree = "<group>"; };
 		C0327F4C26398C150079B324 /* Heplers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heplers.swift; sourceTree = "<group>"; };
+		C0327F4E263998410079B324 /* MainTripDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTripDataProviderTests.swift; sourceTree = "<group>"; };
 		C04BC36A2632CE7000941B0C /* SelectedTripVC+Extenstions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectedTripVC+Extenstions .swift"; sourceTree = "<group>"; };
 		C04BC3BD2632F8E100941B0C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		C04BC3DE2634A05300941B0C /* ConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				C04BC3E82636966A00941B0C /* RideInTests.swift */,
+				C0327F4E263998410079B324 /* MainTripDataProviderTests.swift */,
 				C04BC4012636B51E00941B0C /* NetworkManagerTests.swift */,
 				C04BC40B2637099F00941B0C /* DateTimeFormatterTests.swift */,
 				C04BC3EA2636966A00941B0C /* Info.plist */,
@@ -483,6 +486,7 @@
 			files = (
 				C04BC4022636B51E00941B0C /* NetworkManagerTests.swift in Sources */,
 				C04BC3E92636966A00941B0C /* RideInTests.swift in Sources */,
+				C0327F4F263998410079B324 /* MainTripDataProviderTests.swift in Sources */,
 				C04BC40C2637099F00941B0C /* DateTimeFormatterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

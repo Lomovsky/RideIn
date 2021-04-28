@@ -33,9 +33,9 @@ final class MainTripsDataProvider: TripsDataProvider {
         let distanceCalculator: DistanceCalculator = MainDistanceCalculator()
         
         let unsortedTrips = trips
-        let cheapToBottom = trips.sorted(by: { Float($0.price.amount) ?? 0 < Float($1.price.amount) ?? 0  })
-        let cheapToTop = trips.sorted(by: { Float($0.price.amount) ?? 0 > Float($1.price.amount) ?? 0  })
-        let cheapestTrip = cheapToTop.last
+        let cheapToBottom = trips.sorted(by: { Float($0.price.amount) ?? 0 > Float($1.price.amount) ?? 0  })
+        let cheapToTop = trips.sorted(by: { Float($0.price.amount) ?? 0 < Float($1.price.amount) ?? 0  })
+        let cheapestTrip = cheapToTop.first
         let closestTrip = trips.sorted(by: { (trip1, trip2) -> Bool in
             
             let trip1Coordinates = CLLocation(latitude: trip1.waypoints.first!.place.latitude, longitude: trip1.waypoints.first!.place.longitude)
@@ -51,5 +51,22 @@ final class MainTripsDataProvider: TripsDataProvider {
     
     deinit {
         Log.i("deallocating \(self)")
+    }
+}
+
+//MARK:- MainMapKitPlacesSearchDataProvider
+struct MainMapKitPlacesSearchDataProvider: MapKitPlacesSearchDataProvider {
+    static func searchForPlace(with keyWord: String?, inRegion region: MKCoordinateRegion,
+                               completion: @escaping (_ matchingItems: [MKMapItem]) -> Void) {
+        guard let text = keyWord, text != "" else { return }
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = text
+        request.region = region
+        request.resultTypes = .address
+        let search = MKLocalSearch(request: request)
+        search.start { response, _ in
+            guard let response = response else { return }
+            completion(response.mapItems)
+        }
     }
 }

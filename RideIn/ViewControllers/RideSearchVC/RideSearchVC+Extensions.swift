@@ -22,7 +22,9 @@ extension RideSearchViewController {
     /// - Or calls prepareDataForTripsVCWith method and passes it ([Trip]) object
     @objc final func searchButtonTapped() {
         configureIndicatorAndButton(indicatorEnabled: true)
-        dataProvider.downloadDataWith(departureCoordinates: departureCoordinates, destinationCoordinates: destinationCoordinates, seats: "\(passengersCount)", date: date) { [unowned self] result in
+        dataProvider.downloadDataWith(departureCoordinates: departureCoordinates,
+                                      destinationCoordinates: destinationCoordinates,
+                                      seats: "\(passengersCount)", date: date) { [unowned self] result in
             switch result {
             case .failure(let error):
                 switch error {
