@@ -124,19 +124,10 @@ extension RideSearchViewController {
     /// This method is responsible for searching for places in users region
     /// - Parameter word: the keyword of the search (e.g. city name)
     private func searchPlaces(withWord word: String?) {
-        guard let text = word, text != "" else { return }
-        let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = text
-        request.region = mapView.region
-        request.resultTypes = .address
-        let search = MKLocalSearch(request: request)
-        
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [unowned self] (_) in
-            search.start { response, _ in
-                guard let response = response else { return }
-                self.matchingItems = response.mapItems
-                print(response.mapItems.count)
+        timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { [unowned self] _ in
+            MainMapKitPlacesSearchDataProvider.searchForPlace(with: word, inRegion: self.mapView.region) { items in
+                self.matchingItems = items
                 self.searchTableView.reloadData()
             }
         })

@@ -59,3 +59,10 @@ protocol DistanceCalculator {
     func getDistanceBetween(userLocation: CLLocation, departurePoint: CLLocation) -> CLLocationDistance
 
 }
+
+//MARK:- MapKitPlacesSearchDataProvider
+protocol MapKitPlacesSearchDataProvider {
+    static func searchForPlace(with keyWord: String?, inRegion region: MKCoordinateRegion, completion: @escaping ([MKMapItem]) -> Void)
+}
+
+

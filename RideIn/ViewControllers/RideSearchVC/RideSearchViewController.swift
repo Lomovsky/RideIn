@@ -455,14 +455,6 @@ final class RideSearchViewController: UIViewController {
 //MARK:- Factory methods
 private extension RideSearchViewController {
     
-    func makeNetworkManager() -> NetworkManager {
-        return MainNetworkManager()
-    }
-    
-    func makeURLFactory() -> URLFactory {
-        return MainURLFactory()
-    }
-    
     func makeLocationManager() -> CLLocationManager {
         let manager = CLLocationManager()
         manager.delegate = self
