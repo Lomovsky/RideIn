@@ -121,3 +121,16 @@ extension MKMapView {
         return mapView
     }
 }
+
+//MARK:- UICollectionViewCell
+extension UICollectionViewCell {
+    func addShadow(color: UIColor, radius: CGFloat, opacity: Float) {
+        self.layer.shadowColor = color.cgColor
+        self.layer.shadowRadius = radius
+        self.layer.shadowOpacity = opacity
+        self.layer.shadowOffset = CGSize.init(width: 2.5, height: 2.5)
+        self.layer.masksToBounds = false
+        self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        self.backgroundColor = .clear
+    }
+}

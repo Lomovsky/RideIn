@@ -8,16 +8,14 @@
 import UIKit
 import MapKit
 
-//MARK:- Helping methods
+//MARK:- Targets&Actions
 extension RideSearchViewController {
-    
     /// Presents PassengersCountVC
     @objc final func passengersCountButtonTapped() {
         let vc = PassengersCountViewController()
         vc.rideSearchDelegate = self
         navigationController?.present(vc, animated: true, completion: nil)
     }
-    
     
     /// - This method asks dataProvider to download data
     /// - Either presents alertController with some error
@@ -58,7 +56,7 @@ extension RideSearchViewController {
         dismissAnimation(textField: destinationTextField)
     }
     
-     ///This method configures and pushes MapViewController
+    ///This method configures and pushes MapViewController
     @objc final func showMapButtonTapped() {
         let vc = MapViewController()
         vc.rideSearchDelegate = self
@@ -81,6 +79,10 @@ extension RideSearchViewController {
         if month < 10 { monthString = "0\(String(describing: month))" }
         date = yearString + "-" + monthString + "-" + dayString + "T00:00:00"
     }
+}
+
+//MARK:- Helping methods
+extension RideSearchViewController {
     
     /// This method is used for configuring "searchButton" and activity indicator state.
     /// Triggered then user press "searchButton" to start activity indicator and hide button to
@@ -112,15 +114,6 @@ extension RideSearchViewController {
         }
     }
     
-    /// This methods checks textField for emptiness to configure "searchButton"s state
-    private func checkTextFieldsForEmptiness() {
-        guard !(departureTextField.text?.isEmpty ?? true), departureTextField.text != "",
-              !(destinationTextField.text?.isEmpty ?? true), departureTextField.text != "" else {
-            searchButton.isHidden = true
-            return }
-        searchButton.isHidden = false
-    }
-    
     /// This method is responsible for searching for places in users region
     /// - Parameter word: the keyword of the search (e.g. city name)
     private func searchPlaces(withWord word: String?) {
@@ -133,36 +126,17 @@ extension RideSearchViewController {
         })
     }
     
-    /// This method calculates distance between two points (in this case between user location and departure point)
-    /// - Parameters:
-    ///   - userLocation: user location point
-    ///   - departurePoint: departure point location
-    /// - Returns: the distance with type CLLocationDistance
-    private func getDistanceBetween(userLocation: CLLocation, departurePoint: CLLocation) -> CLLocationDistance {
-        return userLocation.distance(from: departurePoint)
-    }
-    
-    /// This method compares two distances of type CLLocationDistance
-    /// - Parameters:
-    ///   - first: first given distance
-    ///   - second: second given distance
-    /// - Returns: returns Bool value that says if first distance is greater than second or not
-    private func compareDistances(first: CLLocationDistance, second: CLLocationDistance) -> Bool {
-        return second.isLess(than: first)
-    }
-    
-    
     /// This method calls dataProviders method prepareData and passes its result to showTripsVCWith method
     /// - Parameter trips: trips array to pass to dataProvider
     private func prepareDataForTripsVCWith(trips: [Trip]) {
         do {
             try dataProvider.prepareData(trips: trips, userLocation: departureCLLocation,
                                          completion: { [unowned self] unsortedTrips, cheapToTop, cheapToBottom, cheapestTrip, closestTrip in
-                self.showTripsVCWith(trips: trips,
-                                     cheapToTop: cheapToTop,
-                                     expensiveToTop: cheapToBottom,
-                                     cheapestTrip: cheapestTrip,
-                                     closestTrip: closestTrip) })
+                                            self.showTripsVCWith(trips: trips,
+                                                                 cheapToTop: cheapToTop,
+                                                                 expensiveToTop: cheapToBottom,
+                                                                 cheapestTrip: cheapestTrip,
+                                                                 closestTrip: closestTrip) })
         } catch _ as NSError {
             self.presentAlertController(title: NSLocalizedString("Alert.error", comment: ""), message: NSLocalizedString("Alert.noTrips", comment: ""))
         }
@@ -256,6 +230,15 @@ extension RideSearchViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
+    /// This methods checks textField for emptiness to configure "searchButton"s state
+    private func checkTextFieldsForEmptiness() {
+        guard !(departureTextField.text?.isEmpty ?? true), departureTextField.text != "",
+              !(destinationTextField.text?.isEmpty ?? true), departureTextField.text != "" else {
+            searchButton.isHidden = true
+            return }
+        searchButton.isHidden = false
+    }
 }
 
 //MARK: - RideSearchDelegate
@@ -265,15 +248,9 @@ extension RideSearchViewController: RideSearchDelegate {
     /// - Parameter operation: the operation type of type Operation
     func changePassengersCount(with operation: Operation) {
         switch operation {
-        case .increase:
-            if passengersCount < 10 {
-                passengersCount += 1
-            }
+        case .increase: if passengersCount < 10 { passengersCount += 1 }
             
-        case .decrease:
-            if passengersCount > 1 {
-                passengersCount -= 1
-            }
+        case .decrease: if passengersCount > 1 { passengersCount -= 1 }
         }
         setPassengersCountWithDeclension()
     }
@@ -283,7 +260,6 @@ extension RideSearchViewController: RideSearchDelegate {
     func getPassengersCount() -> String {
         return "\(passengersCount)"
     }
-    
     
     /// Sets coordinates and place name with a given placemark for specific placeType
     /// - Parameters:
@@ -306,7 +282,6 @@ extension RideSearchViewController: RideSearchDelegate {
             dismissDestinationTextField()
         }
     }
-    
     
     /// This method is responsible for configuring navigationController either hidden or not with given parameters
     /// - Parameters:
@@ -348,7 +323,7 @@ extension RideSearchViewController: UITableViewDataSource {
         let latitude = placemark.coordinate.latitude
         let longitude = placemark.coordinate.longitude
         let coordinates = "\(latitude),\(longitude)"
-
+        
         switch placeType {
         case .department:
             departureTextField.text = placemark.name

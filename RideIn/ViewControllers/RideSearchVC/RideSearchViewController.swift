@@ -446,10 +446,6 @@ final class RideSearchViewController: UIViewController {
         
     }
     
-    private func setupAlertController() {
-        
-    }
-    
 }
 
 //MARK:- Factory methods

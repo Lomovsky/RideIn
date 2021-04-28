@@ -23,25 +23,6 @@ extension TripsViewController {
         pageScrollView.scrollTo(horizontalPage: sender.selectedSegmentIndex, numberOfPages: 3, animated: true)
     }
     
-    
-    /// This method was written to reduce the code
-    /// Create a shadow layer to a given UICollectionViewCell
-    /// - Parameters:
-    ///   - cell: the cell on which the shadow layer should be applied onto
-    ///   - color: the shadow color
-    ///   - radius: she shadow radius
-    ///   - opacity: the shadow opacity
-    private func setCellShadow(for cell: UICollectionViewCell, color: UIColor, radius: CGFloat, opacity: Float) {
-        cell.layer.shadowColor = color.cgColor
-        cell.layer.shadowRadius = radius
-        cell.layer.shadowOpacity = opacity
-        cell.layer.shadowOffset = CGSize.init(width: 2.5, height: 2.5)
-        cell.layer.masksToBounds = false
-        cell.layer.shadowPath = UIBezierPath(rect: cell.bounds).cgPath
-        cell.backgroundColor = .clear
-    }
-    
-    
     /// This method is responsible for pushing SelectedTripVC with given data
     /// - Parameters:
     ///   - trip: the trip object to pass to SelectedTripVC
@@ -88,7 +69,7 @@ extension TripsViewController: UICollectionViewDataSource {
         case recommendationsCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TripCollectionViewCell.recommendationsReuseIdentifier,
                                                           for: indexPath) as! TripCollectionViewCell
-            setCellShadow(for: cell, color: .black, radius: 4, opacity: 0.1)
+            cell.addShadow(color: .black, radius: 4, opacity: 0.1)
             guard trips.count != 1 else { cell.setPlaceholder(); return cell }
                 
                 let cheapestTripDepartureTimeString = dateTimeFormatter.getDateTime(format: .hhmmss, from: cheapestTrip, for: .department)
@@ -117,7 +98,7 @@ extension TripsViewController: UICollectionViewDataSource {
         case allTipsCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TripCollectionViewCell.allTripsReuseIdentifier,
                                                           for: indexPath) as! TripCollectionViewCell
-            setCellShadow(for: cell, color: .black, radius: 5, opacity: 0.4)
+            cell.addShadow(color: .black, radius: 5, opacity: 0.4)
             let trip = trips[indexPath.row]
             let tripDepartureTime = dateTimeFormatter.getDateTime(format: .hhmmss, from: trip, for: .department)
             let tripArrivingTime = dateTimeFormatter.getDateTime(format: .hhmmss, from: trip, for: .destination)
@@ -133,7 +114,7 @@ extension TripsViewController: UICollectionViewDataSource {
         case cheapTripsToTopCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TripCollectionViewCell.cheapToTopReuseIdentifier,
                                                           for: indexPath) as! TripCollectionViewCell
-            setCellShadow(for: cell, color: .black, radius: 5, opacity: 0.4)
+            cell.addShadow(color: .black, radius: 5, opacity: 0.4)
             let trip = cheapTripsToTop[indexPath.row]
             let tripDepartureTime = dateTimeFormatter.getDateTime(format: .hhmmss, from: trip, for: .department)
             let tripArrivingTime = dateTimeFormatter.getDateTime(format: .hhmmss, from: trip, for: .destination)
@@ -149,7 +130,7 @@ extension TripsViewController: UICollectionViewDataSource {
         case cheapTripsToBottomCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TripCollectionViewCell.cheapToBottomReuseIdentifier,
                                                           for: indexPath) as! TripCollectionViewCell
-            setCellShadow(for: cell, color: .black, radius: 5, opacity: 0.4)
+            cell.addShadow(color: .black, radius: 5, opacity: 0.4)
             let trip = cheapTripsToBottom[indexPath.row]
             let tripDepartureTime = dateTimeFormatter.getDateTime(format: .hhmmss, from: trip, for: .department)
             let tripArrivingTime = dateTimeFormatter.getDateTime(format: .hhmmss, from: trip, for: .destination)
