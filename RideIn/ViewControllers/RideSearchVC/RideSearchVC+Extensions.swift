@@ -121,7 +121,8 @@ extension RideSearchViewController {
     private func searchPlaces(withWord word: String?) {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { [unowned self] _ in
-            MainMapKitPlacesSearchDataProvider.searchForPlace(with: word, inRegion: self.mapView.region) { items in
+            MainMapKitPlacesSearchDataProvider.searchForPlace(with: word, inRegion: self.mapView.region) { items, error in
+                guard error == nil else { return }
                 self.matchingItems = items
                 self.searchTableView.reloadData()
             }

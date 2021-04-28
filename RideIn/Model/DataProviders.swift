@@ -57,16 +57,16 @@ final class MainTripsDataProvider: TripsDataProvider {
 //MARK:- MainMapKitPlacesSearchDataProvider
 struct MainMapKitPlacesSearchDataProvider: MapKitPlacesSearchDataProvider {
     static func searchForPlace(with keyWord: String?, inRegion region: MKCoordinateRegion,
-                               completion: @escaping (_ matchingItems: [MKMapItem]) -> Void) {
+                               completion: @escaping (_ matchingItems: [MKMapItem], _ error: Error?) -> Void) {
         guard let text = keyWord, text != "" else { return }
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = text
         request.region = region
         request.resultTypes = .address
         let search = MKLocalSearch(request: request)
-        search.start { response, _ in
+        search.start { response, error in
             guard let response = response else { return }
-            completion(response.mapItems)
+            completion(response.mapItems, error)
         }
     }
 }

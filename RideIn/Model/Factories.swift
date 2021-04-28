@@ -23,7 +23,7 @@ struct MainURLFactory: URLFactory {
         Query.seats = seats
     }
     
-    func setDate(date: String) {
+    func setDate(date: String?) {
         Query.date = date
     }
     

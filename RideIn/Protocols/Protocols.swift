@@ -20,7 +20,7 @@ protocol RideSearchDelegate: AnyObject {
 protocol URLFactory {
     func setCoordinates(coordinates: String, place: PlaceType)
     func setSeats(seats: String)
-    func setDate(date: String)
+    func setDate(date: String?)
     func makeURL() -> URL?
 }
 
@@ -62,7 +62,7 @@ protocol DistanceCalculator {
 
 //MARK:- MapKitPlacesSearchDataProvider
 protocol MapKitPlacesSearchDataProvider {
-    static func searchForPlace(with keyWord: String?, inRegion region: MKCoordinateRegion, completion: @escaping ([MKMapItem]) -> Void)
+    static func searchForPlace(with keyWord: String?, inRegion region: MKCoordinateRegion, completion: @escaping ([MKMapItem], _ error: Error?) -> Void)
 }
 
 
