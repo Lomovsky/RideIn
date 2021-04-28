@@ -326,7 +326,7 @@ final class TripsViewController: UIViewController {
     }
     
     deinit {
-        print("deallocating \(self)")
+        Log.i("deallocating \(self)")
     }
     
 }

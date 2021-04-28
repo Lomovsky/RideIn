@@ -10,9 +10,9 @@
 		89F6E2502EA5ABEAD79E7600 /* Pods_RideIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 676745E0D76715737F9F8FBC /* Pods_RideIn.framework */; };
 		8D319C17AC5EF08185EA515F /* libPods-RideInTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51E98A0146A1E81F3B4965DD /* libPods-RideInTests.a */; };
 		C00F85CC262EF76900A29641 /* TripsVC+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00F85CB262EF76900A29641 /* TripsVC+Extensions.swift */; };
-		C00F85D0262EF91E00A29641 /* MainDateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00F85CF262EF91E00A29641 /* MainDateTimeFormatter.swift */; };
 		C00F85E0262FFFE800A29641 /* SelectedTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00F85DF262FFFE800A29641 /* SelectedTripViewController.swift */; };
-		C0229F2F26382A6500DA3EA0 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0229F2E26382A6500DA3EA0 /* Logger.swift */; };
+		C0327F4B263974E30079B324 /* DataProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F4A263974E30079B324 /* DataProviders.swift */; };
+		C0327F4D26398C150079B324 /* Heplers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F4C26398C150079B324 /* Heplers.swift */; };
 		C04BC36B2632CE7000941B0C /* SelectedTripVC+Extenstions .swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC36A2632CE7000941B0C /* SelectedTripVC+Extenstions .swift */; };
 		C04BC3BE2632F8E100941B0C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C04BC3BD2632F8E100941B0C /* .gitignore */; };
 		C04BC3DF2634A05300941B0C /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC3DE2634A05300941B0C /* ConnectionManager.swift */; };
@@ -58,9 +58,9 @@
 		55EFF70959413A3634C24E6F /* Pods-RideInTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RideInTests.debug.xcconfig"; path = "Target Support Files/Pods-RideInTests/Pods-RideInTests.debug.xcconfig"; sourceTree = "<group>"; };
 		676745E0D76715737F9F8FBC /* Pods_RideIn.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RideIn.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C00F85CB262EF76900A29641 /* TripsVC+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TripsVC+Extensions.swift"; sourceTree = "<group>"; };
-		C00F85CF262EF91E00A29641 /* MainDateTimeFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDateTimeFormatter.swift; sourceTree = "<group>"; };
 		C00F85DF262FFFE800A29641 /* SelectedTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTripViewController.swift; sourceTree = "<group>"; };
-		C0229F2E26382A6500DA3EA0 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		C0327F4A263974E30079B324 /* DataProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviders.swift; sourceTree = "<group>"; };
+		C0327F4C26398C150079B324 /* Heplers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heplers.swift; sourceTree = "<group>"; };
 		C04BC36A2632CE7000941B0C /* SelectedTripVC+Extenstions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectedTripVC+Extenstions .swift"; sourceTree = "<group>"; };
 		C04BC3BD2632F8E100941B0C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		C04BC3DE2634A05300941B0C /* ConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
@@ -249,9 +249,9 @@
 		C04C9E9B262477C0007C47DC /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C00F85CF262EF91E00A29641 /* MainDateTimeFormatter.swift */,
+				C0327F4A263974E30079B324 /* DataProviders.swift */,
 				C04C9EC426257AAD007C47DC /* Factories.swift */,
-				C0229F2E26382A6500DA3EA0 /* Logger.swift */,
+				C0327F4C26398C150079B324 /* Heplers.swift */,
 				C0BEDBF426286779009B3062 /* Networking */,
 				C06513032628126300CF322B /* Cells */,
 			);
@@ -495,10 +495,8 @@
 				C04C9EC226257A4E007C47DC /* RideSearchVC+Extensions.swift in Sources */,
 				C0BEDBFB26286FB5009B3062 /* TripsViewController.swift in Sources */,
 				C04C9E84262472D9007C47DC /* PassengersCountViewController.swift in Sources */,
-				C00F85D0262EF91E00A29641 /* MainDateTimeFormatter.swift in Sources */,
 				C04C9F102626E8D6007C47DC /* RideSearchTableViewCell.swift in Sources */,
 				C04C9EC526257AAD007C47DC /* Factories.swift in Sources */,
-				C0229F2F26382A6500DA3EA0 /* Logger.swift in Sources */,
 				C04C9E5726244120007C47DC /* RideSearchViewController.swift in Sources */,
 				C04C9EC826257EDB007C47DC /* Protocols.swift in Sources */,
 				C06512FD26280E5100CF322B /* Enums.swift in Sources */,
@@ -506,6 +504,7 @@
 				C00F85CC262EF76900A29641 /* TripsVC+Extensions.swift in Sources */,
 				C0AA7743262732C700EE3A42 /* MapVC+Extensions.swift in Sources */,
 				C08291A42626EECA00C686F3 /* MapViewController.swift in Sources */,
+				C0327F4D26398C150079B324 /* Heplers.swift in Sources */,
 				C0CFDC30262872BC00C90E6A /* MapVC+MKExtenstions.swift in Sources */,
 				C0CFDC362629678500C90E6A /* TripCollectionViewCell.swift in Sources */,
 				C08291AF26271E2800C686F3 /* MapTableViewCell.swift in Sources */,
@@ -513,6 +512,7 @@
 				C04BC3DF2634A05300941B0C /* ConnectionManager.swift in Sources */,
 				C04BC36B2632CE7000941B0C /* SelectedTripVC+Extenstions .swift in Sources */,
 				C0BEDBF62628678B009B3062 /* DataModel.swift in Sources */,
+				C0327F4B263974E30079B324 /* DataProviders.swift in Sources */,
 				C04C9E7826246334007C47DC /* SustemExtensions.swift in Sources */,
 				C04C9E5526244120007C47DC /* SceneDelegate.swift in Sources */,
 			);

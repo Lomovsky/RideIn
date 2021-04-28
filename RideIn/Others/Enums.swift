@@ -61,4 +61,21 @@ enum AnimatingViews {
 enum NetworkManagerErrors: Error {
     case badRequest
     case noConnection
+    case unableToMakeURL
+    case noTrips
+}
+
+// LogEvent
+enum LogEvent: String {
+    case e = "[‼️]" // error
+    case i = "[ℹ️]" // info
+    case d = "[💬]" // debug
+    case v = "[🔬]" // verbose
+    case w = "[⚠️]" // warning
+    
+    var value: String {
+        get {
+            return self.rawValue;
+        }
+    }
 }

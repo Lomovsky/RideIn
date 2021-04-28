@@ -8,14 +8,6 @@
 import UIKit
 import MapKit
 
-//MARK:- UIGestureRecognizerDelegate
-extension RideSearchViewController: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
-                           shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-}
-
 //MARK:- Helping methods
 extension RideSearchViewController {
     
@@ -26,29 +18,28 @@ extension RideSearchViewController {
         navigationController?.present(vc, animated: true, completion: nil)
     }
     
-     ///This method sets coordinates with URLFactory and asks networkManager to download data.
+    
+    /// - This method asks dataProvider to download data
+    /// - Either presents alertController with some error
+    /// - Or calls prepareDataForTripsVCWith method and passes it ([Trip]) object
     @objc final func searchButtonTapped() {
         configureIndicatorAndButton(indicatorEnabled: true)
-        urlFactory.setCoordinates(coordinates: departureCoordinates, place: .department)
-        urlFactory.setCoordinates(coordinates: destinationCoordinates, place: .destination)
-        urlFactory.setSeats(seats: "\(passengersCount)")
-        if date != nil { urlFactory.setDate(date: date!) }
-        guard let url = urlFactory.makeURL() else { Log.e("Unable to make url"); return }
-                
-        networkManager.downloadData(withURL: url, decodeBy: Trips.self) { [unowned self] (result) in
+        dataProvider.downloadDataWith(departureCoordinates: departureCoordinates, destinationCoordinates: destinationCoordinates, seats: "\(passengersCount)", date: date) { [unowned self] result in
             switch result {
             case .failure(let error):
                 switch error {
-                case NetworkManagerErrors.noConnection: presentAlertController(title: NSLocalizedString("Alert.error", comment: ""), message: NSLocalizedString("Alert.noConnection", comment: ""))
-                case NetworkManagerErrors.badRequest: presentAlertController(title: NSLocalizedString("Alert.error", comment: ""), message: NSLocalizedString("Alert.wrongDataFormat", comment: ""))
-                default: return
+                case NetworkManagerErrors.noConnection:
+                    self.presentAlertController(title: NSLocalizedString("Alert.error", comment: ""),
+                                                message: NSLocalizedString("Alert.noConnection", comment: ""))
+                case NetworkManagerErrors.badRequest:
+                    self.presentAlertController(title: NSLocalizedString("Alert.error", comment: ""),
+                                                message: NSLocalizedString("Alert.wrongDataFormat", comment: ""))
+                case NetworkManagerErrors.unableToMakeURL:
+                    Log.e("Unable to make url")
+                default:
+                    return
                 }
-                
-            case .success(let decodedData):
-                let trips = decodedData.trips
-                self.prepareDataForTripsVCWith(trips: trips)
-                navigationController?.interactivePopGestureRecognizer?.addTarget(self, action: #selector(navigationGestureRecognizerTriggered))
-                shouldNavigationControllerBeHiddenAnimated = (false, true)
+            case .success(let trips): prepareDataForTripsVCWith(trips: trips)
             }
         }
     }
@@ -67,16 +58,11 @@ extension RideSearchViewController {
         dismissAnimation(textField: destinationTextField)
     }
     
-    /**
-     This method:
-      - Adds an interactivePopGestureRecognizer target to configure navigationController isHidden property if user will swipe back
-      - Pushes MapViewController
-     */
+     ///This method configures and pushes MapViewController
     @objc final func showMapButtonTapped() {
         let vc = MapViewController()
         vc.rideSearchDelegate = self
         vc.placeType = placeType
-        navigationController?.interactivePopGestureRecognizer?.addTarget(self, action: #selector(navigationGestureRecognizerTriggered))
         shouldNavigationControllerBeHiddenAnimated = (true, false)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -94,16 +80,6 @@ extension RideSearchViewController {
         if day < 10 { dayString = "0\(String(describing: day))" }
         if month < 10 { monthString = "0\(String(describing: month))" }
         date = yearString + "-" + monthString + "-" + dayString + "T00:00:00"
-    }
-    
-    /**
-     Is called when user swipes back with navigation controller.
-     Calls setNavigationControllerHidden method to configure navigationController isHidden property
-     */
-     @objc final func navigationGestureRecognizerTriggered() {
-        Log.i("Gesture recognizer triggered")
-        setNavigationControllerHidden(to: shouldNavigationControllerBeHiddenAnimated.hidden,
-                                      animated: shouldNavigationControllerBeHiddenAnimated.animated)
     }
     
     /// This method is used for configuring "searchButton" and activity indicator state.
@@ -184,34 +160,20 @@ extension RideSearchViewController {
         return second.isLess(than: first)
     }
     
-    /// This method prepares data to be given to TripsVC when it is presented
-    /// Method sorts given array of type [Trip] on several ways
-    /// Then calls "showTripsVCWith" method with prepared data
-    /// If there is no Trip object  in trips array, what indicates that there is no trips available, method present alertController
-    /// and calls "configureIndicatorAndButton" function
-    /// - Parameter trips: the base trips array that contains unsorted trips for user request
+    
+    /// This method calls dataProviders method prepareData and passes its result to showTripsVCWith method
+    /// - Parameter trips: trips array to pass to dataProvider
     private func prepareDataForTripsVCWith(trips: [Trip]) {
-        let sortingQueue = DispatchQueue(label: "sort_queue", qos: .userInitiated)
-        sortingQueue.async {
-            guard !(trips.isEmpty) else { self.presentAlertController(title: "Alert.error",
-                                                                      message: NSLocalizedString("Alert.noTrips",
-                                                                                                 comment: "")); return }
-            let cheapToBottom = trips.sorted(by: { Float($0.price.amount) ?? 0 < Float($1.price.amount) ?? 0  })
-            let cheapToTop = trips.sorted(by: { Float($0.price.amount) ?? 0 > Float($1.price.amount) ?? 0  })
-            let cheapestTrip = cheapToTop.last
-            let closestTrip = trips.sorted(by: { (trip1, trip2) -> Bool in
-                
-                let trip1Coordinates = CLLocation(latitude: trip1.waypoints.first!.place.latitude, longitude: trip1.waypoints.first!.place.longitude)
-                let trip2Coordinates = CLLocation(latitude: trip2.waypoints.first!.place.latitude, longitude: trip2.waypoints.first!.place.longitude)
-                let distance1 = self.getDistanceBetween(userLocation: self.departureCLLocation, departurePoint: trip1Coordinates)
-                let distance2 = self.getDistanceBetween(userLocation: self.departureCLLocation, departurePoint: trip2Coordinates)
-                
-                return self.compareDistances(first: distance1, second: distance2)
-            }).first
-            DispatchQueue.main.async {
-                self.showTripsVCWith(trips: trips, cheapToTop: cheapToTop, expensiveToTop: cheapToBottom,
-                                     cheapestTrip: cheapestTrip!, closestTrip: closestTrip!)
-            }
+        do {
+            try dataProvider.prepareData(trips: trips, userLocation: departureCLLocation,
+                                         completion: { [unowned self] unsortedTrips, cheapToTop, cheapToBottom, cheapestTrip, closestTrip in
+                self.showTripsVCWith(trips: trips,
+                                     cheapToTop: cheapToTop,
+                                     expensiveToTop: cheapToBottom,
+                                     cheapestTrip: cheapestTrip,
+                                     closestTrip: closestTrip) })
+        } catch _ as NSError {
+            self.presentAlertController(title: NSLocalizedString("Alert.error", comment: ""), message: NSLocalizedString("Alert.noTrips", comment: ""))
         }
         
     }
@@ -223,7 +185,7 @@ extension RideSearchViewController {
     ///   - expensiveToTop: trips array sorted by price decreasing
     ///   - cheapestTrip: the cheapest trip
     ///   - closestTrip: the trip whose departure point is the closest to the point that user has selected
-    private func showTripsVCWith(trips: [Trip], cheapToTop: [Trip], expensiveToTop: [Trip], cheapestTrip: Trip, closestTrip: Trip) {
+    private func showTripsVCWith(trips: [Trip], cheapToTop: [Trip], expensiveToTop: [Trip], cheapestTrip: Trip?, closestTrip: Trip?) {
         let vc = TripsViewController()
         if date != nil { vc.date = date!.components(separatedBy: "T").first ?? "" }
         vc.trips = trips
@@ -272,7 +234,6 @@ extension RideSearchViewController: UITextFieldDelegate {
         default: break
         }
     }
-    
     
     /// This method is called each time user tap on a textField
     /// Sets chosenTF & placeType properties respectively to chosen textField

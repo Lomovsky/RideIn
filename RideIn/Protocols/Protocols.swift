@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 
 //MARK:- RideSearchDelegate
-protocol RideSearchDelegate: class {
+protocol RideSearchDelegate: AnyObject {
     func changePassengersCount(with operation: Operation)
     func getPassengersCount() -> String
     func setCoordinates(with placemark: MKPlacemark, forPlace placeType: PlaceType)
@@ -42,4 +42,20 @@ protocol ConstraintFactory {
 //MARK:- ReachabilityCheckable
 protocol ReachabilityCheckable {
     static func isConnectedToNetwork() -> Bool
+}
+
+//MARK:- TripsDataProvider
+protocol TripsDataProvider {
+    func downloadDataWith(departureCoordinates: String, destinationCoordinates: String, seats: String, date: String?,
+                          completion: @escaping (Result<[Trip], Error>) -> Void)
+    func prepareData(trips: [Trip], userLocation: CLLocation, completion: @escaping (_ unsortedTrips: [Trip], _ cheapToTop: [Trip],
+                                                                                     _ cheapToBottom: [Trip], _ cheapestTrip: Trip?,
+                                                                                     _ closestTrip: Trip?) -> Void) throws
+}
+
+//MARK:- DistanceCalculator
+protocol DistanceCalculator {
+    func compareDistances(first: CLLocationDistance, second: CLLocationDistance) -> Bool
+    func getDistanceBetween(userLocation: CLLocation, departurePoint: CLLocation) -> CLLocationDistance
+
 }

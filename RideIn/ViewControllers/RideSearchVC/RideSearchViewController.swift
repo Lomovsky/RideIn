@@ -11,23 +11,19 @@ import MapKit
 final class RideSearchViewController: UIViewController {
     
     //MARK: Declarations -
+    
+    /// Data provider is made for downloading data with user request
+    lazy var dataProvider = makeDataProvider()
+    
     ///Alerting user that there are no trips available
     lazy var alertController = makeAlert()
-    
-    ///The factory to make url with different request parameters
-    lazy var urlFactory = makeURLFactory()
-    
-    ///Simply the network manager
-    lazy var networkManager = makeNetworkManager()
     
     ///Location manager to request user location and proceed place search requests
     lazy var locationManager = makeLocationManager()
     
     ///Constraint factory made for simplifying textFields animations
     lazy var constraintFactory = makeConstrainFactory()
-    
-    ///The array of objects we receive after sending URL request with departure, destination and other parameters
-    var trips = [Trip]()
+
 
     ///The array of items that match to users search
     var matchingItems = [MKMapItem]()
@@ -183,11 +179,6 @@ final class RideSearchViewController: UIViewController {
         setupSearchTableView()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        navigationController?.interactivePopGestureRecognizer?.removeTarget(self, action: #selector(navigationGestureRecognizerTriggered))
-    }
-    
     
     //MARK: UIMethods -
     private func setupView() {
@@ -199,7 +190,6 @@ final class RideSearchViewController: UIViewController {
         navigationController?.visibleViewController?.title = NSLocalizedString("Search.title", comment: "")
         navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.darkGray]
         navigationController?.setNavigationBarHidden(false, animated: true)
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     private func setupFromContentSubview() {
@@ -495,5 +485,9 @@ private extension RideSearchViewController {
         }
         alert.addAction(dismissButton)
         return alert
+    }
+    
+    func makeDataProvider() -> TripsDataProvider {
+        return MainTripsDataProvider()
     }
 }

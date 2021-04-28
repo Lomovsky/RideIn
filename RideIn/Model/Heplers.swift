@@ -1,26 +1,66 @@
 //
-//  Logger.swift
+//  Heplers.swift
 //  RideIn
 //
-//  Created by Алекс Ломовской on 27.04.2021.
+//  Created by Алекс Ломовской on 28.04.2021.
 //
 
-import Foundation
+import MapKit
 
-enum LogEvent: String {
-    case e = "[‼️]" // error
-    case i = "[ℹ️]" // info
-    case d = "[💬]" // debug
-    case v = "[🔬]" // verbose
-    case w = "[⚠️]" // warning
+//MARK:- MainDistanceCalculator
+struct MainDistanceCalculator: DistanceCalculator {
     
-    var value: String {
-        get {
-            return self.rawValue;
+    func compareDistances(first: CLLocationDistance, second: CLLocationDistance) -> Bool {
+        return second.isLess(than: first)
+    }
+    
+    func getDistanceBetween(userLocation: CLLocation, departurePoint: CLLocation) -> CLLocationDistance {
+        return userLocation.distance(from: departurePoint)
+    }
+}
+
+//MARK: - MainDateTimeFormatter
+struct MainDateTimeFormatter: DateTimeFormatter {
+
+    func getDateTime(format: DateFormat, from trip: Trip?, for placeType: PlaceType) -> String {
+        switch placeType {
+        case .department:
+            switch format {
+            case .dddmmyy:
+                guard let trip = trip else { return "" }
+                let dateStrings = trip.waypoints.first?.dateTime.components(separatedBy: "T")
+                guard let date = dateStrings?.first else { return "" }
+                return date
+
+            case .hhmmss:
+                guard let trip = trip else { return "" }
+                let dateStrings = trip.waypoints.first?.dateTime.components(separatedBy: "T")
+                guard var time = dateStrings?.last else { return "" }
+                time.removeLast(3)
+                return time
+            }
+            
+        case .destination:
+            switch format {
+            case .dddmmyy:
+                guard let trip = trip else { return "" }
+                let dateStrings = trip.waypoints.last?.dateTime.components(separatedBy: "T")
+                guard let date = dateStrings?.first else { return "" }
+                return date
+
+            case .hhmmss:
+                guard let trip = trip else { return "" }
+                let dateStrings = trip.waypoints.last?.dateTime.components(separatedBy: "T")
+                guard var time = dateStrings?.last else { return "" }
+                time.removeLast(3)
+                return time
+            }
         }
     }
 }
 
+
+//MARK:- Logger
 class Log {
     
     fileprivate static let dateFormatter: DateFormatter = {
@@ -79,8 +119,8 @@ class Log {
 }
 
 private extension Date {
-   func toString() -> String {
-    return Log.dateFormatter.string(from: self as Date);
-   }
+    func toString() -> String {
+        return Log.dateFormatter.string(from: self as Date);
+    }
 }
 
