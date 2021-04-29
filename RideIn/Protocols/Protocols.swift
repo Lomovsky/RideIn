@@ -71,6 +71,7 @@ protocol PlacesSearchTableViewDataProvider: UITableViewDelegate, UITableViewData
     var parentVC: UIViewController? { get set }
 }
 
+//MARK:- TripsCollectionViewDataProvider
 protocol TripsCollectionViewDataProvider: UICollectionViewDelegate, UICollectionViewDataSource {
     var parentVC: UIViewController? { get set }
     var departurePlaceName: String { get set }
@@ -83,4 +84,14 @@ protocol TripsCollectionViewDataProvider: UICollectionViewDelegate, UICollection
     var date: String { get set }
     var numberOfPassengers: Int { get set }
     var dateTimeFormatter: DateTimeFormatter { get set }
+}
+
+//MARK:- RideSearchTableViewDataProviderDelegate
+protocol RideSearchTableViewDataProviderDelegate {
+    func didSelectCell(passedData name: String?, coordinates: String)
+}
+
+//MARK:- MapTableViewDataProviderDelegate
+protocol MapTableViewDataProviderDelegate {
+    func didSelectCell(passedData placeMark: MKPlacemark)
 }
