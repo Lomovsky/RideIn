@@ -123,7 +123,8 @@ extension RideSearchViewController {
         timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { [unowned self] _ in
             MainMapKitPlacesSearchDataProvider.searchForPlace(with: word, inRegion: self.mapView.region) { items, error in
                 guard error == nil else { return }
-                self.matchingItems = items
+//                self.matchingItems = items
+                tableViewDataProvider.matchingItems = items
                 self.searchTableView.reloadData()
             }
         })
@@ -155,15 +156,15 @@ extension RideSearchViewController {
     ///   - closestTrip: the trip whose departure point is the closest to the point that user has selected
     private func showTripsVCWith(trips: [Trip], cheapToTop: [Trip], expensiveToTop: [Trip], cheapestTrip: Trip?, closestTrip: Trip?) {
         let vc = TripsViewController()
-        if date != nil { vc.date = date!.components(separatedBy: "T").first ?? "" }
-        vc.trips = trips
-        vc.cheapTripsToBottom = cheapToTop
-        vc.cheapTripsToTop = expensiveToTop
-        vc.cheapestTrip = cheapestTrip
-        vc.closestTrip = closestTrip
-        vc.departurePlaceName = departureTextField.text ?? ""
-        vc.destinationPlaceName = destinationTextField.text ?? ""
-        vc.numberOfPassengers = passengersCount
+        if date != nil { vc.dataProvider.date = date!.components(separatedBy: "T").first ?? "" }
+        vc.dataProvider.trips = trips
+        vc.dataProvider.cheapTripsToBottom = cheapToTop
+        vc.dataProvider.cheapTripsToTop = expensiveToTop
+        vc.dataProvider.cheapestTrip = cheapestTrip
+        vc.dataProvider.closestTrip = closestTrip
+        vc.dataProvider.departurePlaceName = departureTextField.text ?? ""
+        vc.dataProvider.destinationPlaceName = destinationTextField.text ?? ""
+        vc.dataProvider.numberOfPassengers = passengersCount
         vc.rideSearchDelegate = self
         configureIndicatorAndButton(indicatorEnabled: false)
         navigationController?.pushViewController(vc, animated: true)
@@ -295,62 +296,6 @@ extension RideSearchViewController: RideSearchDelegate {
     }
     
 }
-
-
-
-//MARK:- TableViewDataSource & Delegate
-extension RideSearchViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(matchingItems.count)
-        return matchingItems.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: RideSearchTableViewCell.reuseIdentifier, for: indexPath) as! RideSearchTableViewCell
-        let place = matchingItems[indexPath.row].placemark
-        print(matchingItems.count)
-        cell.textLabel?.font = .boldSystemFont(ofSize: 20)
-        cell.textLabel?.numberOfLines = 0
-        cell.textLabel?.textColor = .darkGray
-        if let country = place.country, let administrativeArea = place.administrativeArea, let name = place.name {
-            cell.textLabel?.text = "\(country), \(administrativeArea), \(name)"
-        } else {
-            cell.textLabel?.text = place.name
-        }
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let placemark = matchingItems[indexPath.row].placemark
-        let latitude = placemark.coordinate.latitude
-        let longitude = placemark.coordinate.longitude
-        let coordinates = "\(latitude),\(longitude)"
-        
-        switch placeType {
-        case .department:
-            departureTextField.text = placemark.name
-            departureCoordinates = coordinates
-            dismissDepartureTextField()
-            
-        case .destination:
-            destinationTextField.text = placemark.name
-            destinationCoordinates = coordinates
-            dismissDestinationTextField()
-            
-        default: break
-        }
-    }
-}
-
-extension RideSearchViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return view.frame.height * 0.07
-    }
-}
-
-
 
 //MARK:- CLLocationManagerDelegate
 extension RideSearchViewController: CLLocationManagerDelegate {

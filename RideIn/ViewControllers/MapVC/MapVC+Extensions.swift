@@ -26,7 +26,7 @@ extension MapViewController: UITextFieldDelegate {
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
             search.start { [unowned self] response, _ in
                 guard let response = response else { proceedButton.isHidden = true; return }
-                self.matchingItems = response.mapItems
+                self.tableViewDataProvider.matchingItems = response.mapItems
                 self.placesTableView.reloadData()
             }
         })
@@ -66,6 +66,23 @@ extension MapViewController {
         navigationController?.popViewController(animated: true)
     }
     
+    /// This method is called when user press "focusOnUserLocationButton"
+    /// and what a surprise, this method focus mapView on user location
+    @objc final func userLocationButtonTapped() {
+        let location = mapView.userLocation
+        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        let region = MKCoordinateRegion(center: location.coordinate, span: span)
+        mapView.setRegion(region, animated: true)
+    }
+    
+    /// This method is called when tableView is not hidden and user press back button
+    @objc final func dismissTableView() {
+        animateTableView(toSelected: false)
+        searchTF.resignFirstResponder()
+        backButton.removeTarget(self, action: #selector(dismissTableView), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+    }
+    
     /// This method is called when the user press "proceedButton"
     /// - Uses rideSearchDelegate method to set coordinates to RideSearchViewController
     /// - Dismisses MapVC
@@ -86,24 +103,6 @@ extension MapViewController {
         }
     }
     
-    /// This method is called when user press "focusOnUserLocationButton"
-    /// and what a surprise, this method focus mapView on user location
-    @objc final func userLocationButtonTapped() {
-        let location = mapView.userLocation
-        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-        let region = MKCoordinateRegion(center: location.coordinate, span: span)
-        mapView.setRegion(region, animated: true)
-    }
-    
-    /// This method is called when tableView is not hidden and user press back button
-    @objc private func dismissTableView() {
-        animateTableView(toSelected: false)
-        searchTF.resignFirstResponder()
-        backButton.removeTarget(self, action: #selector(dismissTableView), for: .touchUpInside)
-        backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
-    }
-    
-    
     /// The method is called when UIGestureRecognizes longTap
     /// calls "addAnnotation" method to add a placemark
     /// - Parameter sender: the gesture recognizer
@@ -116,7 +115,6 @@ extension MapViewController {
             addAnnotation(location: locationOnMap)
         }
     }
-
     
     /// This method animates tableView to either hidden or not
     /// - Parameter state: should it be shown or not
@@ -129,38 +127,3 @@ extension MapViewController {
     }
     
 }
-
-//MARK:- TableViewDataSource & Delegate
-extension MapViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return matchingItems.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MapTableViewCell.reuseIdentifier, for: indexPath) as! MapTableViewCell
-        let place = matchingItems[indexPath.row].placemark
-        guard let country = place.country,
-              let administrativeArea = place.administrativeArea,
-              let name = place.name else { return UITableViewCell()}
-        
-        cell.textLabel?.text = ("\(country), \(administrativeArea), \(name)")
-        cell.detailTextLabel?.text = parseAddress(selectedItem: place)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let place = matchingItems[indexPath.row].placemark
-        mapView.removeAnnotations(mapView.annotations)
-        dropPinZoomIn(placemark: place, zoom: true)
-        dismissTableView()
-    }
-}
-
-
-extension MapViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return searchTF.frame.height
-    }
-}
-

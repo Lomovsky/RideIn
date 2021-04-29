@@ -23,10 +23,11 @@ final class RideSearchViewController: UIViewController {
     
     ///Constraint factory made for simplifying textFields animations
     lazy var constraintFactory = makeConstrainFactory()
+    
+    /// Data provider, that contains tableView delegate and dataSource
+    lazy var tableViewDataProvider = makeTableViewDataProvider()
 
 
-    ///The array of items that match to users search
-    var matchingItems = [MKMapItem]()
     
     ///Current user region in which to search locations
     var region = MKCoordinateRegion()
@@ -141,8 +142,9 @@ final class RideSearchViewController: UIViewController {
     //MARK: viewDidLoad -
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchTableView.dataSource = self
-        searchTableView.delegate = self
+        searchTableView.dataSource = tableViewDataProvider
+        searchTableView.delegate = tableViewDataProvider
+        tableViewDataProvider.parentVC = self
         
         view.addSubview(departureContentSubview)
         view.addSubview(destinationContentSubview)
@@ -477,5 +479,9 @@ private extension RideSearchViewController {
     
     func makeDataProvider() -> TripsDataProvider {
         return MainTripsDataProvider()
+    }
+    
+    func makeTableViewDataProvider() -> PlacesSearchTableViewDataProvider {
+        return RideSearchTableviewDataProvider()
     }
 }

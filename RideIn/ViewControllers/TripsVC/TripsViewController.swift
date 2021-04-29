@@ -10,38 +10,7 @@ import UIKit
 
 final class TripsViewController: UIViewController {
     
-    //MARK: Declarations -
-    /// The manager to convent date and time from Trip object to more user-friendly style
-    lazy var dateTimeFormatter: DateTimeFormatter = makeDateFormatter()
-    
-    /// The base unsorted array of available trips
-    var trips = [Trip]()
-    
-    /// The sorted array of available trips with increasing price
-    var cheapTripsToTop = [Trip]()
-    
-    /// The sorted array of available trips with decreasing price
-    var cheapTripsToBottom = [Trip]()
-    
-    /// The cheapest trip
-    var cheapestTrip: Trip?
-    
-    /// The closest to user departure  point trip
-    var closestTrip: Trip?
-    
-    
-    /// The name of the departure place
-    var departurePlaceName = String()
-    
-    /// The name of destination place
-    var destinationPlaceName = String()
-    
-    /// Number of passengers
-    var numberOfPassengers = Int()
-    
-    /// The selected trip departure date
-    var date = NSLocalizedString("Date", comment: "")
-        
+    var dataProvider: TripsCollectionViewDataProvider = MainTripsCollectionViewDataProvider()
     weak var rideSearchDelegate: RideSearchDelegate?
     
     //MARK: UIElements -
@@ -115,14 +84,15 @@ final class TripsViewController: UIViewController {
     //MARK: viewDidLoad -
     override func viewDidLoad() {
         super.viewDidLoad()
-        recommendationsCollectionView.delegate = self
-        recommendationsCollectionView.dataSource = self
-        allTipsCollectionView.dataSource = self
-        allTipsCollectionView.delegate = self
-        cheapTripsToTopCollectionView.dataSource = self
-        cheapTripsToTopCollectionView.delegate = self
-        cheapTripsToBottomCollectionView.delegate = self
-        cheapTripsToBottomCollectionView.dataSource = self
+        dataProvider.parentVC = self
+        recommendationsCollectionView.delegate = dataProvider
+        recommendationsCollectionView.dataSource = dataProvider
+        allTipsCollectionView.dataSource = dataProvider
+        allTipsCollectionView.delegate = dataProvider
+        cheapTripsToTopCollectionView.dataSource = dataProvider
+        cheapTripsToTopCollectionView.delegate = dataProvider
+        cheapTripsToBottomCollectionView.delegate = dataProvider
+        cheapTripsToBottomCollectionView.dataSource = dataProvider
         
         view.addSubview(navigationSubview)
         view.addSubview(contentSubview)
@@ -207,7 +177,7 @@ final class TripsViewController: UIViewController {
             fromLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor),
             fromLabel.trailingAnchor.constraint(equalTo: contentSubview.centerXAnchor, constant: -5)
         ])
-        fromLabel.text = departurePlaceName
+        fromLabel.text = dataProvider.departurePlaceName
         fromLabel.textColor = .darkGray
         fromLabel.font = .boldSystemFont(ofSize: 15)
         fromLabel.clipsToBounds = true
@@ -228,7 +198,7 @@ final class TripsViewController: UIViewController {
             toLabel.trailingAnchor.constraint(equalTo: contentSubview.trailingAnchor),
             toLabel.leadingAnchor.constraint(equalTo: arrowImageView.trailingAnchor, constant: 5)
         ])
-        toLabel.text = destinationPlaceName
+        toLabel.text = dataProvider.destinationPlaceName
         toLabel.textColor = .darkGray
         toLabel.font = .boldSystemFont(ofSize: 15)
         toLabel.textAlignment = .center
@@ -240,7 +210,7 @@ final class TripsViewController: UIViewController {
             detailsLabel.topAnchor.constraint(equalTo: fromLabel.bottomAnchor, constant: 10),
             detailsLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor)
         ])
-        detailsLabel.text = "\(date.capitalized), \(numberOfPassengers)" + " " + NSLocalizedString("Search.lessThanFourPassengers", comment: "")
+        detailsLabel.text = "\(dataProvider.date.capitalized), \(dataProvider.numberOfPassengers)" + " " + NSLocalizedString("Search.lessThanFourPassengers", comment: "")
         detailsLabel.font = .boldSystemFont(ofSize: 10)
         detailsLabel.textColor = .systemGray
     }
@@ -266,8 +236,8 @@ final class TripsViewController: UIViewController {
         ])
         
         pagesSegmentedControl.insertSegment(with: UIImage(systemName: "wallet.pass.fill"), at: 0, animated: false)
-        pagesSegmentedControl.insertSegment(with: UIImage(systemName: "arrow.up"), at: 1, animated: false)
-        pagesSegmentedControl.insertSegment(with: UIImage(systemName: "arrow.down"), at: 2, animated: false)
+        pagesSegmentedControl.insertSegment(with: UIImage(systemName: "arrow.down"), at: 1, animated: false)
+        pagesSegmentedControl.insertSegment(with: UIImage(systemName: "arrow.up"), at: 2, animated: false)
         
         pagesSegmentedControl.selectedSegmentIndex = 0
         
@@ -329,12 +299,4 @@ final class TripsViewController: UIViewController {
         Log.i("deallocating \(self)")
     }
     
-}
-
-
-private extension TripsViewController {
-    func makeDateFormatter() -> DateTimeFormatter {
-        let dateTimeManager = MainDateTimeFormatter()
-        return dateTimeManager
-    }
 }

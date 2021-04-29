@@ -16,33 +16,6 @@ protocol HandleMapSearch {
 //MARK:- MKHelpingMethods
 extension MapViewController {
     
-    /// This method is responsible for parsing address to more detailed and user-friendly style
-    /// - Parameter selectedItem: the placemark which data will be precessed
-    /// - Returns: string address line
-    func parseAddress(selectedItem: MKPlacemark) -> String {
-        // put a space between "4" and "Melrose Place"
-        let firstSpace = (selectedItem.subThoroughfare != nil && selectedItem.thoroughfare != nil) ? " " : ""
-        // put a comma between street and city/state
-        let comma = (selectedItem.subThoroughfare != nil || selectedItem.thoroughfare != nil) && (selectedItem.subAdministrativeArea != nil || selectedItem.administrativeArea != nil) ? ", " : ""
-        // put a space between "Washington" and "DC"
-        let secondSpace = (selectedItem.subAdministrativeArea != nil && selectedItem.administrativeArea != nil) ? " " : ""
-        let addressLine = String(
-            format:"%@%@%@%@%@%@%@",
-            // street number
-            selectedItem.subThoroughfare ?? "",
-            firstSpace,
-            // street name
-            selectedItem.thoroughfare ?? "",
-            comma,
-            // city
-            selectedItem.locality ?? "",
-            secondSpace,
-            // state
-            selectedItem.administrativeArea ?? ""
-        )
-        return addressLine
-    }
-    
     /// This method creates and  adds an annotation to mapView with given coordinates
     /// - Parameter location: location of type CLLocationCoordinate2D
     func addAnnotation(location: CLLocationCoordinate2D) {

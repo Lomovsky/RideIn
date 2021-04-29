@@ -12,11 +12,11 @@ import MapKit
 final class MapViewController: UIViewController {
     //MARK:- Declarations
     
+    /// Data provider for search tableView
+    lazy var tableViewDataProvider = makeTableViewDataProvider()
+    
     ///Location manager to request user location and proceed place search requests
     let locationManager = CLLocationManager()
-    
-    ///The array of items that match to users search
-    var matchingItems = [MKMapItem]()
     
     ///The users pin used for sending location to RideSearchVC
     var selectedPin: MKPlacemark? = nil
@@ -90,8 +90,9 @@ final class MapViewController: UIViewController {
         super.viewDidLoad()
         locationManager.delegate = self
         mapView.delegate = self
-        placesTableView.dataSource = self
-        placesTableView.delegate = self
+        placesTableView.dataSource = tableViewDataProvider
+        placesTableView.delegate = tableViewDataProvider
+        tableViewDataProvider.parentVC = self
         
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
@@ -288,3 +289,8 @@ final class MapViewController: UIViewController {
     
 }
 
+private extension MapViewController {
+    func makeTableViewDataProvider() -> PlacesSearchTableViewDataProvider {
+        return MapTableViewDataProvider()
+    }
+}
