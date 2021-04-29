@@ -11,6 +11,7 @@
 		8D319C17AC5EF08185EA515F /* libPods-RideInTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51E98A0146A1E81F3B4965DD /* libPods-RideInTests.a */; };
 		C00F85CC262EF76900A29641 /* TripsVC+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00F85CB262EF76900A29641 /* TripsVC+Extensions.swift */; };
 		C00F85E0262FFFE800A29641 /* SelectedTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00F85DF262FFFE800A29641 /* SelectedTripViewController.swift */; };
+		C01EFD59263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01EFD58263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift */; };
 		C0327F4B263974E30079B324 /* DataProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F4A263974E30079B324 /* DataProviders.swift */; };
 		C0327F4D26398C150079B324 /* Heplers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F4C26398C150079B324 /* Heplers.swift */; };
 		C0327F4F263998410079B324 /* MainTripDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F4E263998410079B324 /* MainTripDataProviderTests.swift */; };
@@ -62,6 +63,7 @@
 		676745E0D76715737F9F8FBC /* Pods_RideIn.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RideIn.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C00F85CB262EF76900A29641 /* TripsVC+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TripsVC+Extensions.swift"; sourceTree = "<group>"; };
 		C00F85DF262FFFE800A29641 /* SelectedTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTripViewController.swift; sourceTree = "<group>"; };
+		C01EFD58263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSearchTableViewDataProviderTests.swift; sourceTree = "<group>"; };
 		C0327F4A263974E30079B324 /* DataProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviders.swift; sourceTree = "<group>"; };
 		C0327F4C26398C150079B324 /* Heplers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heplers.swift; sourceTree = "<group>"; };
 		C0327F4E263998410079B324 /* MainTripDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTripDataProviderTests.swift; sourceTree = "<group>"; };
@@ -150,15 +152,32 @@
 			path = SelectedTripVC;
 			sourceTree = "<group>";
 		};
+		C01EFD5A263A9AD200028552 /* DataProvidersTests */ = {
+			isa = PBXGroup;
+			children = (
+				C0327F4E263998410079B324 /* MainTripDataProviderTests.swift */,
+				C0327F522639ABBB0079B324 /* MainMapKitPlacesSearchDataProviderTests.swift */,
+				C01EFD58263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift */,
+			);
+			path = DataProvidersTests;
+			sourceTree = "<group>";
+		};
+		C01EFD5B263A9AE200028552 /* DataManagersTests */ = {
+			isa = PBXGroup;
+			children = (
+				C04BC4012636B51E00941B0C /* NetworkManagerTests.swift */,
+				C04BC40B2637099F00941B0C /* DateTimeFormatterTests.swift */,
+				C0327F502639A8FB0079B324 /* MainURLFactoryTests.swift */,
+			);
+			path = DataManagersTests;
+			sourceTree = "<group>";
+		};
 		C04BC3E72636966A00941B0C /* RideInTests */ = {
 			isa = PBXGroup;
 			children = (
 				C04BC3E82636966A00941B0C /* RideInTests.swift */,
-				C0327F4E263998410079B324 /* MainTripDataProviderTests.swift */,
-				C0327F522639ABBB0079B324 /* MainMapKitPlacesSearchDataProviderTests.swift */,
-				C04BC4012636B51E00941B0C /* NetworkManagerTests.swift */,
-				C04BC40B2637099F00941B0C /* DateTimeFormatterTests.swift */,
-				C0327F502639A8FB0079B324 /* MainURLFactoryTests.swift */,
+				C01EFD5A263A9AD200028552 /* DataProvidersTests */,
+				C01EFD5B263A9AE200028552 /* DataManagersTests */,
 				C04BC3EA2636966A00941B0C /* Info.plist */,
 			);
 			path = RideInTests;
@@ -491,6 +510,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0327F512639A8FB0079B324 /* MainURLFactoryTests.swift in Sources */,
+				C01EFD59263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift in Sources */,
 				C0327F532639ABBB0079B324 /* MainMapKitPlacesSearchDataProviderTests.swift in Sources */,
 				C04BC4022636B51E00941B0C /* NetworkManagerTests.swift in Sources */,
 				C04BC3E92636966A00941B0C /* RideInTests.swift in Sources */,

@@ -10,7 +10,7 @@ import UIKit
 
 final class TripsViewController: UIViewController {
     
-    var dataProvider: TripsCollectionViewDataProvider = MainTripsCollectionViewDataProvider()
+    lazy var dataProvider = makeDataProvider()
     weak var rideSearchDelegate: RideSearchDelegate?
     
     //MARK: UIElements -
@@ -299,4 +299,10 @@ final class TripsViewController: UIViewController {
         Log.i("deallocating \(self)")
     }
     
+}
+
+private extension TripsViewController {
+    func makeDataProvider() -> TripsCollectionViewDataProvider {
+        return MainTripsCollectionViewDataProvider()
+    }
 }

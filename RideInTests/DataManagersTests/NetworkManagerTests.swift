@@ -29,8 +29,8 @@ class unit_NetworkManagerTests: XCTestCase {
         try XCTSkipUnless(ConnectionManager.isConnectedToNetwork())
         
         // given
-        let urlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
-        let url = URL(string: urlString)!
+        let fakeUrlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
+        let url = URL(string: fakeUrlString)!
         let promise = expectation(description: "StatusCode 200")
         var statusCode: Int?
         var responseError: Error?
@@ -58,8 +58,8 @@ class unit_NetworkManagerTests: XCTestCase {
         try XCTSkipUnless(ConnectionManager.isConnectedToNetwork())
 
         // given
-        let urlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
-        let url = URL(string: urlString)!
+        let fakeUrlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
+        let url = URL(string: fakeUrlString)!
         let promise = expectation(description: "Request succeed")
         var responseError: Error?
         var decodedData: Trips?
@@ -84,8 +84,8 @@ class unit_NetworkManagerTests: XCTestCase {
         try XCTSkipUnless(ConnectionManager.isConnectedToNetwork())
 
         // given
-        let urlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668____396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
-        let url = URL(string: urlString)!
+        let fakeUrlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668____396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
+        let url = URL(string: fakeUrlString)!
         let promise = expectation(description: "Bad request error handled")
         
         // when
@@ -110,8 +110,8 @@ class unit_NetworkManagerTests: XCTestCase {
         try XCTSkipIf(ConnectionManager.isConnectedToNetwork())
         
         // given
-        let urlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
-        let url = URL(string: urlString)!
+        let fakeUrlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
+        let url = URL(string: fakeUrlString)!
         let promise = expectation(description: "No connection error handled")
         
         // when

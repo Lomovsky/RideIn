@@ -58,6 +58,11 @@ final class MainTripsDataProvider: TripsDataProvider {
 //MARK:- MainMapKitPlacesSearchDataProvider
 struct MainMapKitPlacesSearchDataProvider: MapKitPlacesSearchDataProvider {
     
+    /// This method is responsible for searching for locations&places by user request
+    /// - Parameters:
+    ///   - keyWord: the place name user types
+    ///   - region: region in which to search (commonly mapKit region)
+    ///   - completion: completion handler to work with data that the method returns
     static func searchForPlace(with keyWord: String?, inRegion region: MKCoordinateRegion,
                                completion: @escaping (_ matchingItems: [MKMapItem], _ error: Error?) -> Void) {
         guard let text = keyWord, text != "" else { return }
@@ -117,7 +122,6 @@ final class RideSearchTableviewDataProvider: NSObject, PlacesSearchTableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RideSearchTableViewCell.reuseIdentifier, for: indexPath) as! RideSearchTableViewCell
         let place = matchingItems[indexPath.row].placemark
-        print(matchingItems.count)
         cell.textLabel?.font = .boldSystemFont(ofSize: 20)
         cell.textLabel?.numberOfLines = 0
         cell.textLabel?.textColor = .darkGray
@@ -166,7 +170,7 @@ final class MapTableViewDataProvider: NSObject, PlacesSearchTableViewDataProvide
     var matchingItems = [MKMapItem]()
     
     /// Parent viewController that asks for data
-    var parentVC: UIViewController?
+    weak var parentVC: UIViewController?
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return matchingItems.count
@@ -203,7 +207,7 @@ final class MapTableViewDataProvider: NSObject, PlacesSearchTableViewDataProvide
 final class MainTripsCollectionViewDataProvider: NSObject, TripsCollectionViewDataProvider {
     
     /// Parent viewController that asks for data
-    var parentVC: UIViewController?
+    weak var parentVC: UIViewController?
     
     /// The manager to convent date and time from Trip object to more user-friendly style
     var dateTimeFormatter: DateTimeFormatter = MainDateTimeFormatter()
