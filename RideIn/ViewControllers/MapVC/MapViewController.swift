@@ -18,6 +18,8 @@ final class MapViewController: UIViewController {
     /// Data provider for map kit delegate methods
     lazy var mapKitDataProvider = makeMapKitDataProvider()
     
+    lazy var locationAlert = makeLocationAlert()
+    
     ///The type we work with (departure or destination) to configure methods and data transferring between ViewControllers
     var placeType: PlaceType?
     
@@ -56,7 +58,7 @@ final class MapViewController: UIViewController {
     let distanceLabel = UILabel.createDefaultLabel()
     
     let focusOnUserLocationButton = UIButton.createDefaultButton()
-
+    
     let focusOnUserLocationImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -89,7 +91,7 @@ final class MapViewController: UIViewController {
         view.addSubview(placesTableView)
         
         setupLongTapRecognizer()
-    
+        
         setupView()
         setupNavigationView()
         setupContentSubview()
@@ -258,11 +260,12 @@ final class MapViewController: UIViewController {
         ])
         focusOnUserLocationButton.setImage(UIImage(systemName: "location.circle.fill"), for: .normal)
         focusOnUserLocationButton.backgroundColor = .clear
-        focusOnUserLocationButton.tintColor = .lightBlue
         focusOnUserLocationButton.imageView?.contentMode = .scaleAspectFit
         focusOnUserLocationButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.fill
         focusOnUserLocationButton.contentVerticalAlignment = UIControl.ContentVerticalAlignment.fill
         focusOnUserLocationButton.addTarget(self, action: #selector(userLocationButtonTapped), for: .touchUpInside)
+        focusOnUserLocationButton.setTitleColor(.lightBlue, for: .normal)
+        focusOnUserLocationButton.setTitleColor(.systemGray4, for: .disabled)
     }
     
     deinit {
@@ -284,5 +287,19 @@ private extension MapViewController {
         dataProvider.parentVC = self
         dataProvider.setupLocationManager()
         return dataProvider
+    }
+    
+    func makeLocationAlert() -> UIAlertController {
+        let alert = UIAlertController(title: "Ошибка", message: "Необходимо предоставить доступ к геолокации", preferredStyle: .alert)
+        
+        let cancelButton = UIAlertAction(title: "Отменить", style: .cancel) { [unowned self] _ in self.dismiss(animated: true) }
+        let goToSettingsButton = UIAlertAction(title: "Открыть настройки", style: .default) { _ in
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+            guard UIApplication.shared.canOpenURL(settingsUrl) else { return }
+            UIApplication.shared.open(settingsUrl)
+        }
+        alert.addAction(cancelButton)
+        alert.addAction(goToSettingsButton)
+        return alert
     }
 }

@@ -27,6 +27,8 @@ final class MainMapKitDataProvider: NSObject, MapKitDataProvider {
     /// Ignores user location to prevent focusing on it
     var ignoreLocation = false
     
+    var canBeLocated = Bool()
+    
     ///Distance between department and destination points to display on top of MapView
     var distance = Int()
     
@@ -36,9 +38,66 @@ final class MainMapKitDataProvider: NSObject, MapKitDataProvider {
     func setupLocationManager() {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.requestLocation()
+        
+    }
+    
+    func retriveCurrentLocation() {
+        guard let vc = parentVC as? MapViewController else { return }
+        let status = locationManager.authorizationStatus
 
+        if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()) {
+            vc.present(vc.locationAlert, animated: true)
+            canBeLocated = false
+            vc.changeFocusOnUsersLocatiomButton(toEnabled: canBeLocated)
+            return
+        }
+        if(status == .notDetermined) {
+            locationManager.requestWhenInUseAuthorization()
+            canBeLocated = false
+            vc.changeFocusOnUsersLocatiomButton(toEnabled: canBeLocated)
+            return
+        }
+        locationManager.requestLocation()
+        canBeLocated = true
+        vc.changeFocusOnUsersLocatiomButton(toEnabled: canBeLocated)
+
+        if let location = locationManager.location {
+            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            let region = MKCoordinateRegion(center: location.coordinate, span: span)
+            
+            let clRegion = CLCircularRegion(center: region.center, radius: 100, identifier: "foo")
+            locationManager.startMonitoring(for: clRegion)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        retriveCurrentLocation()
+    }
+    
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        retriveCurrentLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            locationManager.requestLocation()
+            locationManager.startUpdatingLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let vc = parentVC as? MapViewController else { return }
+        guard !ignoreLocation else { return }
+        guard let location = locations.first else { return }
+        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        let region = MKCoordinateRegion(center: location.coordinate, span: span)
+        vc.mapView.setRegion(region, animated: true)
+        locationManager.stopUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("error is \(error)")
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -65,26 +124,7 @@ final class MainMapKitDataProvider: NSObject, MapKitDataProvider {
         return renderer
     }
     
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-            locationManager.requestLocation()
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let vc = parentVC as? MapViewController else { return }
-        guard !ignoreLocation else { return }
-        guard let location = locations.last else { return }
-        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-        let region = MKCoordinateRegion(center: location.coordinate, span: span)
-        vc.mapView.setRegion(region, animated: true)
-        
-        
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("error is \(error)")
-    }
+
 }
 
 private extension MainMapKitDataProvider {

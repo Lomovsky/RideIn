@@ -53,6 +53,10 @@ extension MapViewController: UITextFieldDelegate {
 //MARK: - HelpingMethods
 extension MapViewController {
     
+    func changeFocusOnUsersLocatiomButton(toEnabled enabled: Bool) {
+        focusOnUserLocationButton.isEnabled = enabled
+    }
+    
     /// This method configures longTapGestureRecognizer and adds is to mapView
     func setupLongTapRecognizer() {
         if gestureRecognizerEnabled {

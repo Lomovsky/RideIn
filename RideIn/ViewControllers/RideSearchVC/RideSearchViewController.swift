@@ -26,7 +26,7 @@ class RideSearchViewController: UIViewController {
     
     /// Data provider, that contains tableView delegate and dataSource
     lazy var tableViewDataProvider = makeTableViewDataProvider()
-    
+        
     ///Current user region in which to search locations
     var region = MKCoordinateRegion()
         
@@ -469,7 +469,7 @@ private extension RideSearchViewController {
     
     func makeAlert() -> UIAlertController {
         let alert = UIAlertController(title: "", message: "", preferredStyle: .alert)
-        let dismissButton = UIAlertAction(title: NSLocalizedString("Alert.dismiss", comment: ""), style: .cancel) { (_) in
+        let dismissButton = UIAlertAction(title: NSLocalizedString("Alert.dismiss", comment: ""), style: .cancel) { _ in
             self.dismiss(animated: true)
         }
         alert.addAction(dismissButton)

@@ -100,7 +100,7 @@ protocol TripsCollectionViewDataProvider: UICollectionViewDelegate, UICollection
     var closestTrip: Trip? { get set }
     var date: String { get set }
     var numberOfPassengers: Int { get set }
-    var dateTimeFormatter: DateTimeFormatter { get set }
+    var dateTimeFormatter: DateTimeFormatter { get }
 }
 
 protocol MainTripsCollectionViewDataProviderDelegate {
@@ -108,11 +108,12 @@ protocol MainTripsCollectionViewDataProviderDelegate {
 }
 
 protocol MapKitDataProvider: MKMapViewDelegate, CLLocationManagerDelegate {
-    var annotations: [MKAnnotation] { get set }
+    var annotations: [MKAnnotation] { get }
     var parentVC: UIViewController? { get set }
     var selectedPin: MKPlacemark? { get set }
-    var locationManager: CLLocationManager { get set }
-    var mapKitDataManager: MapKitDataManager { get set }
+    var locationManager: CLLocationManager { get }
+    var mapKitDataManager: MapKitDataManager { get }
     var ignoreLocation: Bool { get set }
     var distance: Int { get set }
+    var canBeLocated: Bool { get }
 }
