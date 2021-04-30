@@ -8,102 +8,92 @@
 import UIKit
 import MapKit
 
-//MARK: - MainTripsDataProvider
-final class MainTripsDataProvider: TripsDataProvider {
+//MARK:- MainMapKitDataProvider
+final class MainMapKitDataProvider: NSObject, MapKitDataProvider {
     
-    func downloadDataWith(departureCoordinates: String, destinationCoordinates: String, seats: String, date: String?, completion: @escaping (Result<[Trip], Error>) -> Void)  {
-        let urlFactory: URLFactory = MainURLFactory()
-        let networkManager: NetworkManager = MainNetworkManager()
-        urlFactory.setCoordinates(coordinates: departureCoordinates, place: .department)
-        urlFactory.setCoordinates(coordinates: destinationCoordinates, place: .destination)
-        urlFactory.setSeats(seats: seats)
-        if date != nil { urlFactory.setDate(date: date!) }
+    /// Location manager
+    var locationManager: CLLocationManager = LocationManager()
+    
+    /// MapKit data manager which is responsible for adding pins and rendering routes
+    lazy var mapKitDataManager = makeMapKitDataManager()
+    
+    /// Annotations array to make placemarks
+    var annotations = [MKAnnotation]()
+    
+    /// A pin that user added to mapKit to select rather departure or destination place
+    var selectedPin: MKPlacemark?
+    
+    //The properties user for reusing MapVC for different needs (in this case to use on both RideSearchVC and TripVC)
+    /// Ignores user location to prevent focusing on it
+    var ignoreLocation = false
+    
+    ///Distance between department and destination points to display on top of MapView
+    var distance = Int()
+    
+    /// The viewController which calls dataProvider methods
+    weak var parentVC: UIViewController?
+    
+    func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
+
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard annotation is MKPointAnnotation else { print("no mkpointannotaions"); return nil }
+        let reuseId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
         
-        guard let url = urlFactory.makeURL() else { let error = NetworkManagerErrors.unableToMakeURL; completion(.failure(error)); return }
-        networkManager.downloadData(withURL: url, decodeBy: Trips.self) { (result) in
-            switch result {
-            case .failure(let error): completion(.failure(error))
-                
-            case .success(let decodedData): completion(.success(decodedData.trips))
-            }
+        guard pinView == nil else { pinView!.annotation = annotation; return pinView }
+        pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+        pinView!.canShowCallout = true
+        pinView!.rightCalloutAccessoryView = UIButton(type: .infoDark)
+        pinView!.pinTintColor = .systemRed
+        return pinView
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print("tapped on pin ")
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = .lightBlue
+        renderer.lineWidth = 5
+        return renderer
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            locationManager.requestLocation()
         }
     }
     
-    func prepareData(trips: [Trip], userLocation: CLLocation, completion: @escaping (_ unsortedTrips: [Trip], _ cheapToTop: [Trip], _ cheapToBottom: [Trip], _ cheapestTrip: Trip?, _ closestTrip: Trip?) -> Void) throws {
-        guard !(trips.isEmpty) else { let error = NetworkManagerErrors.noTrips; throw error }
-        let distanceCalculator: DistanceCalculator = MainDistanceCalculator()
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let vc = parentVC as? MapViewController else { return }
+        guard !ignoreLocation else { return }
+        guard let location = locations.last else { return }
+        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        let region = MKCoordinateRegion(center: location.coordinate, span: span)
+        vc.mapView.setRegion(region, animated: true)
         
-        let unsortedTrips = trips
-        let cheapToBottom = trips.sorted(by: { Float($0.price.amount) ?? 0 > Float($1.price.amount) ?? 0  })
-        let cheapToTop = trips.sorted(by: { Float($0.price.amount) ?? 0 < Float($1.price.amount) ?? 0  })
-        let cheapestTrip = cheapToTop.first
-        let closestTrip = trips.sorted(by: { (trip1, trip2) -> Bool in
-            
-            let trip1Coordinates = CLLocation(latitude: trip1.waypoints.first!.place.latitude, longitude: trip1.waypoints.first!.place.longitude)
-            let trip2Coordinates = CLLocation(latitude: trip2.waypoints.first!.place.latitude, longitude: trip2.waypoints.first!.place.longitude)
-            let distance1 = distanceCalculator.getDistanceBetween(userLocation: userLocation, departurePoint: trip1Coordinates)
-            let distance2 = distanceCalculator.getDistanceBetween(userLocation: userLocation, departurePoint: trip2Coordinates)
-            
-            return distanceCalculator.compareDistances(first: distance1, second: distance2)
-        }).first
         
-        completion(unsortedTrips, cheapToTop, cheapToBottom, cheapestTrip, closestTrip)
     }
     
-    deinit {
-        Log.i("deallocating \(self)")
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("error is \(error)")
     }
 }
 
-//MARK:- MainMapKitPlacesSearchDataProvider
-struct MainMapKitPlacesSearchDataProvider: MapKitPlacesSearchDataProvider {
+private extension MainMapKitDataProvider {
     
-    /// This method is responsible for searching for locations&places by user request
-    /// - Parameters:
-    ///   - keyWord: the place name user types
-    ///   - region: region in which to search (commonly mapKit region)
-    ///   - completion: completion handler to work with data that the method returns
-    static func searchForPlace(with keyWord: String?, inRegion region: MKCoordinateRegion,
-                               completion: @escaping (_ matchingItems: [MKMapItem], _ error: Error?) -> Void) {
-        guard let text = keyWord, text != "" else { return }
-        let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = text
-        request.region = region
-        request.resultTypes = .address
-        let search = MKLocalSearch(request: request)
-        search.start { response, error in
-            guard let response = response else { return }
-            completion(response.mapItems, error)
-        }
+    func makeMapKitDataManager() -> MapKitDataManager {
+        let manager = MainMapKitDataManager()
+        manager.parentDataProvider = self
+        return manager
     }
-    
-    /// This method is responsible for parsing address to more detailed and user-friendly style
-    /// - Parameter selectedItem: the placemark which data will be precessed
-    /// - Returns: string address line
-    static func parseAddress(selectedItem: MKPlacemark) -> String {
-        // put a space between "4" and "Melrose Place"
-        let firstSpace = (selectedItem.subThoroughfare != nil && selectedItem.thoroughfare != nil) ? " " : ""
-        // put a comma between street and city/state
-        let comma = (selectedItem.subThoroughfare != nil || selectedItem.thoroughfare != nil) && (selectedItem.subAdministrativeArea != nil || selectedItem.administrativeArea != nil) ? ", " : ""
-        // put a space between "Washington" and "DC"
-        let secondSpace = (selectedItem.subAdministrativeArea != nil && selectedItem.administrativeArea != nil) ? " " : ""
-        let addressLine = String(
-            format:"%@%@%@%@%@%@%@",
-            // street number
-            selectedItem.subThoroughfare ?? "",
-            firstSpace,
-            // street name
-            selectedItem.thoroughfare ?? "",
-            comma,
-            // city
-            selectedItem.locality ?? "",
-            secondSpace,
-            // state
-            selectedItem.administrativeArea ?? ""
-        )
-        return addressLine
-    }
-    
 }
 
 //MARK:- RideSearchTableviewDataProvider
@@ -132,7 +122,7 @@ final class RideSearchTableviewDataProvider: NSObject, PlacesSearchTableViewData
         } else {
             cell.textLabel?.text = place.name
         }
-        cell.detailTextLabel?.text = MainMapKitPlacesSearchDataProvider.parseAddress(selectedItem: place)
+        cell.detailTextLabel?.text = MainMapKitPlacesSearchManager.parseAddress(selectedItem: place)
         return cell
     }
     
@@ -189,7 +179,7 @@ final class MapTableViewDataProvider: NSObject, PlacesSearchTableViewDataProvide
         guard let country = place.country, let administrativeArea = place.administrativeArea, let name = place.name else { return cell }
         
         cell.textLabel?.text = ("\(country), \(administrativeArea), \(name)")
-        cell.detailTextLabel?.text = MainMapKitPlacesSearchDataProvider.parseAddress(selectedItem: place)
+        cell.detailTextLabel?.text = MainMapKitPlacesSearchManager.parseAddress(selectedItem: place)
         return cell
     }
     
@@ -198,7 +188,7 @@ final class MapTableViewDataProvider: NSObject, PlacesSearchTableViewDataProvide
         delegate?.didSelectCell(passedData: place)
         guard let vc = parentVC as? MapViewController else { return }
         vc.mapView.removeAnnotations(vc.mapView.annotations)
-        vc.dropPinZoomIn(placemark: place, zoom: true)
+        vc.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: place, zoom: true)
         vc.dismissTableView()
     }
     
@@ -207,11 +197,6 @@ final class MapTableViewDataProvider: NSObject, PlacesSearchTableViewDataProvide
         return vc.searchTF.frame.height
     }
     
-}
-
-//MARK:- MainTripsCollectionViewDataProviderDelegate
-protocol MainTripsCollectionViewDataProviderDelegate {
-    func didSelectItemAt()
 }
 
 //MARK:- MainTripsCollectionViewDataProvider

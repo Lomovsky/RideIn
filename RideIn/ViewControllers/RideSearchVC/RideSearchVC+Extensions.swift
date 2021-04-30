@@ -22,7 +22,7 @@ extension RideSearchViewController {
     /// - Or calls prepareDataForTripsVCWith method and passes it ([Trip]) object
     @objc final func searchButtonTapped() {
         configureIndicatorAndButton(indicatorEnabled: true)
-        dataProvider.downloadDataWith(departureCoordinates: departureCoordinates,
+        dataManager.downloadDataWith(departureCoordinates: departureCoordinates,
                                       destinationCoordinates: destinationCoordinates,
                                       seats: "\(passengersCount)", date: date) { [unowned self] result in
             switch result {
@@ -121,7 +121,7 @@ extension RideSearchViewController {
     private func searchPlaces(withWord word: String?) {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { [unowned self] _ in
-            MainMapKitPlacesSearchDataProvider.searchForPlace(with: word, inRegion: self.mapView.region) { items, error in
+            MainMapKitPlacesSearchManager.searchForPlace(with: word, inRegion: self.mapView.region) { items, error in
                 guard error == nil else { return }
 //                self.matchingItems = items
                 tableViewDataProvider.matchingItems = items
@@ -134,7 +134,7 @@ extension RideSearchViewController {
     /// - Parameter trips: trips array to pass to dataProvider
     private func prepareDataForTripsVCWith(trips: [Trip]) {
         do {
-            try dataProvider.prepareData(trips: trips, userLocation: departureCLLocation,
+            try dataManager.prepareData(trips: trips, userLocation: departureCLLocation,
                                          completion: { [unowned self] unsortedTrips, cheapToTop, cheapToBottom, cheapestTrip, closestTrip in
                                             self.showTripsVCWith(trips: trips,
                                                                  cheapToTop: cheapToTop,
@@ -302,7 +302,7 @@ extension RideSearchViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         guard status == .authorizedWhenInUse else { return }
-        locationManager.requestLocation()
+        mapKitDataProvider.locationManager.requestLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

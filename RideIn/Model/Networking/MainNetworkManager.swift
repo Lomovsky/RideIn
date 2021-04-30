@@ -10,6 +10,11 @@ import Alamofire
 
 struct MainNetworkManager: NetworkManager {
     
+    /// This is main method for downloading data
+    /// - Parameters:
+    ///   - url: Url to download data
+    ///   - dataModel: Any data model by which the response should be decoded
+    ///   - completionHandler: completion handler with Result type to work with downloaded data and manage possible errors
     func downloadData<DataModel>(withURL url: URL, decodeBy dataModel: DataModel.Type, completionHandler: @escaping (Result<DataModel, Error>) -> Void)
     where DataModel: Decodable, DataModel: Encodable {
         let downloadQueue = DispatchQueue(label: "networkManagerQueue", qos: .utility)
@@ -36,6 +41,5 @@ struct MainNetworkManager: NetworkManager {
             }
         }
     }
-    
 }
 

@@ -13,28 +13,25 @@ class RideSearchViewController: UIViewController {
     //MARK: Declarations -
     
     /// Data provider is made for downloading data with user request
-    lazy var dataProvider = makeDataProvider()
+    lazy var dataManager = makeDataManager()
     
-    ///Alerting user that there are no trips available
+    /// Alerting user that there are no trips available
     lazy var alertController = makeAlert()
     
-    ///Location manager to request user location and proceed place search requests
-    lazy var locationManager = makeLocationManager()
+    /// MapKit data provider  with locationManager to request user location and proceed place search requests
+    lazy var mapKitDataProvider = makeMapKitDataProvider()
     
     ///Constraint factory made for simplifying textFields animations
     lazy var constraintFactory = makeConstrainFactory()
     
     /// Data provider, that contains tableView delegate and dataSource
     lazy var tableViewDataProvider = makeTableViewDataProvider()
-
-
     
     ///Current user region in which to search locations
     var region = MKCoordinateRegion()
         
     ///Timer for limiting search requests
     var timer: Timer?
-
     
     ///Departure point location to be selected on mapVC
     var departureCLLocation = CLLocation()
@@ -44,7 +41,6 @@ class RideSearchViewController: UIViewController {
     
     ///Destination point coordinates to be selected on mapVC
     var destinationCoordinates = String()
-    
     
     ///The constraints to configure animations
     var destinationContentSubviewTopConstraint = NSLayoutConstraint()
@@ -61,10 +57,8 @@ class RideSearchViewController: UIViewController {
     var departureTextFieldTapped = false
     var destinationTextFieldTapped = false
     
-    
     ///Property for configuring navigationController isHidden state due to gestureRecognizer
     var shouldNavigationControllerBeHiddenAnimated = (hidden: Bool(), animated: Bool())
-    
     
     ///Current date or the date user chose to send as request parameter
     var date: String? = nil
@@ -452,14 +446,19 @@ class RideSearchViewController: UIViewController {
 
 //MARK:- Factory methods
 private extension RideSearchViewController {
+        
+    func makeMapKitDataProvider() -> MapKitDataProvider {
+        let dataProvider = MainMapKitDataProvider()
+        dataProvider.parentVC = self
+        return dataProvider
+    }
     
-    func makeLocationManager() -> CLLocationManager {
-        let manager = CLLocationManager()
-        manager.delegate = self
-        manager.desiredAccuracy = kCLLocationAccuracyBest
-        manager.requestWhenInUseAuthorization()
-        manager.requestLocation()
-        return manager
+    func makeDataManager() -> TripsDataManager {
+        return MainTripsDataManager()
+    }
+    
+    func makeTableViewDataProvider() -> PlacesSearchTableViewDataProvider {
+        return RideSearchTableviewDataProvider()
     }
     
     func makeConstrainFactory() -> MainConstraintFactory {
@@ -477,11 +476,5 @@ private extension RideSearchViewController {
         return alert
     }
     
-    func makeDataProvider() -> TripsDataProvider {
-        return MainTripsDataProvider()
-    }
-    
-    func makeTableViewDataProvider() -> PlacesSearchTableViewDataProvider {
-        return RideSearchTableviewDataProvider()
-    }
+
 }

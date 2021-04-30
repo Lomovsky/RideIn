@@ -7,6 +7,9 @@
 
 import MapKit
 
+//MARK:- LocationManager
+final class LocationManager: CLLocationManager {}
+
 //MARK:- MainDistanceCalculator
 struct MainDistanceCalculator: DistanceCalculator {
     

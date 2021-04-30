@@ -87,7 +87,7 @@ extension MapViewController {
     /// - Uses rideSearchDelegate method to set coordinates to RideSearchViewController
     /// - Dismisses MapVC
     @objc final func sendCoordinatesToRideSearchVC() {
-        guard let placemark = selectedPin else { return }
+        guard let placemark = mapKitDataProvider.selectedPin else { return }
         
         switch placeType {
         case .department:
@@ -112,7 +112,7 @@ extension MapViewController {
             mapView.removeAnnotations(mapView.annotations)
             let locationInView = sender.location(in: mapView)
             let locationOnMap = mapView.convert(locationInView, toCoordinateFrom: mapView)
-            addAnnotation(location: locationOnMap)
+            mapKitDataProvider.mapKitDataManager.addAnnotation(location: locationOnMap)
         }
     }
     
@@ -125,5 +125,4 @@ extension MapViewController {
                 self.placesTableView.alpha = state ? 1.0 : 0.0
         }
     }
-    
 }

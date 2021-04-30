@@ -10,12 +10,12 @@ import MapKit
 
 @testable import RideIn
 
-class MainTripDataProviderTests: XCTestCase {
+class MainTripDataManagerTests: XCTestCase {
 
-    var sut: MainTripsDataProvider!
+    var sut: MainTripsDataManager!
     
     override func setUpWithError() throws {
-        sut = MainTripsDataProvider()
+        sut = MainTripsDataManager()
     }
 
     override func tearDownWithError() throws {
