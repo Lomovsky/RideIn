@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-final class RideSearchViewController: UIViewController {
+class RideSearchViewController: UIViewController {
     
     //MARK: Declarations -
     

@@ -109,6 +109,8 @@ struct MainMapKitPlacesSearchDataProvider: MapKitPlacesSearchDataProvider {
 //MARK:- RideSearchTableviewDataProvider
 final class RideSearchTableviewDataProvider: NSObject, PlacesSearchTableViewDataProvider {
     
+    var delegate: RideSearchTableViewDataProviderDelegate?
+    
     ///The array of items that match to users search
     var matchingItems = [MKMapItem]()
     
@@ -135,13 +137,15 @@ final class RideSearchTableviewDataProvider: NSObject, PlacesSearchTableViewData
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let vc = parentVC as? RideSearchViewController else { return }
         tableView.deselectRow(at: indexPath, animated: true)
         let placemark = matchingItems[indexPath.row].placemark
         let latitude = placemark.coordinate.latitude
         let longitude = placemark.coordinate.longitude
         let coordinates = "\(latitude),\(longitude)"
+        delegate?.didSelectCell(passedData: placemark.name, coordinates: coordinates)
+        Log.i("\(self) selected")
         
+        guard let vc = parentVC as? RideSearchViewController else { return }
         switch vc.placeType {
         case .department:
             vc.departureTextField.text = placemark.name
@@ -166,6 +170,8 @@ final class RideSearchTableviewDataProvider: NSObject, PlacesSearchTableViewData
 //MARK:- MapTableViewDataProvider
 final class MapTableViewDataProvider: NSObject, PlacesSearchTableViewDataProvider {
     
+    var delegate: MapTableViewDataProviderDelegate?
+    
     ///The array of items that match to users search
     var matchingItems = [MKMapItem]()
     
@@ -179,9 +185,8 @@ final class MapTableViewDataProvider: NSObject, PlacesSearchTableViewDataProvide
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MapTableViewCell.reuseIdentifier, for: indexPath) as! MapTableViewCell
         let place = matchingItems[indexPath.row].placemark
-        guard let country = place.country,
-              let administrativeArea = place.administrativeArea,
-              let name = place.name else { return UITableViewCell()}
+        cell.textLabel?.text = place.name
+        guard let country = place.country, let administrativeArea = place.administrativeArea, let name = place.name else { return cell }
         
         cell.textLabel?.text = ("\(country), \(administrativeArea), \(name)")
         cell.detailTextLabel?.text = MainMapKitPlacesSearchDataProvider.parseAddress(selectedItem: place)
@@ -189,8 +194,9 @@ final class MapTableViewDataProvider: NSObject, PlacesSearchTableViewDataProvide
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let vc = parentVC as? MapViewController else { return }
         let place = matchingItems[indexPath.row].placemark
+        delegate?.didSelectCell(passedData: place)
+        guard let vc = parentVC as? MapViewController else { return }
         vc.mapView.removeAnnotations(vc.mapView.annotations)
         vc.dropPinZoomIn(placemark: place, zoom: true)
         vc.dismissTableView()
@@ -203,8 +209,15 @@ final class MapTableViewDataProvider: NSObject, PlacesSearchTableViewDataProvide
     
 }
 
+//MARK:- MainTripsCollectionViewDataProviderDelegate
+protocol MainTripsCollectionViewDataProviderDelegate {
+    func didSelectItemAt()
+}
+
 //MARK:- MainTripsCollectionViewDataProvider
 final class MainTripsCollectionViewDataProvider: NSObject, TripsCollectionViewDataProvider {
+    
+    var delegate: MainTripsCollectionViewDataProviderDelegate?
     
     /// Parent viewController that asks for data
     weak var parentVC: UIViewController?

@@ -1,5 +1,5 @@
 //
-//  RideSearchTableViewDataProviderTests.swift
+//  MapTableViewDataProviderTests.swift
 //  RideInTests
 //
 //  Created by Алекс Ломовской on 29.04.2021.
@@ -9,21 +9,18 @@ import XCTest
 import MapKit
 @testable import RideIn
 
-class RideSearchTableViewDataProviderTests: XCTestCase {
-    
-    var sut: RideSearchTableviewDataProvider!
-    var delegateMock: RideSearchTableViewDataProviderDelegateMock!
+class MapTableViewDataProviderTests: XCTestCase {
+
+    var sut: MapTableViewDataProvider!
+    var delegateMock: MapTableViewDataProviderDelegateMock!
     var tableView: UITableView!
-    
+
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = RideSearchTableviewDataProvider()
-        delegateMock = RideSearchTableViewDataProviderDelegateMock()
-        sut.delegate = delegateMock
+        sut = MapTableViewDataProvider()
         tableView = UITableView()
-        tableView.register(RideSearchTableViewCell.self, forCellReuseIdentifier: RideSearchTableViewCell.reuseIdentifier)
-        tableView.delegate = sut
-        tableView.dataSource = sut
+        delegateMock = MapTableViewDataProviderDelegateMock()
+        sut.delegate = delegateMock
         
         let lat1 = CLLocationDegrees(46.668396)
         let long1 = CLLocationDegrees(32.646142)
@@ -40,17 +37,20 @@ class RideSearchTableViewDataProviderTests: XCTestCase {
         fakeItem2.name = "Odessa"
         
         let data = [fakeItem1, fakeItem2]
+        
         sut.matchingItems = data
-
+        tableView.register(MapTableViewCell.self, forCellReuseIdentifier: MapTableViewCell.reuseIdentifier)
+        tableView.delegate = sut
+        tableView.dataSource = sut
     }
-    
+
     override func tearDownWithError() throws {
         sut = nil
         tableView = nil
         delegateMock = nil
         try super.tearDownWithError()
     }
-    
+
     func testNumberOfRows() throws {
         // given
         let numberOfRows = 2
@@ -77,7 +77,7 @@ class RideSearchTableViewDataProviderTests: XCTestCase {
         XCTAssertEqual(fakeNumberOfSections, numberOfSections)
         
     }
-    
+
     func testCellForRow() throws {
         // given
         let fakeName = "Kherson"
@@ -94,40 +94,29 @@ class RideSearchTableViewDataProviderTests: XCTestCase {
     
     func testDidSelectRow() throws {
         // given
-        var wasCellSelected = Bool()
-        var name: String?
-        var coordinates: String?
-        let promise = expectation(description: "DidSelect ended")
+        var didSelectCell = Bool()
+        var placemark: MKPlacemark?
         
         // when
         tableView.reloadData()
         sut.tableView(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
-
-        wasCellSelected = delegateMock.didSelectCell
-        name = delegateMock.name
-        coordinates = delegateMock.coordinates
-        promise.fulfill()
-        
-        wait(for: [promise], timeout: 5)
-                    
+        didSelectCell = delegateMock.didSelectCell
+        placemark = delegateMock.placemark
         
         // then
-        XCTAssertTrue(wasCellSelected)
-        XCTAssertNotNil(name)
-        XCTAssertNotNil(coordinates)
+        XCTAssertTrue(didSelectCell)
+        XCTAssertNotNil(placemark)
     }
+    
 }
 
-class RideSearchTableViewDataProviderDelegateMock: RideSearchTableViewDataProviderDelegate {
+class MapTableViewDataProviderDelegateMock: MapTableViewDataProviderDelegate {
     var didSelectCell = Bool()
-    var name: String?
-    var coordinates: String?
+    var placemark: MKPlacemark?
     
-    func didSelectCell(passedData name: String?, coordinates: String) {
-        self.name = name
-        self.coordinates = coordinates
+    func didSelectCell(passedData placeMark: MKPlacemark) {
+        placemark = placeMark
         didSelectCell = true
-        Log.i("\(self) activated")
     }
     
     
