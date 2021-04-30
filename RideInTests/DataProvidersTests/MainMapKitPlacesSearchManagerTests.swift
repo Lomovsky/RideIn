@@ -9,12 +9,12 @@ import XCTest
 import MapKit
 @testable import RideIn
 
-class MainMapKitPlacesSearchDataProviderTests: XCTestCase {
+class MainMapKitPlacesSearchManagerTests: XCTestCase {
 
-    var sut: MainMapKitPlacesSearchDataProvider!
+    var sut: MainMapKitPlacesSearchManager!
     
     override func setUpWithError() throws {
-        sut = MainMapKitPlacesSearchDataProvider()
+        sut = MainMapKitPlacesSearchManager()
     }
 
     override func tearDownWithError() throws {
@@ -35,7 +35,7 @@ class MainMapKitPlacesSearchDataProviderTests: XCTestCase {
         var items: [MKMapItem]?
         
         // when
-        MainMapKitPlacesSearchDataProvider.searchForPlace(with: fakeKeyword, inRegion: fakeRegion) { matchingItems, error in
+        MainMapKitPlacesSearchManager.searchForPlace(with: fakeKeyword, inRegion: fakeRegion) { matchingItems, error in
             requestError = error
             items = matchingItems
             promise.fulfill()

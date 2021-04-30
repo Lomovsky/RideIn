@@ -10,31 +10,19 @@ import MapKit
 
 
 final class MapViewController: UIViewController {
-    //MARK:- Declarations
     
+    //MARK:- Declarations
     /// Data provider for search tableView
     lazy var tableViewDataProvider = makeTableViewDataProvider()
     
-    ///Location manager to request user location and proceed place search requests
-    let locationManager = CLLocationManager()
-    
-    ///The users pin used for sending location to RideSearchVC
-    var selectedPin: MKPlacemark? = nil
-    
+    /// Data provider for map kit delegate methods
+    lazy var mapKitDataProvider = makeMapKitDataProvider()
     
     ///The type we work with (departure or destination) to configure methods and data transferring between ViewControllers
     var placeType: PlaceType?
     
     ///Timer for limiting search requests
     var timer: Timer?
-    
-    ///Distance between department and destination points to display on top of MapView
-    var distance = Int()
-    
-    
-    //The properties user for reusing MapVC for different needs (in this case to use on both RideSearchVC and TripVC)
-    /// Ignores user location to prevent focusing on it
-    var ignoreLocation = false
     
     /// The state of longTapGestureRecognizer to configure the accessibility for user  to make a placemark
     var gestureRecognizerEnabled = true
@@ -88,15 +76,9 @@ final class MapViewController: UIViewController {
     //MARK: viewDidLoad -
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.delegate = self
-        mapView.delegate = self
+        mapView.delegate = mapKitDataProvider
         placesTableView.dataSource = tableViewDataProvider
         placesTableView.delegate = tableViewDataProvider
-        tableViewDataProvider.parentVC = self
-        
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.requestLocation()
         
         view.addSubview(navigationSubview)
         view.addSubview(contentSubview)
@@ -254,7 +236,7 @@ final class MapViewController: UIViewController {
         distanceLabel.textAlignment = .center
         distanceLabel.textColor = .systemGray
         distanceLabel.font = .boldSystemFont(ofSize: 20)
-        distanceLabel.text = NSLocalizedString("MapVC.distance", comment: "") + ": " + "\(distance)" + " " + NSLocalizedString("MapVC.km", comment: "")
+        distanceLabel.text = NSLocalizedString("MapVC.distance", comment: "") + ": " + "\(mapKitDataProvider.distance)" + " " + NSLocalizedString("MapVC.km", comment: "")
         
     }
     
@@ -290,7 +272,17 @@ final class MapViewController: UIViewController {
 }
 
 private extension MapViewController {
+    
     func makeTableViewDataProvider() -> PlacesSearchTableViewDataProvider {
-        return MapTableViewDataProvider()
+        let dataProvider = MapTableViewDataProvider()
+        dataProvider.parentVC = self
+        return dataProvider
+    }
+    
+    func makeMapKitDataProvider() -> MapKitDataProvider {
+        let dataProvider = MainMapKitDataProvider()
+        dataProvider.parentVC = self
+        dataProvider.setupLocationManager()
+        return dataProvider
     }
 }

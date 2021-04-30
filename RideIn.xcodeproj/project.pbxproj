@@ -15,9 +15,10 @@
 		C01EFD5F263AD74E00028552 /* MapTableViewDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01EFD5E263AD74E00028552 /* MapTableViewDataProviderTests.swift */; };
 		C0327F4B263974E30079B324 /* DataProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F4A263974E30079B324 /* DataProviders.swift */; };
 		C0327F4D26398C150079B324 /* Heplers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F4C26398C150079B324 /* Heplers.swift */; };
-		C0327F4F263998410079B324 /* MainTripDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F4E263998410079B324 /* MainTripDataProviderTests.swift */; };
+		C0327F4F263998410079B324 /* MainTripDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F4E263998410079B324 /* MainTripDataManagerTests.swift */; };
 		C0327F512639A8FB0079B324 /* MainURLFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F502639A8FB0079B324 /* MainURLFactoryTests.swift */; };
-		C0327F532639ABBB0079B324 /* MainMapKitPlacesSearchDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F522639ABBB0079B324 /* MainMapKitPlacesSearchDataProviderTests.swift */; };
+		C0327F532639ABBB0079B324 /* MainMapKitPlacesSearchManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F522639ABBB0079B324 /* MainMapKitPlacesSearchManagerTests.swift */; };
+		C0477C0E263BE46A00F82DDD /* DataManagers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0477C0D263BE46A00F82DDD /* DataManagers.swift */; };
 		C04BC36B2632CE7000941B0C /* SelectedTripVC+Extenstions .swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC36A2632CE7000941B0C /* SelectedTripVC+Extenstions .swift */; };
 		C04BC3BE2632F8E100941B0C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C04BC3BD2632F8E100941B0C /* .gitignore */; };
 		C04BC3DF2634A05300941B0C /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC3DE2634A05300941B0C /* ConnectionManager.swift */; };
@@ -42,7 +43,6 @@
 		C0BEDBF62628678B009B3062 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BEDBF52628678B009B3062 /* DataModel.swift */; };
 		C0BEDBFB26286FB5009B3062 /* TripsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BEDBFA26286FB5009B3062 /* TripsViewController.swift */; };
 		C0C0196326380697001796C2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C0C0196526380697001796C2 /* Localizable.strings */; };
-		C0CFDC30262872BC00C90E6A /* MapVC+MKExtenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFDC2F262872BC00C90E6A /* MapVC+MKExtenstions.swift */; };
 		C0CFDC362629678500C90E6A /* TripCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFDC352629678500C90E6A /* TripCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -68,9 +68,10 @@
 		C01EFD5E263AD74E00028552 /* MapTableViewDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTableViewDataProviderTests.swift; sourceTree = "<group>"; };
 		C0327F4A263974E30079B324 /* DataProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviders.swift; sourceTree = "<group>"; };
 		C0327F4C26398C150079B324 /* Heplers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heplers.swift; sourceTree = "<group>"; };
-		C0327F4E263998410079B324 /* MainTripDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTripDataProviderTests.swift; sourceTree = "<group>"; };
+		C0327F4E263998410079B324 /* MainTripDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTripDataManagerTests.swift; sourceTree = "<group>"; };
 		C0327F502639A8FB0079B324 /* MainURLFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainURLFactoryTests.swift; sourceTree = "<group>"; };
-		C0327F522639ABBB0079B324 /* MainMapKitPlacesSearchDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMapKitPlacesSearchDataProviderTests.swift; sourceTree = "<group>"; };
+		C0327F522639ABBB0079B324 /* MainMapKitPlacesSearchManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMapKitPlacesSearchManagerTests.swift; sourceTree = "<group>"; };
+		C0477C0D263BE46A00F82DDD /* DataManagers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagers.swift; sourceTree = "<group>"; };
 		C04BC36A2632CE7000941B0C /* SelectedTripVC+Extenstions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectedTripVC+Extenstions .swift"; sourceTree = "<group>"; };
 		C04BC3BD2632F8E100941B0C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		C04BC3DE2634A05300941B0C /* ConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
@@ -100,7 +101,6 @@
 		C0BEDBFA26286FB5009B3062 /* TripsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsViewController.swift; sourceTree = "<group>"; };
 		C0C0196426380697001796C2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C0C0196A263807E7001796C2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		C0CFDC2F262872BC00C90E6A /* MapVC+MKExtenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapVC+MKExtenstions.swift"; sourceTree = "<group>"; };
 		C0CFDC352629678500C90E6A /* TripCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCollectionViewCell.swift; sourceTree = "<group>"; };
 		D8DF32279C50F6B9AA704C46 /* Pods-RideIn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RideIn.release.xcconfig"; path = "Target Support Files/Pods-RideIn/Pods-RideIn.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -157,8 +157,8 @@
 		C01EFD5A263A9AD200028552 /* DataProvidersTests */ = {
 			isa = PBXGroup;
 			children = (
-				C0327F4E263998410079B324 /* MainTripDataProviderTests.swift */,
-				C0327F522639ABBB0079B324 /* MainMapKitPlacesSearchDataProviderTests.swift */,
+				C0327F4E263998410079B324 /* MainTripDataManagerTests.swift */,
+				C0327F522639ABBB0079B324 /* MainMapKitPlacesSearchManagerTests.swift */,
 				C01EFD58263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift */,
 				C01EFD5E263AD74E00028552 /* MapTableViewDataProviderTests.swift */,
 			);
@@ -281,6 +281,7 @@
 			isa = PBXGroup;
 			children = (
 				C0327F4A263974E30079B324 /* DataProviders.swift */,
+				C0477C0D263BE46A00F82DDD /* DataManagers.swift */,
 				C04C9EC426257AAD007C47DC /* Factories.swift */,
 				C0327F4C26398C150079B324 /* Heplers.swift */,
 				C0BEDBF426286779009B3062 /* Networking */,
@@ -303,7 +304,6 @@
 			children = (
 				C08291A32626EECA00C686F3 /* MapViewController.swift */,
 				C0AA7742262732C700EE3A42 /* MapVC+Extensions.swift */,
-				C0CFDC2F262872BC00C90E6A /* MapVC+MKExtenstions.swift */,
 			);
 			path = MapVC;
 			sourceTree = "<group>";
@@ -514,10 +514,10 @@
 			files = (
 				C0327F512639A8FB0079B324 /* MainURLFactoryTests.swift in Sources */,
 				C01EFD59263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift in Sources */,
-				C0327F532639ABBB0079B324 /* MainMapKitPlacesSearchDataProviderTests.swift in Sources */,
+				C0327F532639ABBB0079B324 /* MainMapKitPlacesSearchManagerTests.swift in Sources */,
 				C04BC4022636B51E00941B0C /* NetworkManagerTests.swift in Sources */,
 				C04BC3E92636966A00941B0C /* RideInTests.swift in Sources */,
-				C0327F4F263998410079B324 /* MainTripDataProviderTests.swift in Sources */,
+				C0327F4F263998410079B324 /* MainTripDataManagerTests.swift in Sources */,
 				C04BC40C2637099F00941B0C /* DateTimeFormatterTests.swift in Sources */,
 				C01EFD5F263AD74E00028552 /* MapTableViewDataProviderTests.swift in Sources */,
 			);
@@ -541,8 +541,8 @@
 				C0AA7743262732C700EE3A42 /* MapVC+Extensions.swift in Sources */,
 				C08291A42626EECA00C686F3 /* MapViewController.swift in Sources */,
 				C0327F4D26398C150079B324 /* Heplers.swift in Sources */,
-				C0CFDC30262872BC00C90E6A /* MapVC+MKExtenstions.swift in Sources */,
 				C0CFDC362629678500C90E6A /* TripCollectionViewCell.swift in Sources */,
+				C0477C0E263BE46A00F82DDD /* DataManagers.swift in Sources */,
 				C08291AF26271E2800C686F3 /* MapTableViewCell.swift in Sources */,
 				C04C9E5326244120007C47DC /* AppDelegate.swift in Sources */,
 				C04BC3DF2634A05300941B0C /* ConnectionManager.swift in Sources */,

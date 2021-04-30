@@ -36,26 +36,28 @@ extension SelectedTripViewController {
         let destPlacemark = MKPlacemark(coordinate: destCoordinates)
         let distance = getDistanceBetween(departureLocation: depCoordinates, destinationLocation: destCoordinates)
         let distanceString = String(NSString(format: "%.2f", distance))
-        if let distanceDouble = Double(distanceString) { vc.distance = Int((distanceDouble / 1000).rounded()) }
+        if let distanceDouble = Double(distanceString) { vc.mapKitDataProvider.distance = Int((distanceDouble / 1000).rounded()) }
         vc.gestureRecognizerEnabled = false
         vc.mapView.showsTraffic = true
-        vc.ignoreLocation = true
+        vc.mapKitDataProvider.ignoreLocation = true
         vc.distanceSubviewIsHidden = false
         vc.textFieldActivationObserverEnabled = false
         
         switch sender {
         case departurePlaceMapButton:
             vc.searchTF.text = selectedTrip?.waypoints.first?.place.address
-            vc.dropPinZoomIn(placemark: destPlacemark, zoom: false)
-            vc.dropPinZoomIn(placemark: depPlacemark, zoom: true)
-            vc.showRouteOnMap(pickUpPlacemark: depPlacemark, destinationPlacemark: destPlacemark)
+            vc.mapKitDataProvider.parentVC = vc
+            vc.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: destPlacemark, zoom: false)
+            vc.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: depPlacemark, zoom: true)
+            vc.mapKitDataProvider.mapKitDataManager.showRouteOnMap(pickUpPlacemark: depPlacemark, destinationPlacemark: destPlacemark)
             navigationController?.pushViewController(vc, animated: true)
             
         case destinationPlaceMapButton:
             vc.searchTF.text = selectedTrip?.waypoints.last?.place.address
-            vc.dropPinZoomIn(placemark: depPlacemark, zoom: false)
-            vc.dropPinZoomIn(placemark: destPlacemark, zoom: true)
-            vc.showRouteOnMap(pickUpPlacemark: depPlacemark, destinationPlacemark: destPlacemark)
+            vc.mapKitDataProvider.parentVC = vc
+            vc.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: depPlacemark, zoom: false)
+            vc.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: destPlacemark, zoom: true)
+            vc.mapKitDataProvider.mapKitDataManager.showRouteOnMap(pickUpPlacemark: depPlacemark, destinationPlacemark: destPlacemark)
             navigationController?.pushViewController(vc, animated: true)
             
         default: break
