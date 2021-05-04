@@ -48,18 +48,18 @@ final class MainMapKitDataProvider: NSObject, MapKitDataProvider {
         if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()) {
             vc.present(vc.locationAlert, animated: true)
             canBeLocated = false
-            vc.changeFocusOnUsersLocatiomButton(toEnabled: canBeLocated)
+            vc.changeFocusOnUsersLocationButton(toEnabled: canBeLocated)
             return
         }
         if(status == .notDetermined) {
             locationManager.requestWhenInUseAuthorization()
             canBeLocated = false
-            vc.changeFocusOnUsersLocatiomButton(toEnabled: canBeLocated)
+            vc.changeFocusOnUsersLocationButton(toEnabled: canBeLocated)
             return
         }
         locationManager.requestLocation()
         canBeLocated = true
-        vc.changeFocusOnUsersLocatiomButton(toEnabled: canBeLocated)
+        vc.changeFocusOnUsersLocationButton(toEnabled: canBeLocated)
 
         if let location = locationManager.location {
             let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)

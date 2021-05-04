@@ -5,7 +5,6 @@
 //  Created by Алекс Ломовской on 13.04.2021.
 //
 
-import UIKit
 import Alamofire
 
 struct MainNetworkManager: NetworkManager {

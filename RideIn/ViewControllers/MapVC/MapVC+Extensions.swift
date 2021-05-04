@@ -53,7 +53,9 @@ extension MapViewController: UITextFieldDelegate {
 //MARK: - HelpingMethods
 extension MapViewController {
     
-    func changeFocusOnUsersLocatiomButton(toEnabled enabled: Bool) {
+    /// Configures focusOnUserLocationButton .isEnabled property with the given state
+    /// - Parameter enabled: state
+    func changeFocusOnUsersLocationButton(toEnabled enabled: Bool) {
         focusOnUserLocationButton.isEnabled = enabled
     }
     
