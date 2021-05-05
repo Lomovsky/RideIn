@@ -12,8 +12,10 @@ import MapKit
 final class MapViewController: UIViewController {
     
     //MARK:- Declarations
-    
+    /// Coordinator
     weak var coordinator: Coordinator?
+    
+    /// Triggered when vc is ready to be closed
     var onFinish: CompletionBlock?
     
     /// Data provider for search tableView

@@ -10,8 +10,13 @@ import MapKit
 
 final class SelectedTripViewController: UIViewController {
     
+    /// Coordinator
     weak var coordinator: Coordinator?
+    
+    /// Is triggered when user tap the showMapButton
     var onMapSelected: ((_ placeType: PlaceType, _ selectedTrip: Trip? ) -> Void)?
+    
+    /// Triggered when vc is ready to be closed
     var onFinish: CompletionBlock?
     
     /// The trip which data should be presented
@@ -244,7 +249,7 @@ final class SelectedTripViewController: UIViewController {
         departurePlaceMapButton.imageView?.contentMode = .scaleAspectFit
         departurePlaceMapButton.contentVerticalAlignment = .fill
         departurePlaceMapButton.contentHorizontalAlignment = .fill
-        departurePlaceMapButton.addTarget(self, action: #selector(showMap(sender:)), for: .touchUpInside)
+        departurePlaceMapButton.addTarget(self, action: #selector(showMapButtonTapped(sender:)), for: .touchUpInside)
     }
     
     private func setupLine() {
@@ -306,7 +311,7 @@ final class SelectedTripViewController: UIViewController {
         destinationPlaceMapButton.imageView?.contentMode = .scaleAspectFit
         destinationPlaceMapButton.contentVerticalAlignment = .fill
         destinationPlaceMapButton.contentHorizontalAlignment = .fill
-        destinationPlaceMapButton.addTarget(self, action: #selector(showMap(sender:)), for: .touchUpInside)
+        destinationPlaceMapButton.addTarget(self, action: #selector(showMapButtonTapped(sender:)), for: .touchUpInside)
     }
     
     private func setupPriceView() {

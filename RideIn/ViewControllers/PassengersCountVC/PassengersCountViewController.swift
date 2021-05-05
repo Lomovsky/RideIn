@@ -9,8 +9,13 @@ import UIKit
 
 final class PassengersCountViewController: UIViewController {
     
+    /// RideSearchDelegate to set and configure passengers count
     weak var rideSearchDelegate: RideSearchDelegate?
+    
+    /// Coordinator
     weak var coordinator: Coordinator?
+    
+    /// Triggered when vc is ready to be closed
     var onFinish: CompletionBlock?
     
     //MARK: UIElements -

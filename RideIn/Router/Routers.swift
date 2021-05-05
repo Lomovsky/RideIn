@@ -7,6 +7,9 @@
 
 import UIKit
 
+typealias CompletionBlock = (() -> Void)
+typealias ItemCompletionBlock<Item> = ((Item) -> Void)
+
 //MARK: MainRouter
 final class Router: Routable {
     

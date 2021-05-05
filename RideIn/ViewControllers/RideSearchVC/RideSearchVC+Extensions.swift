@@ -10,7 +10,7 @@ import MapKit
 
 //MARK:- Targets&Actions
 extension RideSearchViewController {
-    /// Presents PassengersCountVC
+    
     @objc final func passengersCountButtonTapped() {
         onChoosePassengersCountSelected?(self)
     }
@@ -21,8 +21,8 @@ extension RideSearchViewController {
     @objc final func searchButtonTapped() {
         configureIndicatorAndButton(indicatorEnabled: true)
         dataManager.downloadDataWith(departureCoordinates: departureCoordinates,
-                                      destinationCoordinates: destinationCoordinates,
-                                      seats: "\(passengersCount)", date: date) { [unowned self] result in
+                                     destinationCoordinates: destinationCoordinates,
+                                     seats: "\(passengersCount)", date: date) { [unowned self] result in
             switch result {
             case .failure(let error):
                 switch error {
@@ -30,7 +30,7 @@ extension RideSearchViewController {
                     self.makeAlert(title: NSLocalizedString("Alert.error", comment: ""),
                                    message: NSLocalizedString("Alert.noConnection", comment: ""), style: .alert)
                     self.configureIndicatorAndButton(indicatorEnabled: false)
-
+                    
                 case NetworkManagerErrors.badRequest:
                     self.makeAlert(title: NSLocalizedString("Alert.error", comment: ""),
                                    message: NSLocalizedString("Alert.wrongDataFormat", comment: ""), style: .alert)
@@ -134,7 +134,7 @@ extension RideSearchViewController {
     private func prepareDataForTripsVCWith(trips: [Trip]) {
         do {
             try dataManager.prepareData(trips: trips, userLocation: departureCLLocation,
-                                         completion: { [unowned self] unsortedTrips, cheapToTop, cheapToBottom, cheapestTrip, closestTrip in
+                                        completion: { [unowned self] unsortedTrips, cheapToTop, cheapToBottom, cheapestTrip, closestTrip in
                                             self.showTripsVCWith(trips: trips,
                                                                  cheapToTop: cheapToTop,
                                                                  expensiveToTop: cheapToBottom,
@@ -143,7 +143,7 @@ extension RideSearchViewController {
         } catch _ as NSError {
             self.makeAlert(title: NSLocalizedString("Alert.error", comment: ""), message: NSLocalizedString("Alert.noTrips", comment: ""), style: .alert)
             self.configureIndicatorAndButton(indicatorEnabled: false)
-
+            
         }
         
     }

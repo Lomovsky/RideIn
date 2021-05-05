@@ -9,10 +9,15 @@ import UIKit
 import MapKit
 
 class RideSearchViewController: UIViewController {
-
+    
     //MARK: Declarations -
+    /// Is triggered when user tap on showMap button
     var onMapSelected: ((PlaceType?, RideSearchDelegate) -> Void)?
+    
+    /// Is triggered when user tap passengersCount button
     var onChoosePassengersCountSelected: ItemCompletionBlock<RideSearchDelegate>?
+    
+    /// Is triggered when user tap search button
     var onSearchButtonSelected: ((_ trips: [Trip], _ cheapToTop: [Trip], _ expensiveToTop: [Trip], _ cheapestTrip: Trip?, _ closestTrip: Trip?,
                                   _ date: String?, _ departurePlaceName: String? , _ destinationPlaceName: String?, _ passengersCount: Int,
                                   _ delegate: RideSearchDelegate) -> Void)?

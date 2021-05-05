@@ -9,10 +9,20 @@ import UIKit
 
 
 final class TripsViewController: UIViewController {
+    
+    /// DataProvider for tripsCollectionViews
     lazy var dataProvider = makeDataProvider()
+    
+    /// RideSearch delegate
     weak var rideSearchDelegate: RideSearchDelegate?
+    
+    /// Coordinator
     weak var coordinator: Coordinator?
+    
+    /// Triggered when vc is ready to be closed
     var onFinish: CompletionBlock?
+    
+    /// Is triggered when user tap the cell
     var onCellSelected: ((_ trip: Trip, _ date: String, _ passengersCount: Int, _ departurePlace: String, _ destinationPlace: String, _ departureTime: String, _ arrivingTime: String, _ price: Float)  -> Void)?
     
     //MARK: UIElements -

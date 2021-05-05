@@ -8,9 +8,6 @@
 import UIKit
 import MapKit
 
-typealias CompletionBlock = (() -> Void)
-typealias ItemCompletionBlock<Item> = ((Item) -> Void)
-
 //MARK: - BaseCoordinator
 class BaseCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
@@ -21,7 +18,7 @@ class BaseCoordinator: Coordinator {
     }
     
     func start() {}
-
+    
     func getNavController() -> UINavigationController {
         return UINavigationController()
         
@@ -67,7 +64,7 @@ final class MainFlowCoordinator: BaseCoordinator {
     /// The selected trip departure date
     private var date = String ()
     
-        
+    
     /// Time of the departure
     private var departureTime = String()
     
@@ -196,6 +193,7 @@ final class MainFlowCoordinator: BaseCoordinator {
         
         router.push(vc)
     }
+    
     
     //MARK: mapVC -
     private func showMap(from controller: UIViewController) {
