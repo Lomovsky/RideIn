@@ -213,4 +213,34 @@ final class MainMapKitDataManager: MapKitDataManager {
         }
     }
     
+    /// This method calculate distance between two points and returns this distance with type CLLocationDistance
+    /// - Parameters:
+    ///   - departureLocation: first location
+    ///   - destinationLocation: second location
+    /// - Returns: distance between two locations
+    func getDistanceBetween(departureLocation: CLLocationCoordinate2D, destinationLocation: CLLocationCoordinate2D) -> CLLocationDistance {
+        let departureLocationCoordinates = CLLocation(latitude: departureLocation.latitude, longitude: departureLocation.longitude)
+        let destinationLocationCoordinates = CLLocation(latitude: destinationLocation.latitude, longitude: destinationLocation.longitude)
+        return destinationLocationCoordinates.distance(from: departureLocationCoordinates)
+    }
+    
+    func getLocations(trip: Trip?, completion: @escaping (MKPlacemark, MKPlacemark, Int) -> Void) {
+        guard let depLatitude = trip?.waypoints.first?.place.latitude,
+              let depLongitude = trip?.waypoints.first?.place.longitude,
+              let arriveLatitude = trip?.waypoints.last?.place.latitude,
+              let arriveLongitude = trip?.waypoints.last?.place.longitude
+        else { return }
+        
+        let depCoordinates = CLLocationCoordinate2D(latitude: depLatitude, longitude: depLongitude)
+        let depPlacemark = MKPlacemark(coordinate: depCoordinates)
+        let destCoordinates = CLLocationCoordinate2D(latitude: arriveLatitude, longitude: arriveLongitude)
+        let destPlacemark = MKPlacemark(coordinate: destCoordinates)
+        let distance = getDistanceBetween(departureLocation: depCoordinates, destinationLocation: destCoordinates)
+        let distanceString = String(NSString(format: "%.2f", distance))
+        guard let distanceDouble = Double(distanceString) else { return }
+        let distanceInt = Int((distanceDouble / 1000).rounded())
+        
+        completion(depPlacemark, destPlacemark, distanceInt)
+    }
+    
 }

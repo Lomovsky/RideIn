@@ -12,9 +12,7 @@ import MapKit
 extension RideSearchViewController {
     /// Presents PassengersCountVC
     @objc final func passengersCountButtonTapped() {
-        let vc = PassengersCountViewController()
-        vc.rideSearchDelegate = self
-        navigationController?.present(vc, animated: true, completion: nil)
+        onChoosePassengersCountSelected?(self)
     }
     
     /// - This method asks dataProvider to download data
@@ -29,13 +27,18 @@ extension RideSearchViewController {
             case .failure(let error):
                 switch error {
                 case NetworkManagerErrors.noConnection:
-                    self.presentAlertController(title: NSLocalizedString("Alert.error", comment: ""),
-                                                message: NSLocalizedString("Alert.noConnection", comment: ""))
+                    self.makeAlert(title: NSLocalizedString("Alert.error", comment: ""),
+                                   message: NSLocalizedString("Alert.noConnection", comment: ""), style: .alert)
+                    self.configureIndicatorAndButton(indicatorEnabled: false)
+
                 case NetworkManagerErrors.badRequest:
-                    self.presentAlertController(title: NSLocalizedString("Alert.error", comment: ""),
-                                                message: NSLocalizedString("Alert.wrongDataFormat", comment: ""))
+                    self.makeAlert(title: NSLocalizedString("Alert.error", comment: ""),
+                                   message: NSLocalizedString("Alert.wrongDataFormat", comment: ""), style: .alert)
+                    self.configureIndicatorAndButton(indicatorEnabled: false)
+                    
                 case NetworkManagerErrors.unableToMakeURL:
                     Log.e("Unable to make url")
+                    
                 default:
                     return
                 }
@@ -60,11 +63,8 @@ extension RideSearchViewController {
     
     ///This method configures and pushes MapViewController
     @objc final func showMapButtonTapped() {
-        let vc = MapViewController()
-        vc.rideSearchDelegate = self
-        vc.placeType = placeType
+        onMapSelected?(placeType, self)
         shouldNavigationControllerBeHiddenAnimated = (true, false)
-        navigationController?.pushViewController(vc, animated: true)
     }
     
     /// This method changes date property with the new date from UIDatePicker
@@ -123,7 +123,6 @@ extension RideSearchViewController {
         timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { [unowned self] _ in
             MainMapKitPlacesSearchManager.searchForPlace(with: word, inRegion: self.mapView.region) { items, error in
                 guard error == nil else { return }
-//                self.matchingItems = items
                 tableViewDataProvider.matchingItems = items
                 self.searchTableView.reloadData()
             }
@@ -142,7 +141,9 @@ extension RideSearchViewController {
                                                                  cheapestTrip: cheapestTrip,
                                                                  closestTrip: closestTrip) })
         } catch _ as NSError {
-            self.presentAlertController(title: NSLocalizedString("Alert.error", comment: ""), message: NSLocalizedString("Alert.noTrips", comment: ""))
+            self.makeAlert(title: NSLocalizedString("Alert.error", comment: ""), message: NSLocalizedString("Alert.noTrips", comment: ""), style: .alert)
+            self.configureIndicatorAndButton(indicatorEnabled: false)
+
         }
         
     }
@@ -155,32 +156,10 @@ extension RideSearchViewController {
     ///   - cheapestTrip: the cheapest trip
     ///   - closestTrip: the trip whose departure point is the closest to the point that user has selected
     private func showTripsVCWith(trips: [Trip], cheapToTop: [Trip], expensiveToTop: [Trip], cheapestTrip: Trip?, closestTrip: Trip?) {
-        let vc = TripsViewController()
-        if date != nil { vc.dataProvider.date = date!.components(separatedBy: "T").first ?? "" }
-        vc.dataProvider.trips = trips
-        vc.dataProvider.cheapTripsToBottom = cheapToTop
-        vc.dataProvider.cheapTripsToTop = expensiveToTop
-        vc.dataProvider.cheapestTrip = cheapestTrip
-        vc.dataProvider.closestTrip = closestTrip
-        vc.dataProvider.departurePlaceName = departureTextField.text ?? ""
-        vc.dataProvider.destinationPlaceName = destinationTextField.text ?? ""
-        vc.dataProvider.numberOfPassengers = passengersCount
-        vc.rideSearchDelegate = self
+        onSearchButtonSelected?(trips, cheapToTop, expensiveToTop, cheapestTrip,
+                                closestTrip, date, departureTextField.text,
+                                destinationTextField.text, passengersCount, self)
         configureIndicatorAndButton(indicatorEnabled: false)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    /// Method is responsible for presenting alertController
-    /// - Parameters:
-    ///   - title: title of the alert
-    ///   - message: alert message
-    private func presentAlertController(title: String, message: String) {
-        DispatchQueue.main.async {
-            self.alertController.title = title
-            self.alertController.message = message
-            self.configureIndicatorAndButton(indicatorEnabled: false)
-            self.present(self.alertController, animated: true)
-        }
     }
 }
 

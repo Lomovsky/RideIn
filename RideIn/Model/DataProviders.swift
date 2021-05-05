@@ -388,17 +388,16 @@ final class MainTripsCollectionViewDataProvider: NSObject, TripsCollectionViewDa
                 let departmentTime = dateTimeFormatter.getDateTime(format: .hhmmss, from: trip, for: .department)
                 let arrivingTime = dateTimeFormatter.getDateTime(format: .hhmmss, from: trip, for: .destination)
                 let price = Float(trip.price.amount)
-                vc.showTripVC(trip: trip, date: date, passengersCount: numberOfPassengers, departmentPlace: departurePlaceName,
-                              departmentTime: departmentTime, arrivingPlace: destinationPlaceName,
-                              arrivingTime: arrivingTime, price: price ?? 0)
+                vc.onCellSelected?(trip, date, numberOfPassengers, departurePlaceName, destinationPlaceName,
+                                   departmentTime, arrivingTime, price ?? 0)
+                
             } else {
                 guard let trip = closestTrip else { return }
                 let departmentTime = dateTimeFormatter.getDateTime(format: .hhmmss, from: trip, for: .department)
                 let arrivingTime = dateTimeFormatter.getDateTime(format: .hhmmss, from: trip, for: .destination)
                 let price = Float(trip.price.amount)
-                vc.showTripVC(trip: trip, date: date, passengersCount: numberOfPassengers, departmentPlace: departurePlaceName,
-                              departmentTime: departmentTime, arrivingPlace: destinationPlaceName,
-                              arrivingTime: arrivingTime, price: price ?? 0)
+                vc.onCellSelected?(trip, date, numberOfPassengers, departurePlaceName, destinationPlaceName,
+                                   departmentTime, arrivingTime, price ?? 0)
             }
             
         case vc.allTipsCollectionView:
@@ -406,27 +405,27 @@ final class MainTripsCollectionViewDataProvider: NSObject, TripsCollectionViewDa
             let departmentTime = dateTimeFormatter.getDateTime(format: .hhmmss, from: trip, for: .department)
             let arrivingTime = dateTimeFormatter.getDateTime(format: .hhmmss, from: trip, for: .destination)
             let price = Float(trip.price.amount)
-            vc.showTripVC(trip: trip, date: date, passengersCount: numberOfPassengers, departmentPlace: departurePlaceName,
-                          departmentTime: departmentTime, arrivingPlace: destinationPlaceName,
-                          arrivingTime: arrivingTime, price: price ?? 0)
+            vc.onCellSelected?(trip, date, numberOfPassengers, departurePlaceName, destinationPlaceName,
+                               departmentTime, arrivingTime, price ?? 0)
+
             
         case vc.cheapTripsToTopCollectionView:
             let trip = cheapTripsToTop[indexPath.row]
             let departmentTime = dateTimeFormatter.getDateTime(format: .hhmmss, from: trip, for: .department)
             let arrivingTime = dateTimeFormatter.getDateTime(format: .hhmmss, from: trip, for: .destination)
             let price = Float(trip.price.amount)
-            vc.showTripVC(trip: trip, date: date, passengersCount: numberOfPassengers, departmentPlace: departurePlaceName,
-                          departmentTime: departmentTime, arrivingPlace: destinationPlaceName,
-                          arrivingTime: arrivingTime, price: price ?? 0)
+            vc.onCellSelected?(trip, date, numberOfPassengers, departurePlaceName, destinationPlaceName,
+                               departmentTime, arrivingTime, price ?? 0)
+
             
         case vc.cheapTripsToBottomCollectionView:
             let trip = cheapTripsToBottom[indexPath.row]
             let departmentTime = dateTimeFormatter.getDateTime(format: .hhmmss, from: trip, for: .department)
             let arrivingTime = dateTimeFormatter.getDateTime(format: .hhmmss, from: trip, for: .destination)
             let price = Float(trip.price.amount)
-            vc.showTripVC(trip: trip, date: date, passengersCount: numberOfPassengers, departmentPlace: departurePlaceName,
-                          departmentTime: departmentTime, arrivingPlace: destinationPlaceName,
-                          arrivingTime: arrivingTime, price: price ?? 0)
+            vc.onCellSelected?(trip, date, numberOfPassengers, departurePlaceName, destinationPlaceName,
+                               departmentTime, arrivingTime, price ?? 0)
+
             
         default: break
         }

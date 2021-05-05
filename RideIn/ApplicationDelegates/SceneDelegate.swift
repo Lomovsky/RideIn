@@ -10,12 +10,16 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var coordinator: Coordinator!
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let winScene = (scene as? UIWindowScene) else { return }
-        let navController = UINavigationController(rootViewController: RideSearchViewController())
+        
+        let navController = UINavigationController()
+        coordinator = MainFlowCoordinator(navigationController: navController)
         let win = UIWindow(windowScene: winScene)
-        win.rootViewController = navController
+        coordinator.start()
+        win.rootViewController = coordinator.getNavController()
         win.makeKeyAndVisible()
         window = win
         

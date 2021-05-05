@@ -9,9 +9,11 @@ import UIKit
 
 
 final class TripsViewController: UIViewController {
-    
     lazy var dataProvider = makeDataProvider()
     weak var rideSearchDelegate: RideSearchDelegate?
+    weak var coordinator: Coordinator?
+    var onFinish: CompletionBlock?
+    var onCellSelected: ((_ trip: Trip, _ date: String, _ passengersCount: Int, _ departurePlace: String, _ destinationPlace: String, _ departureTime: String, _ arrivingTime: String, _ price: Float)  -> Void)?
     
     //MARK: UIElements -
     let scrollView = UIScrollView.createDefaultScrollView()

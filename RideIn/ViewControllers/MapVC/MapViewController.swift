@@ -12,6 +12,10 @@ import MapKit
 final class MapViewController: UIViewController {
     
     //MARK:- Declarations
+    
+    weak var coordinator: Coordinator?
+    var onFinish: CompletionBlock?
+    
     /// Data provider for search tableView
     lazy var tableViewDataProvider = makeTableViewDataProvider()
     
@@ -146,7 +150,7 @@ final class MapViewController: UIViewController {
         backButton.layer.cornerRadius = 15
         backButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         backButton.tintColor = .systemGray
-        backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
     
     

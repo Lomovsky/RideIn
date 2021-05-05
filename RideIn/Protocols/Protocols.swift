@@ -53,6 +53,10 @@ protocol HandleMapSearch {
     func dropPinZoomIn(placemark: MKPlacemark, zoom: Bool)
 }
 
+protocol Alertable {
+    func makeAlert(title: String?, message: String?, style: UIAlertController.Style)
+}
+
 
 //MARK:- DataManagers protocols
 protocol MapKitPlacesSearchManager {
@@ -72,6 +76,7 @@ protocol MapKitDataManager: HandleMapSearch {
     func addAnnotation(location: CLLocationCoordinate2D)
     func lookUpForLocation(by coordinates: CLLocation?, completionHandler: @escaping (CLPlacemark?) -> Void )
     func showRouteOnMap(pickUpPlacemark: MKPlacemark, destinationPlacemark: MKPlacemark)
+    func getLocations(trip: Trip?, completion: @escaping (MKPlacemark, MKPlacemark, Int) -> Void)
 }
 
 
@@ -117,3 +122,63 @@ protocol MapKitDataProvider: MKMapViewDelegate, CLLocationManagerDelegate {
     var distance: Int { get set }
     var canBeLocated: Bool { get }
 }
+
+//MARK:- CoordinatorProtocol
+protocol Coordinator: AnyObject {
+    var childCoordinators: [Coordinator] { get set }
+    var router: Router { get }
+    func start()
+    func addDependency(coordinator: Coordinator)
+    func removeDependency(coordinator: Coordinator)
+    func getNavController() -> UINavigationController
+}
+
+extension Coordinator {
+    
+    func addDependency(coordinator: Coordinator) {
+        for element in childCoordinators {
+            if element === coordinator { return }
+        }
+        childCoordinators.append(coordinator)
+    }
+    
+    func removeDependency(coordinator: Coordinator) {
+        guard !(childCoordinators.isEmpty) else { return }
+        for (index, element) in childCoordinators.enumerated() {
+            if element === coordinator {
+                childCoordinators.remove(at: index)
+                break
+            }
+        }
+    }
+}
+
+//MARK:- Router
+protocol Presentable {
+    func toPresent() -> UIViewController?
+}
+
+
+//MARK: RoutableProtocol -
+protocol Routable: Presentable {
+    func present(_ module: Presentable?)
+    func present(_ module: Presentable?, animated: Bool)
+    func present(_ module: Presentable?, animated: Bool, completion: CompletionBlock?)
+    
+    func push(_ module: Presentable?)
+    func push(_ module: Presentable?, animated: Bool)
+    func push(_ module: Presentable?, animated: Bool, completion: CompletionBlock?)
+    
+    func popModule()
+    func popModule(animated: Bool)
+    
+    func dismissModule()
+    func dismissModule(animated: Bool, completion: CompletionBlock?)
+    
+    func setRootModule(_ module: Presentable?)
+    func setRootModule(_ module: Presentable?, hideBar: Bool)
+    
+    func popToRootModule(animated: Bool)
+}
+
+

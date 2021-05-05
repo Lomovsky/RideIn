@@ -38,7 +38,7 @@ extension MapViewController: UITextFieldDelegate {
     /// - Parameter textField: the text field from which calls this method (AKA sender)
     @objc final func textFieldHasBeenActivated(textField: UITextField) {
         animateTableView(toSelected: true)
-        backButton.removeTarget(self, action: #selector(goBack), for: .touchUpInside)
+        backButton.removeTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         backButton.addTarget(self, action: #selector(dismissTableView), for: .touchUpInside)
     }
     
@@ -68,8 +68,8 @@ extension MapViewController {
     }
     
     /// This method is called when the user press backButton
-    @objc final func goBack() {
-        navigationController?.popViewController(animated: true)
+    @objc final func backButtonTapped() {
+        onFinish?()
     }
     
     /// This method is called when user press "focusOnUserLocationButton"
@@ -86,7 +86,7 @@ extension MapViewController {
         animateTableView(toSelected: false)
         searchTF.resignFirstResponder()
         backButton.removeTarget(self, action: #selector(dismissTableView), for: .touchUpInside)
-        backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
     
     /// This method is called when the user press "proceedButton"
@@ -98,11 +98,11 @@ extension MapViewController {
         switch placeType {
         case .department:
             rideSearchDelegate?.setCoordinates(with: placemark, forPlace: .department)
-            navigationController?.popToRootViewController(animated: true)
+            onFinish?()
             
         case .destination:
             rideSearchDelegate?.setCoordinates(with: placemark, forPlace: .destination)
-            navigationController?.popToRootViewController(animated: true)
+            onFinish?()
             
         default:
             break

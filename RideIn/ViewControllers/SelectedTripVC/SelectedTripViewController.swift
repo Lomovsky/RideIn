@@ -10,6 +10,10 @@ import MapKit
 
 final class SelectedTripViewController: UIViewController {
     
+    weak var coordinator: Coordinator?
+    var onMapSelected: ((_ placeType: PlaceType, _ selectedTrip: Trip? ) -> Void)?
+    var onFinish: CompletionBlock?
+    
     /// The trip which data should be presented
     var selectedTrip: Trip?
     

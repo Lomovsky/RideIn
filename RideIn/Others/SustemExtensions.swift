@@ -135,3 +135,22 @@ extension UICollectionViewCell {
         self.backgroundColor = .clear
     }
 }
+
+//MARK:- UIViewController
+extension UIViewController: Presentable {
+    func toPresent() -> UIViewController? {
+        return self
+    }
+}
+
+extension UIViewController: Alertable {
+    
+    func makeAlert(title: String?, message: String?, style: UIAlertController.Style) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: style)
+        let dismissButton = UIAlertAction(title: NSLocalizedString("Alert.dismiss", comment: ""), style: .cancel) { _ in
+            self.dismiss(animated: true)
+        }
+        alert.addAction(dismissButton)
+        self.present(alert, animated: true)
+    }
+}

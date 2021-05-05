@@ -10,6 +10,8 @@ import UIKit
 final class PassengersCountViewController: UIViewController {
     
     weak var rideSearchDelegate: RideSearchDelegate?
+    weak var coordinator: Coordinator?
+    var onFinish: CompletionBlock?
     
     //MARK: UIElements -
     private let controllerTitle = UILabel.createDefaultLabel()
@@ -27,7 +29,7 @@ final class PassengersCountViewController: UIViewController {
         view.addSubview(minusButton)
         view.addSubview(countLabel)
         view.addSubview(plusButton)
-                
+        
         setupView()
         setupTitle()
         setupMinusButton()

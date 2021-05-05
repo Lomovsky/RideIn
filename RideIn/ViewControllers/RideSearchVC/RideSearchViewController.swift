@@ -9,15 +9,20 @@ import UIKit
 import MapKit
 
 class RideSearchViewController: UIViewController {
-    
+
     //MARK: Declarations -
+    var onMapSelected: ((PlaceType?, RideSearchDelegate) -> Void)?
+    var onChoosePassengersCountSelected: ItemCompletionBlock<RideSearchDelegate>?
+    var onSearchButtonSelected: ((_ trips: [Trip], _ cheapToTop: [Trip], _ expensiveToTop: [Trip], _ cheapestTrip: Trip?, _ closestTrip: Trip?,
+                                  _ date: String?, _ departurePlaceName: String? , _ destinationPlaceName: String?, _ passengersCount: Int,
+                                  _ delegate: RideSearchDelegate) -> Void)?
+
+    /// Coordinator
+    weak var coordinator: Coordinator?
     
     /// Data provider is made for downloading data with user request
     lazy var dataManager = makeDataManager()
-    
-    /// Alerting user that there are no trips available
-    lazy var alertController = makeAlert()
-    
+        
     /// MapKit data provider  with locationManager to request user location and proceed place search requests
     lazy var mapKitDataProvider = makeMapKitDataProvider()
     
@@ -466,15 +471,6 @@ private extension RideSearchViewController {
                                         destinationTextField: destinationTextField, tableViewSubview: tableViewSubview)
         return factory
     }
-    
-    func makeAlert() -> UIAlertController {
-        let alert = UIAlertController(title: "", message: "", preferredStyle: .alert)
-        let dismissButton = UIAlertAction(title: NSLocalizedString("Alert.dismiss", comment: ""), style: .cancel) { _ in
-            self.dismiss(animated: true)
-        }
-        alert.addAction(dismissButton)
-        return alert
-    }
-    
-
 }
+
+
