@@ -27,13 +27,11 @@ extension RideSearchViewController {
             case .failure(let error):
                 switch error {
                 case NetworkManagerErrors.noConnection:
-                    self.makeAlert(title: NSLocalizedString("Alert.error", comment: ""),
-                                   message: NSLocalizedString("Alert.noConnection", comment: ""), style: .alert)
+                    onAlert?(NSLocalizedString("Alert.noConnection", comment: ""))
                     self.configureIndicatorAndButton(indicatorEnabled: false)
                     
                 case NetworkManagerErrors.badRequest:
-                    self.makeAlert(title: NSLocalizedString("Alert.error", comment: ""),
-                                   message: NSLocalizedString("Alert.wrongDataFormat", comment: ""), style: .alert)
+                    onAlert?(NSLocalizedString("Alert.wrongDataFormat", comment: ""))
                     self.configureIndicatorAndButton(indicatorEnabled: false)
                     
                 case NetworkManagerErrors.unableToMakeURL:
@@ -70,16 +68,7 @@ extension RideSearchViewController {
     /// This method changes date property with the new date from UIDatePicker
     /// - Parameter sender: The sender of type UIDatePicker from which we get new date
     @objc final func changeDateWith(sender: UIDatePicker) {
-        guard let day = Calendar.current.dateComponents([.day], from: datePicker.date).day,
-              let month = Calendar.current.dateComponents([.month], from: datePicker.date).month,
-              let year = Calendar.current.dateComponents([.year], from: datePicker.date).year
-        else { return }
-        let yearString = "\(String(describing: year))"
-        var dayString = "\(String(describing: day))"
-        var monthString = "\(String(describing: month))"
-        if day < 10 { dayString = "0\(String(describing: day))" }
-        if month < 10 { monthString = "0\(String(describing: month))" }
-        date = yearString + "-" + monthString + "-" + dayString + "T00:00:00"
+        date = dateTimeFormatter.getDateFrom(datePicker: sender)
     }
 }
 
@@ -141,7 +130,7 @@ extension RideSearchViewController {
                                                                  cheapestTrip: cheapestTrip,
                                                                  closestTrip: closestTrip) })
         } catch _ as NSError {
-            self.makeAlert(title: NSLocalizedString("Alert.error", comment: ""), message: NSLocalizedString("Alert.noTrips", comment: ""), style: .alert)
+            onAlert?(NSLocalizedString("Alert.noTrips", comment: ""))
             self.configureIndicatorAndButton(indicatorEnabled: false)
             
         }

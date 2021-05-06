@@ -9,10 +9,6 @@ import UIKit
 
 class MapTableViewCell: UITableViewCell {
 
-    class var reuseIdentifier: String {
-        return "MapTableViewCcell"
-    }
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: MapTableViewCell.reuseIdentifier)
     }
@@ -23,7 +19,15 @@ class MapTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
     }
+}
 
+extension MapTableViewCell: DetailedCellModel {
+    func update(with object1: String?, object2: String? = nil) {
+        self.textLabel?.font = .boldSystemFont(ofSize: 20)
+        self.textLabel?.numberOfLines = 0
+        self.textLabel?.textColor = .darkGray
+        self.textLabel?.text = object1
+        self.detailTextLabel?.text = object2
+    }
 }

@@ -76,6 +76,13 @@ extension UIView {
     }
 }
 
+//MARK:- UIViewController
+extension UIViewController: Presentable {
+    func toPresent() -> UIViewController? {
+        return self
+    }
+}
+
 //MARK:- UIButton
 extension UIButton {
     static func createDefaultButton() -> UIButton {
@@ -136,21 +143,39 @@ extension UICollectionViewCell {
     }
 }
 
-//MARK:- UIViewController
-extension UIViewController: Presentable {
-    func toPresent() -> UIViewController? {
-        return self
+//MARK:- UICollectionView
+extension UICollectionView {
+    func register<T: UICollectionViewCell>(_: T.Type) where T: ReusableView {
+        register(T.self, forCellWithReuseIdentifier: T.defaultReuseIdentifier)
+    }
+
+    func dequeueReusableCell<T: UICollectionViewCell>(for indexPath: IndexPath) -> T where T: ReusableView {
+        guard let cell = dequeueReusableCell(withReuseIdentifier: T.defaultReuseIdentifier, for: indexPath) as? T else {
+            fatalError("Could not dequeue cell with identifier: \(T.defaultReuseIdentifier)")
+        }
+        return cell
     }
 }
 
-extension UIViewController: Alertable {
-    
-    func makeAlert(title: String?, message: String?, style: UIAlertController.Style) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: style)
-        let dismissButton = UIAlertAction(title: NSLocalizedString("Alert.dismiss", comment: ""), style: .cancel) { _ in
-            self.dismiss(animated: true)
+//MARK:- UICollectionViewCell
+extension UITableViewCell {
+    static var reuseIdentifier: String {
+        return NSStringFromClass(self)
+    }
+}
+
+//MARK:- UITableView
+extension UITableView {
+    public func dequeue<T: UITableViewCell>(cellClass: T.Type) -> T? {
+        return dequeueReusableCell(withIdentifier: cellClass.reuseIdentifier) as? T
+    }
+
+    public func dequeue<T: UITableViewCell>(cellClass: T.Type, forIndexPath indexPath: IndexPath) -> T {
+        guard let cell = dequeueReusableCell(
+            withIdentifier: cellClass.reuseIdentifier, for: indexPath) as? T else {
+                fatalError(
+                    "Error: cell with id: \(cellClass.reuseIdentifier) for indexPath: \(indexPath) is not \(T.self)")
         }
-        alert.addAction(dismissButton)
-        self.present(alert, animated: true)
+        return cell
     }
 }

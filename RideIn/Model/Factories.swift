@@ -52,7 +52,8 @@ struct MainConstraintFactory: ConstraintFactory {
     let tableViewSubview: UIView
     
     
-    func makeConstraint(forAnimationState state: AnimationState, animatingView: AnimatingViews, tableSubviewTopAnchor toView: UIView) -> NSLayoutConstraint {
+    func makeConstraint(forAnimationState state: AnimationState, animatingView: AnimatingViews,
+                        tableSubviewTopAnchor toView: UIView) -> NSLayoutConstraint {
         switch animatingView {
         case .tableViewSubview:
             switch state {

@@ -21,7 +21,10 @@ class RideSearchViewController: UIViewController {
     var onSearchButtonSelected: ((_ trips: [Trip], _ cheapToTop: [Trip], _ expensiveToTop: [Trip], _ cheapestTrip: Trip?, _ closestTrip: Trip?,
                                   _ date: String?, _ departurePlaceName: String? , _ destinationPlaceName: String?, _ passengersCount: Int,
                                   _ delegate: RideSearchDelegate) -> Void)?
-
+    
+    /// Is triggered when viewController needs to present alert
+    var onAlert: ItemCompletionBlock<String>?
+    
     /// Coordinator
     weak var coordinator: Coordinator?
     
@@ -37,6 +40,8 @@ class RideSearchViewController: UIViewController {
     /// Data provider, that contains tableView delegate and dataSource
     lazy var tableViewDataProvider = makeTableViewDataProvider()
         
+    lazy var dateTimeFormatter = makeDateTimeFormatter()
+
     ///Current user region in which to search locations
     var region = MKCoordinateRegion()
         
@@ -54,8 +59,11 @@ class RideSearchViewController: UIViewController {
     
     ///The constraints to configure animations
     var destinationContentSubviewTopConstraint = NSLayoutConstraint()
+    
     var destinationTFTopConstraint = NSLayoutConstraint()
+    
     var tableViewSubviewTopConstraint = NSLayoutConstraint()
+    
     
     ///The type we work with (departure or destination) to configure methods and data transferring between ViewControllers
     var placeType: PlaceType?
@@ -65,6 +73,7 @@ class RideSearchViewController: UIViewController {
     
     ///Properties that displays selection state for textField to prevent multiple animations
     var departureTextFieldTapped = false
+    
     var destinationTextFieldTapped = false
     
     ///Property for configuring navigationController isHidden state due to gestureRecognizer
@@ -449,7 +458,7 @@ class RideSearchViewController: UIViewController {
             searchTableView.bottomAnchor.constraint(equalTo: tableViewSubview.bottomAnchor)
         ])
         searchTableView.separatorStyle = .none
-        
+   
     }
     
 }
@@ -475,6 +484,10 @@ private extension RideSearchViewController {
         let factory = MainConstraintFactory(view: view, destinationContentSubview: destinationContentSubview,
                                         destinationTextField: destinationTextField, tableViewSubview: tableViewSubview)
         return factory
+    }
+    
+    func makeDateTimeFormatter() -> DateTimeFormatter {
+        return MainDateTimeFormatter()
     }
 }
 

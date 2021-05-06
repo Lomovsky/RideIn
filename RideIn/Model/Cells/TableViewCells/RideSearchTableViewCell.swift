@@ -8,10 +8,6 @@
 import UIKit
 
 class RideSearchTableViewCell: UITableViewCell {
-
-    class var reuseIdentifier: String {
-        return "RideSearchCell"
-    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: RideSearchTableViewCell.reuseIdentifier)
@@ -20,6 +16,14 @@ class RideSearchTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+}
 
+extension RideSearchTableViewCell: DetailedCellModel {
+    func update(with object1: String?, object2: String? = nil) {
+        self.textLabel?.font = .boldSystemFont(ofSize: 20)
+        self.textLabel?.numberOfLines = 0
+        self.textLabel?.textColor = .darkGray
+        self.textLabel?.text = object1
+        self.detailTextLabel?.text = object2
+    }
 }

@@ -1,125 +1,13 @@
 //
-//  DataManagers.swift
+//  MainMapKitDataManager.swift
 //  RideIn
 //
-//  Created by Алекс Ломовской on 30.04.2021.
+//  Created by Алекс Ломовской on 05.05.2021.
 //
 
 import UIKit
 import MapKit
 
-//MARK: - MainTripsDataManager
-final class MainTripsDataManager: TripsDataManager {
-    
-    /// This works with URLFactory and network manager to download data with the given coordinates and additional optional data
-    /// - Parameters:
-    ///   - departureCoordinates: departureCoordinates
-    ///   - destinationCoordinates: destinationCoordinates
-    ///   - seats: number of seats
-    ///   - date: departure date
-    ///   - completion: completion handler to process the data
-    func downloadDataWith(departureCoordinates: String, destinationCoordinates: String, seats: String, date: String?, completion: @escaping (Result<[Trip], Error>) -> Void)  {
-        let urlFactory: URLFactory = MainURLFactory()
-        let networkManager: NetworkManager = MainNetworkManager()
-        urlFactory.setCoordinates(coordinates: departureCoordinates, place: .department)
-        urlFactory.setCoordinates(coordinates: destinationCoordinates, place: .destination)
-        urlFactory.setSeats(seats: seats)
-        if date != nil { urlFactory.setDate(date: date!) }
-        
-        guard let url = urlFactory.makeURL() else { let error = NetworkManagerErrors.unableToMakeURL; completion(.failure(error)); return }
-        networkManager.downloadData(withURL: url, decodeBy: Trips.self) { (result) in
-            switch result {
-            case .failure(let error): completion(.failure(error))
-                
-            case .success(let decodedData): completion(.success(decodedData.trips))
-            }
-        }
-    }
-    
-    /// This method is responsible for preparing trips array to be presented on TripsVC
-    /// - Parameters:
-    ///   - trips: unsorted trips array
-    ///   - userLocation: users current location or the location the user set on mapView
-    ///   - completion: completionHandler to work with prepared data
-    /// - Throws: if there will be zero trips in array (e.g. no trips available for some city ), the method will throw an error, which we can use to display warning etc.
-    func prepareData(trips: [Trip], userLocation: CLLocation, completion: @escaping (_ unsortedTrips: [Trip], _ cheapToTop: [Trip], _ cheapToBottom: [Trip], _ cheapestTrip: Trip?, _ closestTrip: Trip?) -> Void) throws {
-        guard !(trips.isEmpty) else { let error = NetworkManagerErrors.noTrips; throw error }
-        let distanceCalculator: DistanceCalculator = MainDistanceCalculator()
-        
-        let unsortedTrips = trips
-        let cheapToBottom = trips.sorted(by: { Float($0.price.amount) ?? 0 > Float($1.price.amount) ?? 0  })
-        let cheapToTop = trips.sorted(by: { Float($0.price.amount) ?? 0 < Float($1.price.amount) ?? 0  })
-        let cheapestTrip = cheapToTop.first
-        let closestTrip = trips.sorted(by: { (trip1, trip2) -> Bool in
-            
-            let trip1Coordinates = CLLocation(latitude: trip1.waypoints.first!.place.latitude, longitude: trip1.waypoints.first!.place.longitude)
-            let trip2Coordinates = CLLocation(latitude: trip2.waypoints.first!.place.latitude, longitude: trip2.waypoints.first!.place.longitude)
-            let distance1 = distanceCalculator.getDistanceBetween(userLocation: userLocation, departurePoint: trip1Coordinates)
-            let distance2 = distanceCalculator.getDistanceBetween(userLocation: userLocation, departurePoint: trip2Coordinates)
-            
-            return distanceCalculator.compareDistances(first: distance1, second: distance2)
-        }).first
-        
-        completion(unsortedTrips, cheapToTop, cheapToBottom, cheapestTrip, closestTrip)
-    }
-    
-    deinit {
-        Log.i("deallocating \(self)")
-    }
-}
-
-//MARK:- MainMapKitPlacesSearchManager
-struct MainMapKitPlacesSearchManager: MapKitPlacesSearchManager {
-    
-    /// This method is responsible for searching for locations&places by user request
-    /// - Parameters:
-    ///   - keyWord: the place name user types
-    ///   - region: region in which to search (commonly mapKit region)
-    ///   - completion: completion handler to work with data that the method returns
-    static func searchForPlace(with keyWord: String?, inRegion region: MKCoordinateRegion,
-                               completion: @escaping (_ matchingItems: [MKMapItem], _ error: Error?) -> Void) {
-        guard let text = keyWord, text != "" else { return }
-        let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = text
-        request.region = region
-        request.resultTypes = .address
-        let search = MKLocalSearch(request: request)
-        search.start { response, error in
-            guard let response = response else { return }
-            completion(response.mapItems, error)
-        }
-    }
-    
-    /// This method is responsible for parsing address to more detailed and user-friendly style
-    /// - Parameter selectedItem: the placemark which data will be precessed
-    /// - Returns: string address line
-    static func parseAddress(selectedItem: MKPlacemark) -> String {
-        // put a space between "4" and "Melrose Place"
-        let firstSpace = (selectedItem.subThoroughfare != nil && selectedItem.thoroughfare != nil) ? " " : ""
-        // put a comma between street and city/state
-        let comma = (selectedItem.subThoroughfare != nil || selectedItem.thoroughfare != nil) && (selectedItem.subAdministrativeArea != nil || selectedItem.administrativeArea != nil) ? ", " : ""
-        // put a space between "Washington" and "DC"
-        let secondSpace = (selectedItem.subAdministrativeArea != nil && selectedItem.administrativeArea != nil) ? " " : ""
-        let addressLine = String(
-            format:"%@%@%@%@%@%@%@",
-            // street number
-            selectedItem.subThoroughfare ?? "",
-            firstSpace,
-            // street name
-            selectedItem.thoroughfare ?? "",
-            comma,
-            // city
-            selectedItem.locality ?? "",
-            secondSpace,
-            // state
-            selectedItem.administrativeArea ?? ""
-        )
-        return addressLine
-    }
-    
-}
-
-//MARK:- MainMapKitDataManager
 final class MainMapKitDataManager: MapKitDataManager {
     
     weak var parentDataProvider: MapKitDataProvider?

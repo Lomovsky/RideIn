@@ -95,5 +95,3 @@ final class Router: Routable {
         rootController.popToRootViewController(animated: animated)
     }
 }
-
-

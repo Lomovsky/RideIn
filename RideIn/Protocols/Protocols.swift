@@ -43,6 +43,7 @@ protocol DistanceCalculator {
 
 protocol DateTimeFormatter {
     func getDateTime(format: DateFormat, from trip: Trip?, for placeType: PlaceType) -> String
+    func getDateFrom(datePicker: UIDatePicker) -> String
 }
 
 protocol ConstraintFactory {
@@ -181,4 +182,19 @@ protocol Routable: Presentable {
     func popToRootModule(animated: Bool)
 }
 
+protocol DetailedCellModel {
+    associatedtype T
+    
+    func update(with object1: T?, object2: T?)
+}
+
+protocol ReusableView: AnyObject {
+    static var defaultReuseIdentifier: String { get }
+}
+
+extension ReusableView where Self: UIView {
+    static var defaultReuseIdentifier: String {
+        return NSStringFromClass(self)
+    }
+}
 

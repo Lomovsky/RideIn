@@ -7,23 +7,7 @@
 
 import UIKit
 
-class TripCollectionViewCell: UICollectionViewCell {
-    
-    class var recommendationsReuseIdentifier: String {
-        return "recommendationsCollectionViewCell"
-    }
-    
-    class var allTripsReuseIdentifier: String {
-        return "allTripsCell"
-    }
-    
-    class var cheapToTopReuseIdentifier: String {
-        return "cheapToTopCell"
-    }
-    
-    class var cheapToBottomReuseIdentifier: String {
-        return "cheapToBottomCell"
-    }
+class TripCollectionViewCell: UICollectionViewCell, ReusableView {
     
     private let backgroundSubview: UIView = {
         let view = UIView()

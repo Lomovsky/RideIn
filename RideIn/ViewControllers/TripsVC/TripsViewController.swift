@@ -53,8 +53,7 @@ final class TripsViewController: UIViewController {
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame:.init(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.register(TripCollectionViewCell.self,
-                    forCellWithReuseIdentifier: TripCollectionViewCell.recommendationsReuseIdentifier)
+        cv.register(TripCollectionViewCell.self)
         return cv
     }()
     
@@ -69,7 +68,7 @@ final class TripsViewController: UIViewController {
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.register(TripCollectionViewCell.self, forCellWithReuseIdentifier: TripCollectionViewCell.allTripsReuseIdentifier)
+        cv.register(TripCollectionViewCell.self)
         return cv
     }()
     
@@ -78,7 +77,7 @@ final class TripsViewController: UIViewController {
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .init(x: 0, y: 178, width: 0, height: 0), collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.register(TripCollectionViewCell.self, forCellWithReuseIdentifier: TripCollectionViewCell.cheapToTopReuseIdentifier)
+        cv.register(TripCollectionViewCell.self)
         return cv
     }()
     
@@ -88,7 +87,7 @@ final class TripsViewController: UIViewController {
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .init(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.register(TripCollectionViewCell.self, forCellWithReuseIdentifier: TripCollectionViewCell.cheapToBottomReuseIdentifier)
+        cv.register(TripCollectionViewCell.self)
         return cv
     }()
     
