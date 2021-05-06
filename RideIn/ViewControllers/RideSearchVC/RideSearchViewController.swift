@@ -18,9 +18,11 @@ class RideSearchViewController: UIViewController {
     var onChoosePassengersCountSelected: ItemCompletionBlock<RideSearchDelegate>?
     
     /// Is triggered when user tap search button
-    var onSearchButtonSelected: ((_ trips: [Trip], _ cheapToTop: [Trip], _ expensiveToTop: [Trip], _ cheapestTrip: Trip?, _ closestTrip: Trip?,
-                                  _ date: String?, _ departurePlaceName: String? , _ destinationPlaceName: String?, _ passengersCount: Int,
-                                  _ delegate: RideSearchDelegate) -> Void)?
+    var onSearchButtonSelected: ((_ trips: [Trip], _ cheapToTop: [Trip],
+                                  _ expensiveToTop: [Trip], _ cheapestTrip: Trip?,
+                                  _ closestTrip: Trip?, _ date: String?,
+                                  _ departurePlaceName: String? , _ destinationPlaceName: String?,
+                                  _ passengersCount: Int, _ delegate: RideSearchDelegate) -> Void)?
     
     /// Is triggered when viewController needs to present alert
     var onAlert: ItemCompletionBlock<String>?
@@ -63,7 +65,6 @@ class RideSearchViewController: UIViewController {
     var destinationTFTopConstraint = NSLayoutConstraint()
     
     var tableViewSubviewTopConstraint = NSLayoutConstraint()
-    
     
     ///The type we work with (departure or destination) to configure methods and data transferring between ViewControllers
     var placeType: PlaceType?

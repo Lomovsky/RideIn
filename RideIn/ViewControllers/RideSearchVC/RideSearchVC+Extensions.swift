@@ -124,17 +124,13 @@ extension RideSearchViewController {
         do {
             try dataManager.prepareData(trips: trips, userLocation: departureCLLocation,
                                         completion: { [unowned self] unsortedTrips, cheapToTop, cheapToBottom, cheapestTrip, closestTrip in
-                                            self.showTripsVCWith(trips: trips,
-                                                                 cheapToTop: cheapToTop,
-                                                                 expensiveToTop: cheapToBottom,
-                                                                 cheapestTrip: cheapestTrip,
+                                            self.showTripsVCWith(trips: trips, cheapToTop: cheapToTop,
+                                                                 expensiveToTop: cheapToBottom, cheapestTrip: cheapestTrip,
                                                                  closestTrip: closestTrip) })
         } catch _ as NSError {
             onAlert?(NSLocalizedString("Alert.noTrips", comment: ""))
             self.configureIndicatorAndButton(indicatorEnabled: false)
-            
         }
-        
     }
     
     /// Method is responsible for presenting TripsVC with given data
@@ -194,7 +190,8 @@ extension RideSearchViewController: UITextFieldDelegate {
             }
             placeType = .destination
             
-        default: break
+        default:
+            break
         }
     }
     

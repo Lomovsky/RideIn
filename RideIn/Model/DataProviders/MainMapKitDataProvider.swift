@@ -46,7 +46,7 @@ final class MainMapKitDataProvider: NSObject, MapKitDataProvider {
         let status = locationManager.authorizationStatus
 
         if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()) {
-            vc.present(vc.locationAlert, animated: true)
+            vc.onAlert?()
             canBeLocated = false
             vc.changeFocusOnUsersLocationButton(toEnabled: canBeLocated)
             return
@@ -67,6 +67,7 @@ final class MainMapKitDataProvider: NSObject, MapKitDataProvider {
             
             let clRegion = CLCircularRegion(center: region.center, radius: 100, identifier: "foo")
             locationManager.startMonitoring(for: clRegion)
+            locationManager.startUpdatingLocation()
         }
     }
     
@@ -86,6 +87,7 @@ final class MainMapKitDataProvider: NSObject, MapKitDataProvider {
         let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
         let region = MKCoordinateRegion(center: location.coordinate, span: span)
         vc.mapView.setRegion(region, animated: true)
+        locationManager.stopUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

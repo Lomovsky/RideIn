@@ -15,16 +15,16 @@ final class MapViewController: UIViewController {
     /// Coordinator
     weak var coordinator: Coordinator?
     
-    /// Triggered when vc is ready to be closed
-    var onFinish: CompletionBlock?
-    
     /// Data provider for search tableView
     lazy var tableViewDataProvider = makeTableViewDataProvider()
     
     /// Data provider for map kit delegate methods
     lazy var mapKitDataProvider = makeMapKitDataProvider()
     
-    lazy var locationAlert = makeLocationAlert()
+    var onAlert: CompletionBlock?
+    
+    /// Triggered when vc is ready to be closed
+    var onFinish: CompletionBlock?
     
     ///The type we work with (departure or destination) to configure methods and data transferring between ViewControllers
     var placeType: PlaceType?
@@ -293,19 +293,5 @@ private extension MapViewController {
         dataProvider.parentVC = self
         dataProvider.setupLocationManager()
         return dataProvider
-    }
-    
-    func makeLocationAlert() -> UIAlertController {
-        let alert = UIAlertController(title: "Ошибка", message: "Необходимо предоставить доступ к геолокации", preferredStyle: .alert)
-        
-        let cancelButton = UIAlertAction(title: "Отменить", style: .cancel) { [unowned self] _ in self.dismiss(animated: true) }
-        let goToSettingsButton = UIAlertAction(title: "Открыть настройки", style: .default) { _ in
-            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
-            guard UIApplication.shared.canOpenURL(settingsUrl) else { return }
-            UIApplication.shared.open(settingsUrl)
-        }
-        alert.addAction(cancelButton)
-        alert.addAction(goToSettingsButton)
-        return alert
     }
 }

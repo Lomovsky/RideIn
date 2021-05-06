@@ -21,6 +21,8 @@
 "Alert.noConnection" = "Нет соединения";
 "Alert.wrongDataFormat" = "Некорректные данные";
 "Alert.noTrips" = "Нет поездок по вашему запросу";
+"Alert.locationService" = "Необходимо предоставить доступ к геолокации";
+"Alert.openSettings" = "Открыть настройки";
 
 // PassengersCountViewController
 "PassengersCountVC.title" = "Подтвердите количество мест для бронирования";

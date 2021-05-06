@@ -56,6 +56,22 @@ protocol HandleMapSearch {
 
 protocol Alertable {
     func makeAlert(title: String?, message: String?, style: UIAlertController.Style)
+    func makeLocationAlert(title: String?, message: String?, style: UIAlertController.Style)
+}
+
+protocol DetailedCellModel {
+    associatedtype T
+    func update(with object1: T?, object2: T?)
+}
+
+protocol ReusableView: AnyObject {
+    static var defaultReuseIdentifier: String { get }
+}
+
+extension ReusableView where Self: UIView {
+    static var defaultReuseIdentifier: String {
+        return NSStringFromClass(self)
+    }
 }
 
 
@@ -159,8 +175,6 @@ protocol Presentable {
     func toPresent() -> UIViewController?
 }
 
-
-//MARK: RoutableProtocol -
 protocol Routable: Presentable {
     func present(_ module: Presentable?)
     func present(_ module: Presentable?, animated: Bool)
@@ -182,19 +196,4 @@ protocol Routable: Presentable {
     func popToRootModule(animated: Bool)
 }
 
-protocol DetailedCellModel {
-    associatedtype T
-    
-    func update(with object1: T?, object2: T?)
-}
-
-protocol ReusableView: AnyObject {
-    static var defaultReuseIdentifier: String { get }
-}
-
-extension ReusableView where Self: UIView {
-    static var defaultReuseIdentifier: String {
-        return NSStringFromClass(self)
-    }
-}
 

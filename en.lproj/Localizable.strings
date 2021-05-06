@@ -21,6 +21,8 @@
 "Alert.noConnection" = "No connection";
 "Alert.wrongDataFormat" = "Wrong data format";
 "Alert.noTrips" = "No trips available";
+"Alert.locationService" = "We need to get access to location service";
+"Alert.openSettings" = "Open settings";
 
 // PassengersCountViewController
 "PassengersCountVC.title" = "Enter the number of passengers";

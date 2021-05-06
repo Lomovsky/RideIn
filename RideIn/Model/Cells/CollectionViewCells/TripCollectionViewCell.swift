@@ -209,6 +209,7 @@ class TripCollectionViewCell: UICollectionViewCell, ReusableView {
             topCircle.widthAnchor.constraint(equalTo: departureTimeLabel.widthAnchor, multiplier: 0.25)
         ])
         topCircle.tintColor = .darkGray
+        topCircle.backgroundColor = .clear
         topCircle.contentMode = .scaleToFill
     }
     
@@ -227,8 +228,8 @@ class TripCollectionViewCell: UICollectionViewCell, ReusableView {
     
     private func setupLine() {
         NSLayoutConstraint.activate([
-            lineView.topAnchor.constraint(equalTo: topCircle.bottomAnchor),
-            lineView.bottomAnchor.constraint(equalTo: bottomCircle.topAnchor),
+            lineView.topAnchor.constraint(equalTo: topCircle.centerYAnchor, constant: 4),
+            lineView.bottomAnchor.constraint(equalTo: bottomCircle.centerYAnchor, constant: -4),
             lineView.centerXAnchor.constraint(equalTo: topCircle.centerXAnchor),
             lineView.widthAnchor.constraint(equalTo: topCircle.widthAnchor, multiplier: 0.3)
         ])
@@ -252,6 +253,7 @@ class TripCollectionViewCell: UICollectionViewCell, ReusableView {
             bottomCircle.widthAnchor.constraint(equalTo: topCircle.widthAnchor)
         ])
         bottomCircle.tintColor = .darkGray
+        bottomCircle.backgroundColor = .clear
         bottomCircle.contentMode = .scaleToFill
 
     }
@@ -272,6 +274,7 @@ class TripCollectionViewCell: UICollectionViewCell, ReusableView {
         NSLayoutConstraint.activate([
             priceLabel.centerYAnchor.constraint(equalTo: departurePlaceLabel.centerYAnchor),
             priceLabel.trailingAnchor.constraint(equalTo: backgroundSubview.trailingAnchor, constant: -25),
+            priceLabel.leadingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 60)
         ])
         priceLabel.text = "150"
         priceLabel.textColor = .darkGray
