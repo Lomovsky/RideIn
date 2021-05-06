@@ -102,7 +102,7 @@ final class PassengersCountViewController: UIViewController {
     }
     
     deinit {
-        print("dealloccation \(self)")
+        Log.i("deallocation \(self)")
     }
 
 }

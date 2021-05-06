@@ -67,6 +67,6 @@ final class RideSearchTableviewDataProvider: NSObject, PlacesSearchTableViewData
     //MARK: heightForRowAt
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let vc = parentVC as? RideSearchViewController else { return 0.0 }
-        return vc.view.frame.height * 0.07
+        return vc.view.frame.height * 0.09
     }
 }

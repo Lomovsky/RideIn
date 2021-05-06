@@ -186,7 +186,7 @@ final class TripsViewController: UIViewController {
     
     private func setupFromLabel() {
         NSLayoutConstraint.activate([
-            fromLabel.topAnchor.constraint(equalTo: contentSubview.topAnchor, constant: 10),
+            fromLabel.centerYAnchor.constraint(equalTo: contentSubview.centerYAnchor),
             fromLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor),
             fromLabel.trailingAnchor.constraint(equalTo: contentSubview.centerXAnchor, constant: -5)
         ])
@@ -220,12 +220,14 @@ final class TripsViewController: UIViewController {
     
     private func setupDetailsLabel() {
         NSLayoutConstraint.activate([
-            detailsLabel.topAnchor.constraint(equalTo: fromLabel.bottomAnchor, constant: 10),
-            detailsLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor)
+            detailsLabel.topAnchor.constraint(equalTo: fromLabel.bottomAnchor, constant: 2),
+            detailsLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor),
+            detailsLabel.bottomAnchor.constraint(equalTo: contentSubview.bottomAnchor, constant: -2)
         ])
         detailsLabel.text = "\(dataProvider.date.capitalized), \(dataProvider.numberOfPassengers)" + " " + NSLocalizedString("Search.lessThanFourPassengers", comment: "")
         detailsLabel.font = .boldSystemFont(ofSize: 10)
         detailsLabel.textColor = .systemGray
+        detailsLabel.sizeToFit()
     }
     
     private func setupRecommendationCollectionView() {

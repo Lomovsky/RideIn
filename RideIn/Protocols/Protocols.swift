@@ -140,6 +140,7 @@ protocol MapKitDataProvider: MKMapViewDelegate, CLLocationManagerDelegate {
     var canBeLocated: Bool { get }
 }
 
+
 //MARK:- CoordinatorProtocol
 protocol Coordinator: AnyObject {
     var childCoordinators: [Coordinator] { get set }
@@ -169,6 +170,7 @@ extension Coordinator {
         }
     }
 }
+
 
 //MARK:- Router
 protocol Presentable {

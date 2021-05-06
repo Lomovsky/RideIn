@@ -35,6 +35,6 @@ final public class ConnectionManager: ReachabilityCheckable {
     }
     
     deinit {
-        print("Deallocating \(self)")
+        Log.i("deallocating \(self)")
     }
 }

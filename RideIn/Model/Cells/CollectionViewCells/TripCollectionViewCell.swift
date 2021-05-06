@@ -184,7 +184,7 @@ class TripCollectionViewCell: UICollectionViewCell, ReusableView {
             filterTypeLabel.centerXAnchor.constraint(equalTo: filterTypeSubview.centerXAnchor),
             filterTypeLabel.centerYAnchor.constraint(equalTo: filterTypeSubview.centerYAnchor)
         ])
-        filterTypeLabel.backgroundColor = .lightBlue
+        filterTypeLabel.backgroundColor = .clear
         filterTypeLabel.font = .boldSystemFont(ofSize: 15)
         filterTypeLabel.textColor = .white
         filterTypeLabel.text = "Быстрее всего"

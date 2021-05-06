@@ -113,7 +113,6 @@ extension MapViewController {
     /// calls "addAnnotation" method to add a placemark
     /// - Parameter sender: the gesture recognizer
     @objc private func longTap(sender: UIGestureRecognizer){
-        print("long tap")
         if sender.state == .began {
             mapView.removeAnnotations(mapView.annotations)
             let locationInView = sender.location(in: mapView)

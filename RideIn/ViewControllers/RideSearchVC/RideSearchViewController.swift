@@ -201,6 +201,11 @@ class RideSearchViewController: UIViewController {
         view.backgroundColor = .white
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        configureSubviews()
+    }
+    
     private func setupNavigationController() {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.visibleViewController?.title = NSLocalizedString("Search.title", comment: "")
@@ -377,7 +382,6 @@ class RideSearchViewController: UIViewController {
         searchButton.setTitle(NSLocalizedString("Search.searchButton", comment: ""), for: .normal)
         searchButton.isHidden = true
         searchButton.backgroundColor = .lightBlue
-        searchButton.layer.cornerRadius = 25
         searchButton.titleLabel?.font = .boldSystemFont(ofSize: 20)
         searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
     }
@@ -460,6 +464,10 @@ class RideSearchViewController: UIViewController {
         ])
         searchTableView.separatorStyle = .none
    
+    }
+    
+    private func configureSubviews() {
+        searchButton.layer.cornerRadius = searchButton.frame.height / 2
     }
     
 }

@@ -8,6 +8,7 @@
 import UIKit
 import MapKit
 
+//MARK:- MainMapKitPlacesSearchManager
 struct MainMapKitPlacesSearchManager: MapKitPlacesSearchManager {
     
     /// This method is responsible for searching for locations&places by user request

@@ -8,6 +8,9 @@
 import UIKit
 import MapKit
 
+
+final class LocationManager: CLLocationManager {}
+
 final class MainMapKitDataProvider: NSObject, MapKitDataProvider {
     
     //MARK: Declarations -
@@ -91,11 +94,11 @@ final class MainMapKitDataProvider: NSObject, MapKitDataProvider {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("error is \(error)")
+        Log.e("Error here")
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard annotation is MKPointAnnotation else { print("no mkpointannotaions"); return nil }
+        guard annotation is MKPointAnnotation else { Log.w("no mkpointannotaions"); return nil }
         let reuseId = "pin"
         var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
         
@@ -108,7 +111,6 @@ final class MainMapKitDataProvider: NSObject, MapKitDataProvider {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        print("tapped on pin ")
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {

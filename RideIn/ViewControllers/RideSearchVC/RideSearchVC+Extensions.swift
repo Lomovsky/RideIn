@@ -95,13 +95,16 @@ extension RideSearchViewController {
     func setPassengersCountWithDeclension() {
         switch passengerDeclension {
         case .one:
-            passengersButton.setTitle("\(passengersCount)" + " " + NSLocalizedString("Search.onePassenger", comment: ""), for: .normal)
+            passengersButton.setTitle("\(passengersCount)" + " " + NSLocalizedString("Search.onePassenger", comment: ""),
+                                      for: .normal)
             
         case .two:
-            passengersButton.setTitle("\(passengersCount)" + " " + NSLocalizedString("Search.lessThanFourPassengers", comment: ""), for: .normal)
+            passengersButton.setTitle("\(passengersCount)" + " " + NSLocalizedString("Search.lessThanFourPassengers", comment: ""),
+                                      for: .normal)
             
         default:
-            passengersButton.setTitle("\(passengersCount)" + " " + NSLocalizedString("Search.morePassengers", comment: ""), for: .normal)
+            passengersButton.setTitle("\(passengersCount)" + " " + NSLocalizedString("Search.morePassengers", comment: ""),
+                                      for: .normal)
         }
     }
     
@@ -112,7 +115,7 @@ extension RideSearchViewController {
         timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { [unowned self] _ in
             MainMapKitPlacesSearchManager.searchForPlace(with: word, inRegion: self.mapView.region) { items, error in
                 guard error == nil else { return }
-                tableViewDataProvider.matchingItems = items
+                tableViewDataProvider.matchingItems = items.filter { $0.placemark.countryCode == "UA" }
                 self.searchTableView.reloadData()
             }
         })
@@ -384,8 +387,6 @@ extension RideSearchViewController {
             setUIElementsHidden(to: false)
             departureContentSubview.isHidden = false
             destinationBackButton.isHidden = true
-            print(destinationTextField.frame)
-            
             
         default:
             break

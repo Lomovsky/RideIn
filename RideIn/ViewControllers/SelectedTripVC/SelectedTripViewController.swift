@@ -349,6 +349,6 @@ final class SelectedTripViewController: UIViewController {
     }
     
     deinit {
-        print("deallocating \(self)")
+        Log.i("deallocating \(self)")
     }
 }

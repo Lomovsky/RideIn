@@ -8,6 +8,7 @@
 import UIKit
 import MapKit
 
+//MARK:- MainMapKitDataManager
 final class MainMapKitDataManager: MapKitDataManager {
     
     weak var parentDataProvider: MapKitDataProvider?
@@ -46,12 +47,12 @@ final class MainMapKitDataManager: MapKitDataManager {
                     let firstLocation = placemarks?[0]
                     completionHandler(firstLocation)
                 } else {
-                    print("An error occurred during geocoding.")
+                    Log.e("An error occurred during geocoding.")
                     completionHandler(nil)
                 }
             })
         } else {
-            print("No location was available.")
+            Log.e("No location was available.")
             completionHandler(nil)
         }
     }
@@ -69,7 +70,7 @@ final class MainMapKitDataManager: MapKitDataManager {
         let directions = MKDirections(request: request)
         
         directions.calculate { [unowned self] response, error in
-            guard let unwrappedResponse = response else { print("error rotes"); return }
+            guard let unwrappedResponse = response else { Log.e("error rotes"); return }
             guard let vc = parentDataProvider?.parentVC as? MapViewController else { return }
             if let route = unwrappedResponse.routes.first {
                 vc.mapView.addOverlay(route.polyline)

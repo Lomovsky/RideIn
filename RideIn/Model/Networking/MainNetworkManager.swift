@@ -26,7 +26,7 @@ struct MainNetworkManager: NetworkManager {
                     completionHandler(.failure(error))
                 } else {
                     guard let JSONData = response.data, let JSONResponse = response.response else { return }
-                    print(JSONResponse)
+                    Log.v(JSONResponse)
                     guard JSONResponse.statusCode == 200 else { let error = NetworkManagerErrors.badRequest; completionHandler(.failure(error)); return }
                     
                     do {

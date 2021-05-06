@@ -8,6 +8,7 @@
 import UIKit
 import MapKit
 
+//MARK:- MainTripsDataManager
 final class MainTripsDataManager: TripsDataManager {
     
     /// This works with URLFactory and network manager to download data with the given coordinates and additional optional data
