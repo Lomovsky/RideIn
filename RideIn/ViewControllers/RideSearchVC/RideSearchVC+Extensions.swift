@@ -144,9 +144,11 @@ extension RideSearchViewController {
     ///   - cheapestTrip: the cheapest trip
     ///   - closestTrip: the trip whose departure point is the closest to the point that user has selected
     private func showTripsVCWith(trips: [Trip], cheapToTop: [Trip], expensiveToTop: [Trip], cheapestTrip: Trip?, closestTrip: Trip?) {
-        onSearchButtonSelected?(trips, cheapToTop, expensiveToTop, cheapestTrip,
-                                closestTrip, date, departureTextField.text,
-                                destinationTextField.text, passengersCount, self)
+        let formattedData = PreparedTripsDataModelFromSearchVC(unsortedTrips: trips, cheapToTop: cheapToTop, expensiveToTop: expensiveToTop,
+                                                   closestTrip: closestTrip, cheapestTrip: cheapestTrip, date: date,
+                                                   departurePlaceName: departureTextField.text, destinationPlaceName: destinationTextField.text,
+                                                   passengersCount: passengersCount, delegate: self)
+        onSearchButtonSelected?(formattedData)
         configureIndicatorAndButton(indicatorEnabled: false)
     }
 }
@@ -358,11 +360,16 @@ extension RideSearchViewController {
         switch textField {
         case departureTextField:
             departureTextFieldTapped = false
+            tableViewSubviewTopConstraint.isActive = false
+            tableViewSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .tableViewSubview, tableSubviewTopAnchor: view)
+            
             UIView.animate(withDuration: 0.3) {
                 self.navigationController?.setNavigationBarHidden(false, animated: true)
                 self.tableViewSubview.alpha = 0.0
                 self.view.layoutIfNeeded()
             }
+            
+            tableViewSubviewTopConstraint.isActive = true
             setUIElementsHidden(to: false)
             departureBackButton.isHidden = true
             destinationContentSubview.isHidden = false
@@ -372,10 +379,13 @@ extension RideSearchViewController {
             view.setNeedsLayout()
             destinationContentSubviewTopConstraint.isActive = false
             destinationTFTopConstraint.isActive = false
+            tableViewSubviewTopConstraint.isActive = false
+            tableViewSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .tableViewSubview, tableSubviewTopAnchor: view)
             
             destinationContentSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .toContentSubview, tableSubviewTopAnchor: destinationContentSubview)
             destinationTFTopConstraint = constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .toTextField, tableSubviewTopAnchor: destinationContentSubview)
             
+            tableViewSubviewTopConstraint.isActive = true
             destinationContentSubviewTopConstraint.isActive = true
             destinationTFTopConstraint.isActive = true
             

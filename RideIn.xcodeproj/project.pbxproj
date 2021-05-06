@@ -50,6 +50,7 @@
 		C0AB81C52644153900E9030A /* ConstraintFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AB81C42644153900E9030A /* ConstraintFactory.swift */; };
 		C0AB81C8264415C900E9030A /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AB81C7264415C900E9030A /* DateTimeFormatter.swift */; };
 		C0AB81CA2644161200E9030A /* DistanceCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AB81C92644161200E9030A /* DistanceCalculator.swift */; };
+		C0B8C964264438F1006D1E4D /* PreparedDataDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B8C963264438F1006D1E4D /* PreparedDataDataModels.swift */; };
 		C0BEDBF62628678B009B3062 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BEDBF52628678B009B3062 /* DataModel.swift */; };
 		C0BEDBFB26286FB5009B3062 /* TripsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BEDBFA26286FB5009B3062 /* TripsViewController.swift */; };
 		C0C0196326380697001796C2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C0C0196526380697001796C2 /* Localizable.strings */; };
@@ -117,6 +118,7 @@
 		C0AB81C42644153900E9030A /* ConstraintFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintFactory.swift; sourceTree = "<group>"; };
 		C0AB81C7264415C900E9030A /* DateTimeFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeFormatter.swift; sourceTree = "<group>"; };
 		C0AB81C92644161200E9030A /* DistanceCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceCalculator.swift; sourceTree = "<group>"; };
+		C0B8C963264438F1006D1E4D /* PreparedDataDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparedDataDataModels.swift; sourceTree = "<group>"; };
 		C0BEDBF52628678B009B3062 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		C0BEDBFA26286FB5009B3062 /* TripsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsViewController.swift; sourceTree = "<group>"; };
 		C0C0196426380697001796C2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -346,6 +348,7 @@
 				C04C99712642CB43001B3654 /* DataManagers */,
 				C0BEDBF426286779009B3062 /* Networking */,
 				C06513032628126300CF322B /* Cells */,
+				C0B8C962264438BC006D1E4D /* Helpers */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -384,6 +387,14 @@
 				C0AB81C92644161200E9030A /* DistanceCalculator.swift */,
 			);
 			path = DataFormatters;
+			sourceTree = "<group>";
+		};
+		C0B8C962264438BC006D1E4D /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				C0B8C963264438F1006D1E4D /* PreparedDataDataModels.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		C0BEDBF426286779009B3062 /* Networking */ = {
@@ -606,6 +617,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C04C99672642B58A001B3654 /* Router.swift in Sources */,
+				C0B8C964264438F1006D1E4D /* PreparedDataDataModels.swift in Sources */,
 				C04C9ED126258244007C47DC /* MainNetworkManager.swift in Sources */,
 				C04C9EC226257A4E007C47DC /* RideSearchVC+Extensions.swift in Sources */,
 				C0BEDBFB26286FB5009B3062 /* TripsViewController.swift in Sources */,

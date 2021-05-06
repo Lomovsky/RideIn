@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class TripsViewController: UIViewController {
     
     /// DataProvider for tripsCollectionViews
@@ -23,9 +22,7 @@ final class TripsViewController: UIViewController {
     var onFinish: CompletionBlock?
     
     /// Is triggered when user tap the cell
-    var onCellSelected: ((_ trip: Trip, _ date: String, _ passengersCount: Int,
-                          _ departurePlace: String, _ destinationPlace: String,
-                          _ departureTime: String, _ arrivingTime: String, _ price: Float)  -> Void)?
+    var onCellSelected: ItemCompletionBlock<PreparedTripsDataModelFromTripsVC>?
     
     //MARK: UIElements -
     let scrollView = UIScrollView.createDefaultScrollView()

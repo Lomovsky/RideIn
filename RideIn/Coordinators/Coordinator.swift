@@ -31,35 +31,16 @@ final class MainFlowCoordinator: BaseCoordinator {
     
     private weak var navigationController: UINavigationController?
     
+    private var preparedDataFromSearchVC = PreparedTripsDataModelFromSearchVC()
+    
+    private var preparedDataFromTripsVC = PreparedTripsDataModelFromTripsVC()
+    
     private var placeType: PlaceType?
     
     private var delegate: RideSearchDelegate?
     
-    private var departurePlaceName = String()
-    
-    private var destinationPlaceName = String()
-    
-    private var trips = [Trip]()
-    
-    private var cheapTripsToTop = [Trip]()
-    
-    private var cheapTripsToBottom = [Trip]()
-    
-    private var cheapestTrip: Trip?
-    
-    private var closestTrip: Trip?
-    
-    private var numberOfPassengers = Int()
-    
-    private var date = String ()
-    
-    private var departureTime = String()
-    
-    private var arrivingTime = String()
-    
-    private var price = Float()
-    
     private var selectedTrip: Trip?
+    
     
     //MARK: init-
     init(navigationController: UINavigationController) {
@@ -92,23 +73,8 @@ final class MainFlowCoordinator: BaseCoordinator {
             self?.showPassengersCountVC()
         }
         
-        vc.onSearchButtonSelected = { [weak self] trips, cheapToTop, expensiveToTop,
-                                                  cheapestTrip, closestTrip, date, departurePlaceName,
-                                                  destinationPlaceName, passengersCount, delegate  in
-            self?.trips = trips
-            self?.cheapTripsToTop = cheapToTop
-            self?.cheapTripsToBottom = expensiveToTop
-            self?.cheapestTrip = cheapestTrip
-            self?.closestTrip = closestTrip
-            if date != nil {
-                self?.date = MainDateTimeFormatter().getDateTimeFrom(object: date!, format: .dddmmyy)
-            } else {
-                self?.date = NSLocalizedString("Date", comment: "")
-            }
-            self?.departurePlaceName = departurePlaceName!
-            self?.destinationPlaceName = destinationPlaceName!
-            self?.numberOfPassengers = passengersCount
-            self?.delegate = delegate
+        vc.onSearchButtonSelected = { [weak self] preparedData  in
+            self?.preparedDataFromSearchVC = preparedData
             self?.showTripsVC()
         }
         
@@ -132,33 +98,27 @@ final class MainFlowCoordinator: BaseCoordinator {
     private func showTripsVC() {
         let vc = TripsViewController()
         vc.coordinator = self
-        vc.dataProvider.trips = trips
-        vc.dataProvider.cheapTripsToTop = cheapTripsToTop
-        vc.dataProvider.cheapTripsToBottom = cheapTripsToBottom
-        vc.dataProvider.cheapestTrip = cheapestTrip
-        vc.dataProvider.closestTrip = closestTrip
-        vc.dataProvider.date = date
-        vc.dataProvider.departurePlaceName = departurePlaceName
-        vc.dataProvider.destinationPlaceName = destinationPlaceName
-        vc.dataProvider.numberOfPassengers = numberOfPassengers
+        if preparedDataFromSearchVC.date != nil {
+            vc.dataProvider.date = preparedDataFromSearchVC.date!
+        } else {
+            vc.dataProvider.date = NSLocalizedString("Date", comment: "")
+        }
+        vc.dataProvider.trips = preparedDataFromSearchVC.unsortedTrips
+        vc.dataProvider.cheapTripsToTop = preparedDataFromSearchVC.cheapToTop
+        vc.dataProvider.cheapTripsToBottom = preparedDataFromSearchVC.expensiveToTop
+        vc.dataProvider.cheapestTrip = preparedDataFromSearchVC.cheapestTrip
+        vc.dataProvider.closestTrip = preparedDataFromSearchVC.closestTrip
+        vc.dataProvider.departurePlaceName = preparedDataFromSearchVC.departurePlaceName!
+        vc.dataProvider.destinationPlaceName = preparedDataFromSearchVC.destinationPlaceName!
+        vc.dataProvider.numberOfPassengers = preparedDataFromSearchVC.passengersCount
         vc.rideSearchDelegate = delegate
         
         vc.onFinish = { [weak self] in
             self?.router.popModule()
         }
         
-        vc.onCellSelected = { [weak self] trip, date, passengersCount,
-                                          departurePlaceName, destinationPlaceName,
-                                          departureTime, arrivingTime, price in
-            self?.selectedTrip = trip
-            self?.date = date
-            self?.numberOfPassengers = passengersCount
-            self?.departurePlaceName = departurePlaceName
-            self?.destinationPlaceName = destinationPlaceName
-            self?.departureTime = departureTime
-            self?.arrivingTime = arrivingTime
-            self?.price = price
-            self?.numberOfPassengers = passengersCount
+        vc.onCellSelected = { [weak self] preparedData in
+            self?.preparedDataFromTripsVC = preparedData
             self?.showSelectedTripVC()
         }
         
@@ -169,14 +129,14 @@ final class MainFlowCoordinator: BaseCoordinator {
     private func showSelectedTripVC() {
         let vc = SelectedTripViewController()
         vc.coordinator = self
-        vc.date = date
-        vc.arrivingTime = arrivingTime
-        vc.departurePlace = departurePlaceName
-        vc.destinationPlace = destinationPlaceName
-        vc.departureTime = departureTime
-        vc.passengersCount = numberOfPassengers
-        vc.priceForOne = price
-        vc.selectedTrip = selectedTrip
+        vc.date = preparedDataFromTripsVC.date
+        vc.arrivingTime = preparedDataFromTripsVC.arrivingTime
+        vc.departurePlace = preparedDataFromTripsVC.departurePlace
+        vc.destinationPlace = preparedDataFromTripsVC.destinationPlace
+        vc.departureTime = preparedDataFromTripsVC.departureTime
+        vc.passengersCount = preparedDataFromTripsVC.passengersCount
+        vc.priceForOne = preparedDataFromTripsVC.price
+        vc.selectedTrip = preparedDataFromTripsVC.selectedTrip
         
         vc.onMapSelected = { [weak self] placeType, selectedTrip in
             self?.selectedTrip = selectedTrip
