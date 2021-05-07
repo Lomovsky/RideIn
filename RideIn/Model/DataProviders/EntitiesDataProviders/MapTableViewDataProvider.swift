@@ -11,13 +11,13 @@ import MapKit
 final class MapTableViewDataProvider: NSObject, PlacesSearchTableViewDataProvider {
     
     //MARK: Declarations -
+    /// Parent viewController that asks for data
+    weak var parentVC: UIViewController?
+    
     var delegate: MapTableViewDataProviderDelegate?
     
     ///The array of items that match to users search
     var matchingItems = [MKMapItem]()
-    
-    /// Parent viewController that asks for data
-    weak var parentVC: UIViewController?
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return matchingItems.count
@@ -40,7 +40,7 @@ final class MapTableViewDataProvider: NSObject, PlacesSearchTableViewDataProvide
         delegate?.didSelectCell(passedData: place)
         guard let vc = parentVC as? MapViewController else { return }
         vc.mapView.removeAnnotations(vc.mapView.annotations)
-        vc.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: place, zoom: true)
+        vc.controllerDataProvider.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: place, zoom: true)
         vc.dismissTableView()
     }
     

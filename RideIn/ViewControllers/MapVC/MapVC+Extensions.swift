@@ -22,11 +22,11 @@ extension MapViewController: UITextFieldDelegate {
         request.region = mapView.region
         let search = MKLocalSearch(request: request)
         
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
+        controllerDataProvider.timer?.invalidate()
+        controllerDataProvider.timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [unowned self] _ in
             search.start { [unowned self] response, _ in
                 guard let response = response else { proceedButton.isHidden = true; return }
-                self.tableViewDataProvider.matchingItems = response.mapItems
+                self.controllerDataProvider.tableViewDataProvider.matchingItems = response.mapItems
                 self.placesTableView.reloadData()
             }
         })
@@ -61,7 +61,7 @@ extension MapViewController {
     
     /// This method configures longTapGestureRecognizer and adds is to mapView
     func setupLongTapRecognizer() {
-        if gestureRecognizerEnabled {
+        if controllerDataProvider.gestureRecognizerEnabled {
             let longTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap))
             mapView.addGestureRecognizer(longTapGesture)
         }
@@ -93,9 +93,9 @@ extension MapViewController {
     /// - Uses rideSearchDelegate method to set coordinates to RideSearchViewController
     /// - Dismisses MapVC
     @objc final func sendCoordinatesToRideSearchVC() {
-        guard let placemark = mapKitDataProvider.selectedPin else { return }
+        guard let placemark = controllerDataProvider.mapKitDataProvider.selectedPin else { return }
         
-        switch placeType {
+        switch controllerDataProvider.placeType {
         case .department:
             rideSearchDelegate?.setCoordinates(with: placemark, forPlace: .department)
             onFinish?()
@@ -117,14 +117,14 @@ extension MapViewController {
             mapView.removeAnnotations(mapView.annotations)
             let locationInView = sender.location(in: mapView)
             let locationOnMap = mapView.convert(locationInView, toCoordinateFrom: mapView)
-            mapKitDataProvider.mapKitDataManager.addAnnotation(location: locationOnMap)
+            controllerDataProvider.mapKitDataProvider.mapKitDataManager.addAnnotation(location: locationOnMap)
         }
     }
     
     /// This method animates tableView to either hidden or not
     /// - Parameter state: should it be shown or not
     private func animateTableView(toSelected state: Bool) {
-        textFieldActivated = state
+        controllerDataProvider.textFieldActivated = state
         placesTableView.isHidden = !state
         UIView.animate(withDuration: 0.3) {
                 self.placesTableView.alpha = state ? 1.0 : 0.0

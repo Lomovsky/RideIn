@@ -15,35 +15,16 @@ final class MapViewController: UIViewController {
     /// Coordinator
     weak var coordinator: Coordinator?
     
-    /// Data provider for search tableView
-    lazy var tableViewDataProvider = makeTableViewDataProvider()
+    lazy var controllerDataProvider = makeViewControllerDataProvider()
     
-    /// Data provider for map kit delegate methods
-    lazy var mapKitDataProvider = makeMapKitDataProvider()
-    
+    /// Is triggered when alert need to be shown
     var onAlert: CompletionBlock?
     
     /// Triggered when vc is ready to be closed
     var onFinish: CompletionBlock?
+
     
-    ///The type we work with (departure or destination) to configure methods and data transferring between ViewControllers
-    var placeType: PlaceType?
-    
-    ///Timer for limiting search requests
-    var timer: Timer?
-    
-    /// The state of longTapGestureRecognizer to configure the accessibility for user  to make a placemark
-    var gestureRecognizerEnabled = true
-    
-    ///This property says has user tapped on textField or not to prevent multiple animations
-    var textFieldActivated = false
-    
-    ///The property that configures distance subView displaying
-    var distanceSubviewIsHidden = true
-    
-    ///The state of textField represents the accessibility for user to write in textField or activate it by a tap
-    var textFieldActivationObserverEnabled = true
-    
+    /// The RideSearchVC delegate
     weak var rideSearchDelegate: RideSearchDelegate?
     
     //MARK: UIElements-
@@ -84,9 +65,9 @@ final class MapViewController: UIViewController {
     //MARK: viewDidLoad -
     override func viewDidLoad() {
         super.viewDidLoad()
-        mapView.delegate = mapKitDataProvider
-        placesTableView.dataSource = tableViewDataProvider
-        placesTableView.delegate = tableViewDataProvider
+        mapView.delegate = controllerDataProvider.mapKitDataProvider
+        placesTableView.dataSource = controllerDataProvider.tableViewDataProvider
+        placesTableView.delegate = controllerDataProvider.tableViewDataProvider
         
         view.addSubview(navigationSubview)
         view.addSubview(contentSubview)
@@ -170,7 +151,7 @@ final class MapViewController: UIViewController {
         searchTF.font = .boldSystemFont(ofSize: 16)
         searchTF.textColor = .black
         searchTF.textAlignment = .left
-        if textFieldActivationObserverEnabled {
+        if controllerDataProvider.textFieldActivationObserverEnabled {
             searchTF.addTarget(self, action: #selector(textFieldDidChange(_:)),
                                for: .editingChanged)
             searchTF.addTarget(self, action: #selector(textFieldHasBeenActivated), for: .touchDown)
@@ -233,7 +214,7 @@ final class MapViewController: UIViewController {
         ])
         distanceSubview.setBlurBackground()
         distanceSubview.addSubview(distanceLabel)
-        distanceSubview.isHidden = distanceSubviewIsHidden
+        distanceSubview.isHidden = controllerDataProvider.distanceSubviewIsHidden
     }
     
     private func setupDistanceLabel() {
@@ -244,7 +225,7 @@ final class MapViewController: UIViewController {
         distanceLabel.textAlignment = .center
         distanceLabel.textColor = .systemGray
         distanceLabel.font = .boldSystemFont(ofSize: 20)
-        distanceLabel.text = NSLocalizedString("MapVC.distance", comment: "") + ": " + "\(mapKitDataProvider.distance)" + " " + NSLocalizedString("MapVC.km", comment: "")
+        distanceLabel.text = NSLocalizedString("MapVC.distance", comment: "") + ": " + "\(controllerDataProvider.mapKitDataProvider.distance)" + " " + NSLocalizedString("MapVC.km", comment: "")
         
     }
     
@@ -282,16 +263,7 @@ final class MapViewController: UIViewController {
 
 private extension MapViewController {
     
-    func makeTableViewDataProvider() -> PlacesSearchTableViewDataProvider {
-        let dataProvider = MapTableViewDataProvider()
-        dataProvider.parentVC = self
-        return dataProvider
-    }
-    
-    func makeMapKitDataProvider() -> MapKitDataProvider {
-        let dataProvider = MainMapKitDataProvider()
-        dataProvider.parentVC = self
-        dataProvider.setupLocationManager()
-        return dataProvider
+    func makeViewControllerDataProvider() -> MapViewControllerDataProvider {
+        return MainControllerDataProviderFactory.makeProvider(for: self) as! MapViewControllerDataProvider
     }
 }

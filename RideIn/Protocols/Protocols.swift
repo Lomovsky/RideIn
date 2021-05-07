@@ -30,7 +30,8 @@ protocol ReachabilityCheckable {
 }
 
 protocol NetworkManager {
-    func downloadData<DataModel: Codable>(withURL url: URL, decodeBy dataModel: DataModel.Type, completionHandler: @escaping (Result<DataModel, Error>) -> Void)
+    func downloadData<DataModel: Codable>(withURL url: URL, decodeBy dataModel: DataModel.Type,
+                                          completionHandler: @escaping (Result<DataModel, Error>) -> Void)
 }
 
 
@@ -38,7 +39,6 @@ protocol NetworkManager {
 protocol DistanceCalculator {
     func compareDistances(first: CLLocationDistance, second: CLLocationDistance) -> Bool
     func getDistanceBetween(userLocation: CLLocation, departurePoint: CLLocation) -> CLLocationDistance
-
 }
 
 protocol DateTimeFormatter {
@@ -47,7 +47,8 @@ protocol DateTimeFormatter {
 }
 
 protocol ConstraintFactory {
-    func makeConstraint(forAnimationState state: AnimationState, animatingView: AnimatingViews, tableSubviewTopAnchor toView: UIView) -> NSLayoutConstraint
+    func makeConstraint(forAnimationState state: AnimationState, animatingView: AnimatingViews,
+                        tableSubviewTopAnchor toView: UIView) -> NSLayoutConstraint
 }
 
 protocol HandleMapSearch {
@@ -79,10 +80,15 @@ protocol ControllerConfigurable {
     func configure(with object: Object)
 }
 
+protocol ControllerDataProvidersFactory {
+    static func makeProvider(for viewController: UIViewController) -> ControllerDataProvidable?
+}
+//TODO: Factories
 
 //MARK:- DataManagers protocols
 protocol MapKitPlacesSearchManager {
-    static func searchForPlace(with keyWord: String?, inRegion region: MKCoordinateRegion, completion: @escaping ([MKMapItem], _ error: Error?) -> Void)
+    static func searchForPlace(with keyWord: String?, inRegion region: MKCoordinateRegion,
+                               completion: @escaping ([MKMapItem], _ error: Error?) -> Void)
 }
 
 protocol TripsDataManager {
@@ -103,6 +109,13 @@ protocol MapKitDataManager: HandleMapSearch {
 
 
 //MARK: - DataProviders&Delegates
+
+protocol ControllerDataProvidable: AnyObject {
+    var parentController: UIViewController? { get set }
+}
+
+
+
 protocol PlacesSearchTableViewDataProvider: UITableViewDelegate, UITableViewDataSource {
     var matchingItems: [MKMapItem] { get set }
     var parentVC: UIViewController? { get set }
@@ -127,7 +140,6 @@ protocol TripsCollectionViewDataProvider: UICollectionViewDelegate, UICollection
     var closestTrip: Trip? { get set }
     var date: String { get set }
     var numberOfPassengers: Int { get set }
-    var dateTimeFormatter: DateTimeFormatter { get }
 }
 
 protocol MainTripsCollectionViewDataProviderDelegate {
@@ -202,4 +214,5 @@ protocol Routable: Presentable {
     
     func popToRootModule(animated: Bool)
 }
+
 

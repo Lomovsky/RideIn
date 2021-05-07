@@ -73,7 +73,7 @@ final class MainFlowCoordinator: BaseCoordinator {
             self?.showPassengersCountVC()
         }
         
-        vc.onSearchButtonSelected = { [weak self] preparedData  in
+        vc.onDataPrepared = { [weak self] preparedData  in
             self?.preparedDataFromSearchVC = preparedData
             self?.showTripsVC()
         }
@@ -139,7 +139,7 @@ final class MainFlowCoordinator: BaseCoordinator {
         switch controller {
         case is RideSearchViewController:
             vc.coordinator = self
-            vc.placeType = placeType
+            vc.controllerDataProvider.placeType = placeType
             vc.rideSearchDelegate = delegate
             
             vc.onFinish = { [weak self] in
@@ -158,29 +158,29 @@ final class MainFlowCoordinator: BaseCoordinator {
         case is SelectedTripViewController:
             vc.coordinator = self
             vc.searchTF.text = selectedTrip?.waypoints.first?.place.address
-            vc.mapKitDataProvider.parentVC = vc
-            vc.gestureRecognizerEnabled = false
+            vc.controllerDataProvider.mapKitDataProvider.parentVC = vc
+            vc.controllerDataProvider.gestureRecognizerEnabled = false
             vc.mapView.showsTraffic = true
-            vc.mapKitDataProvider.ignoreLocation = true
-            vc.distanceSubviewIsHidden = false
-            vc.textFieldActivationObserverEnabled = false
+            vc.controllerDataProvider.mapKitDataProvider.ignoreLocation = true
+            vc.controllerDataProvider.distanceSubviewIsHidden = false
+            vc.controllerDataProvider.textFieldActivationObserverEnabled = false
             
-            vc.mapKitDataProvider.mapKitDataManager.getLocations(trip: selectedTrip) { [weak self] depPlacemark,
+            vc.controllerDataProvider.mapKitDataProvider.mapKitDataManager.getLocations(trip: selectedTrip) { [weak self] depPlacemark,
                                                                                                    destPlacemark,
                                                                                                    distance in
-                vc.mapKitDataProvider.distance = distance
+                vc.controllerDataProvider.mapKitDataProvider.distance = distance
                 
                 switch self?.placeType {
                 case .department:
-                    vc.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: destPlacemark, zoom: false)
-                    vc.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: depPlacemark, zoom: true)
-                    vc.mapKitDataProvider.mapKitDataManager.showRouteOnMap(pickUpPlacemark: depPlacemark,
+                    vc.controllerDataProvider.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: destPlacemark, zoom: false)
+                    vc.controllerDataProvider.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: depPlacemark, zoom: true)
+                    vc.controllerDataProvider.mapKitDataProvider.mapKitDataManager.showRouteOnMap(pickUpPlacemark: depPlacemark,
                                                                            destinationPlacemark: destPlacemark)
                     
                 case .destination:
-                    vc.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: destPlacemark, zoom: true)
-                    vc.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: depPlacemark, zoom: false)
-                    vc.mapKitDataProvider.mapKitDataManager.showRouteOnMap(pickUpPlacemark: depPlacemark,
+                    vc.controllerDataProvider.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: destPlacemark, zoom: true)
+                    vc.controllerDataProvider.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: depPlacemark, zoom: false)
+                    vc.controllerDataProvider.mapKitDataProvider.mapKitDataManager.showRouteOnMap(pickUpPlacemark: depPlacemark,
                                                                            destinationPlacemark: destPlacemark)
                     
                 default:

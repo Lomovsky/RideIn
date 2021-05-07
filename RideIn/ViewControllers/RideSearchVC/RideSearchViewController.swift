@@ -11,6 +11,12 @@ import MapKit
 class RideSearchViewController: UIViewController {
     
     //MARK: Declarations -
+    
+    /// Coordinator
+    weak var coordinator: Coordinator?
+    
+    lazy var controllerDataProvider = makeViewControllerDataProvider()
+    
     /// Is triggered when user tap on showMap button
     var onMapSelected: ((PlaceType?, RideSearchDelegate) -> Void)?
     
@@ -18,81 +24,20 @@ class RideSearchViewController: UIViewController {
     var onChoosePassengersCountSelected: ItemCompletionBlock<RideSearchDelegate>?
     
     /// Is triggered when user tap search button
-    var onSearchButtonSelected: ItemCompletionBlock<PreparedTripsDataModelFromSearchVC>?
+    var onDataPrepared: ItemCompletionBlock<PreparedTripsDataModelFromSearchVC>?
     
     /// Is triggered when viewController needs to present alert
     var onAlert: ItemCompletionBlock<String>?
     
-    /// Coordinator
-    weak var coordinator: Coordinator?
-    
-    /// Data provider is made for downloading data with user request
-    lazy var dataManager = makeDataManager()
-        
-    /// MapKit data provider  with locationManager to request user location and proceed place search requests
-    lazy var mapKitDataProvider = makeMapKitDataProvider()
-    
-    ///Constraint factory made for simplifying textFields animations
-    lazy var constraintFactory = makeConstrainFactory()
-    
-    /// Data provider, that contains tableView delegate and dataSource
-    lazy var tableViewDataProvider = makeTableViewDataProvider()
-        
-    lazy var dateTimeFormatter = makeDateTimeFormatter()
-
-    ///Current user region in which to search locations
-    var region = MKCoordinateRegion()
-        
-    ///Timer for limiting search requests
-    var timer: Timer?
-    
-    ///Departure point location to be selected on mapVC
-    var departureCLLocation = CLLocation()
-    
-    ///Departure point coordinates to be selected on mapVC
-    var departureCoordinates = String()
-    
-    ///Destination point coordinates to be selected on mapVC
-    var destinationCoordinates = String()
-    
-    ///The constraints to configure animations
+    /// The constraint to configure animations
     var destinationContentSubviewTopConstraint = NSLayoutConstraint()
     
+    /// The constraint to configure animations
     var destinationTFTopConstraint = NSLayoutConstraint()
     
+    /// The constraint to configure animations
     var tableViewSubviewTopConstraint = NSLayoutConstraint()
-    
-    ///The type we work with (departure or destination) to configure methods and data transferring between ViewControllers
-    var placeType: PlaceType?
-    
-    ///The textField which has been selected
-    var chosenTF = UITextField()
-    
-    ///Properties that displays selection state for textField to prevent multiple animations
-    var departureTextFieldTapped = false
-    
-    var destinationTextFieldTapped = false
-    
-    ///Property for configuring navigationController isHidden state due to gestureRecognizer
-    var shouldNavigationControllerBeHiddenAnimated = (hidden: Bool(), animated: Bool())
-    
-    ///Current date or the date user chose to send as request parameter
-    var date: String? = nil
-    
-    ///Number of passengers to send as request parameter
-    var passengersCount = 1
-    
-    ///This property is used for configuring the declension of the word "Пассажир" due to number of passengers
-    var passengerDeclension: Declensions {
-            if passengersCount == 1 {
-                return .one
-            } else if passengersCount <= 4, passengersCount > 1 {
-                return .two
-            } else {
-                return .more
-            }
-    }
-    
+
     //MARK: UIElements -
     let departureContentSubview = UIView.createDefaultView()
     
@@ -143,7 +88,8 @@ class RideSearchViewController: UIViewController {
     let searchTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(RideSearchTableViewCell.self, forCellReuseIdentifier: RideSearchTableViewCell.reuseIdentifier)
+        tableView.register(RideSearchTableViewCell.self,
+                           forCellReuseIdentifier: RideSearchTableViewCell.reuseIdentifier)
         return tableView
     }()
     
@@ -152,9 +98,9 @@ class RideSearchViewController: UIViewController {
     //MARK: viewDidLoad -
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchTableView.dataSource = tableViewDataProvider
-        searchTableView.delegate = tableViewDataProvider
-        tableViewDataProvider.parentVC = self
+        searchTableView.dataSource = controllerDataProvider.tableViewDataProvider
+        searchTableView.delegate = controllerDataProvider.tableViewDataProvider
+        controllerDataProvider.tableViewDataProvider.parentVC = self
         
         view.addSubview(departureContentSubview)
         view.addSubview(destinationContentSubview)
@@ -471,28 +417,8 @@ class RideSearchViewController: UIViewController {
 //MARK:- Factory methods
 private extension RideSearchViewController {
         
-    func makeMapKitDataProvider() -> MapKitDataProvider {
-        let dataProvider = MainMapKitDataProvider()
-        dataProvider.parentVC = self
-        return dataProvider
-    }
-    
-    func makeDataManager() -> TripsDataManager {
-        return MainTripsDataManager()
-    }
-    
-    func makeTableViewDataProvider() -> PlacesSearchTableViewDataProvider {
-        return RideSearchTableviewDataProvider()
-    }
-    
-    func makeConstrainFactory() -> MainConstraintFactory {
-        let factory = MainConstraintFactory(view: view, destinationContentSubview: destinationContentSubview,
-                                        destinationTextField: destinationTextField, tableViewSubview: tableViewSubview)
-        return factory
-    }
-    
-    func makeDateTimeFormatter() -> DateTimeFormatter {
-        return MainDateTimeFormatter()
+    func makeViewControllerDataProvider() -> RideSearchViewControllerDataProvider {
+        return MainControllerDataProviderFactory.makeProvider(for: self) as! RideSearchViewControllerDataProvider
     }
 }
 

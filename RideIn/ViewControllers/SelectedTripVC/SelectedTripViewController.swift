@@ -13,35 +13,14 @@ final class SelectedTripViewController: UIViewController {
     /// Coordinator
     weak var coordinator: Coordinator?
     
+    lazy var controllerDataProvider = makeControllerDataProvider()
+    
     /// Is triggered when user tap the showMapButton
     var onMapSelected: ((_ placeType: PlaceType, _ selectedTrip: Trip? ) -> Void)?
     
     /// Triggered when vc is ready to be closed
     var onFinish: CompletionBlock?
-    
-    /// The trip which data should be presented
-    var selectedTrip: Trip?
-    
-    /// The date of the trip
-    var date = String()
-    
-    /// The departure time of the trip
-    var departureTime = String()
-    
-    /// The departure place name of the trip
-    var departurePlace = String()
-    
-    /// The arriving time of the trip
-    var arrivingTime = String()
-    
-    /// The destination place
-    var destinationPlace = String()
-    
-    /// Number of passengers requested for a trip
-    var passengersCount = Int()
-    
-    ///Price for one passanger
-    var priceForOne = Float()
+
     
     //MARK: UIElements -
     let departurePlaceMapButton = UIButton.createDefaultButton()
@@ -199,7 +178,7 @@ final class SelectedTripViewController: UIViewController {
         ])
         dateLabel.textColor = .darkGray
         dateLabel.font = .boldSystemFont(ofSize: 30)
-        dateLabel.text = date
+        dateLabel.text = controllerDataProvider.date
     }
     
     private func setupDepatureTimeLabel() {
@@ -208,7 +187,7 @@ final class SelectedTripViewController: UIViewController {
             departureTimeLabel.leadingAnchor.constraint(equalTo: topSubview.leadingAnchor, constant: 10),
             departureTimeLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.2)
         ])
-        departureTimeLabel.text = departureTime
+        departureTimeLabel.text = controllerDataProvider.departureTime
         departureTimeLabel.textColor = .darkGray
         departureTimeLabel.font = .boldSystemFont(ofSize: 20)
     }
@@ -230,7 +209,7 @@ final class SelectedTripViewController: UIViewController {
             departurePlaceLabel.leadingAnchor.constraint(equalTo: topCircle.trailingAnchor, constant: 10),
             departurePlaceLabel.trailingAnchor.constraint(equalTo: departurePlaceMapButton.leadingAnchor, constant: -5)
         ])
-        departurePlaceLabel.text = departurePlace
+        departurePlaceLabel.text = controllerDataProvider.departurePlace
         departurePlaceLabel.textColor = .darkGray
         departurePlaceLabel.font = .boldSystemFont(ofSize: 20)
         departurePlaceLabel.numberOfLines = 1
@@ -268,7 +247,7 @@ final class SelectedTripViewController: UIViewController {
             destinationTimeLabel.leadingAnchor.constraint(equalTo: departureTimeLabel.leadingAnchor),
             destinationTimeLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.2)
         ])
-        destinationTimeLabel.text = arrivingTime
+        destinationTimeLabel.text = controllerDataProvider.arrivingTime
         destinationTimeLabel.textColor = .darkGray
         destinationTimeLabel.font = .boldSystemFont(ofSize: 20)
     }
@@ -292,7 +271,7 @@ final class SelectedTripViewController: UIViewController {
             destinationPlaceLabel.trailingAnchor.constraint(equalTo: destinationPlaceMapButton.leadingAnchor, constant: -5)
 
         ])
-        destinationPlaceLabel.text = destinationPlace
+        destinationPlaceLabel.text = controllerDataProvider.destinationPlace
         destinationPlaceLabel.textColor = .darkGray
         destinationPlaceLabel.font = .boldSystemFont(ofSize: 20)
         destinationPlaceLabel.numberOfLines = 1
@@ -332,7 +311,7 @@ final class SelectedTripViewController: UIViewController {
             passengersCountLabel.leadingAnchor.constraint(equalTo: priceSubview.leadingAnchor, constant: 10),
             passengersCountLabel.heightAnchor.constraint(equalTo: priceSubview.heightAnchor, multiplier: 0.4)
         ])
-        passengersCountLabel.text = NSLocalizedString("TotalPrice", comment: "") + " " + "\(passengersCount)" + " " + NSLocalizedString("Search.morePassengers", comment: "")
+        passengersCountLabel.text = NSLocalizedString("TotalPrice", comment: "") + " " + "\(controllerDataProvider.passengersCount)" + " " + NSLocalizedString("Search.morePassengers", comment: "")
         passengersCountLabel.textColor = .systemGray3
         passengersCountLabel.font = .boldSystemFont(ofSize: 15)
     }
@@ -343,12 +322,18 @@ final class SelectedTripViewController: UIViewController {
             priceLabel.trailingAnchor.constraint(equalTo: priceSubview.trailingAnchor, constant: -10),
             priceLabel.heightAnchor.constraint(equalTo: priceSubview.heightAnchor, multiplier: 0.4)
         ])
-        priceLabel.text = "\(priceForOne * Float(passengersCount))"
+        priceLabel.text = "\(controllerDataProvider.priceForOne * Float(controllerDataProvider.passengersCount))"
         priceLabel.textColor = .darkGray
         priceLabel.font = . boldSystemFont(ofSize: 20)
     }
     
     deinit {
         Log.i("deallocating \(self)")
+    }
+}
+
+private extension SelectedTripViewController {
+    func makeControllerDataProvider() -> SelectedTripViewControllerDataProvider {
+        return MainControllerDataProviderFactory.makeProvider(for: self) as! SelectedTripViewControllerDataProvider
     }
 }

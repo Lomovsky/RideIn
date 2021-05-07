@@ -49,15 +49,15 @@ final class RideSearchTableviewDataProvider: NSObject, PlacesSearchTableViewData
         Log.i("\(self) selected")
         
         guard let vc = parentVC as? RideSearchViewController else { return }
-        switch vc.placeType {
+        switch vc.controllerDataProvider.placeType {
         case .department:
             vc.departureTextField.text = placemark.name
-            vc.departureCoordinates = coordinates
+            vc.controllerDataProvider.departureCoordinates = coordinates
             vc.dismissDepartureTextField()
             
         case .destination:
             vc.destinationTextField.text = placemark.name
-            vc.destinationCoordinates = coordinates
+            vc.controllerDataProvider.destinationCoordinates = coordinates
             vc.dismissDestinationTextField()
             
         default: break

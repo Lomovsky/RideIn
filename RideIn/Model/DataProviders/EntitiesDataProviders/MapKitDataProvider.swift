@@ -9,16 +9,20 @@ import UIKit
 import MapKit
 
 
-final class LocationManager: CLLocationManager {}
+final private class LocationManager: CLLocationManager {}
 
 final class MainMapKitDataProvider: NSObject, MapKitDataProvider {
     
     //MARK: Declarations -
-    /// Location manager
-    var locationManager: CLLocationManager = LocationManager()
     
     /// MapKit data manager which is responsible for adding pins and rendering routes
     lazy var mapKitDataManager = makeMapKitDataManager()
+    
+    /// The viewController which calls dataProvider methods
+    weak var parentVC: UIViewController?
+    
+    /// Location manager
+    var locationManager: CLLocationManager = LocationManager()
     
     /// Annotations array to make placemarks
     var annotations = [MKAnnotation]()
@@ -26,17 +30,14 @@ final class MainMapKitDataProvider: NSObject, MapKitDataProvider {
     /// A pin that user added to mapKit to select rather departure or destination place
     var selectedPin: MKPlacemark?
     
-    //The properties user for reusing MapVC for different needs (in this case to use on both RideSearchVC and TripVC)
     /// Ignores user location to prevent focusing on it
     var ignoreLocation = false
     
+    /// This property represents users location availability
     var canBeLocated = Bool()
     
     ///Distance between department and destination points to display on top of MapView
     var distance = Int()
-    
-    /// The viewController which calls dataProvider methods
-    weak var parentVC: UIViewController?
     
     //MARK: methods -
     func setupLocationManager() {

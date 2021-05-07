@@ -19,10 +19,10 @@ extension SelectedTripViewController {
     @objc final func showMapButtonTapped(sender: UIButton) {
         switch sender {
         case departurePlaceMapButton:
-            onMapSelected?(.department, selectedTrip)
+            onMapSelected?(.department, controllerDataProvider.selectedTrip)
             
         case destinationPlaceMapButton:
-            onMapSelected?(.destination, selectedTrip)
+            onMapSelected?(.destination, controllerDataProvider.selectedTrip)
             
         default: break
             
@@ -33,13 +33,13 @@ extension SelectedTripViewController {
 extension SelectedTripViewController: ControllerConfigurable {
     
     func configure(with object: PreparedTripsDataModelFromTripsVC) {
-        date = object.date
-        arrivingTime = object.arrivingTime
-        departurePlace = object.departurePlace
-        destinationPlace = object.destinationPlace
-        departureTime = object.departureTime
-        passengersCount = object.passengersCount
-        priceForOne = object.price
-        selectedTrip = object.selectedTrip
+        controllerDataProvider.date = object.date
+        controllerDataProvider.arrivingTime = object.arrivingTime
+        controllerDataProvider.departurePlace = object.departurePlace
+        controllerDataProvider.destinationPlace = object.destinationPlace
+        controllerDataProvider.departureTime = object.departureTime
+        controllerDataProvider.passengersCount = object.passengersCount
+        controllerDataProvider.priceForOne = object.price
+        controllerDataProvider.selectedTrip = object.selectedTrip
     }
 }

@@ -15,34 +15,9 @@ extension RideSearchViewController {
         onChoosePassengersCountSelected?(self)
     }
     
-    /// - This method asks dataProvider to download data
-    /// - Either presents alertController with some error
-    /// - Or calls prepareDataForTripsVCWith method and passes it ([Trip]) object
+    /// This method is triggered when user tap searchButton. Calls search method from dataProvider
     @objc final func searchButtonTapped() {
-        configureIndicatorAndButton(indicatorEnabled: true)
-        dataManager.downloadDataWith(departureCoordinates: departureCoordinates,
-                                     destinationCoordinates: destinationCoordinates,
-                                     seats: "\(passengersCount)", date: date) { [unowned self] result in
-            switch result {
-            case .failure(let error):
-                switch error {
-                case NetworkManagerErrors.noConnection:
-                    onAlert?(NSLocalizedString("Alert.noConnection", comment: ""))
-                    self.configureIndicatorAndButton(indicatorEnabled: false)
-                    
-                case NetworkManagerErrors.badRequest:
-                    onAlert?(NSLocalizedString("Alert.wrongDataFormat", comment: ""))
-                    self.configureIndicatorAndButton(indicatorEnabled: false)
-                    
-                case NetworkManagerErrors.unableToMakeURL:
-                    Log.e("Unable to make url")
-                    
-                default:
-                    return
-                }
-            case .success(let trips): prepareDataForTripsVCWith(trips: trips)
-            }
-        }
+        controllerDataProvider.search()
     }
     
     /// Is triggered when the user press back button on departureTF
@@ -61,14 +36,14 @@ extension RideSearchViewController {
     
     ///This method calls on map selected
     @objc final func showMapButtonTapped() {
-        onMapSelected?(placeType, self)
-        shouldNavigationControllerBeHiddenAnimated = (true, false)
+        onMapSelected?(controllerDataProvider.placeType, self)
+        controllerDataProvider.shouldNavigationControllerBeHiddenAnimated = (true, false)
     }
     
     /// This method changes date property with the new date from UIDatePicker
     /// - Parameter sender: The sender of type UIDatePicker from which we get new date
     @objc final func changeDateWith(sender: UIDatePicker) {
-        date = dateTimeFormatter.getDateFrom(datePicker: sender)
+        controllerDataProvider.date = MainDateTimeFormatter().getDateFrom(datePicker: sender)
     }
 }
 
@@ -93,64 +68,27 @@ extension RideSearchViewController {
     
     ///This method configures passengersButton with given number of passengers according to declension
     func setPassengersCountWithDeclension() {
-        switch passengerDeclension {
+        switch controllerDataProvider.passengerDeclension {
         case .one:
-            passengersButton.setTitle("\(passengersCount)" + " " + NSLocalizedString("Search.onePassenger", comment: ""),
+            passengersButton.setTitle("\(controllerDataProvider.passengersCount)" + " " + NSLocalizedString("Search.onePassenger", comment: ""),
                                       for: .normal)
             
         case .two:
-            passengersButton.setTitle("\(passengersCount)" + " " + NSLocalizedString("Search.lessThanFourPassengers", comment: ""),
+            passengersButton.setTitle("\(controllerDataProvider.passengersCount)" + " " + NSLocalizedString("Search.lessThanFourPassengers", comment: ""),
                                       for: .normal)
             
         default:
-            passengersButton.setTitle("\(passengersCount)" + " " + NSLocalizedString("Search.morePassengers", comment: ""),
+            passengersButton.setTitle("\(controllerDataProvider.passengersCount)" + " " + NSLocalizedString("Search.morePassengers", comment: ""),
                                       for: .normal)
         }
     }
     
+    //TODO
     /// This method is responsible for searching for places in users region
     /// - Parameter word: the keyword of the search (e.g. city name)
     private func searchPlaces(withWord word: String?) {
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { [unowned self] _ in
-            MainMapKitPlacesSearchManager.searchForPlace(with: word, inRegion: self.mapView.region) { items, error in
-                guard error == nil else { return }
-                tableViewDataProvider.matchingItems = items.filter { $0.placemark.countryCode == "UA" }
-                self.searchTableView.reloadData()
-            }
-        })
-    }
-    
-    /// This method calls dataProviders method prepareData and passes its result to showTripsVCWith method
-    /// - Parameter trips: trips array to pass to dataProvider
-    private func prepareDataForTripsVCWith(trips: [Trip]) {
-        do {
-            try dataManager.prepareData(trips: trips, userLocation: departureCLLocation,
-                                        completion: { [unowned self] unsortedTrips, cheapToTop, cheapToBottom, cheapestTrip, closestTrip in
-                                            self.sendPreparedData(trips: trips, cheapToTop: cheapToTop,
-                                                                  expensiveToTop: cheapToBottom, cheapestTrip: cheapestTrip,
-                                                                  closestTrip: closestTrip) })
-        } catch _ as NSError {
-            onAlert?(NSLocalizedString("Alert.noTrips", comment: ""))
-            self.configureIndicatorAndButton(indicatorEnabled: false)
-        }
-    }
-    
-    /// Method is responsible for presenting TripsVC with given data
-    /// - Parameters:
-    ///   - trips: unsorted base [Trip] array
-    ///   - cheapToTop: trips array sorted by price increasing
-    ///   - expensiveToTop: trips array sorted by price decreasing
-    ///   - cheapestTrip: the cheapest trip
-    ///   - closestTrip: the trip whose departure point is the closest to the point that user has selected
-    private func sendPreparedData(trips: [Trip], cheapToTop: [Trip], expensiveToTop: [Trip], cheapestTrip: Trip?, closestTrip: Trip?) {
-        let formattedData = PreparedTripsDataModelFromSearchVC(unsortedTrips: trips, cheapToTop: cheapToTop, expensiveToTop: expensiveToTop,
-                                                               closestTrip: closestTrip, cheapestTrip: cheapestTrip, date: date,
-                                                               departurePlaceName: departureTextField.text, destinationPlaceName: destinationTextField.text,
-                                                               passengersCount: passengersCount, delegate: self)
-        onSearchButtonSelected?(formattedData)
-        configureIndicatorAndButton(indicatorEnabled: false)
-    }
+        controllerDataProvider.searchPlaces(word: word)
+    }    
 }
 
 
@@ -180,20 +118,20 @@ extension RideSearchViewController: UITextFieldDelegate {
         
         switch textField {
         case departureTextField:
-            chosenTF = departureTextField
-            if !departureTextFieldTapped {
-                departureTextFieldTapped = true
+            controllerDataProvider.chosenTF = departureTextField
+            if !controllerDataProvider.departureTextFieldTapped {
+                controllerDataProvider.departureTextFieldTapped = true
                 animate(textField: departureTextField)
             }
-            placeType = .department
+            controllerDataProvider.placeType = .department
             
         case destinationTextField:
-            chosenTF = destinationTextField
-            if !destinationTextFieldTapped {
-                destinationTextFieldTapped = true
+            controllerDataProvider.chosenTF = destinationTextField
+            if !controllerDataProvider.destinationTextFieldTapped {
+                controllerDataProvider.destinationTextFieldTapped = true
                 animate(textField: destinationTextField)
             }
-            placeType = .destination
+            controllerDataProvider.placeType = .destination
             
         default:
             break
@@ -222,9 +160,9 @@ extension RideSearchViewController: RideSearchDelegate {
     /// - Parameter operation: the operation type of type Operation
     func changePassengersCount(with operation: Operation) {
         switch operation {
-        case .increase: if passengersCount < 10 { passengersCount += 1 }
+        case .increase: if controllerDataProvider.passengersCount < 10 { controllerDataProvider.passengersCount += 1 }
             
-        case .decrease: if passengersCount > 1 { passengersCount -= 1 }
+        case .decrease: if controllerDataProvider.passengersCount > 1 { controllerDataProvider.passengersCount -= 1 }
         }
         setPassengersCountWithDeclension()
     }
@@ -232,7 +170,7 @@ extension RideSearchViewController: RideSearchDelegate {
     /// This method is used for getting passengers count from passengersCount property
     /// - Returns: passengers count of type String
     func getPassengersCount() -> String {
-        return "\(passengersCount)"
+        return "\(controllerDataProvider.passengersCount)"
     }
     
     /// Sets coordinates and place name with a given placemark for specific placeType
@@ -245,13 +183,13 @@ extension RideSearchViewController: RideSearchDelegate {
         
         switch placeType {
         case .department:
-            departureCoordinates = "\(latitude),\(longitude)"
-            departureCLLocation = CLLocation(latitude: latitude, longitude: longitude)
+            controllerDataProvider.departureCoordinates = "\(latitude),\(longitude)"
+            controllerDataProvider.departureCLLocation = CLLocation(latitude: latitude, longitude: longitude)
             departureTextField.text = placemark.name
             dismissDepartureTextField()
             
         case .destination:
-            destinationCoordinates = "\(latitude),\(longitude)"
+            controllerDataProvider.destinationCoordinates = "\(latitude),\(longitude)"
             destinationTextField.text = placemark.name
             dismissDestinationTextField()
         }
@@ -266,28 +204,6 @@ extension RideSearchViewController: RideSearchDelegate {
     }
     
 }
-
-//MARK:- CLLocationManagerDelegate
-extension RideSearchViewController: CLLocationManagerDelegate {
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        guard status == .authorizedWhenInUse else { return }
-        mapKitDataProvider.locationManager.requestLocation()
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.first else { return }
-        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-        let region = MKCoordinateRegion(center: location.coordinate, span: span)
-        mapView.setRegion(region, animated: false)
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        Log.e("LocationManager error is \(error)")
-    }
-    
-}
-
 
 //MARK:- Animations
 extension RideSearchViewController {
@@ -313,7 +229,7 @@ extension RideSearchViewController {
         case departureTextField:
             view.setNeedsLayout()
             tableViewSubviewTopConstraint.isActive = false
-            tableViewSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .tableViewSubview, tableSubviewTopAnchor: departureContentSubview)
+            tableViewSubviewTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .tableViewSubview, tableSubviewTopAnchor: departureContentSubview)
             tableViewSubviewTopConstraint.isActive = true
             
             UIView.animate(withDuration: 0.3) {
@@ -331,9 +247,9 @@ extension RideSearchViewController {
             tableViewSubviewTopConstraint.isActive = false
             destinationTFTopConstraint.isActive = false
             
-            destinationContentSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .toContentSubview, tableSubviewTopAnchor: destinationContentSubview)
-            tableViewSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .tableViewSubview, tableSubviewTopAnchor: departureContentSubview)
-            destinationTFTopConstraint = constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .toTextField, tableSubviewTopAnchor: departureContentSubview)
+            destinationContentSubviewTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .toContentSubview, tableSubviewTopAnchor: destinationContentSubview)
+            tableViewSubviewTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .tableViewSubview, tableSubviewTopAnchor: departureContentSubview)
+            destinationTFTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .toTextField, tableSubviewTopAnchor: departureContentSubview)
             
             destinationContentSubviewTopConstraint.isActive = true
             tableViewSubviewTopConstraint.isActive = true
@@ -359,9 +275,9 @@ extension RideSearchViewController {
     func dismissAnimation(textField: UITextField) {
         switch textField {
         case departureTextField:
-            departureTextFieldTapped = false
+            controllerDataProvider.departureTextFieldTapped = false
             tableViewSubviewTopConstraint.isActive = false
-            tableViewSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .tableViewSubview, tableSubviewTopAnchor: view)
+            tableViewSubviewTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .tableViewSubview, tableSubviewTopAnchor: view)
             
             UIView.animate(withDuration: 0.3) {
                 self.navigationController?.setNavigationBarHidden(false, animated: true)
@@ -375,15 +291,15 @@ extension RideSearchViewController {
             destinationContentSubview.isHidden = false
             
         case destinationTextField:
-            destinationTextFieldTapped = false
+            controllerDataProvider.destinationTextFieldTapped = false
             view.setNeedsLayout()
             destinationContentSubviewTopConstraint.isActive = false
             destinationTFTopConstraint.isActive = false
             tableViewSubviewTopConstraint.isActive = false
-            tableViewSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .tableViewSubview, tableSubviewTopAnchor: view)
+            tableViewSubviewTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .tableViewSubview, tableSubviewTopAnchor: view)
             
-            destinationContentSubviewTopConstraint = constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .toContentSubview, tableSubviewTopAnchor: destinationContentSubview)
-            destinationTFTopConstraint = constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .toTextField, tableSubviewTopAnchor: destinationContentSubview)
+            destinationContentSubviewTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .toContentSubview, tableSubviewTopAnchor: destinationContentSubview)
+            destinationTFTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .toTextField, tableSubviewTopAnchor: destinationContentSubview)
             
             tableViewSubviewTopConstraint.isActive = true
             destinationContentSubviewTopConstraint.isActive = true
@@ -403,8 +319,4 @@ extension RideSearchViewController {
         }
     }
 }
-
-
-
-
 
