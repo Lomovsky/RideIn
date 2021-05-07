@@ -58,7 +58,8 @@ final class MapViewController: UIViewController {
     let placesTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(MapTableViewCell.self, forCellReuseIdentifier: MapTableViewCell.reuseIdentifier)
+        tableView.register(MapTableViewCell.self,
+                           forCellReuseIdentifier: MapTableViewCell.reuseIdentifier)
         return tableView
     }()
     
@@ -203,7 +204,7 @@ final class MapViewController: UIViewController {
         proceedButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.fill
         proceedButton.contentVerticalAlignment = UIControl.ContentVerticalAlignment.fill
         proceedButton.isHidden = true
-        proceedButton.addTarget(self, action: #selector(sendCoordinatesToRideSearchVC), for: .touchUpInside)
+        proceedButton.addTarget(self, action: #selector(proceedButtonTapped), for: .touchUpInside)
     }
     
     private func setupDistanceSubView() {

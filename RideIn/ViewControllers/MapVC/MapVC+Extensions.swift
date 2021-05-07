@@ -17,19 +17,11 @@ extension MapViewController: UITextFieldDelegate {
     /// - Parameter textField: the text field from which calls this method (AKA sender)
     @objc final func textFieldDidChange(_ textField: UITextField) {
         guard let text = textField.text, text != "" else { proceedButton.isHidden = true; return }
-        let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = text
-        request.region = mapView.region
-        let search = MKLocalSearch(request: request)
-        
-        controllerDataProvider.timer?.invalidate()
-        controllerDataProvider.timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { _ in
-            search.start { [unowned self] response, _ in
-                guard let response = response else { proceedButton.isHidden = true; return }
-                self.controllerDataProvider.tableViewDataProvider.matchingItems = response.mapItems
-                self.placesTableView.reloadData()
-            }
-        })
+        MainMapKitPlacesSearchManager.searchForPlace(with: text, inRegion: mapView.region) { [unowned self] items, error in
+            guard error == nil else { self.proceedButton.isHidden = true; return }
+            self.controllerDataProvider.tableViewDataProvider.matchingItems = items
+            self.placesTableView.reloadData()
+        }
         proceedButton.isHidden = false
     }
     
@@ -50,22 +42,8 @@ extension MapViewController: UITextFieldDelegate {
     
 }
 
-//MARK: - HelpingMethods
+//MARK:- Actions&Targets
 extension MapViewController {
-    
-    /// Configures focusOnUserLocationButton .isEnabled property with the given state
-    /// - Parameter enabled: state
-    func changeFocusOnUsersLocationButton(toEnabled enabled: Bool) {
-        focusOnUserLocationButton.isEnabled = enabled
-    }
-    
-    /// This method configures longTapGestureRecognizer and adds is to mapView
-    func setupLongTapRecognizer() {
-        if controllerDataProvider.gestureRecognizerEnabled {
-            let longTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap))
-            mapView.addGestureRecognizer(longTapGesture)
-        }
-    }
     
     /// This method is called when the user press backButton
     @objc final func backButtonTapped() {
@@ -81,18 +59,10 @@ extension MapViewController {
         mapView.setRegion(region, animated: true)
     }
     
-    /// This method is called when tableView is not hidden and user press back button
-    @objc final func dismissTableView() {
-        animateTableView(toSelected: false)
-        searchTF.resignFirstResponder()
-        backButton.removeTarget(self, action: #selector(dismissTableView), for: .touchUpInside)
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-    }
-    
     /// This method is called when the user press "proceedButton"
     /// - Uses rideSearchDelegate method to set coordinates to RideSearchViewController
     /// - Dismisses MapVC
-    @objc final func sendCoordinatesToRideSearchVC() {
+    @objc final func proceedButtonTapped() {
         guard let placemark = controllerDataProvider.mapKitDataProvider.selectedPin else { return }
         
         switch controllerDataProvider.placeType {
@@ -118,6 +88,33 @@ extension MapViewController {
             let locationInView = sender.location(in: mapView)
             let locationOnMap = mapView.convert(locationInView, toCoordinateFrom: mapView)
             controllerDataProvider.mapKitDataProvider.mapKitDataManager.addAnnotation(location: locationOnMap)
+        }
+    }
+    
+    /// This method is called when tableView is not hidden and user press back button
+    @objc final func dismissTableView() {
+        animateTableView(toSelected: false)
+        searchTF.resignFirstResponder()
+        backButton.removeTarget(self, action: #selector(dismissTableView), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+    }
+}
+
+
+//MARK: - HelpingMethods
+extension MapViewController {
+    
+    /// Configures focusOnUserLocationButton .isEnabled property with the given state
+    /// - Parameter enabled: state
+    func changeFocusOnUsersLocationButton(toEnabled enabled: Bool) {
+        focusOnUserLocationButton.isEnabled = enabled
+    }
+    
+    /// This method configures longTapGestureRecognizer and adds is to mapView
+    func setupLongTapRecognizer() {
+        if controllerDataProvider.gestureRecognizerEnabled {
+            let longTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap))
+            mapView.addGestureRecognizer(longTapGesture)
         }
     }
     

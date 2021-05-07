@@ -29,9 +29,11 @@ extension TripsViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         switch scrollView {
-        case pageScrollView: pagesSegmentedControl.selectedSegmentIndex = Int(round(scrollView.contentOffset.x / view.frame.width))
+        case pageScrollView:
+            pagesSegmentedControl.selectedSegmentIndex = Int(round(scrollView.contentOffset.x / view.frame.width))
             
-        default: break
+        default:
+            break
         }
     }
 }

@@ -9,7 +9,7 @@ import XCTest
 @testable import RideIn
 
 class MainURLFactoryTests: XCTestCase {
-
+    
     var sut: MainURLFactory!
     var fakeFromCoordinates: String!
     var fakeToCoordinates: String!
@@ -24,7 +24,7 @@ class MainURLFactoryTests: XCTestCase {
         fakeSeats = "3"
         fakeDate = "2021-01-01T00:00:00"
     }
-
+    
     override func tearDownWithError() throws {
         sut = nil
         fakeFromCoordinates = nil
@@ -33,7 +33,7 @@ class MainURLFactoryTests: XCTestCase {
         fakeDate = nil
         try super.tearDownWithError()
     }
-
+    
     func testMakeUrlWithoutDate() throws {
         // given
         let url: URL?
