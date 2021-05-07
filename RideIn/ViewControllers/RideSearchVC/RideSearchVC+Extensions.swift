@@ -127,9 +127,9 @@ extension RideSearchViewController {
         do {
             try dataManager.prepareData(trips: trips, userLocation: departureCLLocation,
                                         completion: { [unowned self] unsortedTrips, cheapToTop, cheapToBottom, cheapestTrip, closestTrip in
-                                            self.showTripsVCWith(trips: trips, cheapToTop: cheapToTop,
-                                                                 expensiveToTop: cheapToBottom, cheapestTrip: cheapestTrip,
-                                                                 closestTrip: closestTrip) })
+                                            self.sendPreparedData(trips: trips, cheapToTop: cheapToTop,
+                                                                  expensiveToTop: cheapToBottom, cheapestTrip: cheapestTrip,
+                                                                  closestTrip: closestTrip) })
         } catch _ as NSError {
             onAlert?(NSLocalizedString("Alert.noTrips", comment: ""))
             self.configureIndicatorAndButton(indicatorEnabled: false)
@@ -143,11 +143,11 @@ extension RideSearchViewController {
     ///   - expensiveToTop: trips array sorted by price decreasing
     ///   - cheapestTrip: the cheapest trip
     ///   - closestTrip: the trip whose departure point is the closest to the point that user has selected
-    private func showTripsVCWith(trips: [Trip], cheapToTop: [Trip], expensiveToTop: [Trip], cheapestTrip: Trip?, closestTrip: Trip?) {
+    private func sendPreparedData(trips: [Trip], cheapToTop: [Trip], expensiveToTop: [Trip], cheapestTrip: Trip?, closestTrip: Trip?) {
         let formattedData = PreparedTripsDataModelFromSearchVC(unsortedTrips: trips, cheapToTop: cheapToTop, expensiveToTop: expensiveToTop,
-                                                   closestTrip: closestTrip, cheapestTrip: cheapestTrip, date: date,
-                                                   departurePlaceName: departureTextField.text, destinationPlaceName: destinationTextField.text,
-                                                   passengersCount: passengersCount, delegate: self)
+                                                               closestTrip: closestTrip, cheapestTrip: cheapestTrip, date: date,
+                                                               departurePlaceName: departureTextField.text, destinationPlaceName: destinationTextField.text,
+                                                               passengersCount: passengersCount, delegate: self)
         onSearchButtonSelected?(formattedData)
         configureIndicatorAndButton(indicatorEnabled: false)
     }

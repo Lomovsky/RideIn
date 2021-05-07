@@ -8,7 +8,6 @@
 import UIKit
 import MapKit
 
-//MARK: - TODO: доделать самонастройку с методом, передавая объект во viewController
 //MARK: - BaseCoordinator
 class BaseCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
