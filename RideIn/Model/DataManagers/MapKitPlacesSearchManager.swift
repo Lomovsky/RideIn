@@ -22,11 +22,11 @@ struct MainMapKitPlacesSearchManager: MapKitPlacesSearchManager {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = text
         request.region = region
-        request.resultTypes = .address
+        request.resultTypes = [.address, .pointOfInterest]
         let search = MKLocalSearch(request: request)
         search.start { response, error in
             guard let response = response else { return }
-            completion(response.mapItems, error)
+            completion(response.mapItems.filter {$0.placemark.countryCode == "UA"}, error)
         }
     }
     

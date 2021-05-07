@@ -404,7 +404,9 @@ final class RideSearchViewController: UIViewController {
             searchTableView.trailingAnchor.constraint(equalTo: tableViewSubview.trailingAnchor),
             searchTableView.bottomAnchor.constraint(equalTo: tableViewSubview.bottomAnchor)
         ])
-        searchTableView.separatorStyle = .none
+        searchTableView.separatorStyle = .singleLine
+        searchTableView.separatorColor = .darkGray
+        searchTableView.tableFooterView = UIView(frame: .zero)
         
     }
     

@@ -120,7 +120,7 @@ final class RideSearchViewControllerDataProvider: ControllerDataProvidable {
         timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { _ in
             MainMapKitPlacesSearchManager.searchForPlace(with: word, inRegion: vc.mapView.region) { [unowned self] items, error in
                 guard error == nil else { return }
-                self.tableViewDataProvider.matchingItems = items.filter { $0.placemark.countryCode == "UA" }
+                self.tableViewDataProvider.matchingItems = items
                 vc.searchTableView.reloadData()
             }
         })

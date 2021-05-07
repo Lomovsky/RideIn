@@ -20,8 +20,10 @@ class RideSearchTableViewCell: UITableViewCell {
 
 extension RideSearchTableViewCell: DetailedCellModel {
     func update(with object1: String?, object2: String? = nil) {
-        self.textLabel?.font = .boldSystemFont(ofSize: 20)
-        self.textLabel?.numberOfLines = 0
+        self.textLabel?.font = .boldSystemFont(ofSize: 17)
+        self.textLabel?.sizeToFit()
+        self.textLabel?.clipsToBounds = true
+        self.textLabel?.numberOfLines = 3
         self.textLabel?.textColor = .darkGray
         self.textLabel?.text = object1
         self.detailTextLabel?.text = object2
