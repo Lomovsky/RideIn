@@ -8,10 +8,9 @@
 import UIKit
 import MapKit
 
-class RideSearchViewController: UIViewController {
+final class RideSearchViewController: UIViewController {
     
     //MARK: Declarations -
-    
     /// Coordinator
     weak var coordinator: Coordinator?
     

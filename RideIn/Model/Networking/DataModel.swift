@@ -10,7 +10,7 @@ import Foundation
 // MARK: - Trips
 struct Trips: Codable {
     let trips: [Trip]
-
+    
     enum CodingKeys: String, CodingKey {
         case trips
     }
@@ -23,7 +23,7 @@ struct Trip: Codable {
     let price: Price
     let vehicle: Vehicle?
     let distanceInMeters: Int
-
+    
     enum CodingKeys: String, CodingKey {
         case link
         case waypoints
@@ -49,7 +49,7 @@ struct Vehicle: Codable {
 struct Waypoint: Codable {
     let dateTime: String
     let place: Place
-
+    
     enum CodingKeys: String, CodingKey {
         case dateTime = "date_time"
         case place
@@ -63,7 +63,7 @@ struct Place: Codable {
     let latitude: Double
     let longitude: Double
     let countryCode: String
-
+    
     enum CodingKeys: String, CodingKey {
         case city
         case address

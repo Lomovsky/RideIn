@@ -54,8 +54,9 @@ struct PreparedTripsDataModelFromTripsVC {
     var arrivingTime: String
     var price: Float
     
-    init(selectedTrip: Trip? = nil, date: String = "", passengersCount: Int = 0,
-         departurePlace: String = "", destinationPlace: String = "", departureTime: String = "",
+    init(selectedTrip: Trip? = nil, date: String = "",
+         passengersCount: Int = 0, departurePlace: String = "",
+         destinationPlace: String = "", departureTime: String = "",
          arrivingTime: String = "", price: Float = 0.0) {
         self.selectedTrip = selectedTrip
         self.date = date

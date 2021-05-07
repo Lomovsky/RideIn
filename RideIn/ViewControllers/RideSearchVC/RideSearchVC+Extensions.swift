@@ -83,7 +83,6 @@ extension RideSearchViewController {
         }
     }
     
-    //TODO
     /// This method asks dataProvider to search places with the given key word
     /// - Parameter word: the keyword for the search (e.g. city name)
     private func searchPlaces(withWord word: String?) {

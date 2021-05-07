@@ -166,15 +166,15 @@ extension UITableViewCell {
 
 //MARK:- UITableView
 extension UITableView {
-    public func dequeue<T: UITableViewCell>(cellClass: T.Type) -> T? {
-        return dequeueReusableCell(withIdentifier: cellClass.reuseIdentifier) as? T
+    public func dequeue<Object: UITableViewCell>(cellClass: Object.Type) -> Object? {
+        return dequeueReusableCell(withIdentifier: cellClass.reuseIdentifier) as? Object
     }
 
-    public func dequeue<T: UITableViewCell>(cellClass: T.Type, forIndexPath indexPath: IndexPath) -> T {
+    public func dequeue<Object: UITableViewCell>(cellClass: Object.Type, forIndexPath indexPath: IndexPath) -> Object {
         guard let cell = dequeueReusableCell(
-            withIdentifier: cellClass.reuseIdentifier, for: indexPath) as? T else {
+            withIdentifier: cellClass.reuseIdentifier, for: indexPath) as? Object else {
                 fatalError(
-                    "Error: cell with id: \(cellClass.reuseIdentifier) for indexPath: \(indexPath) is not \(T.self)")
+                    "Error: cell with id: \(cellClass.reuseIdentifier) for indexPath: \(indexPath) is not \(Object.self)")
         }
         return cell
     }
