@@ -9,7 +9,7 @@ import XCTest
 @testable import RideIn
 //MARK:- DateTimeFormatter tests
 class DateTimeFormatterTests: XCTestCase {
-
+    
     var sut: DateTimeFormatter!
     var fakeTrip: Trip!
     var fakeWaypont: Waypoint!
@@ -24,10 +24,10 @@ class DateTimeFormatterTests: XCTestCase {
         fakeDestinationWaypont = Waypoint(dateTime: "2020-11-01T23:00:00", place: fakePlace)
         fakePrice = Price(amount: "2222", currency: "UAH")
         fakeTrip = Trip(link: "", waypoints: [fakeWaypont, fakeDestinationWaypont], price: fakePrice, vehicle: nil, distanceInMeters: 2000)
-
+        
         try super.setUpWithError()
     }
-
+    
     override func tearDownWithError() throws {
         sut = nil
         fakeTrip = nil
@@ -36,7 +36,7 @@ class DateTimeFormatterTests: XCTestCase {
         fakePlace = nil
         try super.tearDownWithError()
     }
-
+    
     //MARK:- Get department time test
     func testGetTime() throws {
         // given
@@ -64,7 +64,7 @@ class DateTimeFormatterTests: XCTestCase {
         //then
         XCTAssertNotNil(dateCheck)
     }
-   
+    
     //MARK:- Get destination time test
     func testGetTimeDestination() throws {
         // given
@@ -92,5 +92,5 @@ class DateTimeFormatterTests: XCTestCase {
         //then
         XCTAssertNotNil(dateCheck)
     }
-
+    
 }

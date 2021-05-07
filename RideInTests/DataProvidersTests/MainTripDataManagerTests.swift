@@ -11,17 +11,17 @@ import MapKit
 @testable import RideIn
 
 class MainTripDataManagerTests: XCTestCase {
-
+    
     var sut: MainTripsDataManager!
     
     override func setUpWithError() throws {
         sut = MainTripsDataManager()
     }
-
+    
     override func tearDownWithError() throws {
         sut = nil
     }
-
+    
     //MARK: testDataDownloading-
     func testDataDownloading() throws {
         // given
@@ -46,7 +46,7 @@ class MainTripDataManagerTests: XCTestCase {
         XCTAssertNil(responseError)
         XCTAssertNotNil(responseTrips)
     }
-
+    
     //MARK: testDataPreparing -
     func testDataPreparing() throws {
         //given
@@ -61,7 +61,7 @@ class MainTripDataManagerTests: XCTestCase {
         let fakeDestinationPlace1 = Place(city: "Odessa", address: "", latitude: 46.966541, longitude: 32.000077, countryCode: "")
         let fakeDepartureWaypoint1 = Waypoint(dateTime: "", place: fakeDeparturePlace1)
         let fakeDestinationWaypoint1 = Waypoint(dateTime: "", place: fakeDestinationPlace1)
-
+        
         let fakeDeparturePlace2 = Place(city: "Kherson", address: "", latitude: 46.668396, longitude: 32.646142, countryCode: "")
         let fakeDestinationPlace2 = Place(city: "Odessa", address: "", latitude: 46.966541, longitude: 32.000077, countryCode: "")
         let fakeDepartureWaypoint2 = Waypoint(dateTime: "", place: fakeDeparturePlace2)

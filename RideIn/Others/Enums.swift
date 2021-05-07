@@ -56,7 +56,6 @@ enum AnimatingViews {
     case tableViewSubview
 }
 
-
 /// Request errors
 enum NetworkManagerErrors: Error {
     case badRequest

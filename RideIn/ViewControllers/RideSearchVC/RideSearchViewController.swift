@@ -37,7 +37,7 @@ final class RideSearchViewController: UIViewController {
     
     /// The constraint to configure animations
     var tableViewSubviewTopConstraint = NSLayoutConstraint()
-
+    
     //MARK: UIElements -
     let departureContentSubview = UIView.createDefaultView()
     
@@ -72,7 +72,7 @@ final class RideSearchViewController: UIViewController {
     let searchButton = UIButton.createDefaultButton()
     
     let mapView = MKMapView.createDefaultMapView()
-
+    
     let activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
@@ -93,7 +93,7 @@ final class RideSearchViewController: UIViewController {
         return tableView
     }()
     
-   
+    
     
     //MARK: viewDidLoad -
     override func viewDidLoad() {
@@ -193,12 +193,12 @@ final class RideSearchViewController: UIViewController {
         departureTextField.backgroundColor = .clear
         departureTextField.layer.cornerRadius = 15
         departureTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Search.departure", comment: ""),
-                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
         departureTextField.font = .boldSystemFont(ofSize: 16)
         departureTextField.textColor = .black
         departureTextField.textAlignment = .left
         departureTextField.addTarget(self, action: #selector(textFieldDidChange(_:)),
-                                for: .editingChanged)
+                                     for: .editingChanged)
         departureTextField.addTarget(self, action: #selector(textFieldHasBeenActivated), for: .touchDown)
         departureTextField.delegate = self
         departureTextField.clearButtonMode = .always
@@ -206,9 +206,9 @@ final class RideSearchViewController: UIViewController {
     
     private func setupToContentSubview() {
         destinationContentSubviewTopConstraint = NSLayoutConstraint(item: destinationContentSubview, attribute: .top,
-                                                           relatedBy: .equal, toItem: view.safeAreaLayoutGuide,
-                                                           attribute: .top, multiplier: 1,
-                                                           constant: 45 + (view.frame.height * 0.07))
+                                                                    relatedBy: .equal, toItem: view.safeAreaLayoutGuide,
+                                                                    attribute: .top, multiplier: 1,
+                                                                    constant: 45 + (view.frame.height * 0.07))
         
         NSLayoutConstraint.activate([
             destinationContentSubviewTopConstraint,
@@ -240,9 +240,9 @@ final class RideSearchViewController: UIViewController {
     
     private func setupToTF() {
         destinationTFTopConstraint = NSLayoutConstraint(item: destinationTextField, attribute: .top,
-                                               relatedBy: .equal, toItem: view.safeAreaLayoutGuide,
-                                               attribute: .top, multiplier: 1,
-                                               constant: 45 + (view.frame.height * 0.07))
+                                                        relatedBy: .equal, toItem: view.safeAreaLayoutGuide,
+                                                        attribute: .top, multiplier: 1,
+                                                        constant: 45 + (view.frame.height * 0.07))
         NSLayoutConstraint.activate([
             destinationTFTopConstraint,
             destinationTextField.trailingAnchor.constraint(equalTo: destinationContentSubview.trailingAnchor),
@@ -253,12 +253,12 @@ final class RideSearchViewController: UIViewController {
         destinationTextField.backgroundColor = .clear
         destinationTextField.layer.cornerRadius = 15
         destinationTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Search.destination", comment: ""),
-                                                               attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+                                                                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
         destinationTextField.font = .boldSystemFont(ofSize: 16)
         destinationTextField.textColor = .black
         destinationTextField.textAlignment = .left
         destinationTextField.addTarget(self, action: #selector(textFieldDidChange(_:)),
-                              for: .editingChanged)
+                                       for: .editingChanged)
         destinationTextField.addTarget(self, action: #selector(textFieldHasBeenActivated), for: .touchDown)
         destinationTextField.delegate = self
         destinationTextField.clearButtonMode = .always
@@ -405,7 +405,7 @@ final class RideSearchViewController: UIViewController {
             searchTableView.bottomAnchor.constraint(equalTo: tableViewSubview.bottomAnchor)
         ])
         searchTableView.separatorStyle = .none
-   
+        
     }
     
     private func configureSubviews() {
@@ -416,7 +416,7 @@ final class RideSearchViewController: UIViewController {
 
 //MARK:- Factory methods
 private extension RideSearchViewController {
-        
+    
     func makeViewControllerDataProvider() -> RideSearchViewControllerDataProvider {
         return MainControllerDataProviderFactory.makeProvider(for: self) as! RideSearchViewControllerDataProvider
     }

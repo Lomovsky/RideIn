@@ -94,7 +94,7 @@ final class MainMapKitDataProvider: NSObject, MapKitDataProvider {
     private func retriveCurrentLocation() {
         guard let vc = parentVC as? MapViewController else { return }
         let status = locationManager.authorizationStatus
-
+        
         if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()) {
             vc.onAlert?()
             canBeLocated = false
@@ -110,7 +110,7 @@ final class MainMapKitDataProvider: NSObject, MapKitDataProvider {
         locationManager.requestLocation()
         canBeLocated = true
         vc.changeFocusOnUsersLocationButton(toEnabled: canBeLocated)
-
+        
         if let location = locationManager.location {
             let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
             let region = MKCoordinateRegion(center: location.coordinate, span: span)

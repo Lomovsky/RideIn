@@ -20,7 +20,7 @@ final class SelectedTripViewController: UIViewController {
     
     /// Triggered when vc is ready to be closed
     var onFinish: CompletionBlock?
-
+    
     
     //MARK: UIElements -
     let departurePlaceMapButton = UIButton.createDefaultButton()
@@ -60,13 +60,13 @@ final class SelectedTripViewController: UIViewController {
     private let passengersCountLabel = UILabel.createDefaultLabel()
     
     private let priceLabel = UILabel.createDefaultLabel()
-
+    
     //MARK: viewDidLoad-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(navigationSubview)
         view.addSubview(scrollView)
-
+        
         setupView()
         setupNavigationController()
         setupNavigationSubview()
@@ -123,7 +123,7 @@ final class SelectedTripViewController: UIViewController {
         backButton.contentHorizontalAlignment = .fill
         backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
     }
-   
+    
     private func setupScrollView() {
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: navigationSubview.bottomAnchor),
@@ -167,7 +167,7 @@ final class SelectedTripViewController: UIViewController {
         topSubview.addSubview(destinationPlaceMapButton)
         topSubview.addSubview(bottomCircle)
         topSubview.addSubview(destinationPlaceLabel)
-
+        
     }
     
     private func setupDateLabel() {
@@ -261,7 +261,7 @@ final class SelectedTripViewController: UIViewController {
         ])
         bottomCircle.tintColor = .darkGray
         bottomCircle.contentMode = .scaleToFill
-
+        
     }
     
     private func setupArrivingPlace() {
@@ -269,7 +269,7 @@ final class SelectedTripViewController: UIViewController {
             destinationPlaceLabel.centerYAnchor.constraint(equalTo: bottomCircle.centerYAnchor),
             destinationPlaceLabel.leadingAnchor.constraint(equalTo: bottomCircle.trailingAnchor, constant: 10),
             destinationPlaceLabel.trailingAnchor.constraint(equalTo: destinationPlaceMapButton.leadingAnchor, constant: -5)
-
+            
         ])
         destinationPlaceLabel.text = controllerDataProvider.destinationPlace
         destinationPlaceLabel.textColor = .darkGray
@@ -283,7 +283,7 @@ final class SelectedTripViewController: UIViewController {
             destinationPlaceMapButton.bottomAnchor.constraint(equalTo: destinationTimeLabel.centerYAnchor),
             destinationPlaceMapButton.heightAnchor.constraint(equalTo: destinationTimeLabel.heightAnchor),
             destinationPlaceMapButton.widthAnchor.constraint(equalTo: destinationPlaceMapButton.heightAnchor)
-
+            
         ])
         destinationPlaceMapButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
         destinationPlaceMapButton.tintColor = .systemGray

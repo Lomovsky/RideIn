@@ -15,7 +15,7 @@ extension SelectedTripViewController {
     @objc final func backButtonPressed() {
         onFinish?()
     }
-
+    
     @objc final func showMapButtonTapped(sender: UIButton) {
         switch sender {
         case departurePlaceMapButton:

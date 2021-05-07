@@ -41,7 +41,7 @@ class RideSearchTableViewDataProviderTests: XCTestCase {
         
         let data = [fakeItem1, fakeItem2]
         sut.matchingItems = data
-
+        
     }
     
     override func tearDownWithError() throws {
@@ -102,14 +102,14 @@ class RideSearchTableViewDataProviderTests: XCTestCase {
         // when
         tableView.reloadData()
         sut.tableView(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
-
+        
         wasCellSelected = delegateMock.didSelectCell
         name = delegateMock.name
         coordinates = delegateMock.coordinates
         promise.fulfill()
         
         wait(for: [promise], timeout: 5)
-                    
+        
         
         // then
         XCTAssertTrue(wasCellSelected)

@@ -111,7 +111,7 @@ final class TripsViewController: UIViewController {
         view.addSubview(recommendationsCollectionView)
         view.addSubview(pagesSegmentedControl)
         view.addSubview(pageScrollSubview)
-    
+        
         setupView()
         setupNavigationController()
         setupNavigationSubview()

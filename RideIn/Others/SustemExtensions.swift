@@ -38,7 +38,7 @@ extension UIScrollView {
         
         let xMultiplier = horizontalPage ?? 0 / 100
         let yMultiplier = verticalPage ?? 0 / 100
-                
+        
         let position = CGPoint(x: width * CGFloat(xMultiplier), y: height * CGFloat(yMultiplier))
         
         if animated ?? true {
@@ -148,7 +148,7 @@ extension UICollectionView {
     func register<T: UICollectionViewCell>(_: T.Type) where T: ReusableView {
         register(T.self, forCellWithReuseIdentifier: T.defaultReuseIdentifier)
     }
-
+    
     func dequeueReusableCell<T: UICollectionViewCell>(for indexPath: IndexPath) -> T where T: ReusableView {
         guard let cell = dequeueReusableCell(withReuseIdentifier: T.defaultReuseIdentifier, for: indexPath) as? T else {
             fatalError("Could not dequeue cell with identifier: \(T.defaultReuseIdentifier)")
@@ -169,12 +169,12 @@ extension UITableView {
     public func dequeue<Object: UITableViewCell>(cellClass: Object.Type) -> Object? {
         return dequeueReusableCell(withIdentifier: cellClass.reuseIdentifier) as? Object
     }
-
+    
     public func dequeue<Object: UITableViewCell>(cellClass: Object.Type, forIndexPath indexPath: IndexPath) -> Object {
         guard let cell = dequeueReusableCell(
-            withIdentifier: cellClass.reuseIdentifier, for: indexPath) as? Object else {
-                fatalError(
-                    "Error: cell with id: \(cellClass.reuseIdentifier) for indexPath: \(indexPath) is not \(Object.self)")
+                withIdentifier: cellClass.reuseIdentifier, for: indexPath) as? Object else {
+            fatalError(
+                "Error: cell with id: \(cellClass.reuseIdentifier) for indexPath: \(indexPath) is not \(Object.self)")
         }
         return cell
     }

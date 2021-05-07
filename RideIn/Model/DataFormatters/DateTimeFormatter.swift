@@ -9,7 +9,7 @@ import UIKit
 
 //MARK: - MainDateTimeFormatter
 struct MainDateTimeFormatter: DateTimeFormatter {
-
+    
     func getDateTimeFrom(object: String, format: DateFormat) -> String {
         switch format {
         case .dddmmyy:
@@ -33,7 +33,7 @@ struct MainDateTimeFormatter: DateTimeFormatter {
                 let dateStrings = trip.waypoints.first?.dateTime.components(separatedBy: "T")
                 guard let date = dateStrings?.first else { return "" }
                 return date
-
+                
             case .hhmmss:
                 guard let trip = trip else { return "" }
                 let dateStrings = trip.waypoints.first?.dateTime.components(separatedBy: "T")
@@ -49,7 +49,7 @@ struct MainDateTimeFormatter: DateTimeFormatter {
                 let dateStrings = trip.waypoints.last?.dateTime.components(separatedBy: "T")
                 guard let date = dateStrings?.first else { return "" }
                 return date
-
+                
             case .hhmmss:
                 guard let trip = trip else { return "" }
                 let dateStrings = trip.waypoints.last?.dateTime.components(separatedBy: "T")

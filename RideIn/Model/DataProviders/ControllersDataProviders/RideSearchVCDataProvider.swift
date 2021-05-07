@@ -146,7 +146,7 @@ final class RideSearchViewControllerDataProvider: ControllerDataProvidable {
     }
     
     
-    /// Method is responsible for presenting TripsVC with given data
+    /// Method is responsible for creating formattedData object and passing if to vc via closure
     /// - Parameters:
     ///   - trips: unsorted base [Trip] array
     ///   - cheapToTop: trips array sorted by price increasing
@@ -201,15 +201,3 @@ private extension RideSearchViewControllerDataProvider {
     }
     
 }
-
-
-
-
-
-
-
-
-
-
-
-

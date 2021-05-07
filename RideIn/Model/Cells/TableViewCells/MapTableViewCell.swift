@@ -8,7 +8,7 @@
 import UIKit
 
 class MapTableViewCell: UITableViewCell {
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: MapTableViewCell.reuseIdentifier)
     }

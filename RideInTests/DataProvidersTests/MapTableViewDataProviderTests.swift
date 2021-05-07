@@ -10,11 +10,11 @@ import MapKit
 @testable import RideIn
 
 class MapTableViewDataProviderTests: XCTestCase {
-
+    
     var sut: MapTableViewDataProvider!
     var delegateMock: MapTableViewDataProviderDelegateMock!
     var tableView: UITableView!
-
+    
     override func setUpWithError() throws {
         try super.setUpWithError()
         sut = MapTableViewDataProvider()
@@ -43,14 +43,14 @@ class MapTableViewDataProviderTests: XCTestCase {
         tableView.delegate = sut
         tableView.dataSource = sut
     }
-
+    
     override func tearDownWithError() throws {
         sut = nil
         tableView = nil
         delegateMock = nil
         try super.tearDownWithError()
     }
-
+    
     func testNumberOfRows() throws {
         // given
         let numberOfRows = 2
@@ -77,7 +77,7 @@ class MapTableViewDataProviderTests: XCTestCase {
         XCTAssertEqual(fakeNumberOfSections, numberOfSections)
         
     }
-
+    
     func testCellForRow() throws {
         // given
         let fakeName = "Kherson"

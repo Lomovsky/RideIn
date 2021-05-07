@@ -26,7 +26,7 @@ final class MainTripsDataManager: TripsDataManager {
         urlFactory.setCoordinates(coordinates: destinationCoordinates, place: .destination)
         urlFactory.setSeats(seats: seats)
         if date != nil { urlFactory.setDate(date: date!) }
-
+        
         guard let url = urlFactory.makeURL() else { let error = NetworkManagerErrors.unableToMakeURL; completion(.failure(error)); return }
         networkManager.downloadData(withURL: url, decodeBy: Trips.self) { (result) in
             switch result {

@@ -56,7 +56,7 @@ class unit_NetworkManagerTests: XCTestCase {
     //MARK:- NetworkManager base request
     func testNetworkManagerBaseRequest() throws {
         try XCTSkipUnless(ConnectionManager.isConnectedToNetwork())
-
+        
         // given
         let fakeUrlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
         let url = URL(string: fakeUrlString)!
@@ -82,7 +82,7 @@ class unit_NetworkManagerTests: XCTestCase {
     //MARK:- BadRequest test
     func testNetworkManagerBadRequest() throws {
         try XCTSkipUnless(ConnectionManager.isConnectedToNetwork())
-
+        
         // given
         let fakeUrlString = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=46.668____396,32.646142&to_coordinate=46.966541,32.000077&locale=uk-UA&currency=UAH&key=GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
         let url = URL(string: fakeUrlString)!

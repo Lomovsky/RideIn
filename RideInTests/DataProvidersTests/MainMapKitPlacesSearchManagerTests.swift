@@ -10,13 +10,13 @@ import MapKit
 @testable import RideIn
 
 class MainMapKitPlacesSearchManagerTests: XCTestCase {
-
+    
     var sut: MainMapKitPlacesSearchManager!
     
     override func setUpWithError() throws {
         sut = MainMapKitPlacesSearchManager()
     }
-
+    
     override func tearDownWithError() throws {
         sut = nil
     }
@@ -46,5 +46,5 @@ class MainMapKitPlacesSearchManagerTests: XCTestCase {
         XCTAssertNil(requestError)
         XCTAssertNotNil(items)
     }
-
+    
 }

@@ -31,9 +31,9 @@ struct MainConstraintFactory: ConstraintFactory {
                 
             case .dismissed:
                 return NSLayoutConstraint(item: tableViewSubview, attribute: .top,
-                                                       relatedBy: .equal, toItem: toView,
-                                                       attribute: .centerY, multiplier: 1,
-                                                       constant: 0)
+                                          relatedBy: .equal, toItem: toView,
+                                          attribute: .centerY, multiplier: 1,
+                                          constant: 0)
             }
             
         case.toContentSubview:

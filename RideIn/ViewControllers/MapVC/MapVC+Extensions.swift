@@ -127,7 +127,7 @@ extension MapViewController {
         controllerDataProvider.textFieldActivated = state
         placesTableView.isHidden = !state
         UIView.animate(withDuration: 0.3) {
-                self.placesTableView.alpha = state ? 1.0 : 0.0
+            self.placesTableView.alpha = state ? 1.0 : 0.0
         }
     }
 }

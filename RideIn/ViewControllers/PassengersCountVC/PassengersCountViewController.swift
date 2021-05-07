@@ -104,7 +104,7 @@ final class PassengersCountViewController: UIViewController {
     deinit {
         Log.i("deallocation \(self)")
     }
-
+    
 }
 
 
@@ -123,5 +123,5 @@ extension PassengersCountViewController {
     func setCount() {
         countLabel.text = rideSearchDelegate?.getPassengersCount()
     }
-  
+    
 }

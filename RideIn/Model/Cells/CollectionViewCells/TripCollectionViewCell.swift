@@ -190,7 +190,7 @@ class TripCollectionViewCell: UICollectionViewCell, ReusableView {
         filterTypeLabel.text = "Быстрее всего"
         filterTypeLabel.textAlignment = .center
     }
-
+    
     private func setupDepartureTimeLabel() {
         NSLayoutConstraint.activate([
             departureTimeLabel.topAnchor.constraint(equalTo: filterTypeSubview.bottomAnchor, constant: 20),
@@ -255,7 +255,7 @@ class TripCollectionViewCell: UICollectionViewCell, ReusableView {
         bottomCircle.tintColor = .darkGray
         bottomCircle.backgroundColor = .clear
         bottomCircle.contentMode = .scaleToFill
-
+        
     }
     
     private func setupArrivingPlace() {
@@ -319,8 +319,12 @@ class TripCollectionViewCell: UICollectionViewCell, ReusableView {
         placeholderLabel.textColor = .white
     }
     
-    func configureTheCell(departurePlace: String, arrivingPlace: String, departureTime: String, arrivingTime: String, filterType: String?, price: String) {
-        
+    func configureTheCell(departurePlace: String,
+                          arrivingPlace: String,
+                          departureTime: String,
+                          arrivingTime: String,
+                          filterType: String?,
+                          price: String) {
         priceLabel.text = price
         departurePlaceLabel.text = departurePlace
         arrivingPlaceLabel.text = arrivingPlace

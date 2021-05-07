@@ -13,7 +13,7 @@ final class MapViewControllerDataProvider: ControllerDataProvidable {
     //MARK: Declarations -
     /// The controller that owns this dataProvider
     weak var parentController: UIViewController?
-
+    
     /// Data provider for search tableView
     lazy var tableViewDataProvider = makeTableViewDataProvider()
     
