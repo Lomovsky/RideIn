@@ -109,12 +109,9 @@ protocol MapKitDataManager: HandleMapSearch {
 
 
 //MARK: - DataProviders&Delegates
-
 protocol ControllerDataProvidable: AnyObject {
     var parentController: UIViewController? { get set }
 }
-
-
 
 protocol PlacesSearchTableViewDataProvider: UITableViewDelegate, UITableViewDataSource {
     var matchingItems: [MKMapItem] { get set }

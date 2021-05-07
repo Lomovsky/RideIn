@@ -75,7 +75,9 @@ final class MainMapKitDataManager: MapKitDataManager {
             if let route = unwrappedResponse.routes.first {
                 vc.mapView.addOverlay(route.polyline)
                 vc.mapView.setVisibleMapRect(route.polyline.boundingMapRect,
-                                             edgePadding: UIEdgeInsets.init(top: 80.0, left: 20.0, bottom: 100.0, right: 20.0), animated: true)
+                                             edgePadding: UIEdgeInsets.init(top: 80.0, left: 20.0,
+                                                                            bottom: 100.0, right: 20.0),
+                                             animated: true)
             }
         }
     }

@@ -84,8 +84,8 @@ extension RideSearchViewController {
     }
     
     //TODO
-    /// This method is responsible for searching for places in users region
-    /// - Parameter word: the keyword of the search (e.g. city name)
+    /// This method asks dataProvider to search places with the given key word
+    /// - Parameter word: the keyword for the search (e.g. city name)
     private func searchPlaces(withWord word: String?) {
         controllerDataProvider.searchPlaces(word: word)
     }    
@@ -247,9 +247,17 @@ extension RideSearchViewController {
             tableViewSubviewTopConstraint.isActive = false
             destinationTFTopConstraint.isActive = false
             
-            destinationContentSubviewTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .toContentSubview, tableSubviewTopAnchor: destinationContentSubview)
-            tableViewSubviewTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .tableViewSubview, tableSubviewTopAnchor: departureContentSubview)
-            destinationTFTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .animated, animatingView: .toTextField, tableSubviewTopAnchor: departureContentSubview)
+            destinationContentSubviewTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .animated,
+                                                                                                             animatingView: .toContentSubview,
+                                                                                                             tableSubviewTopAnchor: destinationContentSubview)
+            
+            tableViewSubviewTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .animated,
+                                                                                                    animatingView: .tableViewSubview,
+                                                                                                    tableSubviewTopAnchor: departureContentSubview)
+            
+            destinationTFTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .animated,
+                                                                                                 animatingView: .toTextField,
+                                                                                                 tableSubviewTopAnchor: departureContentSubview)
             
             destinationContentSubviewTopConstraint.isActive = true
             tableViewSubviewTopConstraint.isActive = true
@@ -277,7 +285,9 @@ extension RideSearchViewController {
         case departureTextField:
             controllerDataProvider.departureTextFieldTapped = false
             tableViewSubviewTopConstraint.isActive = false
-            tableViewSubviewTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .tableViewSubview, tableSubviewTopAnchor: view)
+            tableViewSubviewTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .dismissed,
+                                                                                                    animatingView: .tableViewSubview,
+                                                                                                    tableSubviewTopAnchor: view)
             
             UIView.animate(withDuration: 0.3) {
                 self.navigationController?.setNavigationBarHidden(false, animated: true)
@@ -296,10 +306,17 @@ extension RideSearchViewController {
             destinationContentSubviewTopConstraint.isActive = false
             destinationTFTopConstraint.isActive = false
             tableViewSubviewTopConstraint.isActive = false
-            tableViewSubviewTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .tableViewSubview, tableSubviewTopAnchor: view)
+            tableViewSubviewTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .dismissed,
+                                                                                                    animatingView: .tableViewSubview,
+                                                                                                    tableSubviewTopAnchor: view)
             
-            destinationContentSubviewTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .toContentSubview, tableSubviewTopAnchor: destinationContentSubview)
-            destinationTFTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .dismissed, animatingView: .toTextField, tableSubviewTopAnchor: destinationContentSubview)
+            destinationContentSubviewTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .dismissed,
+                                                                                                             animatingView: .toContentSubview,
+                                                                                                             tableSubviewTopAnchor: destinationContentSubview)
+            
+            destinationTFTopConstraint = controllerDataProvider.constraintFactory.makeConstraint(forAnimationState: .dismissed,
+                                                                                                 animatingView: .toTextField,
+                                                                                                 tableSubviewTopAnchor: destinationContentSubview)
             
             tableViewSubviewTopConstraint.isActive = true
             destinationContentSubviewTopConstraint.isActive = true

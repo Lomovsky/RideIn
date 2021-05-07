@@ -73,13 +73,15 @@ final class MainFlowCoordinator: BaseCoordinator {
             self?.showPassengersCountVC()
         }
         
-        vc.onDataPrepared = { [weak self] preparedData  in
+        vc.onDataPrepared = { [weak self] preparedData in
             self?.preparedDataFromSearchVC = preparedData
             self?.showTripsVC()
         }
         
         vc.onAlert = { [weak self] message in
-            self?.makeAlert(title: NSLocalizedString("Alert.error", comment: ""), message: message, style: .alert)
+            self?.makeAlert(title: NSLocalizedString("Alert.error", comment: ""),
+                            message: message,
+                            style: .alert)
             
         }
         
@@ -148,8 +150,8 @@ final class MainFlowCoordinator: BaseCoordinator {
             
             vc.onAlert = { [weak self] in
                 self?.makeLocationAlert(title: NSLocalizedString("Alert.error", comment: ""),
-                                        message: NSLocalizedString( "Alert.locationService",
-                                                                    comment: ""), style: .alert)
+                                        message: NSLocalizedString( "Alert.locationService", comment: ""),
+                                        style: .alert)
                 
             }
             
@@ -165,9 +167,8 @@ final class MainFlowCoordinator: BaseCoordinator {
             vc.controllerDataProvider.distanceSubviewIsHidden = false
             vc.controllerDataProvider.textFieldActivationObserverEnabled = false
             
-            vc.controllerDataProvider.mapKitDataProvider.mapKitDataManager.getLocations(trip: selectedTrip) { [weak self] depPlacemark,
-                                                                                                   destPlacemark,
-                                                                                                   distance in
+            vc.controllerDataProvider.mapKitDataProvider.mapKitDataManager.getLocations(trip: selectedTrip) {
+                [weak self] depPlacemark, destPlacemark, distance in
                 vc.controllerDataProvider.mapKitDataProvider.distance = distance
                 
                 switch self?.placeType {
@@ -190,7 +191,8 @@ final class MainFlowCoordinator: BaseCoordinator {
             
             vc.onAlert = { [weak self] in
                 self?.makeLocationAlert(title: NSLocalizedString("Alert.error", comment: ""),
-                                        message: NSLocalizedString( "Alert.locationService", comment: ""), style: .alert)
+                                        message: NSLocalizedString( "Alert.locationService", comment: ""),
+                                        style: .alert)
             }
             
             vc.onFinish = { [weak self] in

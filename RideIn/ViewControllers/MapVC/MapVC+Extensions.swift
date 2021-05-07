@@ -23,7 +23,7 @@ extension MapViewController: UITextFieldDelegate {
         let search = MKLocalSearch(request: request)
         
         controllerDataProvider.timer?.invalidate()
-        controllerDataProvider.timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [unowned self] _ in
+        controllerDataProvider.timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { _ in
             search.start { [unowned self] response, _ in
                 guard let response = response else { proceedButton.isHidden = true; return }
                 self.controllerDataProvider.tableViewDataProvider.matchingItems = response.mapItems

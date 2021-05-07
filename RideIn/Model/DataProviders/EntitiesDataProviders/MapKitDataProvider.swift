@@ -45,36 +45,6 @@ final class MainMapKitDataProvider: NSObject, MapKitDataProvider {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
     
-    func retriveCurrentLocation() {
-        guard let vc = parentVC as? MapViewController else { return }
-        let status = locationManager.authorizationStatus
-
-        if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()) {
-            vc.onAlert?()
-            canBeLocated = false
-            vc.changeFocusOnUsersLocationButton(toEnabled: canBeLocated)
-            return
-        }
-        if(status == .notDetermined) {
-            locationManager.requestWhenInUseAuthorization()
-            canBeLocated = false
-            vc.changeFocusOnUsersLocationButton(toEnabled: canBeLocated)
-            return
-        }
-        locationManager.requestLocation()
-        canBeLocated = true
-        vc.changeFocusOnUsersLocationButton(toEnabled: canBeLocated)
-
-        if let location = locationManager.location {
-            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-            let region = MKCoordinateRegion(center: location.coordinate, span: span)
-            
-            let clRegion = CLCircularRegion(center: region.center, radius: 100, identifier: "foo")
-            locationManager.startMonitoring(for: clRegion)
-            locationManager.startUpdatingLocation()
-        }
-    }
-    
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         retriveCurrentLocation()
     }
@@ -121,7 +91,35 @@ final class MainMapKitDataProvider: NSObject, MapKitDataProvider {
         return renderer
     }
     
+    private func retriveCurrentLocation() {
+        guard let vc = parentVC as? MapViewController else { return }
+        let status = locationManager.authorizationStatus
 
+        if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()) {
+            vc.onAlert?()
+            canBeLocated = false
+            vc.changeFocusOnUsersLocationButton(toEnabled: canBeLocated)
+            return
+        }
+        if(status == .notDetermined) {
+            locationManager.requestWhenInUseAuthorization()
+            canBeLocated = false
+            vc.changeFocusOnUsersLocationButton(toEnabled: canBeLocated)
+            return
+        }
+        locationManager.requestLocation()
+        canBeLocated = true
+        vc.changeFocusOnUsersLocationButton(toEnabled: canBeLocated)
+
+        if let location = locationManager.location {
+            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            let region = MKCoordinateRegion(center: location.coordinate, span: span)
+            
+            let clRegion = CLCircularRegion(center: region.center, radius: 100, identifier: "foo")
+            locationManager.startMonitoring(for: clRegion)
+            locationManager.startUpdatingLocation()
+        }
+    }
 }
 
 private extension MainMapKitDataProvider {

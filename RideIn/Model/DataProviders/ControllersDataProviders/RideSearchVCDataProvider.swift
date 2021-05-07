@@ -84,8 +84,10 @@ final class RideSearchViewControllerDataProvider: ControllerDataProvidable {
     func search() {
         let vc = parentController as! RideSearchViewController
         vc.configureIndicatorAndButton(indicatorEnabled: true)
-        dataManager.downloadDataWith(departureCoordinates: departureCoordinates, destinationCoordinates: destinationCoordinates,
-                                     seats: "\(passengersCount)", date: date) { [unowned self] result in
+        dataManager.downloadDataWith(departureCoordinates: departureCoordinates,
+                                     destinationCoordinates: destinationCoordinates,
+                                     seats: "\(passengersCount)",
+                                     date: date) { [unowned self] result in
             switch result {
             case .failure(let error):
                 switch error {
@@ -115,8 +117,8 @@ final class RideSearchViewControllerDataProvider: ControllerDataProvidable {
     func searchPlaces(word: String?) {
         let vc = parentController as! RideSearchViewController
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { [unowned self] _ in
-            MainMapKitPlacesSearchManager.searchForPlace(with: word, inRegion: vc.mapView.region) { items, error in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { _ in
+            MainMapKitPlacesSearchManager.searchForPlace(with: word, inRegion: vc.mapView.region) { [unowned self] items, error in
                 guard error == nil else { return }
                 self.tableViewDataProvider.matchingItems = items.filter { $0.placemark.countryCode == "UA" }
                 vc.searchTableView.reloadData()
@@ -191,8 +193,10 @@ private extension RideSearchViewControllerDataProvider {
     
     func makeConstrainFactory() -> MainConstraintFactory {
         let vc = parentController as! RideSearchViewController
-        let factory = MainConstraintFactory(view: vc.view, destinationContentSubview: vc.destinationContentSubview,
-                                            destinationTextField: vc.destinationTextField, tableViewSubview: vc.tableViewSubview)
+        let factory = MainConstraintFactory(view: vc.view,
+                                            destinationContentSubview: vc.destinationContentSubview,
+                                            destinationTextField: vc.destinationTextField,
+                                            tableViewSubview: vc.tableViewSubview)
         return factory
     }
     
