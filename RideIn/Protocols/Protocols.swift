@@ -18,13 +18,6 @@ protocol RideSearchDelegate: AnyObject {
 
 
 //MARK:- Network protocols
-protocol URLFactory {
-    func setCoordinates(coordinates: String, place: PlaceType)
-    func setSeats(seats: String)
-    func setDate(date: String?)
-    func makeURL() -> URL?
-}
-
 protocol ReachabilityCheckable {
     static func isConnectedToNetwork() -> Bool
 }
@@ -44,11 +37,6 @@ protocol DistanceCalculator {
 protocol DateTimeFormatter {
     func getDateTime(format: DateFormat, from trip: Trip?, for placeType: PlaceType) -> String
     func getDateFrom(datePicker: UIDatePicker) -> String
-}
-
-protocol ConstraintFactory {
-    func makeConstraint(forAnimationState state: AnimationState, animatingView: AnimatingViews,
-                        tableSubviewTopAnchor toView: UIView) -> NSLayoutConstraint
 }
 
 protocol HandleMapSearch {
@@ -80,10 +68,22 @@ protocol ControllerConfigurable {
     func configure(with object: Object)
 }
 
+//MARK:- Factories
+protocol URLFactory {
+    func setCoordinates(coordinates: String, place: PlaceType)
+    func setSeats(seats: String)
+    func setDate(date: String?)
+    func makeURL() -> URL?
+}
+
+protocol ConstraintFactory {
+    func makeConstraint(forAnimationState state: AnimationState, animatingView: AnimatingViews,
+                        tableSubviewTopAnchor toView: UIView) -> NSLayoutConstraint
+}
+
 protocol ControllerDataProvidersFactory {
     static func makeProvider(for viewController: UIViewController) -> ControllerDataProvidable?
 }
-//TODO: Factories
 
 //MARK:- DataManagers protocols
 protocol MapKitPlacesSearchManager {

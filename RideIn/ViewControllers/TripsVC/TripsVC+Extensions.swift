@@ -39,16 +39,16 @@ extension TripsViewController: UIScrollViewDelegate {
 extension TripsViewController: ControllerConfigurable {
     
     func configure(with object: PreparedTripsDataModelFromSearchVC) {
-        dataProvider.date = NSLocalizedString("Date", comment: "")
-        if object.date != nil { dataProvider.date = object.date! }
-        dataProvider.trips = object.unsortedTrips
-        dataProvider.cheapTripsToTop = object.cheapToTop
-        dataProvider.cheapTripsToBottom = object.expensiveToTop
-        dataProvider.cheapestTrip = object.cheapestTrip
-        dataProvider.closestTrip = object.closestTrip
-        dataProvider.departurePlaceName = object.departurePlaceName!
-        dataProvider.destinationPlaceName = object.destinationPlaceName!
-        dataProvider.numberOfPassengers = object.passengersCount
+        collectionViewDataProvider.date = NSLocalizedString("Date", comment: "")
+        if object.date != nil { collectionViewDataProvider.date = object.date! }
+        collectionViewDataProvider.trips = object.unsortedTrips
+        collectionViewDataProvider.cheapTripsToTop = object.cheapToTop
+        collectionViewDataProvider.cheapTripsToBottom = object.expensiveToTop
+        collectionViewDataProvider.cheapestTrip = object.cheapestTrip
+        collectionViewDataProvider.closestTrip = object.closestTrip
+        collectionViewDataProvider.departurePlaceName = object.departurePlaceName!
+        collectionViewDataProvider.destinationPlaceName = object.destinationPlaceName!
+        collectionViewDataProvider.numberOfPassengers = object.passengersCount
         rideSearchDelegate = object.delegate
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 final class TripsViewController: UIViewController {
     
     /// DataProvider for tripsCollectionViews
-    lazy var dataProvider = makeDataProvider()
+    lazy var collectionViewDataProvider = makeDataProvider()
     
     /// RideSearch delegate
     weak var rideSearchDelegate: RideSearchDelegate?
@@ -74,7 +74,8 @@ final class TripsViewController: UIViewController {
     let cheapTripsToTopCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        let cv = UICollectionView(frame: .init(x: 0, y: 178, width: 0, height: 0), collectionViewLayout: layout)
+        let cv = UICollectionView(frame: .init(x: 0, y: 178, width: 0, height: 0),
+                                  collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(TripCollectionViewCell.self)
         return cv
@@ -84,7 +85,8 @@ final class TripsViewController: UIViewController {
     let cheapTripsToBottomCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        let cv = UICollectionView(frame: .init(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: layout)
+        let cv = UICollectionView(frame: .init(x: 0, y: 0, width: 0, height: 0),
+                                  collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(TripCollectionViewCell.self)
         return cv
@@ -94,15 +96,15 @@ final class TripsViewController: UIViewController {
     //MARK: viewDidLoad -
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataProvider.parentVC = self
-        recommendationsCollectionView.delegate = dataProvider
-        recommendationsCollectionView.dataSource = dataProvider
-        allTipsCollectionView.dataSource = dataProvider
-        allTipsCollectionView.delegate = dataProvider
-        cheapTripsToTopCollectionView.dataSource = dataProvider
-        cheapTripsToTopCollectionView.delegate = dataProvider
-        cheapTripsToBottomCollectionView.delegate = dataProvider
-        cheapTripsToBottomCollectionView.dataSource = dataProvider
+        collectionViewDataProvider.parentVC = self
+        recommendationsCollectionView.delegate = collectionViewDataProvider
+        recommendationsCollectionView.dataSource = collectionViewDataProvider
+        allTipsCollectionView.dataSource = collectionViewDataProvider
+        allTipsCollectionView.delegate = collectionViewDataProvider
+        cheapTripsToTopCollectionView.dataSource = collectionViewDataProvider
+        cheapTripsToTopCollectionView.delegate = collectionViewDataProvider
+        cheapTripsToBottomCollectionView.delegate = collectionViewDataProvider
+        cheapTripsToBottomCollectionView.dataSource = collectionViewDataProvider
         
         view.addSubview(navigationSubview)
         view.addSubview(contentSubview)
@@ -187,7 +189,7 @@ final class TripsViewController: UIViewController {
             fromLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor),
             fromLabel.trailingAnchor.constraint(equalTo: contentSubview.centerXAnchor, constant: -5)
         ])
-        fromLabel.text = dataProvider.departurePlaceName
+        fromLabel.text = collectionViewDataProvider.departurePlaceName
         fromLabel.textColor = .darkGray
         fromLabel.font = .boldSystemFont(ofSize: 15)
         fromLabel.clipsToBounds = true
@@ -208,7 +210,7 @@ final class TripsViewController: UIViewController {
             toLabel.trailingAnchor.constraint(equalTo: contentSubview.trailingAnchor),
             toLabel.leadingAnchor.constraint(equalTo: arrowImageView.trailingAnchor, constant: 5)
         ])
-        toLabel.text = dataProvider.destinationPlaceName
+        toLabel.text = collectionViewDataProvider.destinationPlaceName
         toLabel.textColor = .darkGray
         toLabel.font = .boldSystemFont(ofSize: 15)
         toLabel.textAlignment = .center
@@ -221,7 +223,7 @@ final class TripsViewController: UIViewController {
             detailsLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor),
             detailsLabel.bottomAnchor.constraint(equalTo: contentSubview.bottomAnchor, constant: -2)
         ])
-        detailsLabel.text = "\(dataProvider.date.capitalized), \(dataProvider.numberOfPassengers)" + " " + NSLocalizedString("Search.lessThanFourPassengers", comment: "")
+        detailsLabel.text = "\(collectionViewDataProvider.date.capitalized), \(collectionViewDataProvider.numberOfPassengers)" + " " + NSLocalizedString("Search.lessThanFourPassengers", comment: "")
         detailsLabel.font = .boldSystemFont(ofSize: 10)
         detailsLabel.textColor = .systemGray
         detailsLabel.sizeToFit()

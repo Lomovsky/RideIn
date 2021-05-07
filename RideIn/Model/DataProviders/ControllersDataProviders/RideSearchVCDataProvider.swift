@@ -78,9 +78,9 @@ final class RideSearchViewControllerDataProvider: ControllerDataProvidable {
     }
     
     //MARK: Methods -
-    /// - This method asks dataProvider to download data
-    /// - Either presents alertController with some error
-    /// - Or calls prepareDataForTripsVCWith method and passes it ([Trip]) object
+    /** - This method asks dataProvider to download data
+     - Either presents alertController with some error
+     - Or calls prepareDataForTripsVCWith method and passes it ([Trip]) object */
     func search() {
         let vc = parentController as! RideSearchViewController
         vc.configureIndicatorAndButton(indicatorEnabled: true)
@@ -110,6 +110,8 @@ final class RideSearchViewControllerDataProvider: ControllerDataProvidable {
         }
     }
     
+    /// This method is responsible for searching places with the given word
+    /// - Parameter word: the keyWord to search
     func searchPlaces(word: String?) {
         let vc = parentController as! RideSearchViewController
         timer?.invalidate()
@@ -130,8 +132,10 @@ final class RideSearchViewControllerDataProvider: ControllerDataProvidable {
         do {
             try dataManager.prepareData(trips: trips, userLocation: departureCLLocation,
                                         completion: { [unowned self] unsortedTrips, cheapToTop, cheapToBottom, cheapestTrip, closestTrip in
-                                            self.sendPreparedData(trips: trips, cheapToTop: cheapToTop,
-                                                                  expensiveToTop: cheapToBottom, cheapestTrip: cheapestTrip,
+                                            self.sendPreparedData(trips: trips,
+                                                                  cheapToTop: cheapToTop,
+                                                                  expensiveToTop: cheapToBottom,
+                                                                  cheapestTrip: cheapestTrip,
                                                                   closestTrip: closestTrip) })
         } catch _ as NSError {
             vc.onAlert?(NSLocalizedString("Alert.noTrips", comment: ""))
@@ -149,10 +153,16 @@ final class RideSearchViewControllerDataProvider: ControllerDataProvidable {
     ///   - closestTrip: the trip whose departure point is the closest to the point that user has selected
     private func sendPreparedData(trips: [Trip], cheapToTop: [Trip], expensiveToTop: [Trip], cheapestTrip: Trip?, closestTrip: Trip?) {
         let vc = parentController as! RideSearchViewController
-        let formattedData = PreparedTripsDataModelFromSearchVC(unsortedTrips: trips, cheapToTop: cheapToTop, expensiveToTop: expensiveToTop,
-                                                               closestTrip: closestTrip, cheapestTrip: cheapestTrip, date: date,
-                                                               departurePlaceName: vc.departureTextField.text, destinationPlaceName: vc.destinationTextField.text,
-                                                               passengersCount: passengersCount, delegate: vc)
+        let formattedData = PreparedTripsDataModelFromSearchVC(unsortedTrips: trips,
+                                                               cheapToTop: cheapToTop,
+                                                               expensiveToTop: expensiveToTop,
+                                                               closestTrip: closestTrip,
+                                                               cheapestTrip: cheapestTrip,
+                                                               date: date,
+                                                               departurePlaceName: vc.departureTextField.text,
+                                                               destinationPlaceName: vc.destinationTextField.text,
+                                                               passengersCount: passengersCount,
+                                                               delegate: vc)
         vc.onDataPrepared?(formattedData)
         vc.configureIndicatorAndButton(indicatorEnabled: false)
     }
@@ -163,7 +173,7 @@ final class RideSearchViewControllerDataProvider: ControllerDataProvidable {
     
 }
 
-//MARK: Private extenstion -
+//MARK: Private extension -
 private extension RideSearchViewControllerDataProvider {
     func makeMapKitDataProvider() -> MapKitDataProvider {
         let dataProvider = MainMapKitDataProvider()

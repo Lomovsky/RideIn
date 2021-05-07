@@ -15,6 +15,7 @@ final class MapViewController: UIViewController {
     /// Coordinator
     weak var coordinator: Coordinator?
     
+    /// The data provider of the viewController
     lazy var controllerDataProvider = makeViewControllerDataProvider()
     
     /// Is triggered when alert need to be shown

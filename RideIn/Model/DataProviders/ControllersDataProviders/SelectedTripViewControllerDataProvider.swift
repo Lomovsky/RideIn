@@ -9,6 +9,7 @@ import UIKit
 
 final class SelectedTripViewControllerDataProvider: ControllerDataProvidable {
     
+    /// The controller that owns this dataProvider
     weak var parentController: UIViewController?
     
     /// The trip which data should be presented
