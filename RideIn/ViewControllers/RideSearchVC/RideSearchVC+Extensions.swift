@@ -59,7 +59,7 @@ extension RideSearchViewController {
         dismissAnimation(textField: destinationTextField)
     }
     
-    ///This method configures and pushes MapViewController
+    ///This method calls on map selected
     @objc final func showMapButtonTapped() {
         onMapSelected?(placeType, self)
         shouldNavigationControllerBeHiddenAnimated = (true, false)

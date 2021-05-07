@@ -8,6 +8,8 @@
 import Foundation
 
 //MARK:- PreparedTripsDataModelFromSearchVC
+
+/// The data prepared for being passed to TripsViewController
 struct PreparedTripsDataModelFromSearchVC {
     
     var delegate: RideSearchDelegate?
@@ -39,6 +41,8 @@ struct PreparedTripsDataModelFromSearchVC {
 }
 
 //MARK:- PreparedTripsDataModelFromTripsVC
+
+/// The data prepared for being passed to SelectedTripViewController
 struct PreparedTripsDataModelFromTripsVC {
     
     var selectedTrip: Trip?
@@ -63,3 +67,5 @@ struct PreparedTripsDataModelFromTripsVC {
         self.price = price
     }
 }
+
+

@@ -8,6 +8,7 @@
 import UIKit
 import MapKit
 
+//MARK: - TODO: доделать самонастройку с методом, передавая объект во viewController
 //MARK: - BaseCoordinator
 class BaseCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
@@ -98,20 +99,7 @@ final class MainFlowCoordinator: BaseCoordinator {
     private func showTripsVC() {
         let vc = TripsViewController()
         vc.coordinator = self
-        if preparedDataFromSearchVC.date != nil {
-            vc.dataProvider.date = preparedDataFromSearchVC.date!
-        } else {
-            vc.dataProvider.date = NSLocalizedString("Date", comment: "")
-        }
-        vc.dataProvider.trips = preparedDataFromSearchVC.unsortedTrips
-        vc.dataProvider.cheapTripsToTop = preparedDataFromSearchVC.cheapToTop
-        vc.dataProvider.cheapTripsToBottom = preparedDataFromSearchVC.expensiveToTop
-        vc.dataProvider.cheapestTrip = preparedDataFromSearchVC.cheapestTrip
-        vc.dataProvider.closestTrip = preparedDataFromSearchVC.closestTrip
-        vc.dataProvider.departurePlaceName = preparedDataFromSearchVC.departurePlaceName!
-        vc.dataProvider.destinationPlaceName = preparedDataFromSearchVC.destinationPlaceName!
-        vc.dataProvider.numberOfPassengers = preparedDataFromSearchVC.passengersCount
-        vc.rideSearchDelegate = delegate
+        vc.configure(with: preparedDataFromSearchVC)
         
         vc.onFinish = { [weak self] in
             self?.router.popModule()
@@ -129,14 +117,7 @@ final class MainFlowCoordinator: BaseCoordinator {
     private func showSelectedTripVC() {
         let vc = SelectedTripViewController()
         vc.coordinator = self
-        vc.date = preparedDataFromTripsVC.date
-        vc.arrivingTime = preparedDataFromTripsVC.arrivingTime
-        vc.departurePlace = preparedDataFromTripsVC.departurePlace
-        vc.destinationPlace = preparedDataFromTripsVC.destinationPlace
-        vc.departureTime = preparedDataFromTripsVC.departureTime
-        vc.passengersCount = preparedDataFromTripsVC.passengersCount
-        vc.priceForOne = preparedDataFromTripsVC.price
-        vc.selectedTrip = preparedDataFromTripsVC.selectedTrip
+        vc.configure(with: preparedDataFromTripsVC)
         
         vc.onMapSelected = { [weak self] placeType, selectedTrip in
             self?.selectedTrip = selectedTrip
@@ -168,7 +149,8 @@ final class MainFlowCoordinator: BaseCoordinator {
             
             vc.onAlert = { [weak self] in
                 self?.makeLocationAlert(title: NSLocalizedString("Alert.error", comment: ""),
-                                        message: NSLocalizedString( "Alert.locationService", comment: ""), style: .alert)
+                                        message: NSLocalizedString( "Alert.locationService",
+                                                                    comment: ""), style: .alert)
                 
             }
             
@@ -210,7 +192,6 @@ final class MainFlowCoordinator: BaseCoordinator {
             vc.onAlert = { [weak self] in
                 self?.makeLocationAlert(title: NSLocalizedString("Alert.error", comment: ""),
                                         message: NSLocalizedString( "Alert.locationService", comment: ""), style: .alert)
-                
             }
             
             vc.onFinish = { [weak self] in
@@ -219,7 +200,8 @@ final class MainFlowCoordinator: BaseCoordinator {
             
             router.push(vc)
             
-        default: break
+        default:
+            break
         }
     }
 }

@@ -74,6 +74,11 @@ extension ReusableView where Self: UIView {
     }
 }
 
+protocol ControllerConfigurable {
+    associatedtype Object
+    func configure(with object: Object)
+}
+
 
 //MARK:- DataManagers protocols
 protocol MapKitPlacesSearchManager {
@@ -197,5 +202,4 @@ protocol Routable: Presentable {
     
     func popToRootModule(animated: Bool)
 }
-
 

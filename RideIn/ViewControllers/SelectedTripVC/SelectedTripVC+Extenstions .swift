@@ -28,6 +28,18 @@ extension SelectedTripViewController {
             
         }
     }
-    
 }
 
+extension SelectedTripViewController: ControllerConfigurable {
+    
+    func configure(with object: PreparedTripsDataModelFromTripsVC) {
+        date = object.date
+        arrivingTime = object.arrivingTime
+        departurePlace = object.departurePlace
+        destinationPlace = object.destinationPlace
+        departureTime = object.departureTime
+        passengersCount = object.passengersCount
+        priceForOne = object.price
+        selectedTrip = object.selectedTrip
+    }
+}

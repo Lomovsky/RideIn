@@ -21,6 +21,7 @@ extension TripsViewController {
     @objc final func segmentedControlHandler(sender: UISegmentedControl) {
         pageScrollView.scrollTo(horizontalPage: sender.selectedSegmentIndex, numberOfPages: 3, animated: true)
     }
+    
 }
 
 //MARK:- ScrollViewDelegate
@@ -35,3 +36,19 @@ extension TripsViewController: UIScrollViewDelegate {
     }
 }
 
+extension TripsViewController: ControllerConfigurable {
+    
+    func configure(with object: PreparedTripsDataModelFromSearchVC) {
+        dataProvider.date = NSLocalizedString("Date", comment: "")
+        if object.date != nil { dataProvider.date = object.date! }
+        dataProvider.trips = object.unsortedTrips
+        dataProvider.cheapTripsToTop = object.cheapToTop
+        dataProvider.cheapTripsToBottom = object.expensiveToTop
+        dataProvider.cheapestTrip = object.cheapestTrip
+        dataProvider.closestTrip = object.closestTrip
+        dataProvider.departurePlaceName = object.departurePlaceName!
+        dataProvider.destinationPlaceName = object.destinationPlaceName!
+        dataProvider.numberOfPassengers = object.passengersCount
+        rideSearchDelegate = object.delegate
+    }
+}
