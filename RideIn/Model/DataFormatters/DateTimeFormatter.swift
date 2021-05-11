@@ -16,67 +16,44 @@ protocol DateTimeFormatter {
 struct MainDateTimeFormatter: DateTimeFormatter {
     
     func getDateTimeFrom(object: String, format: DateFormat) -> String {
+        guard let dateTime = DateFormatter.defaultFormatter.date(from: object) else { return "" }
+        
         switch format {
         case .dddmmyy:
-            let dateFormatterGet = DateFormatter()
-            let dateFormatterPrint = DateFormatter()
-            dateFormatterGet.dateFormat = "yyyy-M-d'T'HH:mm:ss"
-            dateFormatterPrint.dateFormat = "yyyy-MM-dd"
-            guard let date = dateFormatterGet.date(from: object) else { return "" }
-            return dateFormatterPrint.string(from: date)
+            return DateFormatter.dateFormatter.string(from: dateTime)
             
         case .hhmmss:
-            let dateFormatterGet = DateFormatter()
-            let dateFormatterPrint = DateFormatter()
-            dateFormatterGet.dateFormat = "yyyy-M-d'T'HH:mm:ss"
-            dateFormatterPrint.dateFormat = "HH:mm:ss"
-            guard let date = dateFormatterGet.date(from: object) else { return "" }
-            return dateFormatterPrint.string(from: date)
+            return DateFormatter.timeFormatter.string(from: dateTime)
+
         }
     }
     
     func getDateTime(format: DateFormat, from trip: Trip?, for placeType: PlaceType) -> String {
+        guard let trip = trip else { return "" }
+
         switch placeType {
         case .department:
+            guard let departureDateTime = DateFormatter.defaultFormatter.date(from: trip.waypoints.first?.dateTime ?? "") else { return "" }
+            
             switch format {
             case .dddmmyy:
-                guard let trip = trip else { return "" }
-                let dateFormatterGet = DateFormatter()
-                let dateFormatterPrint = DateFormatter()
-                dateFormatterGet.dateFormat = "yyyy-M-d'T'HH:mm:ss"
-                dateFormatterPrint.dateFormat = "yyyy-MM-dd"
-                guard let date = dateFormatterGet.date(from: trip.waypoints.first?.dateTime ?? "") else { return "" }
-                return dateFormatterPrint.string(from: date)
+                return DateFormatter.dateFormatter.string(from: departureDateTime)
                 
             case .hhmmss:
-                guard let trip = trip else { return "" }
-                let dateFormatterGet = DateFormatter()
-                let dateFormatterPrint = DateFormatter()
-                dateFormatterGet.dateFormat = "yyyy-M-d'T'HH:mm:ss"
-                dateFormatterPrint.dateFormat = "HH:mm:ss"
-                guard let date = dateFormatterGet.date(from: trip.waypoints.first?.dateTime ?? "") else { return "" }
-                return dateFormatterPrint.string(from: date)
+                return DateFormatter.timeFormatter.string(from: departureDateTime)
             }
             
         case .destination:
+            guard let arrivingDateTime = DateFormatter.defaultFormatter.date(from: trip.waypoints.last?.dateTime ?? "") else { return "" }
+
             switch format {
             case .dddmmyy:
-                guard let trip = trip else { return "" }
-                let dateFormatterGet = DateFormatter()
-                let dateFormatterPrint = DateFormatter()
-                dateFormatterGet.dateFormat = "yyyy-M-d'T'HH:mm:ss"
-                dateFormatterPrint.dateFormat = "yyyy-MM-dd"
-                guard let date = dateFormatterGet.date(from: trip.waypoints.last?.dateTime ?? "") else { return "" }
-                return dateFormatterPrint.string(from: date)
+                return DateFormatter.dateFormatter.string(from: arrivingDateTime)
+
                 
             case .hhmmss:
-                guard let trip = trip else { return "" }
-                let dateFormatterGet = DateFormatter()
-                let dateFormatterPrint = DateFormatter()
-                dateFormatterGet.dateFormat = "yyyy-M-d'T'HH:mm:ss"
-                dateFormatterPrint.dateFormat = "HH:mm:ss"
-                guard let date = dateFormatterGet.date(from: trip.waypoints.last?.dateTime ?? "") else { return "" }
-                return dateFormatterPrint.string(from: date)
+                return DateFormatter.timeFormatter.string(from: arrivingDateTime)
+
             }
         }
     }
@@ -96,3 +73,5 @@ struct MainDateTimeFormatter: DateTimeFormatter {
     }
     
 }
+
+

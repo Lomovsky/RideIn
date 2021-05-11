@@ -14,7 +14,7 @@ protocol MainTripsCollectionViewDataProviderDelegate {
 protocol TripsCollectionViewDataProvider: UICollectionViewDelegate, UICollectionViewDataSource {
     var parentVC: UIViewController? { get set }
     var departurePlaceName: String { get set }
-    var destinationPlaceName: String { get set}
+    var destinationPlaceName: String { get set }
     var trips: [Trip] { get set }
     var cheapTripsToTop: [Trip] { get set }
     var cheapTripsToBottom: [Trip] { get set }

@@ -30,6 +30,7 @@
 		C03D9DED264A6DF30022C900 /* UIImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DEC264A6DF30022C900 /* UIImageViewExtensions.swift */; };
 		C03D9DEF264A6E0D0022C900 /* UILabelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DEE264A6E0D0022C900 /* UILabelExtensions.swift */; };
 		C03D9DF1264A6E200022C900 /* MapKitExtensions .swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DF0264A6E200022C900 /* MapKitExtensions .swift */; };
+		C03D9DF3264A6FC40022C900 /* DateFormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DF2264A6FC40022C900 /* DateFormatterExtensions.swift */; };
 		C04BC36B2632CE7000941B0C /* SelectedTripVC+Extenstions .swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC36A2632CE7000941B0C /* SelectedTripVC+Extenstions .swift */; };
 		C04BC3BE2632F8E100941B0C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C04BC3BD2632F8E100941B0C /* .gitignore */; };
 		C04BC3DF2634A05300941B0C /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC3DE2634A05300941B0C /* ConnectionManager.swift */; };
@@ -112,6 +113,7 @@
 		C03D9DEC264A6DF30022C900 /* UIImageViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtensions.swift; sourceTree = "<group>"; };
 		C03D9DEE264A6E0D0022C900 /* UILabelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtensions.swift; sourceTree = "<group>"; };
 		C03D9DF0264A6E200022C900 /* MapKitExtensions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKitExtensions .swift"; sourceTree = "<group>"; };
+		C03D9DF2264A6FC40022C900 /* DateFormatterExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtensions.swift; sourceTree = "<group>"; };
 		C04BC36A2632CE7000941B0C /* SelectedTripVC+Extenstions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectedTripVC+Extenstions .swift"; sourceTree = "<group>"; };
 		C04BC3BD2632F8E100941B0C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		C04BC3DE2634A05300941B0C /* ConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
@@ -242,7 +244,7 @@
 			path = PreparedDataDataModels;
 			sourceTree = "<group>";
 		};
-		C03D9DDB264A6C950022C900 /* Extenstions */ = {
+		C03D9DDB264A6C950022C900 /* SystemExtenstions */ = {
 			isa = PBXGroup;
 			children = (
 				C03D9DE4264A6D510022C900 /* UIColorExtensions.swift */,
@@ -256,8 +258,32 @@
 				C03D9DEC264A6DF30022C900 /* UIImageViewExtensions.swift */,
 				C03D9DEE264A6E0D0022C900 /* UILabelExtensions.swift */,
 				C03D9DF0264A6E200022C900 /* MapKitExtensions .swift */,
+				C03D9DF2264A6FC40022C900 /* DateFormatterExtensions.swift */,
 			);
-			path = Extenstions;
+			path = SystemExtenstions;
+			sourceTree = "<group>";
+		};
+		C03D9DF4264A867A0022C900 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				C04BC3BD2632F8E100941B0C /* .gitignore */,
+				C04C9E5B26244124007C47DC /* Assets.xcassets */,
+				C04C9E6026244124007C47DC /* Info.plist */,
+				C0B8C96F26457151006D1E4D /* LaunchScreen.storyboard */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		C03D9DF5264A870F0022C900 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C04C9E6E26245F3F007C47DC /* RideSearchVC */,
+				C04C9E82262472A0007C47DC /* PassengersCountVC */,
+				C08291A22626EE9900C686F3 /* MapVC */,
+				C0BEDBF926286F8E009B3062 /* TripsVC */,
+				C00F85DE262FFFC200A29641 /* SelectedTripVC */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		C04BC3E72636966A00941B0C /* RideInTests */ = {
@@ -331,14 +357,11 @@
 		C04C9E5126244120007C47DC /* RideIn */ = {
 			isa = PBXGroup;
 			children = (
-				C04BC3BD2632F8E100941B0C /* .gitignore */,
-				C04C9E5B26244124007C47DC /* Assets.xcassets */,
-				C04C9E6026244124007C47DC /* Info.plist */,
-				C0B8C96F26457151006D1E4D /* LaunchScreen.storyboard */,
+				C03D9DF4264A867A0022C900 /* Application */,
 				C04C9E69262441B4007C47DC /* ApplicationDelegates */,
 				C04C99652642B57C001B3654 /* Router */,
 				C04C996226427033001B3654 /* Coordinators */,
-				C04C9E6A262441C4007C47DC /* ViewControllers */,
+				C03D9DF5264A870F0022C900 /* ViewControllers */,
 				C04C9E87262472F9007C47DC /* Protocols */,
 				C04C9E9B262477C0007C47DC /* Model */,
 				C04C9E86262472EE007C47DC /* Helpers */,
@@ -353,18 +376,6 @@
 				C04C9E5426244120007C47DC /* SceneDelegate.swift */,
 			);
 			path = ApplicationDelegates;
-			sourceTree = "<group>";
-		};
-		C04C9E6A262441C4007C47DC /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				C04C9E6E26245F3F007C47DC /* RideSearchVC */,
-				C04C9E82262472A0007C47DC /* PassengersCountVC */,
-				C08291A22626EE9900C686F3 /* MapVC */,
-				C0BEDBF926286F8E009B3062 /* TripsVC */,
-				C00F85DE262FFFC200A29641 /* SelectedTripVC */,
-			);
-			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		C04C9E6E26245F3F007C47DC /* RideSearchVC */ = {
@@ -387,10 +398,10 @@
 		C04C9E86262472EE007C47DC /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				C03D9DDB264A6C950022C900 /* SystemExtenstions */,
+				C03D9DD8264A6C1E0022C900 /* PreparedDataDataModels */,
 				C06512FC26280E5100CF322B /* Constants.swift */,
 				C0AB81BE264413D900E9030A /* Logger.swift */,
-				C03D9DDB264A6C950022C900 /* Extenstions */,
-				C03D9DD8264A6C1E0022C900 /* PreparedDataDataModels */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -408,11 +419,11 @@
 			isa = PBXGroup;
 			children = (
 				C0AB81C6264415B600E9030A /* DataFormatters */,
-				C0AB81C02644150100E9030A /* Factories */,
 				C04C99682642C9F5001B3654 /* DataProviders */,
 				C04C99712642CB43001B3654 /* DataManagers */,
 				C0BEDBF426286779009B3062 /* Networking */,
 				C06513032628126300CF322B /* Cells */,
+				C0AB81C02644150100E9030A /* Factories */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -708,6 +719,7 @@
 				C03D9DDA264A6C380022C900 /* PreparedTripsDataModelFromTripsVC.swift in Sources */,
 				C03D9DF1264A6E200022C900 /* MapKitExtensions .swift in Sources */,
 				C04C9F102626E8D6007C47DC /* RideSearchTableViewCell.swift in Sources */,
+				C03D9DF3264A6FC40022C900 /* DateFormatterExtensions.swift in Sources */,
 				C0AB81C52644153900E9030A /* ConstraintFactory.swift in Sources */,
 				C0AB81BF264413D900E9030A /* Logger.swift in Sources */,
 				C04C9E5726244120007C47DC /* RideSearchViewController.swift in Sources */,
@@ -941,7 +953,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 63NJXM9Q62;
-				INFOPLIST_FILE = RideIn/Info.plist;
+				INFOPLIST_FILE = RideIn/Application/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -961,7 +973,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 63NJXM9Q62;
-				INFOPLIST_FILE = RideIn/Info.plist;
+				INFOPLIST_FILE = RideIn/Application/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
