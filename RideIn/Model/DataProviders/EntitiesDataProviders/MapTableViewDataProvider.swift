@@ -8,6 +8,10 @@
 import UIKit
 import MapKit
 
+protocol MapTableViewDataProviderDelegate {
+    func didSelectCell(passedData placeMark: MKPlacemark)
+}
+
 final class MapTableViewDataProvider: NSObject, PlacesSearchTableViewDataProvider {
     
     //MARK: Declarations -

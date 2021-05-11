@@ -7,6 +7,23 @@
 
 import UIKit
 
+protocol MainTripsCollectionViewDataProviderDelegate {
+    func didSelectItemAt()
+}
+
+protocol TripsCollectionViewDataProvider: UICollectionViewDelegate, UICollectionViewDataSource {
+    var parentVC: UIViewController? { get set }
+    var departurePlaceName: String { get set }
+    var destinationPlaceName: String { get set}
+    var trips: [Trip] { get set }
+    var cheapTripsToTop: [Trip] { get set }
+    var cheapTripsToBottom: [Trip] { get set }
+    var cheapestTrip: Trip? { get set }
+    var closestTrip: Trip? { get set }
+    var date: String { get set }
+    var numberOfPassengers: Int { get set }
+}
+
 final class MainTripsCollectionViewDataProvider: NSObject, TripsCollectionViewDataProvider {
     
     //MARK: Declarations -

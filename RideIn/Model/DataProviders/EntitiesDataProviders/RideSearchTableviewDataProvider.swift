@@ -8,6 +8,15 @@
 import UIKit
 import MapKit
 
+protocol PlacesSearchTableViewDataProvider: UITableViewDelegate, UITableViewDataSource {
+    var matchingItems: [MKMapItem] { get set }
+    var parentVC: UIViewController? { get set }
+}
+
+protocol RideSearchTableViewDataProviderDelegate {
+    func didSelectCell(passedData name: String?, coordinates: String)
+}
+
 final class RideSearchTableviewDataProvider: NSObject, PlacesSearchTableViewDataProvider {
     
     //MARK: Declarations -

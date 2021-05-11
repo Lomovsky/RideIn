@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol ControllerDataProvidersFactory {
+    static func makeProvider(for viewController: UIViewController) -> ControllerDataProvidable?
+}
+
+//MARK:- MainControllerDataProviderFactory
 struct MainControllerDataProviderFactory: ControllerDataProvidersFactory {
     
     static func makeProvider(for viewController: UIViewController) -> ControllerDataProvidable? {

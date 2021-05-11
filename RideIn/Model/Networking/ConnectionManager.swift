@@ -7,6 +7,11 @@
 
 import SystemConfiguration
 
+protocol ReachabilityCheckable {
+    static func isConnectedToNetwork() -> Bool
+}
+
+//MARK:- ConnectionManager
 final public class ConnectionManager: ReachabilityCheckable {
     
     static func isConnectedToNetwork() -> Bool {

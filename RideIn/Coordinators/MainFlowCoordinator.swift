@@ -1,29 +1,15 @@
 //
-//  Coordinators.swift
+//  MainFlowCoordinator.swift
 //  RideIn
 //
-//  Created by Алекс Ломовской on 05.05.2021.
+//  Created by Алекс Ломовской on 11.05.2021.
 //
 
 import UIKit
-import MapKit
 
-//MARK: - BaseCoordinator
-class BaseCoordinator: Coordinator {
-    var childCoordinators = [Coordinator]()
-    
-    var router: Router
-    
-    init(router: Router) {
-        self.router = router
-    }
-    
-    func start() {}
-    
-    func getNavController() -> UINavigationController {
-        return UINavigationController()
-        
-    }
+protocol Alertable {
+    func makeAlert(title: String?, message: String?, style: UIAlertController.Style)
+    func makeLocationAlert(title: String?, message: String?, style: UIAlertController.Style)
 }
 
 //MARK:- MainFlowCoordinator

@@ -9,6 +9,17 @@ import UIKit
 import MapKit
 
 
+protocol MapKitDataProvider: MKMapViewDelegate, CLLocationManagerDelegate {
+    var annotations: [MKAnnotation] { get }
+    var parentVC: UIViewController? { get set }
+    var selectedPin: MKPlacemark? { get set }
+    var locationManager: CLLocationManager { get }
+    var mapKitDataManager: MapKitDataManager { get }
+    var ignoreLocation: Bool { get set }
+    var distance: Int { get set }
+    var canBeLocated: Bool { get }
+}
+
 final private class LocationManager: CLLocationManager {}
 
 final class MainMapKitDataProvider: NSObject, MapKitDataProvider {

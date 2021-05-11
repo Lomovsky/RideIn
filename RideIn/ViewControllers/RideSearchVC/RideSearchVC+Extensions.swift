@@ -30,7 +30,7 @@ extension RideSearchViewController {
     /// Is triggered when the user press back button on destinationTF
     @objc final func dismissDestinationTextField() {
         destinationTextField.resignFirstResponder()
-        checkTextFieldsForEmptiness()
+        checkTextFieldsForEmptiness() 
         dismissAnimation(textField: destinationTextField)
     }
     

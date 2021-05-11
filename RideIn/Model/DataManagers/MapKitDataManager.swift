@@ -8,6 +8,18 @@
 import UIKit
 import MapKit
 
+protocol HandleMapSearch {
+    func dropPinZoomIn(placemark: MKPlacemark, zoom: Bool)
+}
+
+protocol MapKitDataManager: HandleMapSearch {
+    var parentDataProvider: MapKitDataProvider? { get set }
+    func addAnnotation(location: CLLocationCoordinate2D)
+    func lookUpForLocation(by coordinates: CLLocation?, completionHandler: @escaping (CLPlacemark?) -> Void )
+    func showRouteOnMap(pickUpPlacemark: MKPlacemark, destinationPlacemark: MKPlacemark)
+    func getLocations(trip: Trip?, completion: @escaping (MKPlacemark, MKPlacemark, Int) -> Void)
+}
+
 //MARK:- MainMapKitDataManager
 final class MainMapKitDataManager: MapKitDataManager {
     

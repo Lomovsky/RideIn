@@ -7,6 +7,12 @@
 
 import Alamofire
 
+protocol NetworkManager {
+    func downloadData<DataModel: Codable>(withURL url: URL, decodeBy dataModel: DataModel.Type,
+                                          completionHandler: @escaping (Result<DataModel, Error>) -> Void)
+}
+
+//MARK:- MainNetworkManager
 struct MainNetworkManager: NetworkManager {
     
     /// This is main method for downloading data

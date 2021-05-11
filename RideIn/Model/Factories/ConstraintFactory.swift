@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol ConstraintFactory {
+    func makeConstraint(forAnimationState state: AnimationState, animatingView: AnimatingViews,
+                        tableSubviewTopAnchor toView: UIView) -> NSLayoutConstraint
+}
+
 //MARK:- ConstraintFactory
 struct MainConstraintFactory: ConstraintFactory {
     

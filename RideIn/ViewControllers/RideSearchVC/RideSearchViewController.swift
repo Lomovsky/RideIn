@@ -8,6 +8,14 @@
 import UIKit
 import MapKit
 
+protocol RideSearchDelegate: AnyObject {
+    func changePassengersCount(with operation: Operation)
+    func getPassengersCount() -> String
+    func setCoordinates(with placemark: MKPlacemark, forPlace placeType: PlaceType)
+    func setNavigationControllerHidden(to state: Bool, animated: Bool)
+}
+
+//MARK:- RideSearchViewController
 final class RideSearchViewController: UIViewController {
     
     //MARK: Declarations -
@@ -112,7 +120,6 @@ final class RideSearchViewController: UIViewController {
         view.addSubview(searchButton)
         view.addSubview(activityIndicator)
         view.addSubview(tableViewSubview)
-        
         
         setupNavigationController()
         setupView()

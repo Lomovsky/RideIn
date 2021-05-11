@@ -8,6 +8,14 @@
 import UIKit
 import MapKit
 
+protocol TripsDataManager {
+    func downloadDataWith(departureCoordinates: String, destinationCoordinates: String, seats: String, date: String?,
+                          completion: @escaping (Result<[Trip], Error>) -> Void)
+    func prepareData(trips: [Trip], userLocation: CLLocation, completion: @escaping (_ unsortedTrips: [Trip], _ cheapToTop: [Trip],
+                                                                                     _ cheapToBottom: [Trip], _ cheapestTrip: Trip?,
+                                                                                     _ closestTrip: Trip?) -> Void) throws
+}
+
 //MARK:- MainTripsDataManager
 final class MainTripsDataManager: TripsDataManager {
     

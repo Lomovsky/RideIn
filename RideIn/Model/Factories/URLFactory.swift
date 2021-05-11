@@ -7,6 +7,13 @@
 
 import Foundation
 
+protocol URLFactory {
+    func setCoordinates(coordinates: String, place: PlaceType)
+    func setSeats(seats: String)
+    func setDate(date: String?)
+    func makeURL() -> URL?
+}
+
 //MARK:- USLFactory
 struct MainURLFactory: URLFactory {
     

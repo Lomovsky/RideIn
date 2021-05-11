@@ -7,6 +7,11 @@
 
 import MapKit
 
+protocol DistanceCalculator {
+    func compareDistances(first: CLLocationDistance, second: CLLocationDistance) -> Bool
+    func getDistanceBetween(userLocation: CLLocation, departurePoint: CLLocation) -> CLLocationDistance
+}
+
 //MARK:- MainDistanceCalculator
 struct MainDistanceCalculator: DistanceCalculator {
     

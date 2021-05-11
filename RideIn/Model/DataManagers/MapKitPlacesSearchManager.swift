@@ -8,6 +8,11 @@
 import UIKit
 import MapKit
 
+protocol MapKitPlacesSearchManager {
+    static func searchForPlace(with keyWord: String?, inRegion region: MKCoordinateRegion,
+                               completion: @escaping ([MKMapItem], _ error: Error?) -> Void)
+}
+
 //MARK:- MainMapKitPlacesSearchManager
 struct MainMapKitPlacesSearchManager: MapKitPlacesSearchManager {
     
