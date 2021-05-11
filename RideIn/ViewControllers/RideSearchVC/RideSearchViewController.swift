@@ -7,6 +7,7 @@
 
 import UIKit
 import MapKit
+import UserNotifications
 
 protocol RideSearchDelegate: AnyObject {
     func changePassengersCount(with operation: Operation)
@@ -18,7 +19,6 @@ protocol RideSearchDelegate: AnyObject {
 //MARK:- RideSearchViewController
 final class RideSearchViewController: UIViewController {
     
-    //MARK: Declarations -
     /// Coordinator
     weak var coordinator: Coordinator?
     
@@ -120,6 +120,7 @@ final class RideSearchViewController: UIViewController {
         view.addSubview(searchButton)
         view.addSubview(activityIndicator)
         view.addSubview(tableViewSubview)
+        
         
         setupNavigationController()
         setupView()

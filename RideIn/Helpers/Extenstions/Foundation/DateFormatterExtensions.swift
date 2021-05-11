@@ -11,7 +11,7 @@ extension DateFormatter {
     
     static let defaultFormatter: DateFormatter = {
         let df = DateFormatter()
-        df.dateFormat = "yyyy-M-d'T'HH:mm:ss"
+        df.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         return df
     }()
     
@@ -23,7 +23,7 @@ extension DateFormatter {
     
     static let timeFormatter: DateFormatter = {
         let df = DateFormatter()
-        df.dateFormat = "HH:mm:ss"
+        df.dateFormat = "HH:mm"
         return df
     }()
 }

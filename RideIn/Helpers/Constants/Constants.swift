@@ -1,5 +1,5 @@
 //
-//  Enums.swift
+//  Constants.swift
 //  RideIn
 //
 //  Created by Алекс Ломовской on 15.04.2021.

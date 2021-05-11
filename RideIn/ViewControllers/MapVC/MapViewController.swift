@@ -10,8 +10,7 @@ import MapKit
 
 
 final class MapViewController: UIViewController {
-    
-    //MARK:- Declarations
+
     /// Coordinator
     weak var coordinator: Coordinator?
     

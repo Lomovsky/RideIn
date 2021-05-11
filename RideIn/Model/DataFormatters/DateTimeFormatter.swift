@@ -59,17 +59,7 @@ struct MainDateTimeFormatter: DateTimeFormatter {
     }
     
     func getDateFrom(datePicker: UIDatePicker) -> String {
-        guard let day = Calendar.current.dateComponents([.day], from: datePicker.date).day,
-              let month = Calendar.current.dateComponents([.month], from: datePicker.date).month,
-              let year = Calendar.current.dateComponents([.year], from: datePicker.date).year
-        else { return "" }
-        let yearString = "\(String(describing: year))"
-        var dayString = "\(String(describing: day))"
-        var monthString = "\(String(describing: month))"
-        if day < 10 { dayString = "0\(String(describing: day))" }
-        if month < 10 { monthString = "0\(String(describing: month))" }
-        let date = yearString + "-" + monthString + "-" + dayString + "T00:00:00"
-        return date
+        return DateFormatter.defaultFormatter.string(from: datePicker.date)
     }
     
 }

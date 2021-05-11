@@ -205,6 +205,31 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C00C6E9A264ABD9300807279 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C0CFDC322629671A00C90E6A /* TableViewCells */,
+				C0CFDC342629672300C90E6A /* CollectionViewCells */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C00C6E9B264ABE3400807279 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				C06512FC26280E5100CF322B /* Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		C00C6E9C264ABE3E00807279 /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				C0AB81BE264413D900E9030A /* Logger.swift */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
 		C00F85DE262FFFC200A29641 /* SelectedTripVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -244,26 +269,17 @@
 			path = PreparedDataDataModels;
 			sourceTree = "<group>";
 		};
-		C03D9DDB264A6C950022C900 /* SystemExtenstions */ = {
+		C03D9DDB264A6C950022C900 /* Extenstions */ = {
 			isa = PBXGroup;
 			children = (
-				C03D9DE4264A6D510022C900 /* UIColorExtensions.swift */,
-				C03D9DDC264A6CAF0022C900 /* UIScrollViewExtensions.swift */,
-				C03D9DDE264A6CDB0022C900 /* UIViewExtensions.swift */,
-				C03D9DE0264A6D030022C900 /* UITableViewExtensions.swift */,
-				C03D9DE2264A6D2A0022C900 /* UICollectionViewExtensions .swift */,
-				C03D9DE6264A6DA30022C900 /* UIViewControllerExtensions.swift */,
-				C03D9DE8264A6DC80022C900 /* UIButtonExtensions.swift */,
-				C03D9DEA264A6DE10022C900 /* UITextFieldExtensions .swift */,
-				C03D9DEC264A6DF30022C900 /* UIImageViewExtensions.swift */,
-				C03D9DEE264A6E0D0022C900 /* UILabelExtensions.swift */,
-				C03D9DF0264A6E200022C900 /* MapKitExtensions .swift */,
-				C03D9DF2264A6FC40022C900 /* DateFormatterExtensions.swift */,
+				C03D9DFC264A8C530022C900 /* UIKit */,
+				C03D9DFA264A8BAD0022C900 /* Modules */,
+				C03D9DFB264A8BB50022C900 /* Foundation */,
 			);
-			path = SystemExtenstions;
+			path = Extenstions;
 			sourceTree = "<group>";
 		};
-		C03D9DF4264A867A0022C900 /* Application */ = {
+		C03D9DF4264A867A0022C900 /* ApplicationResources */ = {
 			isa = PBXGroup;
 			children = (
 				C04BC3BD2632F8E100941B0C /* .gitignore */,
@@ -271,7 +287,7 @@
 				C04C9E6026244124007C47DC /* Info.plist */,
 				C0B8C96F26457151006D1E4D /* LaunchScreen.storyboard */,
 			);
-			path = Application;
+			path = ApplicationResources;
 			sourceTree = "<group>";
 		};
 		C03D9DF5264A870F0022C900 /* ViewControllers */ = {
@@ -284,6 +300,71 @@
 				C00F85DE262FFFC200A29641 /* SelectedTripVC */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		C03D9DF6264A8B460022C900 /* UIViews */ = {
+			isa = PBXGroup;
+			children = (
+				C03D9DDE264A6CDB0022C900 /* UIViewExtensions.swift */,
+				C03D9DDC264A6CAF0022C900 /* UIScrollViewExtensions.swift */,
+				C03D9DE0264A6D030022C900 /* UITableViewExtensions.swift */,
+				C03D9DE2264A6D2A0022C900 /* UICollectionViewExtensions .swift */,
+				C03D9DEE264A6E0D0022C900 /* UILabelExtensions.swift */,
+				C03D9DEA264A6DE10022C900 /* UITextFieldExtensions .swift */,
+				C03D9DE8264A6DC80022C900 /* UIButtonExtensions.swift */,
+			);
+			path = UIViews;
+			sourceTree = "<group>";
+		};
+		C03D9DF7264A8B530022C900 /* UIColor */ = {
+			isa = PBXGroup;
+			children = (
+				C03D9DE4264A6D510022C900 /* UIColorExtensions.swift */,
+			);
+			path = UIColor;
+			sourceTree = "<group>";
+		};
+		C03D9DF8264A8B610022C900 /* UIViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C03D9DE6264A6DA30022C900 /* UIViewControllerExtensions.swift */,
+			);
+			path = UIViewController;
+			sourceTree = "<group>";
+		};
+		C03D9DF9264A8B6B0022C900 /* UIImageView */ = {
+			isa = PBXGroup;
+			children = (
+				C03D9DEC264A6DF30022C900 /* UIImageViewExtensions.swift */,
+			);
+			path = UIImageView;
+			sourceTree = "<group>";
+		};
+		C03D9DFA264A8BAD0022C900 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				C03D9DF0264A6E200022C900 /* MapKitExtensions .swift */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		C03D9DFB264A8BB50022C900 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				C03D9DF2264A6FC40022C900 /* DateFormatterExtensions.swift */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
+		C03D9DFC264A8C530022C900 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				C03D9DF6264A8B460022C900 /* UIViews */,
+				C03D9DF7264A8B530022C900 /* UIColor */,
+				C03D9DF8264A8B610022C900 /* UIViewController */,
+				C03D9DF9264A8B6B0022C900 /* UIImageView */,
+			);
+			path = UIKit;
 			sourceTree = "<group>";
 		};
 		C04BC3E72636966A00941B0C /* RideInTests */ = {
@@ -357,11 +438,12 @@
 		C04C9E5126244120007C47DC /* RideIn */ = {
 			isa = PBXGroup;
 			children = (
-				C03D9DF4264A867A0022C900 /* Application */,
+				C03D9DF4264A867A0022C900 /* ApplicationResources */,
 				C04C9E69262441B4007C47DC /* ApplicationDelegates */,
 				C04C99652642B57C001B3654 /* Router */,
 				C04C996226427033001B3654 /* Coordinators */,
 				C03D9DF5264A870F0022C900 /* ViewControllers */,
+				C00C6E9A264ABD9300807279 /* Views */,
 				C04C9E87262472F9007C47DC /* Protocols */,
 				C04C9E9B262477C0007C47DC /* Model */,
 				C04C9E86262472EE007C47DC /* Helpers */,
@@ -398,10 +480,10 @@
 		C04C9E86262472EE007C47DC /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				C03D9DDB264A6C950022C900 /* SystemExtenstions */,
+				C03D9DDB264A6C950022C900 /* Extenstions */,
 				C03D9DD8264A6C1E0022C900 /* PreparedDataDataModels */,
-				C06512FC26280E5100CF322B /* Constants.swift */,
-				C0AB81BE264413D900E9030A /* Logger.swift */,
+				C00C6E9B264ABE3400807279 /* Constants */,
+				C00C6E9C264ABE3E00807279 /* Logger */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -422,19 +504,9 @@
 				C04C99682642C9F5001B3654 /* DataProviders */,
 				C04C99712642CB43001B3654 /* DataManagers */,
 				C0BEDBF426286779009B3062 /* Networking */,
-				C06513032628126300CF322B /* Cells */,
 				C0AB81C02644150100E9030A /* Factories */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		C06513032628126300CF322B /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				C0CFDC322629671A00C90E6A /* TableViewCells */,
-				C0CFDC342629672300C90E6A /* CollectionViewCells */,
-			);
-			path = Cells;
 			sourceTree = "<group>";
 		};
 		C08291A22626EE9900C686F3 /* MapVC */ = {
@@ -490,8 +562,8 @@
 			isa = PBXGroup;
 			children = (
 				C04C9ED026258244007C47DC /* MainNetworkManager.swift */,
-				C0BEDBF52628678B009B3062 /* DataModel.swift */,
 				C04BC3DE2634A05300941B0C /* ConnectionManager.swift */,
+				C0BEDBF52628678B009B3062 /* DataModel.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -953,7 +1025,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 63NJXM9Q62;
-				INFOPLIST_FILE = RideIn/Application/Info.plist;
+				INFOPLIST_FILE = RideIn/ApplicationResources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -973,7 +1045,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 63NJXM9Q62;
-				INFOPLIST_FILE = RideIn/Application/Info.plist;
+				INFOPLIST_FILE = RideIn/ApplicationResources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
