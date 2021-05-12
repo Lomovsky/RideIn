@@ -17,7 +17,6 @@ protocol NotificationsController: UNUserNotificationCenterDelegate {
 final class MainNotificationsController: NSObject, NotificationsController {
     
     let notificationCenter = UNUserNotificationCenter.current()
-    private var snoozeNotificationTime: TimeInterval = 3600
 
     func requestNotifications() {
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]

@@ -177,6 +177,7 @@ final class RideSearchViewControllerDataProvider: ControllerDataProvidable {
 
 //MARK: Private extension -
 private extension RideSearchViewControllerDataProvider {
+    
     func makeMapKitDataProvider() -> MapKitDataProvider {
         let dataProvider = MainMapKitDataProvider()
         dataProvider.parentVC = parentController
