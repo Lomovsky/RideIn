@@ -186,9 +186,7 @@ final class MapViewController: UIViewController {
         placesTableView.isHidden = true
         placesTableView.backgroundColor = .white
         placesTableView.alpha = 0.0
-        placesTableView.separatorStyle = .singleLine
-        placesTableView.separatorColor = .darkGray
-        placesTableView.tableFooterView = UIView(frame: .zero)
+        placesTableView.separatorStyle = .none
     }
     
     private func setupProceedButton() {

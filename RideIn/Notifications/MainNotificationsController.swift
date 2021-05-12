@@ -13,6 +13,8 @@ protocol NotificationsController: UNUserNotificationCenterDelegate {
     func scheduleNotification(ofType type: Notifications)
 }
 
+
+
 //MARK:- MainNotificationsController
 final class MainNotificationsController: NSObject, NotificationsController {
     
@@ -42,31 +44,26 @@ final class MainNotificationsController: NSObject, NotificationsController {
     }
     
     private func scheduleNewRidesNotification() {
-        let identifier = "Local Notification"
-        let content = UNMutableNotificationContent()
+        
         let findARideActions = UNNotificationAction(identifier: "Find a ride",
                                                     title: NSLocalizedString("Notification.Find", comment: ""), options: [.foreground])
         let dismissAction = UNNotificationAction(identifier: "Dismiss",
                                                  title: NSLocalizedString("Notification.Dismiss", comment: ""), options: [.destructive])
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-        let userActions = "User actions"
-        let category = UNNotificationCategory(identifier: userActions, actions: [findARideActions, dismissAction],
-                                              intentIdentifiers: [], options: [])
         
-        content.categoryIdentifier = userActions
-        content.title = NSLocalizedString("Notification.Greetings", comment: "")
-        content.body = NSLocalizedString("Notification.NewRidesAvailable", comment: "")
-        content.sound = UNNotificationSound.default
-        content.badge = 1
+        let notificationRequestFactory = MainNotificationRequestFactory(notificationCenter: notificationCenter,
+                                                                        identifier: "Local Notification",
+                                                                        trigger: trigger,
+                                                                        contentCategoryIdentifier: "UserActions",
+                                                                        actions: [findARideActions, dismissAction])
         
+        let request = notificationRequestFactory.makeNotification(withTitle: NSLocalizedString("Notification.Greetings", comment: ""),
+                                                                  body: NSLocalizedString("Notification.NewRidesAvailable", comment: ""))
         
-        notificationCenter.setNotificationCategories([category])
-        requestNotification(with: identifier, content: content, trigger: trigger)
-        
+        requestNotification(with: request)
     }
     
-    private func requestNotification(with identifier: String, content: UNMutableNotificationContent, trigger: UNTimeIntervalNotificationTrigger) {
-        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+    private func requestNotification(with request: UNNotificationRequest) {
         notificationCenter.add(request) { (error) in
             if let error = error {
                 print("Error \(error.localizedDescription)")

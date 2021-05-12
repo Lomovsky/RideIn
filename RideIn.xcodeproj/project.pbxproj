@@ -75,6 +75,7 @@
 		C0BEDBFB26286FB5009B3062 /* TripsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BEDBFA26286FB5009B3062 /* TripsViewController.swift */; };
 		C0C0196326380697001796C2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C0C0196526380697001796C2 /* Localizable.strings */; };
 		C0CFDC362629678500C90E6A /* TripCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFDC352629678500C90E6A /* TripCollectionViewCell.swift */; };
+		C0E087C2264BF38500ECF36D /* NotificationRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E087C1264BF38500ECF36D /* NotificationRequestFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -164,6 +165,7 @@
 		C0C0196426380697001796C2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C0C0196A263807E7001796C2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C0CFDC352629678500C90E6A /* TripCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCollectionViewCell.swift; sourceTree = "<group>"; };
+		C0E087C1264BF38500ECF36D /* NotificationRequestFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRequestFactory.swift; sourceTree = "<group>"; };
 		D8DF32279C50F6B9AA704C46 /* Pods-RideIn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RideIn.release.xcconfig"; path = "Target Support Files/Pods-RideIn/Pods-RideIn.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -532,6 +534,7 @@
 		C0AB81C02644150100E9030A /* Factories */ = {
 			isa = PBXGroup;
 			children = (
+				C0E087C1264BF38500ECF36D /* NotificationRequestFactory.swift */,
 				C0AB81C22644152D00E9030A /* URLFactory.swift */,
 				C0AB81C42644153900E9030A /* ConstraintFactory.swift */,
 				C0B8C96826453E99006D1E4D /* ControllerDataProviderFactory.swift */,
@@ -835,6 +838,7 @@
 				C03D9DE3264A6D2A0022C900 /* UICollectionViewExtensions .swift in Sources */,
 				C04BC3DF2634A05300941B0C /* ConnectionManager.swift in Sources */,
 				C04BC36B2632CE7000941B0C /* SelectedTripVC+Extenstions .swift in Sources */,
+				C0E087C2264BF38500ECF36D /* NotificationRequestFactory.swift in Sources */,
 				C0AB81C32644152D00E9030A /* URLFactory.swift in Sources */,
 				C0BEDBF62628678B009B3062 /* DataModel.swift in Sources */,
 				C03D9DD7264A69AC0022C900 /* MainFlowCoordinator.swift in Sources */,

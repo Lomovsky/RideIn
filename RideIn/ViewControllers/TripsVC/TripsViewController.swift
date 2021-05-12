@@ -35,11 +35,11 @@ final class TripsViewController: UIViewController {
     
     let backButton = UIButton.createDefaultButton()
     
-    let fromLabel = UILabel.createDefaultLabel()
+    let departurePlaceLabel = UILabel.createDefaultLabel()
     
     let arrowImageView = UIImageView.createDefaultIV(withImage: nil)
     
-    let toLabel = UILabel.createDefaultLabel()
+    let destinationPlaceLabel = UILabel.createDefaultLabel()
     
     let detailsLabel = UILabel.createDefaultLabel()
     
@@ -163,9 +163,9 @@ final class TripsViewController: UIViewController {
         contentSubview.backgroundColor = .systemGray5
         contentSubview.layer.cornerRadius = 15
         contentSubview.addSubview(backButton)
-        contentSubview.addSubview(fromLabel)
+        contentSubview.addSubview(departurePlaceLabel)
         contentSubview.addSubview(arrowImageView)
-        contentSubview.addSubview(toLabel)
+        contentSubview.addSubview(destinationPlaceLabel)
         contentSubview.addSubview(detailsLabel)
     }
     
@@ -185,20 +185,20 @@ final class TripsViewController: UIViewController {
     
     private func setupFromLabel() {
         NSLayoutConstraint.activate([
-            fromLabel.centerYAnchor.constraint(equalTo: contentSubview.centerYAnchor),
-            fromLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor),
-            fromLabel.trailingAnchor.constraint(equalTo: contentSubview.centerXAnchor, constant: -5)
+            departurePlaceLabel.centerYAnchor.constraint(equalTo: contentSubview.centerYAnchor),
+            departurePlaceLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor),
+            departurePlaceLabel.trailingAnchor.constraint(equalTo: contentSubview.centerXAnchor, constant: -5)
         ])
-        fromLabel.text = collectionViewDataProvider.departurePlaceName
-        fromLabel.textColor = .darkGray
-        fromLabel.font = .boldSystemFont(ofSize: 15)
-        fromLabel.clipsToBounds = true
+        departurePlaceLabel.text = collectionViewDataProvider.departurePlaceName
+        departurePlaceLabel.textColor = .darkGray
+        departurePlaceLabel.font = .boldSystemFont(ofSize: 15)
+        departurePlaceLabel.clipsToBounds = true
     }
     
     private func setupArrowImageView() {
         NSLayoutConstraint.activate([
             arrowImageView.centerXAnchor.constraint(equalTo: contentSubview.centerXAnchor),
-            arrowImageView.centerYAnchor.constraint(equalTo: fromLabel.centerYAnchor)
+            arrowImageView.centerYAnchor.constraint(equalTo: departurePlaceLabel.centerYAnchor)
         ])
         arrowImageView.image = UIImage(systemName: "arrow.right")
         arrowImageView.tintColor = .darkGray
@@ -206,20 +206,20 @@ final class TripsViewController: UIViewController {
     
     private func setupToLabel() {
         NSLayoutConstraint.activate([
-            toLabel.centerYAnchor.constraint(equalTo: fromLabel.centerYAnchor),
-            toLabel.trailingAnchor.constraint(equalTo: contentSubview.trailingAnchor),
-            toLabel.leadingAnchor.constraint(equalTo: arrowImageView.trailingAnchor, constant: 5)
+            destinationPlaceLabel.centerYAnchor.constraint(equalTo: departurePlaceLabel.centerYAnchor),
+            destinationPlaceLabel.trailingAnchor.constraint(equalTo: contentSubview.trailingAnchor),
+            destinationPlaceLabel.leadingAnchor.constraint(equalTo: arrowImageView.trailingAnchor, constant: 5)
         ])
-        toLabel.text = collectionViewDataProvider.destinationPlaceName
-        toLabel.textColor = .darkGray
-        toLabel.font = .boldSystemFont(ofSize: 15)
-        toLabel.textAlignment = .center
-        toLabel.clipsToBounds = true
+        destinationPlaceLabel.text = collectionViewDataProvider.destinationPlaceName
+        destinationPlaceLabel.textColor = .darkGray
+        destinationPlaceLabel.font = .boldSystemFont(ofSize: 15)
+        destinationPlaceLabel.textAlignment = .left
+        destinationPlaceLabel.clipsToBounds = true
     }
     
     private func setupDetailsLabel() {
         NSLayoutConstraint.activate([
-            detailsLabel.topAnchor.constraint(equalTo: fromLabel.bottomAnchor, constant: 2),
+            detailsLabel.topAnchor.constraint(equalTo: departurePlaceLabel.bottomAnchor, constant: 2),
             detailsLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor),
             detailsLabel.bottomAnchor.constraint(equalTo: contentSubview.bottomAnchor, constant: -2)
         ])
