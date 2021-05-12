@@ -333,7 +333,6 @@
 		C03D9DFC264A8C530022C900 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				C0E087C1264BF38500ECF36D /* NotificationRequestFactory.swift */,
 				C03D9DDE264A6CDB0022C900 /* UIViewExtensions.swift */,
 				C03D9DDC264A6CAF0022C900 /* UIScrollViewExtensions.swift */,
 				C03D9DE0264A6D030022C900 /* UITableViewExtensions.swift */,
@@ -503,6 +502,7 @@
 		C0AB81C02644150100E9030A /* Factories */ = {
 			isa = PBXGroup;
 			children = (
+				C0E087C1264BF38500ECF36D /* NotificationRequestFactory.swift */,
 				C0AB81C22644152D00E9030A /* URLFactory.swift */,
 				C0AB81C42644153900E9030A /* ConstraintFactory.swift */,
 				C0B8C96826453E99006D1E4D /* ControllerDataProviderFactory.swift */,
