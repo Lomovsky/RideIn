@@ -123,7 +123,7 @@ final class RideSearchViewController: UIViewController {
         view.addSubview(activityIndicator)
         view.addSubview(tableViewSubview)
         
-        notifications.scheduleNotification(notificationType: NSLocalizedString("Notification.Greetings", comment: ""))
+        notifications.scheduleNotification(ofType: .newRidesAvailable)
         
         setupNavigationController()
         setupView()

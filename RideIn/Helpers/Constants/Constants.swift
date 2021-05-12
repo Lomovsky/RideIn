@@ -78,3 +78,8 @@ enum LogEvent: String {
         }
     }
 }
+
+enum Notifications {
+    case newRidesAvailable
+    //...Other notifications 
+}

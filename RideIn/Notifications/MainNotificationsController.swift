@@ -10,15 +10,13 @@ import UserNotifications
 
 protocol NotificationsController: UNUserNotificationCenterDelegate {
     var notificationCenter: UNUserNotificationCenter { get }
-    var badges: NSNumber { get set }
-    func scheduleNotification(notificationType: String) 
+    func scheduleNotification(ofType type: Notifications)
 }
 
 //MARK:- MainNotificationsController
 final class MainNotificationsController: NSObject, NotificationsController {
     
     let notificationCenter = UNUserNotificationCenter.current()
-    var badges: NSNumber = 1
     
     func requestNotifications() {
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
@@ -29,7 +27,21 @@ final class MainNotificationsController: NSObject, NotificationsController {
         }
     }
     
-    func scheduleNotification(notificationType: String) {
+    func scheduleNotification(ofType type: Notifications) {
+        switch type {
+        case .newRidesAvailable: scheduleNewRidesNotification()
+        }
+    }
+    
+    private func getNotificationSettings() {
+        notificationCenter.getNotificationSettings { (settings) in
+            if settings.authorizationStatus != .authorized {
+                Log.w("Notifications are not allowed")
+            }
+        }
+    }
+    
+    private func scheduleNewRidesNotification() {
         let identifier = "Local Notification"
         let content = UNMutableNotificationContent()
         let findARideActions = UNNotificationAction(identifier: "Find a ride",
@@ -42,22 +54,15 @@ final class MainNotificationsController: NSObject, NotificationsController {
                                               intentIdentifiers: [], options: [])
         
         content.categoryIdentifier = userActions
-        content.title = notificationType
+        content.title = NSLocalizedString("Notification.Greetings", comment: "")
         content.body = NSLocalizedString("Notification.NewRidesAvailable", comment: "")
         content.sound = UNNotificationSound.default
-        content.badge = badges
+        content.badge = 1
+        
         
         notificationCenter.setNotificationCategories([category])
         requestNotification(with: identifier, content: content, trigger: trigger)
         
-    }
-    
-    private func getNotificationSettings() {
-        notificationCenter.getNotificationSettings { (settings) in
-            if settings.authorizationStatus != .authorized {
-                Log.w("Notifications are not allowed")
-            }
-        }
     }
     
     private func requestNotification(with identifier: String, content: UNMutableNotificationContent, trigger: UNTimeIntervalNotificationTrigger) {
@@ -68,7 +73,6 @@ final class MainNotificationsController: NSObject, NotificationsController {
             }
         }
     }
-    
 }
 
 //MARK:- UNUserNotificationCenterDelegate
@@ -86,8 +90,7 @@ extension MainNotificationsController {
             
             switch response.actionIdentifier {
             case "Dismiss":
-                Log.i("Snooze")
-                scheduleNotification(notificationType: "Reminder")
+                Log.i("Dismissed")
                 
             case "Find a ride":
                 guard let rootNavigation = UIApplication.shared.windows.first?.rootViewController as? UINavigationController else { return }
