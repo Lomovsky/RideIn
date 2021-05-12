@@ -13,8 +13,6 @@ protocol NotificationsController: UNUserNotificationCenterDelegate {
     func scheduleNotification(ofType type: Notifications)
 }
 
-
-
 //MARK:- MainNotificationsController
 final class MainNotificationsController: NSObject, NotificationsController {
     
@@ -56,10 +54,8 @@ final class MainNotificationsController: NSObject, NotificationsController {
                                                                         trigger: trigger,
                                                                         contentCategoryIdentifier: "UserActions",
                                                                         actions: [findARideActions, dismissAction])
-        
         let request = notificationRequestFactory.makeNotification(withTitle: NSLocalizedString("Notification.Greetings", comment: ""),
                                                                   body: NSLocalizedString("Notification.NewRidesAvailable", comment: ""))
-        
         requestNotification(with: request)
     }
     
