@@ -13,13 +13,12 @@ protocol NotificationRequestFactory {
     var identifier: String { get }
     var trigger: UNNotificationTrigger { get }
     var contentCategoryIdentifier: String { get }
-    var actions: [UNNotificationAction]? { get set }
+    func addAction(identifier: String, title: String, options: UNNotificationActionOptions)
     func makeNotification(withTitle title: String, body: String) -> UNNotificationRequest
 }
 
 //MARK:- NotificationFactory
 final class MainNotificationRequestFactory: NotificationRequestFactory {
-    
     let notificationCenter: UNUserNotificationCenter
     
     var identifier: String
@@ -28,7 +27,7 @@ final class MainNotificationRequestFactory: NotificationRequestFactory {
     
     var contentCategoryIdentifier: String
     
-    var actions: [UNNotificationAction]?
+    private var actions = [UNNotificationAction]()
     
     init(notificationCenter: UNUserNotificationCenter,
          identifier: String,
@@ -38,7 +37,6 @@ final class MainNotificationRequestFactory: NotificationRequestFactory {
         self.notificationCenter = notificationCenter
         self.identifier = identifier
         self.trigger = trigger
-        self.actions = actions
         self.contentCategoryIdentifier = contentCategoryIdentifier
     }
     
@@ -49,14 +47,20 @@ final class MainNotificationRequestFactory: NotificationRequestFactory {
         content.body = body
         content.sound = UNNotificationSound.default
         content.badge = 1
-        if let actionsArray = actions {
+        if !actions.isEmpty {
             let category = UNNotificationCategory(identifier: contentCategoryIdentifier,
-                                                  actions: actionsArray,
+                                                  actions: actions,
                                                   intentIdentifiers: [],
                                                   options: [])
             notificationCenter.setNotificationCategories([category])
         }
         
         return UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+    }
+    
+    func addAction(identifier: String, title: String, options: UNNotificationActionOptions) {
+        let action = UNNotificationAction(identifier: identifier,
+                                                    title: title, options: options)
+        actions.append(action)
     }
 }

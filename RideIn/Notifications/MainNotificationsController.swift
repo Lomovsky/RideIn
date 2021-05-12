@@ -42,18 +42,17 @@ final class MainNotificationsController: NSObject, NotificationsController {
     }
     
     private func scheduleNewRidesNotification() {
-        
-        let findARideActions = UNNotificationAction(identifier: "Find a ride",
-                                                    title: NSLocalizedString("Notification.Find", comment: ""), options: [.foreground])
-        let dismissAction = UNNotificationAction(identifier: "Dismiss",
-                                                 title: NSLocalizedString("Notification.Dismiss", comment: ""), options: [.destructive])
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
         
         let notificationRequestFactory = MainNotificationRequestFactory(notificationCenter: notificationCenter,
                                                                         identifier: "Local Notification",
                                                                         trigger: trigger,
-                                                                        contentCategoryIdentifier: "UserActions",
-                                                                        actions: [findARideActions, dismissAction])
+                                                                        contentCategoryIdentifier: "UserActions")
+        notificationRequestFactory.addAction(identifier: "Find a ride",
+                                              title: NSLocalizedString("Notification.Find", comment: ""), options: [.foreground])
+        notificationRequestFactory.addAction(identifier: "Dismiss",
+                                              title: NSLocalizedString("Notification.Dismiss", comment: ""), options: [.destructive])
+        
         let request = notificationRequestFactory.makeNotification(withTitle: NSLocalizedString("Notification.Greetings", comment: ""),
                                                                   body: NSLocalizedString("Notification.NewRidesAvailable", comment: ""))
         requestNotification(with: request)
