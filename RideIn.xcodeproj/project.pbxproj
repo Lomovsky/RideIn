@@ -314,44 +314,6 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
-		C03D9DF6264A8B460022C900 /* UIViews */ = {
-			isa = PBXGroup;
-			children = (
-				C03D9DDE264A6CDB0022C900 /* UIViewExtensions.swift */,
-				C03D9DDC264A6CAF0022C900 /* UIScrollViewExtensions.swift */,
-				C03D9DE0264A6D030022C900 /* UITableViewExtensions.swift */,
-				C03D9DE2264A6D2A0022C900 /* UICollectionViewExtensions .swift */,
-				C03D9DEE264A6E0D0022C900 /* UILabelExtensions.swift */,
-				C03D9DEA264A6DE10022C900 /* UITextFieldExtensions .swift */,
-				C03D9DE8264A6DC80022C900 /* UIButtonExtensions.swift */,
-			);
-			path = UIViews;
-			sourceTree = "<group>";
-		};
-		C03D9DF7264A8B530022C900 /* UIColor */ = {
-			isa = PBXGroup;
-			children = (
-				C03D9DE4264A6D510022C900 /* UIColorExtensions.swift */,
-			);
-			path = UIColor;
-			sourceTree = "<group>";
-		};
-		C03D9DF8264A8B610022C900 /* UIViewController */ = {
-			isa = PBXGroup;
-			children = (
-				C03D9DE6264A6DA30022C900 /* UIViewControllerExtensions.swift */,
-			);
-			path = UIViewController;
-			sourceTree = "<group>";
-		};
-		C03D9DF9264A8B6B0022C900 /* UIImageView */ = {
-			isa = PBXGroup;
-			children = (
-				C03D9DEC264A6DF30022C900 /* UIImageViewExtensions.swift */,
-			);
-			path = UIImageView;
-			sourceTree = "<group>";
-		};
 		C03D9DFA264A8BAD0022C900 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
@@ -371,10 +333,17 @@
 		C03D9DFC264A8C530022C900 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				C03D9DF6264A8B460022C900 /* UIViews */,
-				C03D9DF7264A8B530022C900 /* UIColor */,
-				C03D9DF8264A8B610022C900 /* UIViewController */,
-				C03D9DF9264A8B6B0022C900 /* UIImageView */,
+				C0E087C1264BF38500ECF36D /* NotificationRequestFactory.swift */,
+				C03D9DDE264A6CDB0022C900 /* UIViewExtensions.swift */,
+				C03D9DDC264A6CAF0022C900 /* UIScrollViewExtensions.swift */,
+				C03D9DE0264A6D030022C900 /* UITableViewExtensions.swift */,
+				C03D9DE2264A6D2A0022C900 /* UICollectionViewExtensions .swift */,
+				C03D9DEE264A6E0D0022C900 /* UILabelExtensions.swift */,
+				C03D9DEA264A6DE10022C900 /* UITextFieldExtensions .swift */,
+				C03D9DE8264A6DC80022C900 /* UIButtonExtensions.swift */,
+				C03D9DE4264A6D510022C900 /* UIColorExtensions.swift */,
+				C03D9DE6264A6DA30022C900 /* UIViewControllerExtensions.swift */,
+				C03D9DEC264A6DF30022C900 /* UIImageViewExtensions.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -534,7 +503,6 @@
 		C0AB81C02644150100E9030A /* Factories */ = {
 			isa = PBXGroup;
 			children = (
-				C0E087C1264BF38500ECF36D /* NotificationRequestFactory.swift */,
 				C0AB81C22644152D00E9030A /* URLFactory.swift */,
 				C0AB81C42644153900E9030A /* ConstraintFactory.swift */,
 				C0B8C96826453E99006D1E4D /* ControllerDataProviderFactory.swift */,

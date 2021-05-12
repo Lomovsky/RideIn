@@ -35,7 +35,7 @@
 // TripsViewController
 "Date" = "Сегодня";
 "TheCheapestTrip" = "Дешевле всего";
-"TheClosestTrip" = "Быстрее всего";
+"TheClosestTrip" = "Ближе всего";
 
 // SelectedTripViewController
 "TotalPrice" = "Всего за";
