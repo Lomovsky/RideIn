@@ -17,7 +17,8 @@ protocol NotificationsController: UNUserNotificationCenterDelegate {
 final class MainNotificationsController: NSObject, NotificationsController {
     
     let notificationCenter = UNUserNotificationCenter.current()
-    
+    private var snoozeNotificationTime: TimeInterval = 3600
+
     func requestNotifications() {
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
         notificationCenter.requestAuthorization(options: options) { [unowned self] (didAllow, error) in
@@ -48,10 +49,10 @@ final class MainNotificationsController: NSObject, NotificationsController {
                                                                         identifier: "Local Notification",
                                                                         trigger: trigger,
                                                                         contentCategoryIdentifier: "UserActions")
-        notificationRequestFactory.addAction(identifier: "Find a ride",
-                                              title: NSLocalizedString("Notification.Find", comment: ""), options: [.foreground])
+        notificationRequestFactory.addAction(identifier: "Find",
+                                             title: NSLocalizedString("Notification.Find", comment: ""), options: [.foreground])
         notificationRequestFactory.addAction(identifier: "Dismiss",
-                                              title: NSLocalizedString("Notification.Dismiss", comment: ""), options: [.destructive])
+                                             title: NSLocalizedString("Notification.Dismiss", comment: ""), options: [.destructive])
         
         let request = notificationRequestFactory.makeNotification(withTitle: NSLocalizedString("Notification.Greetings", comment: ""),
                                                                   body: NSLocalizedString("Notification.NewRidesAvailable", comment: ""))
@@ -79,12 +80,11 @@ extension MainNotificationsController {
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         if response.notification.request.identifier == "Local Notification" {
-            
             switch response.actionIdentifier {
             case "Dismiss":
                 Log.i("Dismissed")
                 
-            case "Find a ride":
+            case "Find":
                 guard let rootNavigation = UIApplication.shared.windows.first?.rootViewController as? UINavigationController else { return }
                 guard let rootVC = rootNavigation.viewControllers.first as? RideSearchViewController else { return }
                 rootVC.departureTextField.isSelected = true
