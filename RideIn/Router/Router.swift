@@ -77,9 +77,10 @@ final class Router: Routable {
     }
     
     func push(_ module: Presentable?, animated: Bool, completion: CompletionBlock?) {
-        guard
-            let controller = module?.toPresent()
-        else { assertionFailure("Deprecated push UINavigationController."); return }
+        guard let controller = module?.toPresent() else {
+            assertionFailure("Deprecated push UINavigationController.")
+            return
+        }
         
         if let completion = completion {
             completions[controller] = completion
@@ -117,6 +118,19 @@ final class Router: Routable {
     }
     
     func popToRootModule(animated: Bool) {
+        rootController.popToRootViewController(animated: animated)
+    }
+    
+    func popToRootModule(animated: Bool, completion: CompletionBlock?) {
+        
+        guard let controller = rootController.viewControllers.first?.toPresent() else {
+            assertionFailure("Deprecated push UINavigationController.")
+            return
+        }
+        
+        if let completion = completion {
+            completions[controller] = completion
+        }
         rootController.popToRootViewController(animated: animated)
     }
 }

@@ -39,3 +39,11 @@
 
 // SelectedTripViewController
 "TotalPrice" = "Total for";
+
+//Notifications
+"Notification.Greetings" = "Hey there!";
+"Notification.Dismiss" = "Dismiss";
+"Notification.Find" = "Find a ride";
+"Notification.NewRidesAvailable" = "There are many new rides! Find one for yourself.";
+
+

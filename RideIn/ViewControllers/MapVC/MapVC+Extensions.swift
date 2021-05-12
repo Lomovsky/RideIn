@@ -68,6 +68,7 @@ extension MapViewController {
         switch controllerDataProvider.placeType {
         case .department:
             rideSearchDelegate?.setCoordinates(with: placemark, forPlace: .department)
+            print(#function)
             onFinish?()
             
         case .destination:

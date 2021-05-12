@@ -25,6 +25,8 @@ final class RideSearchViewController: UIViewController {
     /// The data provider of the viewController
     lazy var controllerDataProvider = makeViewControllerDataProvider()
     
+    lazy var notifications = makeNotificationsController()
+    
     /// Is triggered when user tap on showMap button
     var onMapSelected: ((PlaceType?, RideSearchDelegate) -> Void)?
     
@@ -121,6 +123,7 @@ final class RideSearchViewController: UIViewController {
         view.addSubview(activityIndicator)
         view.addSubview(tableViewSubview)
         
+        notifications.scheduleNotification(notificationType: NSLocalizedString("Notification.Greetings", comment: ""))
         
         setupNavigationController()
         setupView()
@@ -429,6 +432,10 @@ private extension RideSearchViewController {
     
     func makeViewControllerDataProvider() -> RideSearchViewControllerDataProvider {
         return MainControllerDataProviderFactory.makeProvider(for: self) as! RideSearchViewControllerDataProvider
+    }
+    
+    func makeNotificationsController() -> NotificationsController {
+        return MainNotificationsController()
     }
 }
 

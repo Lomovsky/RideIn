@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		89F6E2502EA5ABEAD79E7600 /* Pods_RideIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 676745E0D76715737F9F8FBC /* Pods_RideIn.framework */; };
 		8D319C17AC5EF08185EA515F /* libPods-RideInTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51E98A0146A1E81F3B4965DD /* libPods-RideInTests.a */; };
+		C00C6E9F264BB93600807279 /* MainNotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00C6E9E264BB93600807279 /* MainNotificationsController.swift */; };
 		C00F85CC262EF76900A29641 /* TripsVC+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00F85CB262EF76900A29641 /* TripsVC+Extensions.swift */; };
 		C00F85E0262FFFE800A29641 /* SelectedTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00F85DF262FFFE800A29641 /* SelectedTripViewController.swift */; };
 		C01EFD59263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01EFD58263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift */; };
@@ -92,6 +93,7 @@
 		51E98A0146A1E81F3B4965DD /* libPods-RideInTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RideInTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		55EFF70959413A3634C24E6F /* Pods-RideInTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RideInTests.debug.xcconfig"; path = "Target Support Files/Pods-RideInTests/Pods-RideInTests.debug.xcconfig"; sourceTree = "<group>"; };
 		676745E0D76715737F9F8FBC /* Pods_RideIn.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RideIn.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C00C6E9E264BB93600807279 /* MainNotificationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNotificationsController.swift; sourceTree = "<group>"; };
 		C00F85CB262EF76900A29641 /* TripsVC+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TripsVC+Extensions.swift"; sourceTree = "<group>"; };
 		C00F85DF262FFFE800A29641 /* SelectedTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTripViewController.swift; sourceTree = "<group>"; };
 		C01EFD58263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSearchTableViewDataProviderTests.swift; sourceTree = "<group>"; };
@@ -228,6 +230,14 @@
 				C0AB81BE264413D900E9030A /* Logger.swift */,
 			);
 			path = Logger;
+			sourceTree = "<group>";
+		};
+		C00C6E9D264BB92700807279 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				C00C6E9E264BB93600807279 /* MainNotificationsController.swift */,
+			);
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 		C00F85DE262FFFC200A29641 /* SelectedTripVC */ = {
@@ -440,6 +450,7 @@
 			children = (
 				C03D9DF4264A867A0022C900 /* ApplicationResources */,
 				C04C9E69262441B4007C47DC /* ApplicationDelegates */,
+				C00C6E9D264BB92700807279 /* Notifications */,
 				C04C99652642B57C001B3654 /* Router */,
 				C04C996226427033001B3654 /* Coordinators */,
 				C03D9DF5264A870F0022C900 /* ViewControllers */,
@@ -808,6 +819,7 @@
 				C03D9DDF264A6CDB0022C900 /* UIViewExtensions.swift in Sources */,
 				C0AA7743262732C700EE3A42 /* MapVC+Extensions.swift in Sources */,
 				C0B8C96B26453FE0006D1E4D /* MapViewControllerDataProvider.swift in Sources */,
+				C00C6E9F264BB93600807279 /* MainNotificationsController.swift in Sources */,
 				C03D9DE5264A6D510022C900 /* UIColorExtensions.swift in Sources */,
 				C03D9DE9264A6DC80022C900 /* UIButtonExtensions.swift in Sources */,
 				C08291A42626EECA00C686F3 /* MapViewController.swift in Sources */,

@@ -39,3 +39,9 @@
 
 // SelectedTripViewController
 "TotalPrice" = "Всего за";
+
+//Notifications
+"Notification.Greetings" = "Хей!";
+"Notification.Dismiss" = "Отменить";
+"Notification.Find" = "Найти поездку";
+"Notification.NewRidesAvailable" = "Появилось много новых поездок! Найдите подходящую Вам.";
