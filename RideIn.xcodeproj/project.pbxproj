@@ -15,6 +15,9 @@
 		C01EFD59263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01EFD58263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift */; };
 		C01EFD5F263AD74E00028552 /* MapTableViewDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01EFD5E263AD74E00028552 /* MapTableViewDataProviderTests.swift */; };
 		C0238DC9264D3087004EF332 /* CoordinatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0238DC8264D3087004EF332 /* CoordinatorFactory.swift */; };
+		C0238DCB264D6A41004EF332 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0238DCA264D6A41004EF332 /* AuthViewController.swift */; };
+		C0238DCD264D6B3F004EF332 /* AuthFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0238DCC264D6B3F004EF332 /* AuthFlowCoordinator.swift */; };
+		C0238DCF264D6B48004EF332 /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0238DCE264D6B48004EF332 /* ApplicationCoordinator.swift */; };
 		C0327F4F263998410079B324 /* MainTripDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F4E263998410079B324 /* MainTripDataManagerTests.swift */; };
 		C0327F512639A8FB0079B324 /* MainURLFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F502639A8FB0079B324 /* MainURLFactoryTests.swift */; };
 		C0327F532639ABBB0079B324 /* MainMapKitPlacesSearchManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F522639ABBB0079B324 /* MainMapKitPlacesSearchManagerTests.swift */; };
@@ -101,6 +104,9 @@
 		C01EFD58263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSearchTableViewDataProviderTests.swift; sourceTree = "<group>"; };
 		C01EFD5E263AD74E00028552 /* MapTableViewDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTableViewDataProviderTests.swift; sourceTree = "<group>"; };
 		C0238DC8264D3087004EF332 /* CoordinatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorFactory.swift; sourceTree = "<group>"; };
+		C0238DCA264D6A41004EF332 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		C0238DCC264D6B3F004EF332 /* AuthFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowCoordinator.swift; sourceTree = "<group>"; };
+		C0238DCE264D6B48004EF332 /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
 		C0327F4E263998410079B324 /* MainTripDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTripDataManagerTests.swift; sourceTree = "<group>"; };
 		C0327F502639A8FB0079B324 /* MainURLFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainURLFactoryTests.swift; sourceTree = "<group>"; };
 		C0327F522639ABBB0079B324 /* MainMapKitPlacesSearchManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMapKitPlacesSearchManagerTests.swift; sourceTree = "<group>"; };
@@ -307,6 +313,7 @@
 		C03D9DF5264A870F0022C900 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				C0238DCA264D6A41004EF332 /* AuthViewController.swift */,
 				C04C9E6E26245F3F007C47DC /* RideSearchVC */,
 				C04C9E82262472A0007C47DC /* PassengersCountVC */,
 				C08291A22626EE9900C686F3 /* MapVC */,
@@ -363,7 +370,10 @@
 		C04C996226427033001B3654 /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
+				C0238DC8264D3087004EF332 /* CoordinatorFactory.swift */,
 				C04C99632642704C001B3654 /* BaseCoordinator.swift */,
+				C0238DCE264D6B48004EF332 /* ApplicationCoordinator.swift */,
+				C0238DCC264D6B3F004EF332 /* AuthFlowCoordinator.swift */,
 				C03D9DD6264A69AC0022C900 /* MainFlowCoordinator.swift */,
 			);
 			path = Coordinators;
@@ -504,7 +514,6 @@
 		C0AB81C02644150100E9030A /* Factories */ = {
 			isa = PBXGroup;
 			children = (
-				C0238DC8264D3087004EF332 /* CoordinatorFactory.swift */,
 				C0E087C1264BF38500ECF36D /* NotificationRequestFactory.swift */,
 				C0AB81C22644152D00E9030A /* URLFactory.swift */,
 				C0AB81C42644153900E9030A /* ConstraintFactory.swift */,
@@ -779,6 +788,7 @@
 				C04C9F102626E8D6007C47DC /* RideSearchTableViewCell.swift in Sources */,
 				C03D9DF3264A6FC40022C900 /* DateFormatterExtensions.swift in Sources */,
 				C0AB81C52644153900E9030A /* ConstraintFactory.swift in Sources */,
+				C0238DCB264D6A41004EF332 /* AuthViewController.swift in Sources */,
 				C0AB81BF264413D900E9030A /* Logger.swift in Sources */,
 				C04C9E5726244120007C47DC /* RideSearchViewController.swift in Sources */,
 				C04C9EC826257EDB007C47DC /* ViewControllerProtocols.swift in Sources */,
@@ -801,6 +811,7 @@
 				C04C996C2642CA16001B3654 /* RideSearchTableviewDataProvider.swift in Sources */,
 				C0CFDC362629678500C90E6A /* TripCollectionViewCell.swift in Sources */,
 				C08291AF26271E2800C686F3 /* MapTableViewCell.swift in Sources */,
+				C0238DCF264D6B48004EF332 /* ApplicationCoordinator.swift in Sources */,
 				C04C99752642CB75001B3654 /* MapKitPlacesSearchManager.swift in Sources */,
 				C04C99642642704C001B3654 /* BaseCoordinator.swift in Sources */,
 				C03D9DE1264A6D030022C900 /* UITableViewExtensions.swift in Sources */,
@@ -808,6 +819,7 @@
 				C04C99772642CB91001B3654 /* MapKitDataManager.swift in Sources */,
 				C04C9E5326244120007C47DC /* AppDelegate.swift in Sources */,
 				C03D9DE3264A6D2A0022C900 /* UICollectionViewExtensions .swift in Sources */,
+				C0238DCD264D6B3F004EF332 /* AuthFlowCoordinator.swift in Sources */,
 				C04BC3DF2634A05300941B0C /* ConnectionManager.swift in Sources */,
 				C04BC36B2632CE7000941B0C /* SelectedTripVC+Extenstions .swift in Sources */,
 				C0E087C2264BF38500ECF36D /* NotificationRequestFactory.swift in Sources */,

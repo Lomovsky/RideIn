@@ -11,11 +11,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     
-    var coordinatorFactory: CoordinatorFactory! {
+    var coordinator: Coordinator! {
         didSet {
-            _ = coordinatorFactory.makeCoordinator(withCompletion: { coordinator in
-                coordinator.start()
-            })
+            coordinator.start()
         }
     }
     
@@ -23,7 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let winScene = (scene as? UIWindowScene) else { return }
         let navController = UINavigationController()
         let win = UIWindow(windowScene: winScene)
-        coordinatorFactory = MainCoordinatorFactory(navigationController: navController)
+        coordinator = ApplicationCoordinator(navigationController: navController)
+        coordinator.start()
         window = win
 
     }

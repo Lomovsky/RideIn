@@ -39,6 +39,8 @@ final class RideSearchViewController: UIViewController {
     /// Is triggered when viewController needs to present alert
     var onAlert: ItemCompletionBlock<String>?
     
+    var onFinish: CompletionBlock?
+    
     /// The constraint to configure animations
     var destinationContentSubviewTopConstraint = NSLayoutConstraint()
     
@@ -127,6 +129,10 @@ final class RideSearchViewController: UIViewController {
         
         notifications.scheduleNotification(ofType: .newRidesAvailable)
             
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.onFinish?()
+        }
+        
         setupNavigationController()
         setupView()
         setupFromContentSubview()

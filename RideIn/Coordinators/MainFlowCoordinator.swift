@@ -7,16 +7,27 @@
 
 import UIKit
 
+
+
 protocol Alertable {
     func makeAlert(title: String?, message: String?, style: UIAlertController.Style)
     func makeLocationAlert(title: String?, message: String?, style: UIAlertController.Style)
 }
 
+protocol MainFlowCoordinatorOutput: AnyObject {
+    var onFinishFlow: CompletionBlock? { get set }
+}
+
+
+
+
+
 //MARK:- MainFlowCoordinator
-final class MainFlowCoordinator: BaseCoordinator, MainFlowOnFinish {
+final class MainFlowCoordinator: BaseCoordinator, MainFlowCoordinatorOutput {
     
-    var startOptions: LaunchInstructor?
+    var deepLinkOptions: DeepLinkOptions?
     
+    var onFinishFlow: CompletionBlock?
     
     private weak var navigationController: UINavigationController?
     
@@ -32,21 +43,23 @@ final class MainFlowCoordinator: BaseCoordinator, MainFlowOnFinish {
     
     
     //MARK: init-
-    init(navigationController: UINavigationController, launchInstruction: LaunchInstructor? = nil) {
+    init(navigationController: UINavigationController, deepLinkOptions: DeepLinkOptions? = nil) {
         super.init(router: Router(rootController: navigationController))
         self.navigationController = navigationController
-        self.startOptions = launchInstruction
+        self.deepLinkOptions = deepLinkOptions
     }
     
     override func start() {
-        addDependency(coordinator: self)
-
-        switch startOptions {
-        case nil:
             showMainScreen()
-        case .startedFromNotification:
-            showMainScreen(shouldBeSelected: true)
-
+    }
+    
+    func start(withOptions options: DeepLinkOptions) {
+        switch options {
+        case .notification(let notification):
+            switch notification {
+            case .newRidesAvailable:
+                showMainScreen(shouldBeSelected: true)
+            }
         }
     }
     
@@ -80,7 +93,10 @@ final class MainFlowCoordinator: BaseCoordinator, MainFlowOnFinish {
             self?.makeAlert(title: NSLocalizedString("Alert.error", comment: ""),
                             message: message,
                             style: .alert)
-            
+        }
+        
+        vc.onFinish = { [weak self] in
+            self?.onFinishFlow?()
         }
         
         router.setRootModule(vc)
@@ -203,6 +219,10 @@ final class MainFlowCoordinator: BaseCoordinator, MainFlowOnFinish {
             break
         }
     }
+    
+    deinit {
+        Log.i("Deallocating \(self)")
+    }
 }
 
 extension MainFlowCoordinator: Alertable {
@@ -235,6 +255,3 @@ extension MainFlowCoordinator: Alertable {
     
 }
 
-class AuthCoordinator: BaseCoordinator {
-    
-}

@@ -40,6 +40,7 @@ extension Coordinator {
 
 //MARK: - BaseCoordinator
 class BaseCoordinator: Coordinator {
+    
     var childCoordinators = [Coordinator]()
     
     var router: Router
