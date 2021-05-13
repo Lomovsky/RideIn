@@ -49,10 +49,7 @@ final class MainNotificationRequestFactory: NotificationRequestFactory {
         content.sound = UNNotificationSound.default
         content.badge = 1
         if !actions.isEmpty {
-            let category = UNNotificationCategory(identifier: contentCategoryIdentifier,
-                                                  actions: actions,
-                                                  intentIdentifiers: [],
-                                                  options: [])
+            let category = UNNotificationCategory(identifier: contentCategoryIdentifier, actions: actions, intentIdentifiers: [], options: [])
             notificationCenter.setNotificationCategories([category])
         }
         
@@ -60,8 +57,7 @@ final class MainNotificationRequestFactory: NotificationRequestFactory {
     }
     
     func addAction(identifier: String, title: String, options: UNNotificationActionOptions) {
-        let action = UNNotificationAction(identifier: identifier,
-                                                    title: title, options: options)
+        let action = UNNotificationAction(identifier: identifier, title: title, options: options)
         actions.append(action)
     }
 }
