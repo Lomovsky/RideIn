@@ -43,12 +43,20 @@ extension RideSearchViewController {
     /// This method changes date property with the new date from UIDatePicker
     /// - Parameter sender: The sender of type UIDatePicker from which we get new date
     @objc final func changeDateWith(sender: UIDatePicker) {
-        controllerDataProvider.date = MainDateTimeFormatter().getDateFrom(datePicker: sender)
+        controllerDataProvider.date = MainDateTimeFormatter().getDateFrom(date: sender.date)
     }
 }
 
 //MARK:- Helping methods
 extension RideSearchViewController {
+    
+    func changeSelectionState(with state: Bool) {
+        guard state else { return }
+        departureTextField.isSelected = true
+        departureTextField.becomeFirstResponder()
+        animate(textField: departureTextField)
+        controllerDataProvider.placeType = .department
+    }
     
     /// This method is used for configuring "searchButton" and activity indicator state.
     /// Triggered then user press "searchButton" to start activity indicator and hide button to

@@ -10,19 +10,20 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    var coordinator: Coordinator!
+    
+    var coordinatorFactory: CoordinatorFactory! {
+        didSet {
+            _ = coordinatorFactory.makeCoordinator(withCompletion: { coordinator in
+                coordinator.start()
+            })
+        }
+    }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let winScene = (scene as? UIWindowScene) else { return }
         let navController = UINavigationController()
         let win = UIWindow(windowScene: winScene)
-        
-        coordinator = MainFlowCoordinator(navigationController: navController)
-        coordinator.start()
-        
-        win.rootViewController = coordinator.getNavController()
-        win.makeKeyAndVisible()
-        
+        coordinatorFactory = MainCoordinatorFactory(navigationController: navController)
         window = win
 
     }

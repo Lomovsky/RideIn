@@ -10,16 +10,16 @@ import Foundation
 /// The data prepared for being passed to TripsViewController
 struct PreparedTripsDataModelFromSearchVC {
     
-    var delegate: RideSearchDelegate?
-    var unsortedTrips: [Trip]
-    var cheapToTop: [Trip]
-    var expensiveToTop: [Trip]
-    var closestTrip: Trip?
-    var cheapestTrip: Trip?
+    let delegate: RideSearchDelegate?
+    let unsortedTrips: [Trip]
+    let cheapToTop: [Trip]
+    let expensiveToTop: [Trip]
+    let closestTrip: Trip?
+    let cheapestTrip: Trip?
     var date: String?
-    var departurePlaceName: String?
-    var destinationPlaceName: String?
-    var passengersCount: Int
+    let departurePlaceName: String?
+    let destinationPlaceName: String?
+    let passengersCount: Int
     
     init(unsortedTrips: [Trip] = [], cheapToTop: [Trip] = [],
          expensiveToTop: [Trip] = [], closestTrip: Trip? = nil,

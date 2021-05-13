@@ -10,14 +10,14 @@ import Foundation
 /// The data prepared for being passed to SelectedTripViewController
 struct PreparedTripsDataModelFromTripsVC {
     
-    var selectedTrip: Trip?
-    var date: String
-    var passengersCount: Int
-    var departurePlace: String
-    var destinationPlace: String
-    var departureTime: String
-    var arrivingTime: String
-    var price: Float
+    let selectedTrip: Trip?
+    let date: String
+    let passengersCount: Int
+    let departurePlace: String
+    let destinationPlace: String
+    let departureTime: String
+    let arrivingTime: String
+    let price: Float
     
     init(selectedTrip: Trip? = nil, date: String = "",
          passengersCount: Int = 0, departurePlace: String = "",

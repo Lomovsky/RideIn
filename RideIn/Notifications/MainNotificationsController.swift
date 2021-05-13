@@ -17,7 +17,7 @@ protocol NotificationsController: UNUserNotificationCenterDelegate {
 final class MainNotificationsController: NSObject, NotificationsController {
     
     let notificationCenter = UNUserNotificationCenter.current()
-
+        
     func requestNotifications() {
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
         notificationCenter.requestAuthorization(options: options) { [unowned self] (didAllow, error) in
@@ -84,12 +84,10 @@ extension MainNotificationsController {
                 Log.i("Dismissed")
                 
             case "Find":
-                guard let rootNavigation = UIApplication.shared.windows.first?.rootViewController as? UINavigationController else { return }
-                guard let rootVC = rootNavigation.viewControllers.first as? RideSearchViewController else { return }
-                rootVC.departureTextField.isSelected = true
-                rootVC.departureTextField.becomeFirstResponder()
-                rootVC.animate(textField: rootVC.departureTextField)
-                rootVC.controllerDataProvider.placeType = .department
+                let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
+                sceneDelegate.coordinatorFactory = MainCoordinatorFactory(navigationController: UINavigationController(),
+                                                                          startOptions: .startedFromNotification(.newRidesAvailable))
+                
                 Log.i("Find a ride triggered")
                 
             default:

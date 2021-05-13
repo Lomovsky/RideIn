@@ -37,7 +37,7 @@ final class TripsViewController: UIViewController {
     
     let departurePlaceLabel = UILabel.createDefaultLabel()
     
-    let arrowImageView = UIImageView.createDefaultIV(withImage: nil)
+    let arrowImageView = UIImageView.createDefaultIV()
     
     let destinationPlaceLabel = UILabel.createDefaultLabel()
     

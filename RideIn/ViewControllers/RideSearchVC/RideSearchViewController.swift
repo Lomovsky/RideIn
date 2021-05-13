@@ -48,6 +48,8 @@ final class RideSearchViewController: UIViewController {
     /// The constraint to configure animations
     var tableViewSubviewTopConstraint = NSLayoutConstraint()
     
+    var shouldBecomeResponderOnLoad = false
+    
     //MARK: UIElements -
     let departureContentSubview = UIView.createDefaultView()
     
@@ -65,11 +67,11 @@ final class RideSearchViewController: UIViewController {
     
     let showMapSubview = UIView.createDefaultView()
     
-    let mapImageView = UIImageView.createDefaultIV(withImage: nil)
+    let mapImageView = UIImageView.createDefaultIV()
     
     let showMapButton = UIButton.createDefaultButton()
     
-    let arrowImageview = UIImageView.createDefaultIV(withImage: nil)
+    let arrowImageview = UIImageView.createDefaultIV()
     
     let topLine = UIView.createDefaultView()
     
@@ -124,7 +126,7 @@ final class RideSearchViewController: UIViewController {
         view.addSubview(tableViewSubview)
         
         notifications.scheduleNotification(ofType: .newRidesAvailable)
-        
+            
         setupNavigationController()
         setupView()
         setupFromContentSubview()
@@ -148,15 +150,19 @@ final class RideSearchViewController: UIViewController {
         setupSearchTableView()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        configureSubviews()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        changeSelectionState(with: shouldBecomeResponderOnLoad)
+    }
     
     //MARK: UIMethods -
     private func setupView() {
         view.backgroundColor = .white
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        configureSubviews()
     }
     
     private func setupNavigationController() {

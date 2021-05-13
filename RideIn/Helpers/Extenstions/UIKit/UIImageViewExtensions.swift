@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIImageView {
-    static func createDefaultIV(withImage image: UIImage?) -> UIImageView {
+    static func createDefaultIV(withImage image: UIImage? = nil) -> UIImageView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = image

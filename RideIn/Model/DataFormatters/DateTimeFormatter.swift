@@ -9,7 +9,7 @@ import UIKit
 
 protocol DateTimeFormatter {
     func getDateTime(format: DateFormat, from trip: Trip?, for placeType: PlaceType) -> String
-    func getDateFrom(datePicker: UIDatePicker) -> String
+    func getDateFrom(date: Date) -> String
 }
 
 //MARK: - MainDateTimeFormatter
@@ -58,8 +58,8 @@ struct MainDateTimeFormatter: DateTimeFormatter {
         }
     }
     
-    func getDateFrom(datePicker: UIDatePicker) -> String {
-        return DateFormatter.defaultFormatter.string(from: datePicker.date)
+    func getDateFrom(date: Date) -> String {
+        return DateFormatter.defaultFormatter.string(from: date)
     }
     
 }

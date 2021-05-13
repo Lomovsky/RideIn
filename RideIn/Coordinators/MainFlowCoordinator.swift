@@ -13,7 +13,10 @@ protocol Alertable {
 }
 
 //MARK:- MainFlowCoordinator
-final class MainFlowCoordinator: BaseCoordinator {
+final class MainFlowCoordinator: BaseCoordinator, MainFlowOnFinish {
+    
+    var startOptions: LaunchInstructor?
+    
     
     private weak var navigationController: UINavigationController?
     
@@ -29,14 +32,22 @@ final class MainFlowCoordinator: BaseCoordinator {
     
     
     //MARK: init-
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, launchInstruction: LaunchInstructor? = nil) {
         super.init(router: Router(rootController: navigationController))
         self.navigationController = navigationController
+        self.startOptions = launchInstruction
     }
     
     override func start() {
-        showMainScreen()
         addDependency(coordinator: self)
+
+        switch startOptions {
+        case nil:
+            showMainScreen()
+        case .startedFromNotification:
+            showMainScreen(shouldBeSelected: true)
+
+        }
     }
     
     override func getNavController() -> UINavigationController {
@@ -44,9 +55,10 @@ final class MainFlowCoordinator: BaseCoordinator {
     }
     
     //MARK: RideSearchVC -
-    private func showMainScreen() {
+    private func showMainScreen(shouldBeSelected: Bool = false) {
         let vc = RideSearchViewController()
         vc.coordinator = self
+        vc.shouldBecomeResponderOnLoad = shouldBeSelected
         
         vc.onMapSelected = { [weak self] placeType, delegate in
             self?.placeType = placeType
@@ -220,5 +232,9 @@ extension MainFlowCoordinator: Alertable {
         router.present(alert, animated: true)
     }
     
+    
+}
+
+class AuthCoordinator: BaseCoordinator {
     
 }

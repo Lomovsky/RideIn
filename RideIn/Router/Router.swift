@@ -31,6 +31,7 @@ protocol Routable: Presentable {
     
     func setRootModule(_ module: Presentable?)
     func setRootModule(_ module: Presentable?, hideBar: Bool)
+    func setRootModule(_ module: Presentable?, withCompletion completion: CompletionBlock?)
     
     func popToRootModule(animated: Bool)
 }
@@ -115,6 +116,21 @@ final class Router: Routable {
         rootController.isNavigationBarHidden = hideBar
         UIApplication.shared.windows.first?.rootViewController = rootController
         UIApplication.shared.windows.first?.makeKeyAndVisible()
+    }
+    
+    func setRootModule(_ module: Presentable?, withCompletion completion: CompletionBlock?) {
+        guard let controller = module?.toPresent() else {
+            assertionFailure("Deprecated push UINavigationController.")
+            return
+        }
+        if let completion = completion {
+            completions[controller] = completion
+        }
+        
+        rootController.setViewControllers([controller], animated: false)
+        UIApplication.shared.windows.first?.rootViewController = rootController
+        UIApplication.shared.windows.first?.makeKeyAndVisible()
+        
     }
     
     func popToRootModule(animated: Bool) {
