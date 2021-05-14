@@ -103,7 +103,8 @@ final class SelectedTripViewController: UIViewController {
             navigationSubview.topAnchor.constraint(equalTo: view.topAnchor),
             navigationSubview.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navigationSubview.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            navigationSubview.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: (view.frame.height * 0.08))
+            navigationSubview.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+                                                      constant: (view.frame.height * 0.08))
         ])
         navigationSubview.backgroundColor = .white
         navigationSubview.addSubview(backButton)
@@ -306,12 +307,16 @@ final class SelectedTripViewController: UIViewController {
     }
     
     private func setupPassengersCountLabel() {
+        let localizedTotalCountFormat = NSLocalizedString("Total price by count",
+                                                     comment: "Total price by count string format to be found in Localized.stringsdict")
+        let localizedTotalCount = String.localizedStringWithFormat(localizedTotalCountFormat, controllerDataProvider.passengersCount)
+        
         NSLayoutConstraint.activate([
             passengersCountLabel.centerYAnchor.constraint(equalTo: priceSubview.centerYAnchor),
             passengersCountLabel.leadingAnchor.constraint(equalTo: priceSubview.leadingAnchor, constant: 10),
             passengersCountLabel.heightAnchor.constraint(equalTo: priceSubview.heightAnchor, multiplier: 0.4)
         ])
-        passengersCountLabel.text = NSLocalizedString("TotalPrice", comment: "") + " " + "\(controllerDataProvider.passengersCount)" + " " + NSLocalizedString("Search.morePassengers", comment: "")
+        passengersCountLabel.text = localizedTotalCount + " "
         passengersCountLabel.textColor = .systemGray3
         passengersCountLabel.font = .boldSystemFont(ofSize: 15)
     }

@@ -218,12 +218,15 @@ final class TripsViewController: UIViewController {
     }
     
     private func setupDetailsLabel() {
+        let localizedCountFormat = NSLocalizedString("Passengers count",
+                                                     comment: "Passengers count string format to be found in Localized.stringsdict")
+        let localizedCount = String.localizedStringWithFormat(localizedCountFormat, collectionViewDataProvider.numberOfPassengers)
         NSLayoutConstraint.activate([
             detailsLabel.topAnchor.constraint(equalTo: departurePlaceLabel.bottomAnchor, constant: 2),
             detailsLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor),
             detailsLabel.bottomAnchor.constraint(equalTo: contentSubview.bottomAnchor, constant: -2)
         ])
-        detailsLabel.text = "\(collectionViewDataProvider.date.capitalized), \(collectionViewDataProvider.numberOfPassengers)" + " " + NSLocalizedString("Search.lessThanFourPassengers", comment: "")
+        detailsLabel.text = "\(collectionViewDataProvider.date.capitalized)," + " " + localizedCount
         detailsLabel.font = .boldSystemFont(ofSize: 10)
         detailsLabel.textColor = .systemGray
         detailsLabel.sizeToFit()
