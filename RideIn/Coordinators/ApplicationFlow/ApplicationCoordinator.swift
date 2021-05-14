@@ -7,13 +7,11 @@
 
 import UIKit
 
-private var isAuthorized = false
-
 private enum LaunchInstructor {
     case auth
     case main
     
-    static func configure(isAuthorized: Bool = isAuthorized) -> LaunchInstructor {
+    static func configure(isAuthorized: Bool = AuthorizationStatus.isAuthorized) -> LaunchInstructor {
         switch (isAuthorized) {
         case true: return .main
         case false: return .auth
@@ -22,11 +20,7 @@ private enum LaunchInstructor {
     }
 }
 
-enum DeepLinkOptions {
-    case notification(Notifications)
-}
-
-class ApplicationCoordinator: BaseCoordinator {
+final class ApplicationCoordinator: BaseCoordinator {
     
     private weak var navigationController: UINavigationController?
     
@@ -62,7 +56,7 @@ class ApplicationCoordinator: BaseCoordinator {
         
         coordinator.onFinishFlow = { [weak self, unowned coordinator = coordinator] in
             self?.removeDependency(coordinator: coordinator)
-            isAuthorized = true
+            AuthorizationStatus.isAuthorized = true
             self?.start()
         }
         

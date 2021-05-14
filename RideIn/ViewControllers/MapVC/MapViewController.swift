@@ -12,7 +12,7 @@ import MapKit
 final class MapViewController: UIViewController {
 
     /// Coordinator
-    weak var coordinator: Coordinator?
+    weak var coordinator: Coordinatable?
     
     /// The data provider of the viewController
     lazy var controllerDataProvider = makeViewControllerDataProvider()

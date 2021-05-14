@@ -33,7 +33,9 @@ struct MainDateTimeFormatter: DateTimeFormatter {
 
         switch placeType {
         case .department:
-            guard let departureDateTime = DateFormatter.defaultFormatter.date(from: trip.waypoints.first?.dateTime ?? "") else { return "" }
+            guard
+                let departureDateTime = DateFormatter.defaultFormatter.date(from: trip.waypoints.first?.dateTime ?? "")
+            else { return "" }
             
             switch format {
             case .dddmmyy:
@@ -44,7 +46,9 @@ struct MainDateTimeFormatter: DateTimeFormatter {
             }
             
         case .destination:
-            guard let arrivingDateTime = DateFormatter.defaultFormatter.date(from: trip.waypoints.last?.dateTime ?? "") else { return "" }
+            guard
+                let arrivingDateTime = DateFormatter.defaultFormatter.date(from: trip.waypoints.last?.dateTime ?? "")
+            else { return "" }
 
             switch format {
             case .dddmmyy:

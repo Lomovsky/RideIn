@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
-    private var coordinator: Coordinator! {
+    private var coordinator: Coordinatable! {
         didSet {
             coordinator.start()
         }

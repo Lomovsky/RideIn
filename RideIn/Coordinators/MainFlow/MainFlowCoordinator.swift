@@ -18,10 +18,6 @@ protocol MainFlowCoordinatorOutput: AnyObject {
     var onFinishFlow: CompletionBlock? { get set }
 }
 
-
-
-
-
 //MARK:- MainFlowCoordinator
 final class MainFlowCoordinator: BaseCoordinator, MainFlowCoordinatorOutput {
     
@@ -61,10 +57,6 @@ final class MainFlowCoordinator: BaseCoordinator, MainFlowCoordinatorOutput {
                 showMainScreen(shouldBeSelected: true)
             }
         }
-    }
-    
-    override func getNavController() -> UINavigationController {
-        return navigationController!
     }
     
     //MARK: RideSearchVC -
@@ -187,8 +179,10 @@ final class MainFlowCoordinator: BaseCoordinator, MainFlowCoordinatorOutput {
                 
                 switch self?.placeType {
                 case .department:
-                    vc.controllerDataProvider.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: destPlacemark, zoom: false)
-                    vc.controllerDataProvider.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: depPlacemark, zoom: true)
+                    vc.controllerDataProvider.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: destPlacemark,
+                                                                                                 zoom: false)
+                    vc.controllerDataProvider.mapKitDataProvider.mapKitDataManager.dropPinZoomIn(placemark: depPlacemark,
+                                                                                                 zoom: true)
                     vc.controllerDataProvider.mapKitDataProvider.mapKitDataManager.showRouteOnMap(pickUpPlacemark: depPlacemark,
                                                                            destinationPlacemark: destPlacemark)
                     
@@ -223,35 +217,5 @@ final class MainFlowCoordinator: BaseCoordinator, MainFlowCoordinatorOutput {
     deinit {
         Log.i("Deallocating \(self)")
     }
-}
-
-extension MainFlowCoordinator: Alertable {
-    
-    func makeLocationAlert(title: String?, message: String?, style: UIAlertController.Style) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: style)
-        let goToSettingsButton = UIAlertAction(title: NSLocalizedString("Alert.openSettings", comment: ""), style: .default) { _ in
-            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
-            guard UIApplication.shared.canOpenURL(settingsUrl) else { return }
-            UIApplication.shared.open(settingsUrl)
-        }
-        let dismissButton = UIAlertAction(title: NSLocalizedString("Alert.dismiss", comment: ""), style: .cancel) { [unowned self] _ in
-            self.router.popModule()
-        }
-        alert.addAction(dismissButton)
-        alert.addAction(goToSettingsButton)
-        router.present(alert, animated: true)
-    }
-    
-    func makeAlert(title: String?, message: String?, style: UIAlertController.Style) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: style)
-        let dismissButton = UIAlertAction(title: NSLocalizedString("Alert.dismiss", comment: ""),
-                                          style: .cancel) { [unowned self] _ in
-            self.router.popModule()
-        }
-        alert.addAction(dismissButton)
-        router.present(alert, animated: true)
-    }
-    
-    
 }
 

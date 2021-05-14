@@ -20,7 +20,7 @@ protocol RideSearchDelegate: AnyObject {
 final class RideSearchViewController: UIViewController {
     
     /// Coordinator
-    weak var coordinator: Coordinator?
+    weak var coordinator: Coordinatable?
     
     /// The data provider of the viewController
     lazy var controllerDataProvider = makeViewControllerDataProvider()

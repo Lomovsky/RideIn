@@ -18,24 +18,25 @@
 		C0238DCB264D6A41004EF332 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0238DCA264D6A41004EF332 /* AuthViewController.swift */; };
 		C0238DCD264D6B3F004EF332 /* AuthFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0238DCC264D6B3F004EF332 /* AuthFlowCoordinator.swift */; };
 		C0238DCF264D6B48004EF332 /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0238DCE264D6B48004EF332 /* ApplicationCoordinator.swift */; };
+		C02C52AE264E593F0099E321 /* MainFlowCoordinator+Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02C52AD264E593F0099E321 /* MainFlowCoordinator+Extenstions.swift */; };
 		C0327F4F263998410079B324 /* MainTripDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F4E263998410079B324 /* MainTripDataManagerTests.swift */; };
 		C0327F512639A8FB0079B324 /* MainURLFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F502639A8FB0079B324 /* MainURLFactoryTests.swift */; };
 		C0327F532639ABBB0079B324 /* MainMapKitPlacesSearchManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327F522639ABBB0079B324 /* MainMapKitPlacesSearchManagerTests.swift */; };
 		C03D9DD5264A694C0022C900 /* CellProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DD4264A694C0022C900 /* CellProtocols.swift */; };
 		C03D9DD7264A69AC0022C900 /* MainFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DD6264A69AC0022C900 /* MainFlowCoordinator.swift */; };
 		C03D9DDA264A6C380022C900 /* PreparedTripsDataModelFromTripsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DD9264A6C380022C900 /* PreparedTripsDataModelFromTripsVC.swift */; };
-		C03D9DDD264A6CAF0022C900 /* UIScrollViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DDC264A6CAF0022C900 /* UIScrollViewExtensions.swift */; };
-		C03D9DDF264A6CDB0022C900 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DDE264A6CDB0022C900 /* UIViewExtensions.swift */; };
-		C03D9DE1264A6D030022C900 /* UITableViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DE0264A6D030022C900 /* UITableViewExtensions.swift */; };
-		C03D9DE3264A6D2A0022C900 /* UICollectionViewExtensions .swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DE2264A6D2A0022C900 /* UICollectionViewExtensions .swift */; };
-		C03D9DE5264A6D510022C900 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DE4264A6D510022C900 /* UIColorExtensions.swift */; };
-		C03D9DE7264A6DA30022C900 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DE6264A6DA30022C900 /* UIViewControllerExtensions.swift */; };
-		C03D9DE9264A6DC80022C900 /* UIButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DE8264A6DC80022C900 /* UIButtonExtensions.swift */; };
-		C03D9DEB264A6DE10022C900 /* UITextFieldExtensions .swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DEA264A6DE10022C900 /* UITextFieldExtensions .swift */; };
-		C03D9DED264A6DF30022C900 /* UIImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DEC264A6DF30022C900 /* UIImageViewExtensions.swift */; };
-		C03D9DEF264A6E0D0022C900 /* UILabelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DEE264A6E0D0022C900 /* UILabelExtensions.swift */; };
-		C03D9DF1264A6E200022C900 /* MapKitExtensions .swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DF0264A6E200022C900 /* MapKitExtensions .swift */; };
-		C03D9DF3264A6FC40022C900 /* DateFormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DF2264A6FC40022C900 /* DateFormatterExtensions.swift */; };
+		C03D9DDD264A6CAF0022C900 /* UIScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DDC264A6CAF0022C900 /* UIScrollView+Extensions.swift */; };
+		C03D9DDF264A6CDB0022C900 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DDE264A6CDB0022C900 /* UIView+Extensions.swift */; };
+		C03D9DE1264A6D030022C900 /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DE0264A6D030022C900 /* UITableView+Extensions.swift */; };
+		C03D9DE3264A6D2A0022C900 /* UICollectionView+Extensions .swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DE2264A6D2A0022C900 /* UICollectionView+Extensions .swift */; };
+		C03D9DE5264A6D510022C900 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DE4264A6D510022C900 /* UIColor+Extensions.swift */; };
+		C03D9DE7264A6DA30022C900 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DE6264A6DA30022C900 /* UIViewController+Extensions.swift */; };
+		C03D9DE9264A6DC80022C900 /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DE8264A6DC80022C900 /* UIButton+Extensions.swift */; };
+		C03D9DEB264A6DE10022C900 /* UITextField+Extensions .swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DEA264A6DE10022C900 /* UITextField+Extensions .swift */; };
+		C03D9DED264A6DF30022C900 /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DEC264A6DF30022C900 /* UIImageView+Extensions.swift */; };
+		C03D9DEF264A6E0D0022C900 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DEE264A6E0D0022C900 /* UILabel+Extensions.swift */; };
+		C03D9DF1264A6E200022C900 /* MapKit+Extensions .swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DF0264A6E200022C900 /* MapKit+Extensions .swift */; };
+		C03D9DF3264A6FC40022C900 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D9DF2264A6FC40022C900 /* DateFormatter+Extensions.swift */; };
 		C04BC36B2632CE7000941B0C /* SelectedTripVC+Extenstions .swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC36A2632CE7000941B0C /* SelectedTripVC+Extenstions .swift */; };
 		C04BC3BE2632F8E100941B0C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C04BC3BD2632F8E100941B0C /* .gitignore */; };
 		C04BC3DF2634A05300941B0C /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC3DE2634A05300941B0C /* ConnectionManager.swift */; };
@@ -107,24 +108,25 @@
 		C0238DCA264D6A41004EF332 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		C0238DCC264D6B3F004EF332 /* AuthFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowCoordinator.swift; sourceTree = "<group>"; };
 		C0238DCE264D6B48004EF332 /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
+		C02C52AD264E593F0099E321 /* MainFlowCoordinator+Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainFlowCoordinator+Extenstions.swift"; sourceTree = "<group>"; };
 		C0327F4E263998410079B324 /* MainTripDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTripDataManagerTests.swift; sourceTree = "<group>"; };
 		C0327F502639A8FB0079B324 /* MainURLFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainURLFactoryTests.swift; sourceTree = "<group>"; };
 		C0327F522639ABBB0079B324 /* MainMapKitPlacesSearchManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMapKitPlacesSearchManagerTests.swift; sourceTree = "<group>"; };
 		C03D9DD4264A694C0022C900 /* CellProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellProtocols.swift; sourceTree = "<group>"; };
 		C03D9DD6264A69AC0022C900 /* MainFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowCoordinator.swift; sourceTree = "<group>"; };
 		C03D9DD9264A6C380022C900 /* PreparedTripsDataModelFromTripsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparedTripsDataModelFromTripsVC.swift; sourceTree = "<group>"; };
-		C03D9DDC264A6CAF0022C900 /* UIScrollViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollViewExtensions.swift; sourceTree = "<group>"; };
-		C03D9DDE264A6CDB0022C900 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
-		C03D9DE0264A6D030022C900 /* UITableViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtensions.swift; sourceTree = "<group>"; };
-		C03D9DE2264A6D2A0022C900 /* UICollectionViewExtensions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewExtensions .swift"; sourceTree = "<group>"; };
-		C03D9DE4264A6D510022C900 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
-		C03D9DE6264A6DA30022C900 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
-		C03D9DE8264A6DC80022C900 /* UIButtonExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtensions.swift; sourceTree = "<group>"; };
-		C03D9DEA264A6DE10022C900 /* UITextFieldExtensions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextFieldExtensions .swift"; sourceTree = "<group>"; };
-		C03D9DEC264A6DF30022C900 /* UIImageViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtensions.swift; sourceTree = "<group>"; };
-		C03D9DEE264A6E0D0022C900 /* UILabelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtensions.swift; sourceTree = "<group>"; };
-		C03D9DF0264A6E200022C900 /* MapKitExtensions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKitExtensions .swift"; sourceTree = "<group>"; };
-		C03D9DF2264A6FC40022C900 /* DateFormatterExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtensions.swift; sourceTree = "<group>"; };
+		C03D9DDC264A6CAF0022C900 /* UIScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extensions.swift"; sourceTree = "<group>"; };
+		C03D9DDE264A6CDB0022C900 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		C03D9DE0264A6D030022C900 /* UITableView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
+		C03D9DE2264A6D2A0022C900 /* UICollectionView+Extensions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions .swift"; sourceTree = "<group>"; };
+		C03D9DE4264A6D510022C900 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
+		C03D9DE6264A6DA30022C900 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		C03D9DE8264A6DC80022C900 /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
+		C03D9DEA264A6DE10022C900 /* UITextField+Extensions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions .swift"; sourceTree = "<group>"; };
+		C03D9DEC264A6DF30022C900 /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
+		C03D9DEE264A6E0D0022C900 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
+		C03D9DF0264A6E200022C900 /* MapKit+Extensions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Extensions .swift"; sourceTree = "<group>"; };
+		C03D9DF2264A6FC40022C900 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		C04BC36A2632CE7000941B0C /* SelectedTripVC+Extenstions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectedTripVC+Extenstions .swift"; sourceTree = "<group>"; };
 		C04BC3BD2632F8E100941B0C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		C04BC3DE2634A05300941B0C /* ConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
@@ -280,6 +282,31 @@
 			path = DataManagersTests;
 			sourceTree = "<group>";
 		};
+		C02C52AA264E590B0099E321 /* MainFlow */ = {
+			isa = PBXGroup;
+			children = (
+				C03D9DD6264A69AC0022C900 /* MainFlowCoordinator.swift */,
+				C02C52AD264E593F0099E321 /* MainFlowCoordinator+Extenstions.swift */,
+			);
+			path = MainFlow;
+			sourceTree = "<group>";
+		};
+		C02C52AB264E59130099E321 /* AuthFlow */ = {
+			isa = PBXGroup;
+			children = (
+				C0238DCC264D6B3F004EF332 /* AuthFlowCoordinator.swift */,
+			);
+			path = AuthFlow;
+			sourceTree = "<group>";
+		};
+		C02C52AC264E591B0099E321 /* ApplicationFlow */ = {
+			isa = PBXGroup;
+			children = (
+				C0238DCE264D6B48004EF332 /* ApplicationCoordinator.swift */,
+			);
+			path = ApplicationFlow;
+			sourceTree = "<group>";
+		};
 		C03D9DD8264A6C1E0022C900 /* PreparedDataDataModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -326,7 +353,7 @@
 		C03D9DFA264A8BAD0022C900 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				C03D9DF0264A6E200022C900 /* MapKitExtensions .swift */,
+				C03D9DF0264A6E200022C900 /* MapKit+Extensions .swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -334,7 +361,7 @@
 		C03D9DFB264A8BB50022C900 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
-				C03D9DF2264A6FC40022C900 /* DateFormatterExtensions.swift */,
+				C03D9DF2264A6FC40022C900 /* DateFormatter+Extensions.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -342,16 +369,16 @@
 		C03D9DFC264A8C530022C900 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				C03D9DDE264A6CDB0022C900 /* UIViewExtensions.swift */,
-				C03D9DDC264A6CAF0022C900 /* UIScrollViewExtensions.swift */,
-				C03D9DE0264A6D030022C900 /* UITableViewExtensions.swift */,
-				C03D9DE2264A6D2A0022C900 /* UICollectionViewExtensions .swift */,
-				C03D9DEE264A6E0D0022C900 /* UILabelExtensions.swift */,
-				C03D9DEA264A6DE10022C900 /* UITextFieldExtensions .swift */,
-				C03D9DE8264A6DC80022C900 /* UIButtonExtensions.swift */,
-				C03D9DE4264A6D510022C900 /* UIColorExtensions.swift */,
-				C03D9DE6264A6DA30022C900 /* UIViewControllerExtensions.swift */,
-				C03D9DEC264A6DF30022C900 /* UIImageViewExtensions.swift */,
+				C03D9DDE264A6CDB0022C900 /* UIView+Extensions.swift */,
+				C03D9DDC264A6CAF0022C900 /* UIScrollView+Extensions.swift */,
+				C03D9DE0264A6D030022C900 /* UITableView+Extensions.swift */,
+				C03D9DE2264A6D2A0022C900 /* UICollectionView+Extensions .swift */,
+				C03D9DEE264A6E0D0022C900 /* UILabel+Extensions.swift */,
+				C03D9DEA264A6DE10022C900 /* UITextField+Extensions .swift */,
+				C03D9DE8264A6DC80022C900 /* UIButton+Extensions.swift */,
+				C03D9DE4264A6D510022C900 /* UIColor+Extensions.swift */,
+				C03D9DE6264A6DA30022C900 /* UIViewController+Extensions.swift */,
+				C03D9DEC264A6DF30022C900 /* UIImageView+Extensions.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -370,11 +397,10 @@
 		C04C996226427033001B3654 /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
-				C0238DC8264D3087004EF332 /* CoordinatorFactory.swift */,
 				C04C99632642704C001B3654 /* BaseCoordinator.swift */,
-				C0238DCE264D6B48004EF332 /* ApplicationCoordinator.swift */,
-				C0238DCC264D6B3F004EF332 /* AuthFlowCoordinator.swift */,
-				C03D9DD6264A69AC0022C900 /* MainFlowCoordinator.swift */,
+				C02C52AC264E591B0099E321 /* ApplicationFlow */,
+				C02C52AB264E59130099E321 /* AuthFlow */,
+				C02C52AA264E590B0099E321 /* MainFlow */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -493,11 +519,11 @@
 		C04C9E9B262477C0007C47DC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C0AB81C02644150100E9030A /* Factories */,
 				C0AB81C6264415B600E9030A /* DataFormatters */,
 				C04C99682642C9F5001B3654 /* DataProviders */,
 				C04C99712642CB43001B3654 /* DataManagers */,
 				C0BEDBF426286779009B3062 /* Networking */,
-				C0AB81C02644150100E9030A /* Factories */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -514,6 +540,7 @@
 		C0AB81C02644150100E9030A /* Factories */ = {
 			isa = PBXGroup;
 			children = (
+				C0238DC8264D3087004EF332 /* CoordinatorFactory.swift */,
 				C0E087C1264BF38500ECF36D /* NotificationRequestFactory.swift */,
 				C0AB81C22644152D00E9030A /* URLFactory.swift */,
 				C0AB81C42644153900E9030A /* ConstraintFactory.swift */,
@@ -781,32 +808,33 @@
 				C04C9EC226257A4E007C47DC /* RideSearchVC+Extensions.swift in Sources */,
 				C0BEDBFB26286FB5009B3062 /* TripsViewController.swift in Sources */,
 				C0B8C96626452D37006D1E4D /* RideSearchVCDataProvider.swift in Sources */,
-				C03D9DEB264A6DE10022C900 /* UITextFieldExtensions .swift in Sources */,
+				C03D9DEB264A6DE10022C900 /* UITextField+Extensions .swift in Sources */,
 				C04C9E84262472D9007C47DC /* PassengersCountViewController.swift in Sources */,
 				C03D9DDA264A6C380022C900 /* PreparedTripsDataModelFromTripsVC.swift in Sources */,
-				C03D9DF1264A6E200022C900 /* MapKitExtensions .swift in Sources */,
+				C03D9DF1264A6E200022C900 /* MapKit+Extensions .swift in Sources */,
 				C04C9F102626E8D6007C47DC /* RideSearchTableViewCell.swift in Sources */,
-				C03D9DF3264A6FC40022C900 /* DateFormatterExtensions.swift in Sources */,
+				C03D9DF3264A6FC40022C900 /* DateFormatter+Extensions.swift in Sources */,
 				C0AB81C52644153900E9030A /* ConstraintFactory.swift in Sources */,
 				C0238DCB264D6A41004EF332 /* AuthViewController.swift in Sources */,
 				C0AB81BF264413D900E9030A /* Logger.swift in Sources */,
 				C04C9E5726244120007C47DC /* RideSearchViewController.swift in Sources */,
 				C04C9EC826257EDB007C47DC /* ViewControllerProtocols.swift in Sources */,
-				C03D9DEF264A6E0D0022C900 /* UILabelExtensions.swift in Sources */,
+				C03D9DEF264A6E0D0022C900 /* UILabel+Extensions.swift in Sources */,
 				C06512FD26280E5100CF322B /* Constants.swift in Sources */,
-				C03D9DE7264A6DA30022C900 /* UIViewControllerExtensions.swift in Sources */,
+				C03D9DE7264A6DA30022C900 /* UIViewController+Extensions.swift in Sources */,
 				C04C996E2642CA24001B3654 /* MapTableViewDataProvider.swift in Sources */,
 				C00F85E0262FFFE800A29641 /* SelectedTripViewController.swift in Sources */,
 				C00F85CC262EF76900A29641 /* TripsVC+Extensions.swift in Sources */,
 				C0AB81C8264415C900E9030A /* DateTimeFormatter.swift in Sources */,
 				C0AB81CA2644161200E9030A /* DistanceCalculator.swift in Sources */,
+				C02C52AE264E593F0099E321 /* MainFlowCoordinator+Extenstions.swift in Sources */,
 				C0B8C96D264543EA006D1E4D /* SelectedTripViewControllerDataProvider.swift in Sources */,
-				C03D9DDF264A6CDB0022C900 /* UIViewExtensions.swift in Sources */,
+				C03D9DDF264A6CDB0022C900 /* UIView+Extensions.swift in Sources */,
 				C0AA7743262732C700EE3A42 /* MapVC+Extensions.swift in Sources */,
 				C0B8C96B26453FE0006D1E4D /* MapViewControllerDataProvider.swift in Sources */,
 				C00C6E9F264BB93600807279 /* MainNotificationsController.swift in Sources */,
-				C03D9DE5264A6D510022C900 /* UIColorExtensions.swift in Sources */,
-				C03D9DE9264A6DC80022C900 /* UIButtonExtensions.swift in Sources */,
+				C03D9DE5264A6D510022C900 /* UIColor+Extensions.swift in Sources */,
+				C03D9DE9264A6DC80022C900 /* UIButton+Extensions.swift in Sources */,
 				C08291A42626EECA00C686F3 /* MapViewController.swift in Sources */,
 				C04C996C2642CA16001B3654 /* RideSearchTableviewDataProvider.swift in Sources */,
 				C0CFDC362629678500C90E6A /* TripCollectionViewCell.swift in Sources */,
@@ -814,11 +842,11 @@
 				C0238DCF264D6B48004EF332 /* ApplicationCoordinator.swift in Sources */,
 				C04C99752642CB75001B3654 /* MapKitPlacesSearchManager.swift in Sources */,
 				C04C99642642704C001B3654 /* BaseCoordinator.swift in Sources */,
-				C03D9DE1264A6D030022C900 /* UITableViewExtensions.swift in Sources */,
-				C03D9DDD264A6CAF0022C900 /* UIScrollViewExtensions.swift in Sources */,
+				C03D9DE1264A6D030022C900 /* UITableView+Extensions.swift in Sources */,
+				C03D9DDD264A6CAF0022C900 /* UIScrollView+Extensions.swift in Sources */,
 				C04C99772642CB91001B3654 /* MapKitDataManager.swift in Sources */,
 				C04C9E5326244120007C47DC /* AppDelegate.swift in Sources */,
-				C03D9DE3264A6D2A0022C900 /* UICollectionViewExtensions .swift in Sources */,
+				C03D9DE3264A6D2A0022C900 /* UICollectionView+Extensions .swift in Sources */,
 				C0238DCD264D6B3F004EF332 /* AuthFlowCoordinator.swift in Sources */,
 				C04BC3DF2634A05300941B0C /* ConnectionManager.swift in Sources */,
 				C04BC36B2632CE7000941B0C /* SelectedTripVC+Extenstions .swift in Sources */,
@@ -829,7 +857,7 @@
 				C04C99702642CA30001B3654 /* TripsCollectionViewDataProvider.swift in Sources */,
 				C04C9E5526244120007C47DC /* SceneDelegate.swift in Sources */,
 				C04C996A2642CA09001B3654 /* MapKitDataProvider.swift in Sources */,
-				C03D9DED264A6DF30022C900 /* UIImageViewExtensions.swift in Sources */,
+				C03D9DED264A6DF30022C900 /* UIImageView+Extensions.swift in Sources */,
 				C04C99732642CB58001B3654 /* TripsDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,25 +9,24 @@ import UIKit
 import MapKit
 
 //MARK:- CoordinatorProtocol
-protocol Coordinator: AnyObject {
-    var childCoordinators: [Coordinator] { get set }
+protocol Coordinatable: AnyObject {
+    var childCoordinators: [Coordinatable] { get set }
     var router: Router { get }
     func start()
-    func addDependency(coordinator: Coordinator)
-    func removeDependency(coordinator: Coordinator)
-    func getNavController() -> UINavigationController
+    func addDependency(coordinator: Coordinatable)
+    func removeDependency(coordinator: Coordinatable)
 }
 
-extension Coordinator {
+extension Coordinatable {
     
-    func addDependency(coordinator: Coordinator) {
+    func addDependency(coordinator: Coordinatable) {
         for element in childCoordinators {
             if element === coordinator { return }
         }
         childCoordinators.append(coordinator)
     }
     
-    func removeDependency(coordinator: Coordinator) {
+    func removeDependency(coordinator: Coordinatable) {
         guard !(childCoordinators.isEmpty) else { return }
         for (index, element) in childCoordinators.enumerated() {
             if element === coordinator {
@@ -39,9 +38,9 @@ extension Coordinator {
 }
 
 //MARK: - BaseCoordinator
-class BaseCoordinator: Coordinator {
+class BaseCoordinator: Coordinatable {
     
-    var childCoordinators = [Coordinator]()
+    var childCoordinators = [Coordinatable]()
     
     var router: Router
     
@@ -50,9 +49,4 @@ class BaseCoordinator: Coordinator {
     }
     
     func start() {}
-    
-    func getNavController() -> UINavigationController {
-        return UINavigationController()
-        
-    }
 }

@@ -11,7 +11,7 @@ final class AuthViewController: UIViewController {
 
     let button = UIButton.createDefaultButton()
     
-    var coordinator: Coordinator?
+    var coordinator: Coordinatable?
     
     var onFinish: CompletionBlock?
     

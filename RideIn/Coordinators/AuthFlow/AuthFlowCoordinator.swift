@@ -17,7 +17,6 @@ class AuthCoordinator: BaseCoordinator, AuthFlowCoordinatorOutput {
     
     private weak var navigationController: UINavigationController?
 
-    
     //MARK: init-
     init(navigationController: UINavigationController) {
         super.init(router: Router(rootController: navigationController))

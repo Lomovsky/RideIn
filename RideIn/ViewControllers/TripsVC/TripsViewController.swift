@@ -16,7 +16,7 @@ final class TripsViewController: UIViewController {
     weak var rideSearchDelegate: RideSearchDelegate?
     
     /// Coordinator
-    weak var coordinator: Coordinator?
+    weak var coordinator: Coordinatable?
     
     /// Triggered when vc is ready to be closed
     var onFinish: CompletionBlock?

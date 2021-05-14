@@ -14,6 +14,16 @@ enum Declensions {
     case more
 }
 
+/// Represents the users authorization status
+enum AuthorizationStatus {
+    static var isAuthorized = false
+}
+
+/// Deep link options
+enum DeepLinkOptions {
+    case notification(Notifications)
+}
+
 /// To increase or decrease passengers count
 enum Operation {
     case increase

@@ -9,22 +9,21 @@ import UIKit
 
 
 protocol CoordinatorFactory {
-    
     var deepLinkOptions: DeepLinkOptions? { get }
     var navigationController: UINavigationController { get }
     
-    func makeApplicationCoordinator() -> Coordinator
+    func makeApplicationCoordinator() -> Coordinatable
     
-    func makeAuthCoordinator() -> Coordinator & AuthFlowCoordinatorOutput
-    func makeMainFlowCoordinator() -> Coordinator & MainFlowCoordinatorOutput
-    
+    func makeAuthCoordinator() -> Coordinatable & AuthFlowCoordinatorOutput
+    func makeMainFlowCoordinator() -> Coordinatable & MainFlowCoordinatorOutput
 }
 
 
 //MARK:- Coordinator factory
-class CoordinatorFactoryImp: CoordinatorFactory {
+final class CoordinatorFactoryImp: CoordinatorFactory {
     
     let deepLinkOptions: DeepLinkOptions?
+    
     let navigationController: UINavigationController
     
     init(navigationController: UINavigationController, deepLinkOptions: DeepLinkOptions? = nil) {
@@ -32,7 +31,7 @@ class CoordinatorFactoryImp: CoordinatorFactory {
         self.navigationController = navigationController
     }
     
-    func makeApplicationCoordinator() -> Coordinator {
+    func makeApplicationCoordinator() -> Coordinatable {
         switch deepLinkOptions {
         case nil:
             return ApplicationCoordinator(navigationController: navigationController)
@@ -42,7 +41,7 @@ class CoordinatorFactoryImp: CoordinatorFactory {
         }
     }
     
-    func makeMainFlowCoordinator() -> (Coordinator & MainFlowCoordinatorOutput) {
+    func makeMainFlowCoordinator() -> (Coordinatable & MainFlowCoordinatorOutput) {
         switch deepLinkOptions {
         case nil:
             return MainFlowCoordinator(navigationController: navigationController)
@@ -53,8 +52,7 @@ class CoordinatorFactoryImp: CoordinatorFactory {
         }
     }
     
-    func makeAuthCoordinator() -> Coordinator & AuthFlowCoordinatorOutput {
+    func makeAuthCoordinator() -> Coordinatable & AuthFlowCoordinatorOutput {
         return AuthCoordinator(navigationController: navigationController)
     }
-    
 }

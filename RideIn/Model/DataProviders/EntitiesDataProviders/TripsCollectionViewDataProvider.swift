@@ -27,7 +27,6 @@ protocol TripsCollectionViewDataProvider: UICollectionViewDelegate, UICollection
 final class MainTripsCollectionViewDataProvider: NSObject, TripsCollectionViewDataProvider {
     
     //MARK: Declarations -
-    
     /// Parent viewController that asks for data
     weak var parentVC: UIViewController?
     
@@ -64,15 +63,20 @@ final class MainTripsCollectionViewDataProvider: NSObject, TripsCollectionViewDa
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let vc = parentVC as? TripsViewController else { return 0 }
         switch collectionView {
-        case vc.recommendationsCollectionView: return trips.count == 1 ? 1 :  2
+        case vc.recommendationsCollectionView:
+            return trips.count == 1 ? 1 :  2
             
-        case vc.allTipsCollectionView: return trips.count
+        case vc.allTipsCollectionView:
+            return trips.count
             
-        case vc.cheapTripsToTopCollectionView: return cheapTripsToTop.count
+        case vc.cheapTripsToTopCollectionView:
+            return cheapTripsToTop.count
             
-        case vc.cheapTripsToBottomCollectionView: return cheapTripsToBottom.count
+        case vc.cheapTripsToBottomCollectionView:
+            return cheapTripsToBottom.count
             
-        default: return 0
+        default:
+            return 0
         }
     }
     
@@ -171,9 +175,12 @@ final class MainTripsCollectionViewDataProvider: NSObject, TripsCollectionViewDa
                 let arrivingTime = MainDateTimeFormatter().getDateTime(format: .hhmmss, from: trip, for: .destination)
                 let price = Float(trip.price.amount)
                 let preparedData = PreparedTripsDataModelFromTripsVC(selectedTrip: trip, date: date,
-                                                                     passengersCount: numberOfPassengers, departurePlace: departurePlaceName,
-                                                                     destinationPlace: destinationPlaceName, departureTime: departmentTime,
-                                                                     arrivingTime: arrivingTime, price: price ?? 0)
+                                                                     passengersCount: numberOfPassengers,
+                                                                     departurePlace: departurePlaceName,
+                                                                     destinationPlace: destinationPlaceName,
+                                                                     departureTime: departmentTime,
+                                                                     arrivingTime: arrivingTime,
+                                                                     price: price ?? 0)
                 vc.onCellSelected?(preparedData)
                 
             } else {
@@ -182,9 +189,12 @@ final class MainTripsCollectionViewDataProvider: NSObject, TripsCollectionViewDa
                 let arrivingTime = MainDateTimeFormatter().getDateTime(format: .hhmmss, from: trip, for: .destination)
                 let price = Float(trip.price.amount)
                 let preparedData = PreparedTripsDataModelFromTripsVC(selectedTrip: trip, date: date,
-                                                                     passengersCount: numberOfPassengers, departurePlace: departurePlaceName,
-                                                                     destinationPlace: destinationPlaceName, departureTime: departmentTime,
-                                                                     arrivingTime: arrivingTime, price: price ?? 0)
+                                                                     passengersCount: numberOfPassengers,
+                                                                     departurePlace: departurePlaceName,
+                                                                     destinationPlace: destinationPlaceName,
+                                                                     departureTime: departmentTime,
+                                                                     arrivingTime: arrivingTime,
+                                                                     price: price ?? 0)
                 vc.onCellSelected?(preparedData)
             }
             
@@ -194,9 +204,12 @@ final class MainTripsCollectionViewDataProvider: NSObject, TripsCollectionViewDa
             let arrivingTime = MainDateTimeFormatter().getDateTime(format: .hhmmss, from: trip, for: .destination)
             let price = Float(trip.price.amount)
             let preparedData = PreparedTripsDataModelFromTripsVC(selectedTrip: trip, date: date,
-                                                                 passengersCount: numberOfPassengers, departurePlace: departurePlaceName,
-                                                                 destinationPlace: destinationPlaceName, departureTime: departmentTime,
-                                                                 arrivingTime: arrivingTime, price: price ?? 0)
+                                                                 passengersCount: numberOfPassengers,
+                                                                 departurePlace: departurePlaceName,
+                                                                 destinationPlace: destinationPlaceName,
+                                                                 departureTime: departmentTime,
+                                                                 arrivingTime: arrivingTime,
+                                                                 price: price ?? 0)
             vc.onCellSelected?(preparedData)
             
             
@@ -206,9 +219,12 @@ final class MainTripsCollectionViewDataProvider: NSObject, TripsCollectionViewDa
             let arrivingTime = MainDateTimeFormatter().getDateTime(format: .hhmmss, from: trip, for: .destination)
             let price = Float(trip.price.amount)
             let preparedData = PreparedTripsDataModelFromTripsVC(selectedTrip: trip, date: date,
-                                                                 passengersCount: numberOfPassengers, departurePlace: departurePlaceName,
-                                                                 destinationPlace: destinationPlaceName, departureTime: departmentTime,
-                                                                 arrivingTime: arrivingTime, price: price ?? 0)
+                                                                 passengersCount: numberOfPassengers,
+                                                                 departurePlace: departurePlaceName,
+                                                                 destinationPlace: destinationPlaceName,
+                                                                 departureTime: departmentTime,
+                                                                 arrivingTime: arrivingTime,
+                                                                 price: price ?? 0)
             vc.onCellSelected?(preparedData)
             
             
@@ -218,9 +234,12 @@ final class MainTripsCollectionViewDataProvider: NSObject, TripsCollectionViewDa
             let arrivingTime = MainDateTimeFormatter().getDateTime(format: .hhmmss, from: trip, for: .destination)
             let price = Float(trip.price.amount)
             let preparedData = PreparedTripsDataModelFromTripsVC(selectedTrip: trip, date: date,
-                                                                 passengersCount: numberOfPassengers, departurePlace: departurePlaceName,
-                                                                 destinationPlace: destinationPlaceName, departureTime: departmentTime,
-                                                                 arrivingTime: arrivingTime, price: price ?? 0)
+                                                                 passengersCount: numberOfPassengers,
+                                                                 departurePlace: departurePlaceName,
+                                                                 destinationPlace: destinationPlaceName,
+                                                                 departureTime: departmentTime,
+                                                                 arrivingTime: arrivingTime,
+                                                                 price: price ?? 0)
             vc.onCellSelected?(preparedData)
             
             

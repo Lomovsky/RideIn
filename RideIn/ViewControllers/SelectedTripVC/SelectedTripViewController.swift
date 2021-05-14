@@ -11,7 +11,7 @@ import MapKit
 final class SelectedTripViewController: UIViewController {
     
     /// Coordinator
-    weak var coordinator: Coordinator?
+    weak var coordinator: Coordinatable?
     
     lazy var controllerDataProvider = makeControllerDataProvider()
     

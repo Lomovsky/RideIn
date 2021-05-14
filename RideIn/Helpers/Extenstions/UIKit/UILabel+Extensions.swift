@@ -1,5 +1,5 @@
 //
-//  UILabelExtensions.swift
+//  UILabel+Extensions.swift
 //  RideIn
 //
 //  Created by Алекс Ломовской on 11.05.2021.
