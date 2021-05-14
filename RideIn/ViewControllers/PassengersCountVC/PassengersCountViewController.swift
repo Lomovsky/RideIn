@@ -15,9 +15,6 @@ final class PassengersCountViewController: UIViewController {
     /// Coordinator
     weak var coordinator: Coordinatable?
     
-    /// Triggered when vc is ready to be closed
-    var onFinish: CompletionBlock?
-    
     //MARK: UIElements -
     private let controllerTitle = UILabel.createDefaultLabel()
     
