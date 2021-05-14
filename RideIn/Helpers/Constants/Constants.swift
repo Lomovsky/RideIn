@@ -7,13 +7,6 @@
 
 import Foundation
 
-/// To write the word passenger correctly using number of passengers
-enum Declensions {
-    case one
-    case two
-    case more
-}
-
 /// Represents the users authorization status
 enum AuthorizationStatus {
     static var isAuthorized = false

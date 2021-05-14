@@ -61,17 +61,6 @@ final class RideSearchViewControllerDataProvider: ControllerDataProvidable {
     /// Number of passengers to send as request parameter
     var passengersCount = 1
     
-    /// This property is used for configuring the declension of the word "Пассажир" due to number of passengers
-    var passengerDeclension: Declensions {
-        if passengersCount == 1 {
-            return .one
-        } else if passengersCount <= 4, passengersCount > 1 {
-            return .two
-        } else {
-            return .more
-        }
-    }
-    
     
     init(parentController: UIViewController) {
         self.parentController = parentController

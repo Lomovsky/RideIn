@@ -76,19 +76,10 @@ extension RideSearchViewController {
     
     ///This method configures passengersButton with given number of passengers according to declension
     func setPassengersCountWithDeclension() {
-        switch controllerDataProvider.passengerDeclension {
-        case .one:
-            passengersButton.setTitle("\(controllerDataProvider.passengersCount)" + " " + NSLocalizedString("Search.onePassenger", comment: ""),
-                                      for: .normal)
-            
-        case .two:
-            passengersButton.setTitle("\(controllerDataProvider.passengersCount)" + " " + NSLocalizedString("Search.lessThanFourPassengers", comment: ""),
-                                      for: .normal)
-            
-        default:
-            passengersButton.setTitle("\(controllerDataProvider.passengersCount)" + " " + NSLocalizedString("Search.morePassengers", comment: ""),
-                                      for: .normal)
-        }
+        let localizedCountFormat = NSLocalizedString("Passengers count",
+                                                     comment: "Passengers count string format to be found in Localized.stringsdict")
+        let localizedCount = String.localizedStringWithFormat(localizedCountFormat, controllerDataProvider.passengersCount)
+        passengersButton.setTitle(localizedCount, for: .normal)
     }
     
     /// This method asks dataProvider to search places with the given key word

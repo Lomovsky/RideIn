@@ -10,9 +10,6 @@
 "Search.departure" = "Department place";
 "Search.destination" = "Destination place";
 "Search.searchButton" = "Search";
-"Search.onePassenger" = "passenger";
-"Search.lessThanFourPassengers" = "passengers";
-"Search.morePassengers" = "passengers";
 "Search.showMap" = "Choose on the map";
 
 // AlertController

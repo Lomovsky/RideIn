@@ -10,9 +10,6 @@
 "Search.departure" = "Выезжаете из";
 "Search.destination" = "Направляетесь в";
 "Search.searchButton" = "Найти";
-"Search.onePassenger" = "пассажир";
-"Search.lessThanFourPassengers" = "пассажира";
-"Search.morePassengers" = "пассажиров";
 "Search.showMap" = "Выбрать на карте";
 
 // AlertController
