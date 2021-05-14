@@ -88,9 +88,7 @@ final class MainFlowCoordinator: BaseCoordinator, MainFlowCoordinatorOutput {
         vc.onFinish = { [weak self] in
             self?.onFinishFlow?()
         }
-        
-//        router.present(vc, modalTransitionStyle: .flipHorizontal, com )
-    
+
         router.setRootModule(vc)
     }
     
@@ -218,4 +216,3 @@ final class MainFlowCoordinator: BaseCoordinator, MainFlowCoordinatorOutput {
         Log.i("Deallocating \(self)")
     }
 }
-
