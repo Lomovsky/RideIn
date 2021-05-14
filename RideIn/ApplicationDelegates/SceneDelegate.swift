@@ -11,7 +11,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     
-    var coordinator: Coordinator! {
+    var coordinatorFactory: CoordinatorFactory! {
+        didSet {
+            coordinator = coordinatorFactory.makeApplicationCoordinator()
+        }
+    }
+    
+    private var coordinator: Coordinator! {
         didSet {
             coordinator.start()
         }
@@ -21,14 +27,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let winScene = (scene as? UIWindowScene) else { return }
         let navController = UINavigationController()
         let win = UIWindow(windowScene: winScene)
-        coordinator = ApplicationCoordinator(navigationController: navController)
-        coordinator.start()
+        coordinatorFactory = CoordinatorFactoryImp(navigationController: navController)
         window = win
 
     }
     
-
-
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

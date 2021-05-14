@@ -85,8 +85,8 @@ extension MainNotificationsController {
                 
             case "Find":
                 let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
-                sceneDelegate.coordinator = ApplicationCoordinator(navigationController: UINavigationController(),
-                                                                   deepLinkOptions: .notification(.newRidesAvailable))
+                sceneDelegate.coordinatorFactory = CoordinatorFactoryImp(navigationController: UINavigationController(),
+                                                                          deepLinkOptions: .notification(.newRidesAvailable))
                 
                 Log.i("Find a ride triggered")
                 

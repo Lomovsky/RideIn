@@ -13,13 +13,16 @@ protocol CoordinatorFactory {
     var deepLinkOptions: DeepLinkOptions? { get }
     var navigationController: UINavigationController { get }
     
+    func makeApplicationCoordinator() -> Coordinator
+    
     func makeAuthCoordinator() -> Coordinator & AuthFlowCoordinatorOutput
     func makeMainFlowCoordinator() -> Coordinator & MainFlowCoordinatorOutput
+    
 }
 
 
 //MARK:- Coordinator factory
-class MainCoordinatorFactory: CoordinatorFactory {
+class CoordinatorFactoryImp: CoordinatorFactory {
     
     let deepLinkOptions: DeepLinkOptions?
     let navigationController: UINavigationController
@@ -29,26 +32,29 @@ class MainCoordinatorFactory: CoordinatorFactory {
         self.navigationController = navigationController
     }
     
+    func makeApplicationCoordinator() -> Coordinator {
+        switch deepLinkOptions {
+        case nil:
+            return ApplicationCoordinator(navigationController: navigationController)
+            
+        case .notification(_):
+            return ApplicationCoordinator(navigationController: navigationController, deepLinkOptions: deepLinkOptions)
+        }
+    }
+    
     func makeMainFlowCoordinator() -> (Coordinator & MainFlowCoordinatorOutput) {
         switch deepLinkOptions {
         case nil:
             return MainFlowCoordinator(navigationController: navigationController)
             
-        case .notification(let notification):
-            switch notification {
-            case .newRidesAvailable:
-                return MainFlowCoordinator(navigationController: navigationController,
-                                           deepLinkOptions: .notification(notification))
-            }
+        case .notification(_):
+                return MainFlowCoordinator(navigationController: navigationController, deepLinkOptions: deepLinkOptions)
+            
         }
     }
     
+    func makeAuthCoordinator() -> Coordinator & AuthFlowCoordinatorOutput {
+        return AuthCoordinator(navigationController: navigationController)
+    }
     
-
-
-func makeAuthCoordinator() -> Coordinator & AuthFlowCoordinatorOutput {
-    return AuthCoordinator(navigationController: navigationController)
-    
-}
-
 }

@@ -128,10 +128,6 @@ final class RideSearchViewController: UIViewController {
         view.addSubview(tableViewSubview)
         
         notifications.scheduleNotification(ofType: .newRidesAvailable)
-            
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.onFinish?()
-        }
         
         setupNavigationController()
         setupView()

@@ -9,16 +9,16 @@ import UIKit
 
 private var isAuthorized = false
 
-enum LaunchInstructor {
+private enum LaunchInstructor {
     case auth
     case main
     
     static func configure(isAuthorized: Bool = isAuthorized) -> LaunchInstructor {
-      switch (isAuthorized) {
-      case true: return .main
-      case false: return .auth
-        
-      }
+        switch (isAuthorized) {
+        case true: return .main
+        case false: return .auth
+            
+        }
     }
 }
 
@@ -48,7 +48,7 @@ class ApplicationCoordinator: BaseCoordinator {
             runAuthFlow()
             
         case .main:
-            runMainFlow()
+            runMainFlow(withOptions: deepLinkOptions)
             
         default:
             break
@@ -56,11 +56,11 @@ class ApplicationCoordinator: BaseCoordinator {
     }
     
     private func runAuthFlow() {
-        let coordinatorFactory = MainCoordinatorFactory(navigationController: navigationController!)
+        let coordinatorFactory = CoordinatorFactoryImp(navigationController: navigationController!)
         let coordinator = coordinatorFactory.makeAuthCoordinator() 
         addDependency(coordinator: coordinator)
         
-        coordinator.onFinishFlow = { [weak self] in
+        coordinator.onFinishFlow = { [weak self, unowned coordinator = coordinator] in
             self?.removeDependency(coordinator: coordinator)
             isAuthorized = true
             self?.start()
@@ -69,26 +69,35 @@ class ApplicationCoordinator: BaseCoordinator {
         coordinator.start()
     }
     
-    private func runMainFlow() {
+    private func runMainFlow(withOptions options: DeepLinkOptions?) {
         let coordinatorFactory: CoordinatorFactory
         
-        switch deepLinkOptions {
+        switch options {
         case nil:
-            coordinatorFactory = MainCoordinatorFactory(navigationController: navigationController!)
-        case .notification(let notification):
-            coordinatorFactory = MainCoordinatorFactory(navigationController: navigationController!,
-                                                        deepLinkOptions: .notification(notification))
+            coordinatorFactory = CoordinatorFactoryImp(navigationController: navigationController!)
+            let coordinator = coordinatorFactory.makeMainFlowCoordinator()
+            
+            addDependency(coordinator: coordinator)
+            
+            coordinator.onFinishFlow = { [weak self, unowned coordinator = coordinator] in
+                self?.removeDependency(coordinator: coordinator)
+                self?.runAuthFlow()
+            }
+            
+            coordinator.start()
+            
+        case .notification(_):
+            coordinatorFactory = CoordinatorFactoryImp(navigationController: navigationController!, deepLinkOptions: options)
+            guard let coordinator = coordinatorFactory.makeMainFlowCoordinator() as? MainFlowCoordinator else { return }
+            
+            addDependency(coordinator: coordinator)
+            
+            coordinator.onFinishFlow = { [weak self, unowned coordinator = coordinator] in
+                self?.removeDependency(coordinator: coordinator)
+                self?.runAuthFlow()
+            }
+            
+            coordinator.start(withOptions: options!)
         }
-        
-        let coordinator = coordinatorFactory.makeMainFlowCoordinator()
-        
-        addDependency(coordinator: coordinator)
-        
-        coordinator.onFinishFlow = { [weak self] in
-            self?.removeDependency(coordinator: coordinator)
-            self?.runAuthFlow()
-        }
-        
-        coordinator.start()
     }
 }
