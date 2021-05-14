@@ -7,8 +7,6 @@
 
 import UIKit
 
-
-
 protocol Alertable {
     func makeAlert(title: String?, message: String?, style: UIAlertController.Style)
     func makeLocationAlert(title: String?, message: String?, style: UIAlertController.Style)
