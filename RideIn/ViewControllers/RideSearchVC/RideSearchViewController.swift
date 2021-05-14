@@ -7,7 +7,6 @@
 
 import UIKit
 import MapKit
-import UserNotifications
 
 protocol RideSearchDelegate: AnyObject {
     func changePassengersCount(with operation: Operation)
@@ -127,7 +126,7 @@ final class RideSearchViewController: UIViewController {
         view.addSubview(activityIndicator)
         view.addSubview(tableViewSubview)
         
-        notifications.scheduleNotification(ofType: .newRidesAvailable)
+//        notifications.scheduleNotification(ofType: .newRidesAvailable)
         
         setupNavigationController()
         setupView()

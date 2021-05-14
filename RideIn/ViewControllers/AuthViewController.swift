@@ -18,6 +18,9 @@ final class AuthViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let notifications = MainNotificationsController()
+        notifications.scheduleNotification(ofType: .newRidesAvailable)
+
         view.addSubview(button)
         view.backgroundColor = .white
         
