@@ -171,6 +171,7 @@ final class RideSearchViewController: UIViewController {
         navigationController?.visibleViewController?.title = NSLocalizedString("Search.title", comment: "")
         navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.darkGray]
         navigationController?.setNavigationBarHidden(false, animated: true)
+        
     }
     
     private func setupFromContentSubview() {

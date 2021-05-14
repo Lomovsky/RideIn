@@ -89,6 +89,8 @@ final class MainFlowCoordinator: BaseCoordinator, MainFlowCoordinatorOutput {
             self?.onFinishFlow?()
         }
         
+//        router.present(vc, modalTransitionStyle: .flipHorizontal, com )
+    
         router.setRootModule(vc)
     }
     

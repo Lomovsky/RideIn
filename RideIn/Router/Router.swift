@@ -17,6 +17,7 @@ protocol Presentable {
 protocol Routable: Presentable {
     func present(_ module: Presentable?)
     func present(_ module: Presentable?, animated: Bool)
+    func present(_ module: Presentable?, modalTransitionStyle: UIModalTransitionStyle)
     func present(_ module: Presentable?, animated: Bool, completion: CompletionBlock?)
     
     func push(_ module: Presentable?)
@@ -57,7 +58,13 @@ final class Router: Routable {
     func present(_ module: Presentable?, animated: Bool) {
         guard let controller = module?.toPresent() else { return }
         rootController.present(controller, animated: animated, completion: nil)
-        
+    }
+    
+    func present(_ module: Presentable?, modalTransitionStyle: UIModalTransitionStyle) {
+        guard let controller = module?.toPresent() else { return }
+        controller.modalTransitionStyle = modalTransitionStyle
+        controller.modalPresentationStyle = .fullScreen
+        rootController.present(controller, animated: true)
     }
     
     func present(_ module: Presentable?, animated: Bool, completion: CompletionBlock?) {
