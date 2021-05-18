@@ -20,6 +20,7 @@ private enum LaunchInstructor {
     }
 }
 
+//MARK:- Application coordinator
 final class ApplicationCoordinator: BaseCoordinator {
     
     private weak var navigationController: UINavigationController?
@@ -49,6 +50,7 @@ final class ApplicationCoordinator: BaseCoordinator {
         }
     }
     
+    //MARK: authFlow -
     private func runAuthFlow() {
         let coordinatorFactory = CoordinatorFactoryImp(navigationController: navigationController!)
         let coordinator = coordinatorFactory.makeAuthCoordinator() 
@@ -63,6 +65,7 @@ final class ApplicationCoordinator: BaseCoordinator {
         coordinator.start()
     }
     
+    //MARK: mainFlow-
     private func runMainFlow(withOptions options: DeepLinkOptions?) {
         let coordinatorFactory: CoordinatorFactory
         
