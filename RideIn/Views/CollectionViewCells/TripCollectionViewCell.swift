@@ -237,12 +237,14 @@ class TripCollectionViewCell: UICollectionViewCell, ReusableView {
     placeholderLabel.textColor = .white
   }
   
-  func configureTheCell(departurePlace: String,
-                        arrivingPlace: String,
-                        departureTime: String,
-                        arrivingTime: String,
-                        filterType: String?,
-                        price: String) {
+  func configureTheCell(
+    departurePlace: String,
+    arrivingPlace: String,
+    departureTime: String,
+    arrivingTime: String,
+    filterType: String?,
+    price: String
+  ) {
     priceLabel.text = price
     departurePlaceLabel.text = departurePlace
     arrivingPlaceLabel.text = arrivingPlace

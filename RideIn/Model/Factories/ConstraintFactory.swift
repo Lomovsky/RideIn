@@ -84,6 +84,7 @@ struct MainConstraintFactory: ConstraintFactory {
           attribute: .top,
           multiplier: 1,
           constant: 30)
+        
       case.dismissed:
         return NSLayoutConstraint(
           item: destinationTextField,

@@ -71,10 +71,13 @@ final class RideSearchViewControllerDataProvider: ControllerDataProvidable {
   func search() {
     let vc = parentController as! RideSearchViewController
     vc.configureIndicatorAndButton(indicatorEnabled: true)
-    dataManager.downloadDataWith(departureCoordinates: departureCoordinates,
-                                 destinationCoordinates: destinationCoordinates,
-                                 seats: "\(passengersCount)",
-                                 date: date) { [unowned self] result in
+    dataManager.downloadDataWith(
+      departureCoordinates: departureCoordinates,
+      destinationCoordinates: destinationCoordinates,
+      seats: "\(passengersCount)",
+      date: date) {
+      [unowned self] result in
+      
       switch result {
       case .failure(let error):
         switch error {
@@ -123,17 +126,18 @@ final class RideSearchViewControllerDataProvider: ControllerDataProvidable {
       try dataManager.prepareData(
         trips: trips,
         userLocation: departureCLLocation,
-        completion: { [unowned self] unsortedTrips,
-                                     cheapToTop,
-                                     cheapToBottom,
-                                     cheapestTrip,
-                                     closestTrip in
-                                    self.sendPreparedData(
-                                      trips: trips,
-                                      cheapToTop: cheapToTop,
-                                      expensiveToTop: cheapToBottom,
-                                      cheapestTrip: cheapestTrip,
-                                      closestTrip: closestTrip)
+        completion: {
+          [unowned self] unsortedTrips,
+                         cheapToTop,
+                         cheapToBottom,
+                         cheapestTrip,
+                         closestTrip in
+          self.sendPreparedData(
+            trips: trips,
+            cheapToTop: cheapToTop,
+            expensiveToTop: cheapToBottom,
+            cheapestTrip: cheapestTrip,
+            closestTrip: closestTrip)
         })
     } catch _ as NSError {
       vc.onAlert?(NSLocalizedString("Alert.noTrips", comment: ""))

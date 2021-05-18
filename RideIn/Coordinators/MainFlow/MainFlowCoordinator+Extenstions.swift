@@ -14,13 +14,15 @@ extension MainFlowCoordinator: Alertable {
     guard UIApplication.shared.canOpenURL(settingsUrl) else { return }
     let alert = UIAlertController(title: title, message: message, preferredStyle: style)
     
-    let goToSettingsButton = UIAlertAction(title: NSLocalizedString(.Localization.Alert.openSettings, comment: ""),
-                                           style: .default) { _ in
+    let goToSettingsButton = UIAlertAction(
+      title: NSLocalizedString(.Localization.Alert.openSettings, comment: ""),
+      style: .default) { _ in
       UIApplication.shared.open(settingsUrl)
     }
     
-    let dismissButton = UIAlertAction(title: NSLocalizedString(.Localization.Alert.dismiss, comment: ""),
-                                      style: .cancel) { [unowned self] _ in
+    let dismissButton = UIAlertAction(
+      title: NSLocalizedString(.Localization.Alert.dismiss, comment: ""),
+      style: .cancel) { [unowned self] _ in
       self.router.popModule()
     }
     
@@ -32,8 +34,9 @@ extension MainFlowCoordinator: Alertable {
   func makeAlert(title: String?, message: String?, style: UIAlertController.Style) {
     let alert = UIAlertController(title: title, message: message, preferredStyle: style)
     
-    let dismissButton = UIAlertAction(title: NSLocalizedString(.Localization.Alert.dismiss, comment: ""),
-                                      style: .cancel) { [unowned self] _ in
+    let dismissButton = UIAlertAction(
+      title: NSLocalizedString(.Localization.Alert.dismiss, comment: ""),
+      style: .cancel) { [unowned self] _ in
       self.router.popModule()
     }
     
