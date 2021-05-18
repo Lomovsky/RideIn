@@ -13,7 +13,6 @@ protocol CoordinatorFactory {
     var navigationController: UINavigationController { get }
     
     func makeApplicationCoordinator() -> Coordinatable
-    
     func makeAuthCoordinator() -> Coordinatable & AuthFlowCoordinatorOutput
     func makeOnboardingFlowCoordinator() -> Coordinatable & OnboardingFlowOutput
     func makeMainFlowCoordinator() -> Coordinatable & MainFlowCoordinatorOutput
