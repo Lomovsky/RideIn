@@ -74,10 +74,7 @@ struct Place: Codable {
 }
 
 extension Trip: Equatable {
-  
   static func == (lhs: Trip, rhs: Trip) -> Bool {
     return lhs.link == rhs.link
   }
-  
-  
 }

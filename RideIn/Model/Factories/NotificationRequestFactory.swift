@@ -44,10 +44,11 @@ final class MainNotificationRequestFactory: NotificationRequestFactory {
     content.sound = UNNotificationSound.default
     content.badge = 1
     if !actions.isEmpty {
-      let category = UNNotificationCategory(identifier: contentCategoryIdentifier,
-                                            actions: actions,
-                                            intentIdentifiers: [],
-                                            options: [])
+      let category = UNNotificationCategory(
+        identifier: contentCategoryIdentifier,
+        actions: actions,
+        intentIdentifiers: [],
+        options: [])
       notificationCenter.setNotificationCategories([category])
     }
     

@@ -284,10 +284,12 @@ final class SelectedTripViewController: UIViewController {
   }
   
   private func setupPassengersCountLabel() {
-    let localizedTotalCountFormat = NSLocalizedString("Total price by count",
-                                                      comment: "Total price by count string format to be found in Localized.stringsdict")
-    let localizedTotalCount = String.localizedStringWithFormat(localizedTotalCountFormat, controllerDataProvider.passengersCount)
-    
+    let localizedTotalCountFormat = NSLocalizedString(
+      "Total price by count",
+      comment: "Total price by count string format to be found in Localized.stringsdict")
+    let localizedTotalCount = String.localizedStringWithFormat(
+      localizedTotalCountFormat,
+      controllerDataProvider.passengersCount)
     NSLayoutConstraint.activate([
       passengersCountLabel.centerYAnchor.constraint(equalTo: priceSubview.centerYAnchor),
       passengersCountLabel.leadingAnchor.constraint(equalTo: priceSubview.leadingAnchor, constant: 10),

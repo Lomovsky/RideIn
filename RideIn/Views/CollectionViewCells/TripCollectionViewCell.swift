@@ -22,7 +22,8 @@ class TripCollectionViewCell: UICollectionViewCell, ReusableView {
   private let priceLabel = UILabel.createDefaultLabel()
   private let placeholderSubview = UIView.createDefaultView()
   private let placeholderLabel = UILabel.createDefaultLabel()
-  private let placeholderImageView = UIImageView.createDefaultIV(withImage: .init(systemName: "person.2.square.stack.fill"))
+  private let placeholderImageView = UIImageView.createDefaultIV(
+    withImage: .init(systemName: "person.2.square.stack.fill"))
   
   //MARK: Initializer-
   override init(frame: CGRect) {

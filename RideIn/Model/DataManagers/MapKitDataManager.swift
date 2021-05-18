@@ -85,10 +85,10 @@ final class MainMapKitDataManager: MapKitDataManager {
       guard let vc = parentDataProvider?.parentVC as? MapViewController else { return }
       if let route = unwrappedResponse.routes.first {
         vc.mapView.addOverlay(route.polyline)
-        vc.mapView.setVisibleMapRect(route.polyline.boundingMapRect,
-                                     edgePadding: UIEdgeInsets.init(top: 80.0, left: 20.0,
-                                                                    bottom: 100.0, right: 20.0),
-                                     animated: true)
+        vc.mapView.setVisibleMapRect(
+          route.polyline.boundingMapRect,
+          edgePadding: UIEdgeInsets.init(top: 80.0, left: 20.0, bottom: 100.0, right: 20.0),
+          animated: true)
       }
     }
   }
@@ -120,13 +120,16 @@ final class MainMapKitDataManager: MapKitDataManager {
   ///   - departureLocation: first location
   ///   - destinationLocation: second location
   /// - Returns: distance between two locations
-  func getDistanceBetween(departureLocation: CLLocationCoordinate2D,
-                          destinationLocation: CLLocationCoordinate2D
+  func getDistanceBetween(
+    departureLocation: CLLocationCoordinate2D,
+    destinationLocation: CLLocationCoordinate2D
   ) -> CLLocationDistance {
-    let departureLocationCoordinates = CLLocation(latitude: departureLocation.latitude,
-                                                  longitude: departureLocation.longitude)
-    let destinationLocationCoordinates = CLLocation(latitude: destinationLocation.latitude,
-                                                    longitude: destinationLocation.longitude)
+    let departureLocationCoordinates = CLLocation(
+      latitude: departureLocation.latitude,
+      longitude: departureLocation.longitude)
+    let destinationLocationCoordinates = CLLocation(
+      latitude: destinationLocation.latitude,
+      longitude: destinationLocation.longitude)
     return destinationLocationCoordinates.distance(from: departureLocationCoordinates)
   }
   

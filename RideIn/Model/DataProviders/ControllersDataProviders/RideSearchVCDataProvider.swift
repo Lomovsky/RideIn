@@ -120,18 +120,21 @@ final class RideSearchViewControllerDataProvider: ControllerDataProvidable {
     let vc = parentController as! RideSearchViewController
     
     do {
-      try dataManager.prepareData(trips: trips,
-                                  userLocation: departureCLLocation,
-                                  completion: { [unowned self] unsortedTrips,
-                                                               cheapToTop,
-                                                               cheapToBottom,
-                                                               cheapestTrip,
-                                                               closestTrip in
-                                    self.sendPreparedData(trips: trips,
-                                                          cheapToTop: cheapToTop,
-                                                          expensiveToTop: cheapToBottom,
-                                                          cheapestTrip: cheapestTrip,
-                                                          closestTrip: closestTrip) })
+      try dataManager.prepareData(
+        trips: trips,
+        userLocation: departureCLLocation,
+        completion: { [unowned self] unsortedTrips,
+                                     cheapToTop,
+                                     cheapToBottom,
+                                     cheapestTrip,
+                                     closestTrip in
+                                    self.sendPreparedData(
+                                      trips: trips,
+                                      cheapToTop: cheapToTop,
+                                      expensiveToTop: cheapToBottom,
+                                      cheapestTrip: cheapestTrip,
+                                      closestTrip: closestTrip)
+        })
     } catch _ as NSError {
       vc.onAlert?(NSLocalizedString("Alert.noTrips", comment: ""))
       vc.configureIndicatorAndButton(indicatorEnabled: false)
@@ -153,16 +156,17 @@ final class RideSearchViewControllerDataProvider: ControllerDataProvidable {
     closestTrip: Trip?
   ) {
     let vc = parentController as! RideSearchViewController
-    let formattedData = PreparedTripsDataModelFromSearchVC(unsortedTrips: trips,
-                                                           cheapToTop: cheapToTop,
-                                                           expensiveToTop: expensiveToTop,
-                                                           closestTrip: closestTrip,
-                                                           cheapestTrip: cheapestTrip,
-                                                           date: date,
-                                                           departurePlaceName: vc.departureTextField.text,
-                                                           destinationPlaceName: vc.destinationTextField.text,
-                                                           passengersCount: passengersCount,
-                                                           delegate: vc)
+    let formattedData = PreparedTripsDataModelFromSearchVC(
+      unsortedTrips: trips,
+      cheapToTop: cheapToTop,
+      expensiveToTop: expensiveToTop,
+      closestTrip: closestTrip,
+      cheapestTrip: cheapestTrip,
+      date: date,
+      departurePlaceName: vc.departureTextField.text,
+      destinationPlaceName: vc.destinationTextField.text,
+      passengersCount: passengersCount,
+      delegate: vc)
     vc.onDataPrepared?(formattedData)
     vc.configureIndicatorAndButton(indicatorEnabled: false)
   }
@@ -191,10 +195,11 @@ private extension RideSearchViewControllerDataProvider {
   
   func makeConstrainFactory() -> MainConstraintFactory {
     let vc = parentController as! RideSearchViewController
-    let factory = MainConstraintFactory(view: vc.view,
-                                        destinationContentSubview: vc.destinationContentSubview,
-                                        destinationTextField: vc.destinationTextField,
-                                        tableViewSubview: vc.tableViewSubview)
+    let factory = MainConstraintFactory(
+      view: vc.view,
+      destinationContentSubview: vc.destinationContentSubview,
+      destinationTextField: vc.destinationTextField,
+      tableViewSubview: vc.tableViewSubview)
     return factory
   }
 }

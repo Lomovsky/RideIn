@@ -133,7 +133,9 @@ final class TripsViewController: UIViewController {
       navigationSubview.centerXAnchor.constraint(equalTo: view.centerXAnchor),
       navigationSubview.topAnchor.constraint(equalTo: view.topAnchor),
       navigationSubview.widthAnchor.constraint(equalTo: view.widthAnchor),
-      navigationSubview.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: (view.frame.height * 0.08))
+      navigationSubview.bottomAnchor.constraint(
+        equalTo: view.safeAreaLayoutGuide.topAnchor,
+        constant: (view.frame.height * 0.08))
     ])
     navigationSubview.backgroundColor = .white
   }
@@ -203,9 +205,12 @@ final class TripsViewController: UIViewController {
   }
   
   private func setupDetailsLabel() {
-    let localizedCountFormat = NSLocalizedString("Passengers count",
-                                                 comment: "Passengers count string format to be found in Localized.stringsdict")
-    let localizedCount = String.localizedStringWithFormat(localizedCountFormat, collectionViewDataProvider.numberOfPassengers)
+    let localizedCountFormat = NSLocalizedString(
+      "Passengers count",
+      comment: "Passengers count string format to be found in Localized.stringsdict")
+    let localizedCount = String.localizedStringWithFormat(
+      localizedCountFormat,
+      collectionViewDataProvider.numberOfPassengers)
     NSLayoutConstraint.activate([
       detailsLabel.topAnchor.constraint(equalTo: departurePlaceLabel.bottomAnchor, constant: 2),
       detailsLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor),
@@ -243,9 +248,14 @@ final class TripsViewController: UIViewController {
     
     pagesSegmentedControl.selectedSegmentIndex = 0
     
-    pagesSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 20), NSAttributedString.Key.foregroundColor: UIColor.darkGray], for: .normal)
-    
-    pagesSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font :  UIFont.boldSystemFont(ofSize: 20), NSAttributedString.Key.foregroundColor: UIColor.lightBlue], for: .selected)
+    pagesSegmentedControl.setTitleTextAttributes(
+      [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20),
+       NSAttributedString.Key.foregroundColor: UIColor.darkGray],
+      for: .normal)
+    pagesSegmentedControl.setTitleTextAttributes(
+      [NSAttributedString.Key.font:  UIFont.boldSystemFont(ofSize: 20),
+       NSAttributedString.Key.foregroundColor: UIColor.lightBlue],
+      for: .selected)
     pagesSegmentedControl.addTarget(self, action: #selector(segmentedControlHandler(sender:)), for: .valueChanged)
     
   }
@@ -270,7 +280,9 @@ final class TripsViewController: UIViewController {
       pageScrollView.trailingAnchor.constraint(equalTo: pageScrollSubview.safeAreaLayoutGuide.trailingAnchor)
     ])
     pageScrollView.isPagingEnabled = true
-    pageScrollView.contentSize = CGSize(width: pageScrollSubview.frame.width * CGFloat(3), height: pageScrollSubview.frame.height)
+    pageScrollView.contentSize = CGSize(
+      width: pageScrollSubview.frame.width * CGFloat(3),
+      height: pageScrollSubview.frame.height)
     pageScrollView.addSubview(allTipsCollectionView)
     pageScrollView.addSubview(cheapTripsToTopCollectionView)
     pageScrollView.addSubview(cheapTripsToBottomCollectionView)
@@ -286,13 +298,21 @@ final class TripsViewController: UIViewController {
   
   
   private func setupCheapToTopCollectionView() {
-    cheapTripsToTopCollectionView.frame = CGRect(x: view.frame.width, y: 0, width: view.frame.width, height: pageScrollView.frame.height)
+    cheapTripsToTopCollectionView.frame = CGRect(
+      x: view.frame.width,
+      y: 0,
+      width: view.frame.width,
+      height: pageScrollView.frame.height)
     cheapTripsToTopCollectionView.backgroundColor = .white
     cheapTripsToTopCollectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
   }
   
   private func setupExpensiveToTopCollectionView() {
-    cheapTripsToBottomCollectionView.frame = CGRect(x: view.frame.width * 2, y: 0, width: view.frame.width, height: pageScrollView.frame.height)
+    cheapTripsToBottomCollectionView.frame = CGRect(
+      x: view.frame.width * 2,
+      y: 0,
+      width: view.frame.width,
+      height: pageScrollView.frame.height)
     cheapTripsToBottomCollectionView.backgroundColor = .white
     cheapTripsToBottomCollectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
   }
