@@ -18,6 +18,8 @@ final class AuthViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.navigationBar.isHidden = true
+        
         let notifications = MainNotificationsController()
         notifications.scheduleNotification(ofType: .newRidesAvailable)
 
@@ -26,9 +28,11 @@ final class AuthViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            button.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            button.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.06),
+            button.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8)
         ])
-        button.setTitle("LOGIN", for: .normal)
+        button.setTitle("Login", for: .normal)
         button.backgroundColor = .systemBlue
         button.layer.cornerRadius = 15
         button.addTarget(self, action: #selector(login), for: .touchUpInside)

@@ -48,5 +48,7 @@ final class OnboardingFlowCoordinator: BaseCoordinator, OnboardingFlowOutput {
         router.push(vc)
     }
     
-
+    deinit {
+        Log.d("Deallocating \(self)")
+    }
 }

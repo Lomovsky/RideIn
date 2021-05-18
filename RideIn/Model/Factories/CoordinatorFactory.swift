@@ -33,13 +33,7 @@ final class CoordinatorFactoryImp: CoordinatorFactory {
     }
     
     func makeApplicationCoordinator() -> Coordinatable {
-        switch deepLinkOptions {
-        case nil:
-            return ApplicationCoordinator(navigationController: navigationController)
-            
-        case .notification(_):
-            return ApplicationCoordinator(navigationController: navigationController, deepLinkOptions: deepLinkOptions)
-        }
+        ApplicationCoordinator(navigationController: navigationController, deepLinkOptions: deepLinkOptions)
     }
     
     func makeAuthCoordinator() -> Coordinatable & AuthFlowCoordinatorOutput {
@@ -51,13 +45,6 @@ final class CoordinatorFactoryImp: CoordinatorFactory {
     }
     
     func makeMainFlowCoordinator() -> (Coordinatable & MainFlowCoordinatorOutput) {
-        switch deepLinkOptions {
-        case nil:
-            return MainFlowCoordinator(navigationController: navigationController)
-            
-        case .notification(_):
-                return MainFlowCoordinator(navigationController: navigationController, deepLinkOptions: deepLinkOptions)
-            
-        }
+        MainFlowCoordinator(navigationController: navigationController, deepLinkOptions: deepLinkOptions)
     }
 }
