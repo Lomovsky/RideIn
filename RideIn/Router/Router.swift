@@ -14,11 +14,11 @@ protocol Presentable {
     func toPresent() -> UIViewController?
 }
 
+//MARK:- Routable
 protocol Routable: Presentable {
     func present(_ module: Presentable?)
     func present(_ module: Presentable?, animated: Bool)
     func present(_ module: Presentable?, animated: Bool, completion: CompletionBlock?)
-    func present(_ module: Presentable?, modalTransitionStyle: UIModalTransitionStyle, completion: CompletionBlock?)
     
     func push(_ module: Presentable?)
     func push(_ module: Presentable?, animated: Bool)
@@ -31,12 +31,13 @@ protocol Routable: Presentable {
     func dismissModule(animated: Bool, completion: CompletionBlock?)
     
     func setRootModule(_ module: Presentable?)
-    func setRootModule(_ module: Presentable?, hideBar: Bool, animated: Bool)
+    func setRootModule(_ module: Presentable?, animated: Bool)
+    func setRootModule(_ module: Presentable?, hideBar: Bool)
     
     func popToRootModule(animated: Bool)
 }
 
-//MARK: MainRouter
+//MARK:- Router
 final class Router: Routable {
     
     let rootController: UINavigationController
@@ -58,13 +59,6 @@ final class Router: Routable {
     func present(_ module: Presentable?, animated: Bool) {
         guard let controller = module?.toPresent() else { return }
         rootController.present(controller, animated: animated, completion: nil)
-    }
-    
-    func present(_ module: Presentable?, modalTransitionStyle: UIModalTransitionStyle, completion: CompletionBlock?) {
-        guard let controller = module?.toPresent() else { return }
-        controller.modalTransitionStyle = modalTransitionStyle
-        controller.modalPresentationStyle = .fullScreen
-        rootController.present(controller, animated: true, completion: completion)
     }
     
     func present(_ module: Presentable?, animated: Bool, completion: CompletionBlock?) {
@@ -113,12 +107,19 @@ final class Router: Routable {
     }
     
     func setRootModule(_ module: Presentable?) {
-        setRootModule(module?.toPresent(), hideBar: false, animated: true)
+        setRootModule(module?.toPresent(), hideBar: false)
     }
     
-    func setRootModule(_ module: Presentable?, hideBar: Bool, animated: Bool) {
+    func setRootModule(_ module: Presentable?, animated: Bool) {
         guard let controller = module?.toPresent() else { return }
-        rootController.setViewControllers([controller], animated: animated)
+        rootController.setViewControllers([controller], animated: true)
+        UIApplication.shared.windows.first?.rootViewController = rootController
+        UIApplication.shared.windows.first?.makeKeyAndVisible()
+    }
+    
+    func setRootModule(_ module: Presentable?, hideBar: Bool) {
+        guard let controller = module?.toPresent() else { return }
+        rootController.setViewControllers([controller], animated: false)
         rootController.isNavigationBarHidden = hideBar
         UIApplication.shared.windows.first?.rootViewController = rootController
         UIApplication.shared.windows.first?.makeKeyAndVisible()

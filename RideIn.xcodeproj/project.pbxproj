@@ -12,6 +12,9 @@
 		C00C6E9F264BB93600807279 /* MainNotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00C6E9E264BB93600807279 /* MainNotificationsController.swift */; };
 		C00F85CC262EF76900A29641 /* TripsVC+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00F85CB262EF76900A29641 /* TripsVC+Extensions.swift */; };
 		C00F85E0262FFFE800A29641 /* SelectedTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00F85DF262FFFE800A29641 /* SelectedTripViewController.swift */; };
+		C01B4D122653A80400545E7A /* WelcomeOnboardingViewcontroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01B4D112653A80400545E7A /* WelcomeOnboardingViewcontroller.swift */; };
+		C01B4D142653A8DD00545E7A /* WhatThisAppCanDoViewcontroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01B4D132653A8DD00545E7A /* WhatThisAppCanDoViewcontroller.swift */; };
+		C01B4D172653A93200545E7A /* OnboardingFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01B4D162653A93200545E7A /* OnboardingFlowCoordinator.swift */; };
 		C01EFD59263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01EFD58263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift */; };
 		C01EFD5F263AD74E00028552 /* MapTableViewDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01EFD5E263AD74E00028552 /* MapTableViewDataProviderTests.swift */; };
 		C0238DC9264D3087004EF332 /* CoordinatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0238DC8264D3087004EF332 /* CoordinatorFactory.swift */; };
@@ -103,6 +106,9 @@
 		C00C6E9E264BB93600807279 /* MainNotificationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNotificationsController.swift; sourceTree = "<group>"; };
 		C00F85CB262EF76900A29641 /* TripsVC+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TripsVC+Extensions.swift"; sourceTree = "<group>"; };
 		C00F85DF262FFFE800A29641 /* SelectedTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTripViewController.swift; sourceTree = "<group>"; };
+		C01B4D112653A80400545E7A /* WelcomeOnboardingViewcontroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingViewcontroller.swift; sourceTree = "<group>"; };
+		C01B4D132653A8DD00545E7A /* WhatThisAppCanDoViewcontroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatThisAppCanDoViewcontroller.swift; sourceTree = "<group>"; };
+		C01B4D162653A93200545E7A /* OnboardingFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlowCoordinator.swift; sourceTree = "<group>"; };
 		C01EFD58263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSearchTableViewDataProviderTests.swift; sourceTree = "<group>"; };
 		C01EFD5E263AD74E00028552 /* MapTableViewDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTableViewDataProviderTests.swift; sourceTree = "<group>"; };
 		C0238DC8264D3087004EF332 /* CoordinatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorFactory.swift; sourceTree = "<group>"; };
@@ -264,6 +270,43 @@
 			path = SelectedTripVC;
 			sourceTree = "<group>";
 		};
+		C01B4D0D2653A7AC00545E7A /* MainFlow */ = {
+			isa = PBXGroup;
+			children = (
+				C04C9E6E26245F3F007C47DC /* RideSearchVC */,
+				C04C9E82262472A0007C47DC /* PassengersCountVC */,
+				C08291A22626EE9900C686F3 /* MapVC */,
+				C0BEDBF926286F8E009B3062 /* TripsVC */,
+				C00F85DE262FFFC200A29641 /* SelectedTripVC */,
+			);
+			path = MainFlow;
+			sourceTree = "<group>";
+		};
+		C01B4D0F2653A7B900545E7A /* AuthFlow */ = {
+			isa = PBXGroup;
+			children = (
+				C0238DCA264D6A41004EF332 /* AuthViewController.swift */,
+			);
+			path = AuthFlow;
+			sourceTree = "<group>";
+		};
+		C01B4D102653A7C400545E7A /* OnboardingFlow */ = {
+			isa = PBXGroup;
+			children = (
+				C01B4D112653A80400545E7A /* WelcomeOnboardingViewcontroller.swift */,
+				C01B4D132653A8DD00545E7A /* WhatThisAppCanDoViewcontroller.swift */,
+			);
+			path = OnboardingFlow;
+			sourceTree = "<group>";
+		};
+		C01B4D152653A91300545E7A /* OnboardingFlow */ = {
+			isa = PBXGroup;
+			children = (
+				C01B4D162653A93200545E7A /* OnboardingFlowCoordinator.swift */,
+			);
+			path = OnboardingFlow;
+			sourceTree = "<group>";
+		};
 		C01EFD5A263A9AD200028552 /* DataProvidersTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -361,12 +404,9 @@
 		C03D9DF5264A870F0022C900 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				C0238DCA264D6A41004EF332 /* AuthViewController.swift */,
-				C04C9E6E26245F3F007C47DC /* RideSearchVC */,
-				C04C9E82262472A0007C47DC /* PassengersCountVC */,
-				C08291A22626EE9900C686F3 /* MapVC */,
-				C0BEDBF926286F8E009B3062 /* TripsVC */,
-				C00F85DE262FFFC200A29641 /* SelectedTripVC */,
+				C01B4D0F2653A7B900545E7A /* AuthFlow */,
+				C01B4D102653A7C400545E7A /* OnboardingFlow */,
+				C01B4D0D2653A7AC00545E7A /* MainFlow */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -421,6 +461,7 @@
 				C04C99632642704C001B3654 /* BaseCoordinator.swift */,
 				C02C52AC264E591B0099E321 /* ApplicationFlow */,
 				C02C52AB264E59130099E321 /* AuthFlow */,
+				C01B4D152653A91300545E7A /* OnboardingFlow */,
 				C02C52AA264E590B0099E321 /* MainFlow */,
 			);
 			path = Coordinators;
@@ -848,9 +889,11 @@
 				C00F85CC262EF76900A29641 /* TripsVC+Extensions.swift in Sources */,
 				C0AB81C8264415C900E9030A /* DateTimeFormatter.swift in Sources */,
 				C0AB81CA2644161200E9030A /* DistanceCalculator.swift in Sources */,
+				C01B4D142653A8DD00545E7A /* WhatThisAppCanDoViewcontroller.swift in Sources */,
 				C02C52AE264E593F0099E321 /* MainFlowCoordinator+Extenstions.swift in Sources */,
 				C0B8C96D264543EA006D1E4D /* SelectedTripViewControllerDataProvider.swift in Sources */,
 				C03D9DDF264A6CDB0022C900 /* UIView+Extensions.swift in Sources */,
+				C01B4D122653A80400545E7A /* WelcomeOnboardingViewcontroller.swift in Sources */,
 				C0AA7743262732C700EE3A42 /* MapVC+Extensions.swift in Sources */,
 				C0B8C96B26453FE0006D1E4D /* MapViewControllerDataProvider.swift in Sources */,
 				C00C6E9F264BB93600807279 /* MainNotificationsController.swift in Sources */,
@@ -879,6 +922,7 @@
 				C04C9E5526244120007C47DC /* SceneDelegate.swift in Sources */,
 				C04C996A2642CA09001B3654 /* MapKitDataProvider.swift in Sources */,
 				C03D9DED264A6DF30022C900 /* UIImageView+Extensions.swift in Sources */,
+				C01B4D172653A93200545E7A /* OnboardingFlowCoordinator.swift in Sources */,
 				C04C99732642CB58001B3654 /* TripsDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

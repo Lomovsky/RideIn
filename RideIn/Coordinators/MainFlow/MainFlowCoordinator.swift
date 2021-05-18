@@ -62,7 +62,7 @@ final class MainFlowCoordinator: BaseCoordinator, MainFlowCoordinatorOutput {
         let vc = RideSearchViewController()
         vc.coordinator = self
         vc.shouldBecomeResponderOnLoad = shouldBeSelected
-        
+                
         vc.onMapSelected = { [weak self] placeType, delegate in
             self?.placeType = placeType
             self?.delegate = delegate
@@ -89,7 +89,7 @@ final class MainFlowCoordinator: BaseCoordinator, MainFlowCoordinatorOutput {
             self?.onFinishFlow?()
         }
 
-        router.setRootModule(vc)
+        router.setRootModule(vc, animated: true)
     }
     
     

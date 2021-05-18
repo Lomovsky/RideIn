@@ -5,6 +5,17 @@
   Created by Алекс Ломовской on 27.04.2021.
   
 */
+
+//Onboarding
+"Onboarding.greetings" = "Привет";
+"Onboarding.welcome" = "Добро пожаловать в RideIn!";
+"Onboarding.next" = "Дальше";
+"Onboarding.whatAppCanDo" = "Что может это приложение?";
+"Onboarding.recommendations" = "Предлагать поездки";
+"Onboarding.search" = "Искать поездки в разные города";
+"Onboarding.saveTrips" = "Добавлять поездки в избранное";
+"Onboarding.confirm" = "Продолжить";
+
 // RideSearchViewController
 "Search.title" = "Поиск поездки";
 "Search.departure" = "Выезжаете из";

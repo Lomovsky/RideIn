@@ -12,6 +12,10 @@ enum AuthorizationStatus {
     static var isAuthorized = false
 }
 
+enum OnboardingStatus {
+    static var onBoardingWasShown = false
+}
+
 /// Deep link options
 enum DeepLinkOptions {
     case notification(Notifications)

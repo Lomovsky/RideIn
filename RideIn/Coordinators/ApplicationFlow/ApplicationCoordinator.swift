@@ -9,12 +9,15 @@ import UIKit
 
 private enum LaunchInstructor {
     case auth
+    case onboarding
     case main
     
-    static func configure(isAuthorized: Bool = AuthorizationStatus.isAuthorized) -> LaunchInstructor {
-        switch (isAuthorized) {
-        case true: return .main
-        case false: return .auth
+    static func configure(isAuthorized: Bool = AuthorizationStatus.isAuthorized,
+                          tutorialWasShown: Bool = OnboardingStatus.onBoardingWasShown) -> LaunchInstructor {
+        switch (tutorialWasShown, isAuthorized) {
+        case (true, false), (false, false): return .auth
+        case (false, true): return .onboarding
+        case (true, true): return .main
             
         }
     }
@@ -42,6 +45,9 @@ final class ApplicationCoordinator: BaseCoordinator {
         case .auth:
             runAuthFlow()
             
+        case .onboarding:
+            runOnboardingFlow()
+            
         case .main:
             runMainFlow(withOptions: deepLinkOptions)
             
@@ -59,6 +65,20 @@ final class ApplicationCoordinator: BaseCoordinator {
         coordinator.onFinishFlow = { [weak self, unowned coordinator = coordinator] in
             self?.removeDependency(coordinator: coordinator)
             AuthorizationStatus.isAuthorized = true
+            self?.start()
+        }
+        
+        coordinator.start()
+    }
+    
+    private func runOnboardingFlow() {
+        let coordinatorFactory = CoordinatorFactoryImp(navigationController: navigationController!)
+        var coordinator = coordinatorFactory.makeOnboardingFlowCoordinator()
+        addDependency(coordinator: coordinator)
+        
+        coordinator.onFinishFlow = { [weak self, unowned coordinator = coordinator] in
+            self?.removeDependency(coordinator: coordinator)
+            OnboardingStatus.onBoardingWasShown = true
             self?.start()
         }
         

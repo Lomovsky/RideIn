@@ -5,6 +5,17 @@
   Created by Алекс Ломовской on 27.04.2021.
   
 */
+
+//Onboarding
+"Onboarding.greetings" = "Hi there!";
+"Onboarding.welcome" = "Welcome to RideIn!";
+"Onboarding.next" = "Next";
+"Onboarding.whatAppCanDo" = "What this app can do?";
+"Onboarding.recommendations" = "Show trips recommendations";
+"Onboarding.search" = "Search trips for you";
+"Onboarding.saveTrips" = "Save trips to favorite";
+"Onboarding.confirm" = "Confirm";
+
 // RideSearchViewController
 "Search.title" = "Search trips";
 "Search.departure" = "Department place";

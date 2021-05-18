@@ -15,7 +15,9 @@ protocol CoordinatorFactory {
     func makeApplicationCoordinator() -> Coordinatable
     
     func makeAuthCoordinator() -> Coordinatable & AuthFlowCoordinatorOutput
+    func makeOnboardingFlowCoordinator() -> Coordinatable & OnboardingFlowOutput
     func makeMainFlowCoordinator() -> Coordinatable & MainFlowCoordinatorOutput
+    
 }
 
 
@@ -41,6 +43,14 @@ final class CoordinatorFactoryImp: CoordinatorFactory {
         }
     }
     
+    func makeAuthCoordinator() -> Coordinatable & AuthFlowCoordinatorOutput {
+        return AuthCoordinator(navigationController: navigationController)
+    }
+    
+    func makeOnboardingFlowCoordinator() -> Coordinatable & OnboardingFlowOutput {
+        return OnboardingFlowCoordinator(navigationController: navigationController)
+    }
+    
     func makeMainFlowCoordinator() -> (Coordinatable & MainFlowCoordinatorOutput) {
         switch deepLinkOptions {
         case nil:
@@ -50,9 +60,5 @@ final class CoordinatorFactoryImp: CoordinatorFactory {
                 return MainFlowCoordinator(navigationController: navigationController, deepLinkOptions: deepLinkOptions)
             
         }
-    }
-    
-    func makeAuthCoordinator() -> Coordinatable & AuthFlowCoordinatorOutput {
-        return AuthCoordinator(navigationController: navigationController)
     }
 }
