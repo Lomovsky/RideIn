@@ -43,22 +43,23 @@ final class MainNotificationsController: NSObject, NotificationsController {
   
   private func scheduleNewRidesNotification() {
     let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-    let notificationRequestFactory = MainNotificationRequestFactory(notificationCenter: notificationCenter,
-                                                                    identifier: NotificationIds.local,
-                                                                    trigger: trigger,
-                                                                    contentCategoryIdentifier: "UserActions")
-    notificationRequestFactory.addAction(identifier: NotificationActions.find,
-                                         title: NSLocalizedString(.Localization.Notifications.find, comment: ""),
-                                         options: [.foreground])
-    notificationRequestFactory.addAction(identifier: NotificationActions.dismiss,
-                                         title: NSLocalizedString(.Localization.Notifications.dismiss, comment: ""),
-                                         options: [.destructive])
-    let request = notificationRequestFactory.makeNotification(withTitle:
-                                                                NSLocalizedString(.Localization.Notifications.greetings,
-                                                                                           comment: ""),
-                                                              body:
-                                                                NSLocalizedString(.Localization.Notifications.newRidesAvailable,
-                                                                                      comment: ""))
+    let notificationRequestFactory = MainNotificationRequestFactory(
+      notificationCenter: notificationCenter,
+      identifier: NotificationIds.local,
+      trigger: trigger,
+      contentCategoryIdentifier: "UserActions")
+    notificationRequestFactory.addAction(
+      identifier: NotificationActions.find,
+      title: NSLocalizedString(.Localization.Notifications.find, comment: ""),
+      options: [.foreground])
+    notificationRequestFactory.addAction(
+      identifier: NotificationActions.dismiss,
+      title: NSLocalizedString(.Localization.Notifications.dismiss, comment: ""),
+      options: [.destructive])
+    let request = notificationRequestFactory.makeNotification(
+      withTitle:NSLocalizedString(.Localization.Notifications.greetings, comment: ""),
+      body:NSLocalizedString(.Localization.Notifications.newRidesAvailable, comment: ""))
+    
     requestNotification(with: request)
   }
   
@@ -92,8 +93,9 @@ extension MainNotificationsController {
         
       case NotificationActions.find:
         let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
-        sceneDelegate.coordinatorFactory = CoordinatorFactoryImp(navigationController: UINavigationController(),
-                                                                 deepLinkOptions: .notification(.newRidesAvailable))
+        sceneDelegate.coordinatorFactory = CoordinatorFactoryImp(
+          navigationController: UINavigationController(),
+          deepLinkOptions: .notification(.newRidesAvailable))
       default:
         break
       }
