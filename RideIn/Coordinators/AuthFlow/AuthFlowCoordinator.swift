@@ -12,7 +12,6 @@ protocol AuthFlowCoordinatorOutput: AnyObject {
 }
 
 class AuthCoordinator: BaseCoordinator, AuthFlowCoordinatorOutput {
-  
   var onFinishFlow: CompletionBlock?
   private weak var navigationController: UINavigationController?
   

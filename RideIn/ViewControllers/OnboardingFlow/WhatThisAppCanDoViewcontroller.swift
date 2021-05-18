@@ -12,6 +12,8 @@ final class WhatThisAppDoViewController: UIViewController {
   
   var onContinue: CompletionBlock?
   var secondCircleLeadingAnchor = NSLayoutConstraint()
+  
+  //MARK:- UIElements
   private let whatAppCanDoLabel = UILabel.createDefaultLabel()
   private let firstCircleImageView = UIImageView.createDefaultIV(withImage: .init(systemName: "circle.fill"))
   private let receiveRecommendationsLabel = UILabel.createDefaultLabel()
@@ -21,6 +23,7 @@ final class WhatThisAppDoViewController: UIViewController {
   private let saveFilmsLabel = UILabel.createDefaultLabel()
   private let nextButton = UIButton.createDefaultButton()
   
+  //MARK:- viewDidLoad
   override func viewDidLoad() {
     super.viewDidLoad()
     view.addSubview(whatAppCanDoLabel)
@@ -49,6 +52,7 @@ final class WhatThisAppDoViewController: UIViewController {
     animateLabels()
   }
   
+  //MARK:- UIMethods
   private func setupView() {
     view.backgroundColor = .white
   }
