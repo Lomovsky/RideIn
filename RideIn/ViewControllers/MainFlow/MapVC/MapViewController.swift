@@ -8,7 +8,6 @@
 import UIKit
 import MapKit
 
-
 final class MapViewController: UIViewController {
   /// The data provider of the viewController
   lazy var controllerDataProvider = makeViewControllerDataProvider()

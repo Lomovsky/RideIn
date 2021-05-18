@@ -8,103 +8,21 @@
 import UIKit
 
 class TripCollectionViewCell: UICollectionViewCell, ReusableView {
-  private let backgroundSubview: UIView = {
-    let view = UIView()
-    view.translatesAutoresizingMaskIntoConstraints = false
-    return view
-  }()
-  
-  private let filterTypeSubview: UIView = {
-    let view = UIView()
-    view.translatesAutoresizingMaskIntoConstraints = false
-    return view
-  }()
-  
-  private let filterTypeTopSubview: UIView = {
-    let view = UIView()
-    view.translatesAutoresizingMaskIntoConstraints = false
-    return view
-  }()
-  
-  private let filterTypeLabel: UILabel = {
-    let label = UILabel()
-    label.translatesAutoresizingMaskIntoConstraints = false
-    return label
-  }()
-  
-  private let departureTimeLabel: UILabel = {
-    let label = UILabel()
-    label.translatesAutoresizingMaskIntoConstraints = false
-    return label
-  }()
-  
-  private let arrivingTimeLabel: UILabel = {
-    let label = UILabel()
-    label.translatesAutoresizingMaskIntoConstraints = false
-    return label
-  }()
-  
-  private let topCircle: UIImageView = {
-    let image = UIImageView()
-    image.translatesAutoresizingMaskIntoConstraints = false
-    let circleImage = UIImage(systemName: "circlebadge",
-                              withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
-    image.image = circleImage
-    return image
-  }()
-  
-  private let lineView: UIView = {
-    let line = UIView()
-    line.translatesAutoresizingMaskIntoConstraints = false
-    return line
-  }()
-  
-  private let bottomCircle: UIImageView = {
-    let image = UIImageView()
-    image.translatesAutoresizingMaskIntoConstraints = false
-    let circleImage = UIImage(systemName: "circlebadge",
-                              withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
-    image.image = circleImage
-    return image
-  }()
-  
-  private let departurePlaceLabel: UILabel = {
-    let label = UILabel()
-    label.translatesAutoresizingMaskIntoConstraints = false
-    return label
-  }()
-  
-  private let arrivingPlaceLabel: UILabel = {
-    let label = UILabel()
-    label.translatesAutoresizingMaskIntoConstraints = false
-    return label
-  }()
-  
-  private let priceLabel: UILabel = {
-    let label = UILabel()
-    label.translatesAutoresizingMaskIntoConstraints = false
-    return label
-  }()
-  
-  private let placeholderSubview: UIView = {
-    let view = UIView()
-    view.translatesAutoresizingMaskIntoConstraints = false
-    return view
-  }()
-  
-  private let placeholderLabel: UILabel = {
-    let label = UILabel()
-    label.translatesAutoresizingMaskIntoConstraints = false
-    return label
-  }()
-  
-  private let placeholderImageView: UIImageView = {
-    let imageView = UIImageView()
-    imageView.translatesAutoresizingMaskIntoConstraints = false
-    imageView.image = UIImage(systemName: "person.2.square.stack.fill")
-    return imageView
-  }()
-  
+  private let backgroundSubview = UIView.createDefaultView()
+  private let filterTypeSubview = UIView.createDefaultView()
+  private let filterTypeTopSubview = UIView.createDefaultView()
+  private let filterTypeLabel = UILabel.createDefaultLabel()
+  private let departureTimeLabel = UILabel.createDefaultLabel()
+  private let arrivingTimeLabel = UILabel.createDefaultLabel()
+  private let topCircle: UIImageView = UIImageView.createDefaultIV(withImage: .circle)
+  private let lineView = UIView.createDefaultView()
+  private let bottomCircle = UIImageView.createDefaultIV(withImage: .circle)
+  private let departurePlaceLabel = UILabel.createDefaultLabel()
+  private let arrivingPlaceLabel = UILabel.createDefaultLabel()
+  private let priceLabel = UILabel.createDefaultLabel()
+  private let placeholderSubview = UIView.createDefaultView()
+  private let placeholderLabel = UILabel.createDefaultLabel()
+  private let placeholderImageView = UIImageView.createDefaultIV(withImage: .init(systemName: "person.2.square.stack.fill"))
   
   //MARK: Initializer-
   override init(frame: CGRect) {
