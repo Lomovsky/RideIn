@@ -8,7 +8,8 @@
 import UIKit
 
 extension UIViewController: Presentable {
-    func toPresent() -> UIViewController? {
-        return self
-    }
+  func toPresent() -> UIViewController? {
+    return self
+  }
 }
+

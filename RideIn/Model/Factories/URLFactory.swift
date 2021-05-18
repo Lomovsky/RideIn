@@ -7,44 +7,56 @@
 
 import Foundation
 
+/// For rides requests
+enum Query {
+  static let country = "uk-UA"
+  static let currency = "UAH"
+  static let apiKey = "GU02DX6Tsap6aHH56HaZ0EnR9iGzibBq"
+  static var seats = "1"
+  static var fromCoordinates = String()
+  static var toCoordinates = String()
+  static var date: String?
+}
+
 protocol URLFactory {
-    func setCoordinates(coordinates: String, place: PlaceType)
-    func setSeats(seats: String)
-    func setDate(date: String?)
-    func makeURL() -> URL?
+  func setCoordinates(coordinates: String, place: PlaceType)
+  func setSeats(seats: String)
+  func setDate(date: String?)
+  func makeURL() -> URL?
 }
 
 //MARK:- USLFactory
 struct MainURLFactory: URLFactory {
-    
-    func setCoordinates(coordinates: String, place: PlaceType) {
-        switch place {
-        case .department: Query.fromCoordinates = coordinates
-            
-        case .destination: Query.toCoordinates = coordinates
-        }
+  func setCoordinates(coordinates: String, place: PlaceType) {
+    switch place {
+    case .department:
+      Query.fromCoordinates = coordinates
+      
+    case .destination:
+      Query.toCoordinates = coordinates
     }
-    
-    func setSeats(seats: String) {
-        Query.seats = seats
+  }
+  
+  func setSeats(seats: String) {
+    Query.seats = seats
+  }
+  
+  func setDate(date: String?) {
+    Query.date = date
+  }
+  
+  func makeURL() -> URL? {
+    if Query.date != nil {
+      let baseLink = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=\(Query.fromCoordinates)&to_coordinate=\(Query.toCoordinates)&locale=\(Query.country)&currency=\(Query.currency)&seats=\(Query.seats)&count=50&start_date_local=\(Query.date!)&key=\(Query.apiKey)"
+      
+      guard let url = URL(string: baseLink) else { return nil }
+      return url
+      
+    } else {
+      let baseLink = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=\(Query.fromCoordinates)&to_coordinate=\(Query.toCoordinates)&locale=\(Query.country)&currency=\(Query.currency)&seats=\(Query.seats)&count=50&key=\(Query.apiKey)"
+      
+      let url = URL(string: baseLink)
+      return url
     }
-    
-    func setDate(date: String?) {
-        Query.date = date
-    }
-    
-    func makeURL() -> URL? {
-        if Query.date != nil {
-            let baseLink = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=\(Query.fromCoordinates)&to_coordinate=\(Query.toCoordinates)&locale=\(Query.country)&currency=\(Query.currency)&seats=\(Query.seats)&count=50&start_date_local=\(Query.date!)&key=\(Query.apiKey)"
-            
-            guard let url = URL(string: baseLink) else { return nil }
-            return url
-            
-        } else {
-            let baseLink = "https://public-api.blablacar.com/api/v3/trips?from_coordinate=\(Query.fromCoordinates)&to_coordinate=\(Query.toCoordinates)&locale=\(Query.country)&currency=\(Query.currency)&seats=\(Query.seats)&count=50&key=\(Query.apiKey)"
-            
-            let url = URL(string: baseLink)
-            return url
-        }
-    }
+  }
 }

@@ -8,10 +8,10 @@
 import UIKit
 
 extension UILabel {
-    static func createDefaultLabel() -> UILabel {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.isOpaque = false
-        return label
-    }
+  static func createDefaultLabel() -> UILabel {
+    let label = UILabel()
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.isOpaque = false
+    return label
+  }
 }

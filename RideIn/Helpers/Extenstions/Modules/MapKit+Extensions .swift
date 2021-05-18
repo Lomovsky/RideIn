@@ -8,9 +8,9 @@
 import MapKit
 
 extension MKMapView {
-    static func createDefaultMapView() -> MKMapView {
-        let mapView = MKMapView()
-        mapView.translatesAutoresizingMaskIntoConstraints = false
-        return mapView
-    }
+  static func createDefaultMapView() -> MKMapView {
+    let mapView = MKMapView()
+    mapView.translatesAutoresizingMaskIntoConstraints = false
+    return mapView
+  }
 }

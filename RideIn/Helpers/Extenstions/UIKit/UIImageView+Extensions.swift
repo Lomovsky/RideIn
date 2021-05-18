@@ -8,10 +8,10 @@
 import UIKit
 
 extension UIImageView {
-    static func createDefaultIV(withImage image: UIImage? = nil) -> UIImageView {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = image
-        return imageView
-    }
+  static func createDefaultIV(withImage image: UIImage? = nil) -> UIImageView {
+    let imageView = UIImageView()
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    imageView.image = image
+    return imageView
+  }
 }

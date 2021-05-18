@@ -8,64 +8,60 @@
 import UIKit
 
 protocol DateTimeFormatter {
-    func getDateTime(format: DateFormat, from trip: Trip?, for placeType: PlaceType) -> String
-    func getDateFrom(date: Date) -> String
+  func getDateTime(format: DateFormat, from trip: Trip?, for placeType: PlaceType) -> String
+  func getDateFrom(date: Date) -> String
 }
 
 //MARK: - MainDateTimeFormatter
 struct MainDateTimeFormatter: DateTimeFormatter {
+  func getDateTimeFrom(object: String, format: DateFormat) -> String {
+    guard let dateTime = DateFormatter.defaultFormatter.date(from: object) else { return "" }
     
-    func getDateTimeFrom(object: String, format: DateFormat) -> String {
-        guard let dateTime = DateFormatter.defaultFormatter.date(from: object) else { return "" }
+    switch format {
+    case .dddmmyy:
+      return DateFormatter.dateFormatter.string(from: dateTime)
+      
+    case .hhmmss:
+      return DateFormatter.timeFormatter.string(from: dateTime)
+      
+    }
+  }
+  
+  func getDateTime(format: DateFormat, from trip: Trip?, for placeType: PlaceType) -> String {
+    guard let trip = trip else { return "" }
+    
+    switch placeType {
+    case .department:
+      guard
+        let departureDateTime = DateFormatter.defaultFormatter.date(from: trip.waypoints.first?.dateTime ?? "")
+      else { return "" }
+      
+      switch format {
+      case .dddmmyy:
+        return DateFormatter.dateFormatter.string(from: departureDateTime)
         
-        switch format {
-        case .dddmmyy:
-            return DateFormatter.dateFormatter.string(from: dateTime)
-            
-        case .hhmmss:
-            return DateFormatter.timeFormatter.string(from: dateTime)
-
-        }
+      case .hhmmss:
+        return DateFormatter.timeFormatter.string(from: departureDateTime)
+      }
+      
+    case .destination:
+      guard
+        let arrivingDateTime = DateFormatter.defaultFormatter.date(from: trip.waypoints.last?.dateTime ?? "")
+      else { return "" }
+      
+      switch format {
+      case .dddmmyy:
+        return DateFormatter.dateFormatter.string(from: arrivingDateTime)
+        
+        
+      case .hhmmss:
+        return DateFormatter.timeFormatter.string(from: arrivingDateTime)
+        
+      }
     }
-    
-    func getDateTime(format: DateFormat, from trip: Trip?, for placeType: PlaceType) -> String {
-        guard let trip = trip else { return "" }
-
-        switch placeType {
-        case .department:
-            guard
-                let departureDateTime = DateFormatter.defaultFormatter.date(from: trip.waypoints.first?.dateTime ?? "")
-            else { return "" }
-            
-            switch format {
-            case .dddmmyy:
-                return DateFormatter.dateFormatter.string(from: departureDateTime)
-                
-            case .hhmmss:
-                return DateFormatter.timeFormatter.string(from: departureDateTime)
-            }
-            
-        case .destination:
-            guard
-                let arrivingDateTime = DateFormatter.defaultFormatter.date(from: trip.waypoints.last?.dateTime ?? "")
-            else { return "" }
-
-            switch format {
-            case .dddmmyy:
-                return DateFormatter.dateFormatter.string(from: arrivingDateTime)
-
-                
-            case .hhmmss:
-                return DateFormatter.timeFormatter.string(from: arrivingDateTime)
-
-            }
-        }
-    }
-    
-    func getDateFrom(date: Date) -> String {
-        return DateFormatter.defaultFormatter.string(from: date)
-    }
-    
+  }
+  
+  func getDateFrom(date: Date) -> String {
+    return DateFormatter.defaultFormatter.string(from: date)
+  }
 }
-
-

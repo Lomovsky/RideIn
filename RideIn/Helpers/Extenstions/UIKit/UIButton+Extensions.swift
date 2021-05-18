@@ -8,9 +8,9 @@
 import UIKit
 
 extension UIButton {
-    static func createDefaultButton() -> UIButton {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }
+  static func createDefaultButton() -> UIButton {
+    let button = UIButton()
+    button.translatesAutoresizingMaskIntoConstraints = false
+    return button
+  }
 }

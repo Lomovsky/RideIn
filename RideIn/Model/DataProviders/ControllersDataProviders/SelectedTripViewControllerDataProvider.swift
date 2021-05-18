@@ -8,35 +8,34 @@
 import UIKit
 
 final class SelectedTripViewControllerDataProvider: ControllerDataProvidable {
-    
-    /// The controller that owns this dataProvider
-    weak var parentController: UIViewController?
-    
-    /// The trip which data should be presented
-    var selectedTrip: Trip?
-    
-    /// The date of the trip
-    var date = String()
-    
-    /// The departure time of the trip
-    var departureTime = String()
-    
-    /// The departure place name of the trip
-    var departurePlace = String()
-    
-    /// The arriving time of the trip
-    var arrivingTime = String()
-    
-    /// The destination place
-    var destinationPlace = String()
-    
-    /// Number of passengers requested for a trip
-    var passengersCount = Int()
-    
-    ///Price for one passenger
-    var priceForOne = Float()
-    
-    init(parentController: UIViewController) {
-        self.parentController = parentController
-    }
+  /// The controller that owns this dataProvider
+  weak var parentController: UIViewController?
+  
+  /// The trip which data should be presented
+  var selectedTrip: Trip?
+  
+  /// The date of the trip
+  var date = String()
+  
+  /// The departure time of the trip
+  var departureTime = String()
+  
+  /// The departure place name of the trip
+  var departurePlace = String()
+  
+  /// The arriving time of the trip
+  var arrivingTime = String()
+  
+  /// The destination place
+  var destinationPlace = String()
+  
+  /// Number of passengers requested for a trip
+  var passengersCount = Int()
+  
+  ///Price for one passenger
+  var priceForOne = Float()
+  
+  init(parentController: UIViewController) {
+    self.parentController = parentController
+  }
 }

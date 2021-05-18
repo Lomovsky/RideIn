@@ -8,9 +8,9 @@
 import UIKit
 
 extension UITextField {
-    static func createDefaultTF() -> UITextField {
-        let tf = UITextField()
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
-    }
+  static func createDefaultTF() -> UITextField {
+    let tf = UITextField()
+    tf.translatesAutoresizingMaskIntoConstraints = false
+    return tf
+  }
 }

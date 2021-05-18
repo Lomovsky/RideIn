@@ -15,6 +15,11 @@
 		C01B4D122653A80400545E7A /* WelcomeOnboardingViewcontroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01B4D112653A80400545E7A /* WelcomeOnboardingViewcontroller.swift */; };
 		C01B4D142653A8DD00545E7A /* WhatThisAppCanDoViewcontroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01B4D132653A8DD00545E7A /* WhatThisAppCanDoViewcontroller.swift */; };
 		C01B4D172653A93200545E7A /* OnboardingFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01B4D162653A93200545E7A /* OnboardingFlowCoordinator.swift */; };
+		C01B4D1B2653E38C00545E7A /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01B4D1A2653E38C00545E7A /* Localization.swift */; };
+		C01B4D1D2653EFFB00545E7A /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01B4D1C2653EFFB00545E7A /* Notifications.swift */; };
+		C01B4D1F2653F51A00545E7A /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01B4D1E2653F51A00545E7A /* UIImage+Extensions.swift */; };
+		C01B4D212653F90D00545E7A /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01B4D202653F90D00545E7A /* Application.swift */; };
+		C01B4D232653F99D00545E7A /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01B4D222653F99D00545E7A /* Animations.swift */; };
 		C01EFD59263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01EFD58263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift */; };
 		C01EFD5F263AD74E00028552 /* MapTableViewDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01EFD5E263AD74E00028552 /* MapTableViewDataProviderTests.swift */; };
 		C0238DC9264D3087004EF332 /* CoordinatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0238DC8264D3087004EF332 /* CoordinatorFactory.swift */; };
@@ -65,7 +70,7 @@
 		C04C9EC826257EDB007C47DC /* ViewControllerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9EC726257EDB007C47DC /* ViewControllerProtocols.swift */; };
 		C04C9ED126258244007C47DC /* MainNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9ED026258244007C47DC /* MainNetworkManager.swift */; };
 		C04C9F102626E8D6007C47DC /* RideSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04C9F0F2626E8D6007C47DC /* RideSearchTableViewCell.swift */; };
-		C06512FD26280E5100CF322B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06512FC26280E5100CF322B /* Constants.swift */; };
+		C06512FD26280E5100CF322B /* Other.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06512FC26280E5100CF322B /* Other.swift */; };
 		C08291A42626EECA00C686F3 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08291A32626EECA00C686F3 /* MapViewController.swift */; };
 		C08291AF26271E2800C686F3 /* MapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08291AE26271E2800C686F3 /* MapTableViewCell.swift */; };
 		C0AA7743262732C700EE3A42 /* MapVC+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AA7742262732C700EE3A42 /* MapVC+Extensions.swift */; };
@@ -109,6 +114,11 @@
 		C01B4D112653A80400545E7A /* WelcomeOnboardingViewcontroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingViewcontroller.swift; sourceTree = "<group>"; };
 		C01B4D132653A8DD00545E7A /* WhatThisAppCanDoViewcontroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatThisAppCanDoViewcontroller.swift; sourceTree = "<group>"; };
 		C01B4D162653A93200545E7A /* OnboardingFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlowCoordinator.swift; sourceTree = "<group>"; };
+		C01B4D1A2653E38C00545E7A /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		C01B4D1C2653EFFB00545E7A /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		C01B4D1E2653F51A00545E7A /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		C01B4D202653F90D00545E7A /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
+		C01B4D222653F99D00545E7A /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		C01EFD58263A9AC700028552 /* RideSearchTableViewDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSearchTableViewDataProviderTests.swift; sourceTree = "<group>"; };
 		C01EFD5E263AD74E00028552 /* MapTableViewDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTableViewDataProviderTests.swift; sourceTree = "<group>"; };
 		C0238DC8264D3087004EF332 /* CoordinatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorFactory.swift; sourceTree = "<group>"; };
@@ -164,7 +174,7 @@
 		C04C9EC726257EDB007C47DC /* ViewControllerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerProtocols.swift; sourceTree = "<group>"; };
 		C04C9ED026258244007C47DC /* MainNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNetworkManager.swift; sourceTree = "<group>"; };
 		C04C9F0F2626E8D6007C47DC /* RideSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSearchTableViewCell.swift; sourceTree = "<group>"; };
-		C06512FC26280E5100CF322B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		C06512FC26280E5100CF322B /* Other.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Other.swift; sourceTree = "<group>"; };
 		C08291A32626EECA00C686F3 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		C08291AE26271E2800C686F3 /* MapTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTableViewCell.swift; sourceTree = "<group>"; };
 		C0AA7742262732C700EE3A42 /* MapVC+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapVC+Extensions.swift"; sourceTree = "<group>"; };
@@ -240,7 +250,11 @@
 		C00C6E9B264ABE3400807279 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				C06512FC26280E5100CF322B /* Constants.swift */,
+				C01B4D202653F90D00545E7A /* Application.swift */,
+				C01B4D1A2653E38C00545E7A /* Localization.swift */,
+				C01B4D1C2653EFFB00545E7A /* Notifications.swift */,
+				C01B4D222653F99D00545E7A /* Animations.swift */,
+				C06512FC26280E5100CF322B /* Other.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -440,6 +454,7 @@
 				C03D9DE4264A6D510022C900 /* UIColor+Extensions.swift */,
 				C03D9DE6264A6DA30022C900 /* UIViewController+Extensions.swift */,
 				C03D9DEC264A6DF30022C900 /* UIImageView+Extensions.swift */,
+				C01B4D1E2653F51A00545E7A /* UIImage+Extensions.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -863,9 +878,11 @@
 			files = (
 				C0B8C96926453E99006D1E4D /* ControllerDataProviderFactory.swift in Sources */,
 				C04C99672642B58A001B3654 /* Router.swift in Sources */,
+				C01B4D232653F99D00545E7A /* Animations.swift in Sources */,
 				C0238DC9264D3087004EF332 /* CoordinatorFactory.swift in Sources */,
 				C0B8C964264438F1006D1E4D /* PreparedTripsDataModelFromSearchVC.swift in Sources */,
 				C03D9DD5264A694C0022C900 /* CellProtocols.swift in Sources */,
+				C01B4D1D2653EFFB00545E7A /* Notifications.swift in Sources */,
 				C04C9ED126258244007C47DC /* MainNetworkManager.swift in Sources */,
 				C04C9EC226257A4E007C47DC /* RideSearchVC+Extensions.swift in Sources */,
 				C0BEDBFB26286FB5009B3062 /* TripsViewController.swift in Sources */,
@@ -875,14 +892,17 @@
 				C03D9DDA264A6C380022C900 /* PreparedTripsDataModelFromTripsVC.swift in Sources */,
 				C03D9DF1264A6E200022C900 /* MapKit+Extensions .swift in Sources */,
 				C04C9F102626E8D6007C47DC /* RideSearchTableViewCell.swift in Sources */,
+				C01B4D1F2653F51A00545E7A /* UIImage+Extensions.swift in Sources */,
 				C03D9DF3264A6FC40022C900 /* DateFormatter+Extensions.swift in Sources */,
 				C0AB81C52644153900E9030A /* ConstraintFactory.swift in Sources */,
+				C01B4D212653F90D00545E7A /* Application.swift in Sources */,
 				C0238DCB264D6A41004EF332 /* AuthViewController.swift in Sources */,
 				C0AB81BF264413D900E9030A /* Logger.swift in Sources */,
 				C04C9E5726244120007C47DC /* RideSearchViewController.swift in Sources */,
 				C04C9EC826257EDB007C47DC /* ViewControllerProtocols.swift in Sources */,
 				C03D9DEF264A6E0D0022C900 /* UILabel+Extensions.swift in Sources */,
-				C06512FD26280E5100CF322B /* Constants.swift in Sources */,
+				C06512FD26280E5100CF322B /* Other.swift in Sources */,
+				C01B4D1B2653E38C00545E7A /* Localization.swift in Sources */,
 				C03D9DE7264A6DA30022C900 /* UIViewController+Extensions.swift in Sources */,
 				C04C996E2642CA24001B3654 /* MapTableViewDataProvider.swift in Sources */,
 				C00F85E0262FFFE800A29641 /* SelectedTripViewController.swift in Sources */,
